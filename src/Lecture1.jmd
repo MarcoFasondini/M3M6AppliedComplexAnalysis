@@ -1,14 +1,14 @@
-__M3M6: Applied Complex Analysis (2020)__
+__M3M6: Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+Dr. Marco Fasondini
 
-s.olver@imperial.ac.uk
+s.mfasondini@imperial.ac.uk
 
-Office Hours: 11am Tuesdays, Huxley 6M40
+Office Hours: 11am Tuesdays, Huxley 6M50
 
-Website: https://github.com/dlfivefifty/M3M6AppliedComplexAnalysis
+Website: https://github.com/MarcoFasondini/M3M6AppliedComplexAnalysis
 
-References: 
+References:
 
 1. M.J. Ablowitz & A.S. Fokas, Complex Variables: Introduction and Applications, Second Edition, Cambridge University Press, 2003
 
@@ -24,9 +24,9 @@ with applications to PDEs, airfoil design, etc.
 2. Weiner–Hopf method with applications to integral equations with integral operators
 $$\int_0^\infty K(x-y) u(y)  dy$$
 4. Orthogonal polynomials, with applications to Schrödinger operators, solving differential equations.
-5. Conformal mapping and Schwartz–Christofel maps. 
+5. Conformal mapping and Schwartz–Christoffel maps.
 
-_Central themes_: 
+_Central themes_:
 
 1. Finding "nice" formulae for problems that arise in applications (physics and elsewhere). These can be closed form solution, sums, integral representations, special functions, etc.
 2. Computational tools for approximate solutions to problems that arise in applications.
@@ -53,26 +53,26 @@ Timeline:
 
 ## Problem sheets
 
-There will be 4 problem sheets during the term. 
+There will be 4 problem sheets during the term.
 
 ## Feedback on course work
 
-I'll set aside four office hours to walk 
+I'll set aside four office hours to walk
 through individual solutions to the problem sheets on a 1-on-1 basis.
-Please email me ahead of time so I can schedule. 
+Please email me ahead of time so I can schedule.
 
 
 
 
-# Lecture 1: Complex analysis reivew
+# Lecture 1: Complex analysis review
 
-The first  couple lectures will review the basics of complex analysis. 
+The first  couple lectures will review the basics of complex analysis.
 We will use plots to help explain the material, and so this first lecture will focus on getting comfortable with plots of analytic functions.
 
 ## Plotting functions in the complex plane
 
 
-Consder a complex-valued function $f : D \rightarrow {\mathbb C}$ where $D \subset {\mathbb C}$. To help understand such functions it is useful to plot them.  But how?
+Consider a complex-valued function $f : D \rightarrow {\mathbb C}$ where $D \subset {\mathbb C}$. To help understand such functions it is useful to plot them.  But how?
 
 __Method 1: real and imaginary parts__
 
@@ -96,7 +96,7 @@ Or a heat plot:
 ```julia
 plot(contourf(xx, yy, u.(xx' .+ im.*yy); title="real"),
      contourf(xx, yy, v.(xx' .+ im.*yy); title="imag"))
-```     
+```
 
 __Method 2: absolute-value and angle__
 
@@ -118,7 +118,7 @@ plot( contourf(xx, yy, r.(xx' .+ im.*yy); title="abs"),
 
 __ Method 3: Phase portrait __
 
-This method is essentially the same, as before, but to _only_ plot the phase, and use a "colour wheel" to reflect the topology of $\theta$. 
+This method is essentially the same, as before, but to _only_ plot the phase, and use a "colour wheel" to reflect the topology of $\theta$.
 ```julia
 phaseplot(-3..3, -8..8, z -> exp(z))
 ```
@@ -127,7 +127,7 @@ This is seen most clearly with $f(z) = z$: in this case, letting $z = r \E^{\I \
 phaseplot(-3..3, -3..3, z -> z)
 ```
 
-In other words, the colour red corresponds to $\arg f(z) \approx 0$, green to $\arg f(z) \approx {2 \pi \over 3}$ aqua to $\arg f(z) \approx \pi$ and so on. 
+In other words, the colour red corresponds to $\arg f(z) \approx 0$, green to $\arg f(z) \approx {2 \pi \over 3}$ aqua to $\arg f(z) \approx \pi$ and so on.
 
 
 Note that multiplying $z$ by a complex number $R \E^{\I \varphi}$ will rotate the wheel, but the colours still appear in the same order when read counter clockwise:
@@ -191,7 +191,7 @@ Something strange is happening at -1/2, -3/2, .... What if we differentiate? Her
 ```julia
 using DualNumbers
 gammap = z -> epsilon(gamma(dual(z,1)))
-phaseplot(-3..3, -3..3, gammap) 
+phaseplot(-3..3, -3..3, gammap)
 ```
 
 Finally, the Riemann Hypothesis: Here is a plot of the Riemann zeta function near the critical line $z = 0.5 + \I t$:
@@ -213,17 +213,17 @@ of derivatives.
 These results are built up as follows:
 
 1. Holomorphic functions
-2. Cauchy's theorem 
+2. Cauchy's theorem
 3. Deformation of contours
 4. Cauchy's integral formula
 5. Analyticity and Taylor series
 
 We will review the first three topics this lecture, with the remaining for next lecture.
 
-###  Holomorphic functions 
+###  Holomorphic functions
 
 
-**Definition (Complex-differentiable)** Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called _complex-differentiable_ at a point $z_0 \in D$ if 
+**Definition (Complex-differentiable)** Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called _complex-differentiable_ at a point $z_0 \in D$ if
 $$
    f'(z_0) =  \lim_{z \rightarrow z_0} {f(z) - f(z_0) \over z - z_0}
 $$
@@ -274,7 +274,7 @@ $$
 
 A very useful result is that we can use the maximum and arclength to bound integrals:
 
-**Proposition (ML)** Let $f : \gamma \rightarrow {\mathbb C}$ and 
+**Proposition (ML)** Let $f : \gamma \rightarrow {\mathbb C}$ and
 $$
         M = \sup_{z \in \gamma} |f(z)|
 $$
@@ -287,14 +287,14 @@ $$
 **Proposition** If $f(z)$ is holomorphic on $\gamma$, then
 $$\int_\gamma f'(z) dz = f(\gamma(b)) - f(\gamma(a))$$
 
-**Theorem (Cauchy)** If $f$ is holomorphic inside and on a closed contour $\gamma$, then 
+**Theorem (Cauchy)** If $f$ is holomorphic inside and on a closed contour $\gamma$, then
 $$\oint_\gamma f(z) dz = 0$$
 
 ### Deformation of contours
 
 **Definition (Domain)** A _domain_ is a non-empty, open and connected set $D \subset {\mathbb C}$.
 
-**Definition (Homotopic)** Two closed contours $\gamma_1 : [a,b] \rightarrow D$ and $\gamma_2 \rightarrow D$ in a domain $D$ are _homotopic_ if they can be continuously deformed to one-another while remaining in $D$. 
+**Definition (Homotopic)** Two closed contours $\gamma_1 : [a,b] \rightarrow D$ and $\gamma_2 \rightarrow D$ in a domain $D$ are _homotopic_ if they can be continuously deformed to one-another while remaining in $D$.
 
 **Theorem (Deformation of contours)** Let $f(z)$ be holomorphic in a domain $D$. Let $\gamma_1$ and $\gamma_2$ be two homotopic contours. Then
 $$
@@ -311,7 +311,7 @@ $$
 
 
 
-### Demonstration 
+### Demonstration
 
 We can usually infer the domain where a function is holomorphic from a phase portrait, here we see that ${\rm arcsinh}\, z$ has cuts on $[\I,\I \infty)$ and $[-\I,-\I \infty)$, and a zero  (red–green–blue–red) at zero, hence we can infer that it is holomorphic in $\C \backslash ([\I,\I \infty) \cup [-\I,-\I \infty))$.
 
@@ -337,7 +337,7 @@ tt = range(a, stop=b, length=1000)
 plot(real.(γ.(tt)), imag.(γ.(tt)); ratio=1.0, legend=false, arrow=true)
 ```
 
-The notion of integration over a contour in the complex plane 
+The notion of integration over a contour in the complex plane
 is independent of the notion of holomorphicity. For example, we
 can happily define the integral for non-holomorphic functions such as
 $\Re \E^z = \E^x \cos y$:
@@ -385,8 +385,8 @@ f = Fun( z -> real(exp(z)), Circle())  # Not holomorphic anywhere!
 sum(f)
 ```
 
-We can test contour deformation experimentally: in the following, the 
-integral (implemented as `sum`) over two different contours returns the 
+We can test contour deformation experimentally: in the following, the
+integral (implemented as `sum`) over two different contours returns the
 same value (up to numerical precision)
 ```julia
 f = Fun( z -> exp(z), Arc(0.,1.,(0,π/2)))  # Holomorphic!
@@ -395,7 +395,7 @@ fs = Fun( z -> exp(z), Segment(1,im))  # Holomorphic!
 sum(f)  , sum(fs)
 ```
 
-Here is a depection of the two contours:
+Here is a depiction of the two contours:
 
 ```julia
 plot(domain(f); ratio=1.0, legend=false, arrow=true)
