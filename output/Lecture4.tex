@@ -11,7 +11,7 @@
 \setlength{\parskip}{1.2ex}
 
 \hypersetup
-       {   pdfauthor = { Sheehan Olver },
+       {   pdfauthor = { Marco Fasondini },
            pdftitle={ foo },
            colorlinks=TRUE,
            linkcolor=black,
@@ -121,23 +121,34 @@
 \def\qqand{\qquad\hbox{and}\qquad}
 \def\qqfor{\qquad\hbox{for}\qquad}
 \def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
 \def\D{ {\rm d} }
 \def\I{ {\rm i} }
 \def\E{ {\rm e} }
 \def\C{ {\mathbb C} }
 \def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
 \def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
 \def\HH{ {\cal H} }
 \def\LL{ {\cal L} }
 \def\vc#1{ {\mathbf #1} }
 \def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
 
 \def\qqqquad{\qquad\qquad}
 \def\qqwhere{\qquad\hbox{where}\qquad}
 \def\Res_#1{\underset{#1}{\rm Res}\,}
 \def\sech{ {\rm sech}\, }
 \def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
 \def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
 \def\upepsilon{\varepsilon}
 
 
@@ -163,6 +174,10 @@
 \def\dx{\D x}
 \def\dt{\D t}
 \def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
 
 \def\norm#1{\left\| #1 \right\|}
 
@@ -175,6 +190,7 @@
 \def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
 
 \def\endash{–}
+\def\emdash{—}
 \def\mdblksquare{\blacksquare}
 \def\lgblksquare{\blacksquare}
 \def\scre{\E}
@@ -214,7 +230,7 @@
 
 \def\Vectt[#1]{
 {
-\def\mapfunction##1{##1 \cr} 
+\def\mapfunction##1{##1 \cr}
 \def\dots{\vdots}
 	\begin{pmatrix}
 		\map[#1]
@@ -224,16 +240,14 @@
 \def\addtab#1={#1\;&=}
 \def\ccr{\\\addtab}
 
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
 \begin{document}
 
-\textbf{M3M6: Applied Complex Analysis}
-
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
+\textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 4: Analyticity at infinity}
-This lecture we cover
+In this lecture we cover
 
 \begin{itemize}
 \item[1. ] Riemann sphere and analyticity at infinity
@@ -242,7 +256,7 @@ This lecture we cover
 \item[2. ] Cauchy's theorem and Cauchy's integral formula, exterior to a contour
 
 
-\item[3. ] Exterior Residue theorem 
+\item[3. ] Exterior Residue theorem
 
 \end{itemize}
 \subsection{Riemann sphere and analyticity at infinity}
@@ -258,28 +272,28 @@ Without delving on the details, we can define an open set $D \subset \bar{\mathb
 \textbf{Proposition (Taylor series at infinity)} If $f$ is analytic at infinity, then there exists an $R$ such that for all $|z| > R$ we have
 
 \[
-f(z) = \sum_{k=-\infty}^0 f_k z^k 
+f(z) = \sum_{k=-\infty}^0 f_k z^k
 \]
 The coefficients $f_k$ are defined by
 
 \[
 f_k = {1 \over 2 \pi \I} \oint_\gamma {f(z) \over z^{k+1}} \dz
 \]
-where $\gamma$ is any simple closed positively oriented contour such that $f$ is analytic outside of.
+where $\gamma$ is any simple closed positively oriented contour outside of which $f$ is analytic.
 
-\textbf{Theorem (Cauchy's theorem, exterior)} Suppose $f$ is analytic outside and on a positively oriented, simple, closed contour $\gamma$, and 
+\textbf{Theorem (Cauchy's theorem, exterior)} Suppose $f$ is analytic outside and on a positively oriented, simple, closed contour $\gamma$, and
 
 \[
 f(z) = o(z^{-1})
 \]
-as $z \rightarrow \infty$.  Then we have
+as $z \rightarrow \infty$. Then we have
 
 \[
-f(z) = -{1 \over 2 \pi \I} \oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta
+\oint_\gamma f(z) \D z = 0.
 \]
 \textbf{Proof} Follows by deforming $\gamma$ to a large circle and using $ML$ theorem. \ensuremath{\blacksquare}
 
-\textbf{Theorem (Cauchy's integral theorem, exterior)} Suppose $f$ is analytic outside and on a positively oriented, simple, closed contour $\gamma$, and 
+\textbf{Theorem (Cauchy's integral theorem, exterior)} Suppose $f$ is analytic outside and on a positively oriented, simple, closed contour $\gamma$, and
 
 \[
 f(\infty) = 0,
@@ -289,7 +303,7 @@ that is, $f(z)$ decays as $z \rightarrow \infty$. Then we have
 \[
 f(z) = -{1 \over 2 \pi \I} \oint {f(\zeta) \over \zeta - z} \D \zeta
 \]
-\emph{Demonstration} $f(z) = \E^{1/z}$ is not analytic at zero, but is analytic at infinity because $f(1/z) = \E^z$ is analytic at zero. We therefore have a convergence "Taylor" series in inverse powers of $z$:
+\emph{Demonstration} $f(z) = \E^{1/z}$ is not analytic at zero, but is analytic at infinity because $f(1/z) = \E^z$ is analytic at zero. We therefore have a convergent "Taylor" series in inverse powers of $z$:
 
 \[
 \E^{1/z} = 1 + {1 \over z} + {1 \over 2 z^2} + {1 \over 3! z^3} + \cdots
@@ -319,7 +333,7 @@ The function $f(z) = \E^{1/z} - 1$ vanishes at $\infty$ and so can thence be rec
 \end{lstlisting}
 
 \begin{lstlisting}
-2.220446049250313e-16 + 5.551115123125783e-17im
+1.6653345369377348e-16 + 1.1102230246251565e-16im
 \end{lstlisting}
 
 
@@ -327,18 +341,18 @@ The decay at infinity is required: for a function that does not decay, Cauchy's 
 
 
 \begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*) 
+(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 
 (*@\HLJLn{\ensuremath{\zeta}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Circle}@*)(*@\HLJLp{())}@*)
 (*@\HLJLoB{-}@*)(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\zeta}}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\zeta}}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{-}@*) (*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
--0.9999999999999998 + 5.551115123125783e-17im
+-0.9999999999999998 + 1.6653345369377348e-16im
 \end{lstlisting}
 
 
-An alternative way of stating Cauchy's integral formula in the exterior is to add in the constant  term: for any $f$ analytic at $\infty$ we have 
+An alternative way of stating Cauchy's integral formula in the exterior is to add in the constant term: for any $f$ analytic at $\infty$ we have
 
 
 \begin{align*}
@@ -346,22 +360,22 @@ f(z) &= -{1 \over 2 \pi \I} \oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta  + 
     &= -{1 \over 2 \pi \I} \oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta  + {1 \over 2 \pi \I} \oint_\gamma {f(z) \over z} \D z.
 \end{align*}
 \subsubsection{Exterior Residue theorem}
-An analogue of residue calculus holds true counting over residues outside a contour, but we need to also include  the residue at $\infty$.
+An analogue of residue calculus holds true counting over residues outside a contour, but we need to also include the residue at $\infty$.
 
-\textbf{Definition (Residue at infinity)} Suppose $f$ is analytic in the annulus $A_{R\infty} = \{z : R < |z| < \infty \}$. Then the residue at infinity is
+\textbf{Definition (Residue at infinity)}  Suppose $f$ is analytic in the annulus $A_{R\infty} = \{z : R < |z| < \infty \}$. Then
 
 \[
 {\underset{z = \infty}{\rm Res}} \, f(z) = -f_{-1}
 \]
 where $f_{-1}$ is (again) the Laurent coefficient integrating over any circle $C_r$ in $A_{R\infty}$, that is $R < r < \infty$.
 
-\textbf{Theorem (Exterier Residue Theorem)} Let $f$ be holomprohic outside and on a simple closed, positively oriented contour  $\gamma$ except at isolated points $z_1, \ldots, z_r$ outside $\gamma$. Then
+\textbf{Theorem (Exterior Residue Theorem)} Let $f$ be holomorphic outside and on a simple closed, positively oriented contour $\gamma$ except at isolated points $z_1, \ldots, z_r$ outside $\gamma$. Then
 
 \[
-\oint_\gamma f(z) \dz = -2 \pi \I \sum_{j=1}^r {\underset{z = z_j}{\rm Res}}\, f(z) - 2 \pi \I \Res_{z = \infty} f(z) 
+\oint_\gamma f(z) \dz = -2 \pi \I \sum_{j=1}^r {\underset{z = z_j}{\rm Res}}\, f(z) - 2 \pi \I \Res_{z = \infty} f(z)
 \]
 \subsubsection{Examples}
-Let's return to our simple examples from before:
+Let's revisit the examples from before:
 
 
 \begin{lstlisting}
@@ -370,9 +384,9 @@ Let's return to our simple examples from before:
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{figures/Lecture4_4_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture4_4_1.pdf}
 
-Because it is analytic outside a circle of radius 3 and decays like $O(z^{-2})$, its residue at infinity is zero.  Or in other words using the exterior version of Cauchy's integral formula. We can verify numerically:
+Because it is analytic outside a circle of radius 3 and decays like $O(z^{-2})$, its residue at infinity is zero. Or in other words using the exterior version of Cauchy's integral formula. We can verify numerically:
 
 
 \begin{lstlisting}
@@ -380,7 +394,7 @@ Because it is analytic outside a circle of radius 3 and decays like $O(z^{-2})$,
 \end{lstlisting}
 
 \begin{lstlisting}
-7.874234295592502e-19 - 9.742139082662117e-17im
+2.362499203067714e-18 - 9.43464870604594e-17im
 \end{lstlisting}
 
 
@@ -392,7 +406,7 @@ Here's another example with singularities at $0$ and $-2$:
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{figures/Lecture4_6_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture4_6_1.pdf}
 
 This has a residue at infinity:
 
@@ -404,10 +418,10 @@ implies
 \[
 \Res_{z = \infty} f(z) = -2
 \]
-Thus an integral over a circle of radius 3 equals 
+Thus an integral over a circle of radius 3 equals
 
 \[
-\oint_{C_3} f \D z = -2 \pi \I \Res_{z = \infty} f = 4\pi \I 
+\oint_{C_3} f \D z = -2 \pi \I \Res_{z = \infty} f = 4\pi \I
 \]
 which matches the interior residue calculus
 
@@ -417,21 +431,67 @@ which matches the interior residue calculus
 If we had a circle of radius 1 then the exterior computation has two contributions:
 
 \[
-\oint_{C_1} f \D z =  -2 \pi \I \pr(\Res_{z = -2} + \Res_{z = \infty}) f = 2\pi \I 
+\oint_{C_1} f \D z =  -2 \pi \I \pr(\Res_{z = -2} + \Res_{z = \infty}) f = 2\pi \I
 \]
 which matches the interior residue calculation.
+
+
+\begin{lstlisting}
+(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{3.0}@*)(*@\HLJLp{)))}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{4}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{)))}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+(-1.7090812387796532e-15 + 1.7763568394002505e-15im, -9.522127519313684e-16
+ + 0.0im)
+\end{lstlisting}
+
+
+An example with singularities that are not isolated:
+
+
+\begin{lstlisting}
+(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{4}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
+
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture4_8_1.pdf}
+
+The integral over the positively oriented circle of radius $r$ centred at the origin is
+
+\[
+\oint_{C_r} f \D z = 2 \pi \I \pr(\Res_{z = 2\I} f +  \Res_{z = -2\I} f +  \Res_{C_{\rho}} f) = -2 \pi \I \Res_{z = \infty} f,
+\]
+where $1 < \rho < 2$. Calculating the residue on $C_{\rho}$ is difficult but finding the residue at $z = \infty$ is much easier: for $z \rightarrow \infty$,
+
+\[
+f(z) = {1 \over z} + O(z^{-2}),
+\]
+hence
+
+\[
+\oint_{C_r} f \D z = -2 \pi \I \Res_{z = \infty} f = 2\pi \I.
+\]
+
+\begin{lstlisting}
+(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{3.0}@*)(*@\HLJLp{)))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+1.0000000000000002 + 9.111995372164934e-17im
+\end{lstlisting}
+
 
 Here's a more complicated example:
 
 
 \begin{lstlisting}
 (*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{2}@*)(*@\HLJLp{))}@*)
-(*@\HLJLnf{portrait}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{figures/Lecture4_7_1.png}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture4_10_1.pdf}
 
-This example has an essential singularity at zero so the classical Residue theorem is not much use,  but we can use the residue theorem at infinity with the Laurent series (valid for large $z$)
+This example has an essential singularity at zero so the classical Residue theorem is not much use, but we can use the residue theorem at infinity with the Laurent series (valid for large $z$)
 
 \[
 f(z) = 1/z + O(z^{-3})
@@ -439,8 +499,17 @@ f(z) = 1/z + O(z^{-3})
 to determine
 
 \[
-\oint_{C_1} f \D z = - 2\pi \I \pr(\Res_{z=-2} + \Res_{z = \infty}) f(z) = -2 \pi \I ({1 \over 2 \E^{1/2}} + 1).
+\oint_{C_1} f \D z = - 2\pi \I \pr(\Res_{z=-2} + \Res_{z = \infty}) f(z) = -2 \pi \I ({1 \over 2 \E^{1/2}} - 1).
 \]
+
+\begin{lstlisting}
+(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{)))}@*) (*@\HLJLoB{+}@*) (*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.5}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{0.5}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
+
+\begin{lstlisting}
+-6.259793792554635e-16 - 8.881784197001252e-16im
+\end{lstlisting}
+
 
 
 \end{document}

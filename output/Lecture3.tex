@@ -11,7 +11,7 @@
 \setlength{\parskip}{1.2ex}
 
 \hypersetup
-       {   pdfauthor = { Sheehan Olver },
+       {   pdfauthor = { Marco Fasondini },
            pdftitle={ foo },
            colorlinks=TRUE,
            linkcolor=black,
@@ -121,23 +121,34 @@
 \def\qqand{\qquad\hbox{and}\qquad}
 \def\qqfor{\qquad\hbox{for}\qquad}
 \def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
 \def\D{ {\rm d} }
 \def\I{ {\rm i} }
 \def\E{ {\rm e} }
 \def\C{ {\mathbb C} }
 \def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
 \def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
 \def\HH{ {\cal H} }
 \def\LL{ {\cal L} }
 \def\vc#1{ {\mathbf #1} }
 \def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
 
 \def\qqqquad{\qquad\qquad}
 \def\qqwhere{\qquad\hbox{where}\qquad}
 \def\Res_#1{\underset{#1}{\rm Res}\,}
 \def\sech{ {\rm sech}\, }
 \def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
 \def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
 \def\upepsilon{\varepsilon}
 
 
@@ -163,6 +174,10 @@
 \def\dx{\D x}
 \def\dt{\D t}
 \def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
 
 \def\norm#1{\left\| #1 \right\|}
 
@@ -175,6 +190,7 @@
 \def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
 
 \def\endash{–}
+\def\emdash{—}
 \def\mdblksquare{\blacksquare}
 \def\lgblksquare{\blacksquare}
 \def\scre{\E}
@@ -214,7 +230,7 @@
 
 \def\Vectt[#1]{
 {
-\def\mapfunction##1{##1 \cr} 
+\def\mapfunction##1{##1 \cr}
 \def\dots{\vdots}
 	\begin{pmatrix}
 		\map[#1]
@@ -224,16 +240,14 @@
 \def\addtab#1={#1\;&=}
 \def\ccr{\\\addtab}
 
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
 \begin{document}
 
-\textbf{M3M6: Applied Complex Analysis}
-
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
+\textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 3: Laurent series and residue calculus}
-This lecture we cover
+Here we cover:
 
 \begin{itemize}
 \item[1. ] Fourier and Laurent series
@@ -254,12 +268,8 @@ This lecture we cover
 \begin{itemize}
 \item The residue theorem
 
-\end{itemize}
 
-\item[5. ] Calculating integrals
-
-\begin{itemize}
-\item Application: Trigonometric integrals with rational functions
+\item Calculating integrals
 
 \end{itemize}
 \end{itemize}
@@ -274,12 +284,12 @@ where
 \[
 g_k = {1\over 2 \pi} \int_{-\pi}^\pi g(\theta) \E^{-i k \theta} d \theta
 \]
-\textbf{Definition (Laurent series)} In the complex plane, Laurent series around $z_0$ is an expansion of the form 
+\textbf{Definition (Laurent series)} In the complex plane, Laurent series around $z_0$ is an expansion of the form
 
 \[
-    f(z) = \sum_{k=-\infty}^\infty f_k (z-z_0)^k 
+    f(z) = \sum_{k=-\infty}^\infty f_k (z-z_0)^k
 \]
-\textbf{Lemma (Fourier series = Laurent series)} On a circle in the complex plane 
+\textbf{Lemma (Fourier series = Laurent series)} On a circle in the complex plane
 
 \[
     C_r = \{z_0 + re^{i \theta} : -\pi \leq \theta < \pi \},
@@ -291,17 +301,17 @@ f_k = {g_k \over r^k} = {1 \over 2 \pi i} \oint_{C_r} {f(\zeta) \over (\zeta - z
 \]
 \textbf{Proof}  This follows immediately from the change of variables $z = r \E^{\I \theta} + z_0$. \ensuremath{\blacksquare}
 
-Interestingly, analytic properties of $f$ can be used to show decaying properties in $g$:
+As we shall see in a future lecture, analytic properties of $f$ can be used to show decaying properties in $g$:
 
-\subsection{Residue on a circle}
-In this course, we will \emph{always} think of Laurent series living on a circle  $C_r(z_0) = \{z : |z-z_0| = r \}$.  That is,
+\subsection{Contour integrals and Laurent coefficients}
+In this module, we will \emph{always} think of Laurent series as living on a circle $C_r(z_0) = \{z : |z-z_0| = r \}$. That is,
 
 \[
     f(z) \approx \sum_{k=-\infty}^\infty f_k (z-z_0)^k
 \]
-for $z \in C_r(z_0)$.  
+for $z \in C_r(z_0)$.
 
-\textbf{Proposition (Residue on a circle)}  Suppose the Laurent series is absolutely summable on $C_r(z_0)$. Then 
+\textbf{Proposition (Residue on a circle)} Suppose the Laurent series is absolutely summable on $C_r(z_0)$. Then
 
 \[
 \oint_{C_r(z_0)} f(z) dz = 2 \pi \I f_{-1}
@@ -309,26 +319,26 @@ for $z \in C_r(z_0)$.
 We refer to $f_{-1}$ as the residue over $C_r(z_0)$:
 
 \[
-\Res_{C_r(z_0)} f(z) := f_{-1} = {1 \over 2 \pi \I} \int_{C_r} f(z) \D z. 
+\Res_{C_r(z_0)} f(z) := f_{-1} = {1 \over 2 \pi \I} \int_{C_r} f(z) \D z.
 \]
-\emph{Example} For all $0 < r < \infty$, 
+\emph{Example} For all $0 < r < \infty$,
 
 \[
 \oint_{C_r} {1 \over z} dz = 2 \pi \I
 \]
-When $f$ is holomorphic in a neighbourhood of the circle, we can extend it to an annulus  (like Taylor series and disks):
+When $f$ is holomorphic in a neighbourhood of the circle, we can extend it to an annulus (like Taylor series and disks):
 
-\textbf{Proposition (Laurent series in an annulus)} Suppose $f$ is holomorphic in an open annulus $A_{\rho R}(z_0) = \{z : \rho  < | z - z_0| < R\}$.  Then the Laurent series converges uniformly in  any closed annulus inside $A_{\rho R}$
+\textbf{Proposition (Laurent series in an annulus)} Suppose $f$ is holomorphic in an open annulus $A_{\rho R}(z_0) = \{z : \rho  < | z - z_0| < R\}$. Then the Laurent series converges uniformly in  any closed annulus inside $A_{\rho R}$
 
-\emph{Proposition (Residue on a circle)} holds true regardless of the radius, that is, the  definition of $f_{-1}$ only depends on the annulus of analyticity:
+\emph{Proposition (Residue on a circle)} holds true regardless of the radius, that is, the definition of $f_{-1}$ only depends on the annulus of analyticity:
 
 \[
-\Res_{A_{\rho R}(z_0)} f(z) := f_{-1} = {1 \over 2 \pi \I} \int_{C_r} f(z) \D z. 
+\Res_{A_{\rho R}(z_0)} f(z) := f_{-1} = {1 \over 2 \pi \I} \int_{C_r} f(z) \D z.
 \]
-for any $\rho < r < R$. 
+for any $\rho < r < R$.
 
 \subsection{Isolated singularities}
-\textbf{Definition (isolated singularity)} $f$ has an  \emph{isolated singularity at} $z_0$ if it is holomorphic in an open annulus with inner radius 0: 
+\textbf{Definition (isolated singularity)} $f$ has an  \emph{isolated singularity at} $z_0$ if it is holomorphic in an open annulus with inner radius 0:
 
 \[
 A_{0R}(z_0) = \{z : 0 < |z - z_0| < R \}.
@@ -338,14 +348,14 @@ A_{0R}(z_0) = \{z : 0 < |z - z_0| < R \}.
 \[
 f(z) = f_0 + f_1 (z-z_0) + f_2 (z-z_0)^2 + \cdots
 \]
-Equivalently, $f$ has a removable singularity at $z_0$ if it is bounded as $z \rightarrow z_0$. 
+Equivalently, $f$ has a removable singularity at $z_0$ if it is bounded as $z \rightarrow z_0$.
 
-An example would be a function like $f(z) = (\E^z - 1) / z$, which is analytic for $z \neq 0$ but is  not defined for $z = 0$. However, this singularity is artificial: we have from its Taylor series that 
+An example would be a function like $f(z) = (\E^z - 1) / z$, which is analytic for $z \neq 0$ but is not defined for $z = 0$. However, this singularity is artificial: we have from its Taylor series that
 
 \[
 f(z) = (\E^{z} - 1)/z = (z + z^2 / 2! + \cdots)/z = 1 + z/2! + \cdots
 \]
-hence $f(z) \rightarrow 1$. We can therefore remove the singularity by taking $f_0$, the zeroth Laurent coefficent:
+hence $f(z) \rightarrow 1$. We can therefore remove the singularity by taking $f_0$, the zeroth Laurent coefficient:
 
 \[
 \tilde f(z) = \begin{cases}
@@ -358,7 +368,7 @@ This construction is general:
 \textbf{Proposition (Removing a removable singularity)} If  $f$ has a removable singularity at $z_0$ and $f_0$ is the zeroth Laurent coefficient
 
 \[
-    f_0 := {1 \over 2 \pi \I} \oint_{C_r(z_0)} {f(z) \over z} \D z
+    f_0 := {1 \over 2 \pi \I} \oint_{C_r(z_0)} {f(z) \over z-z_0} \D z
 \]
 for $r$ sufficiently small, then
 
@@ -367,9 +377,9 @@ for $r$ sufficiently small, then
                                 f(z) & 0 < |z-z_0| < R
                                 \end{cases}
 \]
-is analytic in the disk $B_R(z_0) = \{ z : |z-z_0| < R \}$, with a convergent Taylor series. Hence the name.
+is analytic in the disk $B_R(z_0) = \{ z : |z-z_0| < R \}$, with a convergent Taylor series. Hence the term `removable singularity'.
 
-\textbf{Definition (simple pole)} $f$ has a  \emph{simple pole at} $z_0$ if it is holomorphic in 
+\textbf{Definition (simple pole)} $f$ has a  \emph{simple pole at} $z_0$ if it is holomorphic in
 
 \[
   A_{0R}(z_0) = \{z : 0 < |z - z_0| < R \}
@@ -381,7 +391,7 @@ with only one negative term in the Laurent series in $A_{0R}(z_0)$:
 \]
 where $f_{-1} \neq 0$.
 
-\textbf{Definition (higher order pole)} $f$ has a  \emph{pole of order $N$ at} ${z_0}$ if it is holomorphic in 
+\textbf{Definition (higher order pole)} $f$ has a  \emph{pole of order $N$ at} ${z_0}$ if it is holomorphic in
 
 \[
  A_{0R}(z_0) = \{z : 0 < |z - z_0| < R \}
@@ -403,7 +413,7 @@ An essential singularity is complicated but isolated, hence we can still calcula
 \[
 {\underset{z = z_0}{\rm Res}}\, f(z) = {\underset{A_{0R}}{\rm Res}}\, f(z) = f_{-1}
 \]
-where $f_{-1}$ is the first negative coefficent of the Laurent series in $A_{0R}(z_0)$, that is, integrating over $C_r$ for any $0 < r < R$. 
+where $f_{-1}$ is the first negative coefficient of the Laurent series in $A_{0R}(z_0)$, that is, integrating over $C_r$ for any $0 < r < R$.
 
 \textbf{Proposition (Residue of ratio of analytic functions with simple pole)} Suppose
 
@@ -436,17 +446,17 @@ We still have the contour integral over a circle, and so \emph{Proposition (Resi
 
 (*@\HLJLn{\ensuremath{\Gamma}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.1}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{2.0}@*)(*@\HLJLn{im}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{0.1}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{2.0}@*)(*@\HLJLn{im}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{0.1}@*)(*@\HLJLp{)}@*)
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{2..2}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
-(*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\Gamma}}@*)(*@\HLJLp{;}@*) (*@\HLJLn{color}@*)(*@\HLJLoB{=:}@*)(*@\HLJLn{black}@*)(*@\HLJLp{,}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=:}@*)(*@\HLJLn{contour}@*)(*@\HLJLp{,}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{,}@*) (*@\HLJLn{linewidth}@*)(*@\HLJLoB{=}@*)(*@\HLJLnfB{1.5}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\Gamma}}@*)(*@\HLJLp{;}@*) (*@\HLJLn{color}@*)(*@\HLJLoB{=:}@*)(*@\HLJLn{black}@*)(*@\HLJLp{,}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}contour,}@*) (*@\HLJLs{\ensuremath{\Gamma}"{}}@*)(*@\HLJLp{,}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{,}@*) (*@\HLJLn{linewidth}@*)(*@\HLJLoB{=}@*)(*@\HLJLnfB{1.5}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{figures/Lecture3_1_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture3_1_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{2.1}@*)(*@\HLJLp{))),}@*) (*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\Gamma}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
-(-8.270426731549189e-16 + 6.283185307179587im, -1.00975500904025e-15 + 6.28
+(-6.139435942503095e-16 + 6.283185307179586im, -1.15189152941683e-15 + 6.28
 3185307179586im)
 \end{lstlisting}
 
@@ -454,18 +464,18 @@ We still have the contour integral over a circle, and so \emph{Proposition (Resi
 Thus we can sum over three residues.
 
 \subsubsection{Residue theorem}
-\textbf{Theorem (Cauchy's Residue Theorem)} Let $f$ be holomprohic inside and on a simple closed, positively oriented contour $\gamma$ except at isolated points $z_1, \ldots, z_r$ inside $\gamma$. Then
+\textbf{Theorem (Cauchy's Residue Theorem)} Let $f$ be holomorphic inside and on a simple closed, positively oriented contour $\gamma$ except at isolated points $z_1, \ldots, z_r$ inside $\gamma$. Then
 
 \[
 \oint_\gamma f(z) dz = 2 \pi i \sum_{j=1}^r {\underset{z = z_j}{\rm Res}}\, f(z)
 \]
-\subsection{Calculating integrals}
+\subsubsection{Calculating integrals}
 We can use the Residue theorem to calculate "hard" integrals. First, two trivial examples: consider
 
 \[
 f(z) = {\E^z \over z (z+2)}
 \]
-This has two simple poles, one at $z=0$ and one at $z = -2$, as seen clearly from the  phase portrait:
+This has two simple poles, one at $z=0$ and one at $z = -2$, as seen clearly from the phase portrait:
 
 
 \begin{lstlisting}
@@ -473,16 +483,16 @@ This has two simple poles, one at $z=0$ and one at $z = -2$, as seen clearly fro
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{figures/Lecture3_3_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture3_3_1.pdf}
 
-Consider integrating over $C_3$, a circle of radius 3 centred at the origin.  The residues are
+Consider integrating over $C_3$, a circle of radius 3 centred at the origin. The residues are
 
 
 \begin{align*}
 \Res_{z=0} f(z) = \Res_{z=0}  {1 \over z} {\E^z \over z+2} = {1 \over 2} \\
 \Res_{z=-2} f(z) = \Res_{z=-2}  {1 \over z+2} {\E^z \over z} = -{\E^{-2} \over 2}
 \end{align*}
-Thus the integral must be equal to $2 \pi \I (1/2 - \E^{-2} /2)$.  This matches a numerical approximation of the integral 
+Thus the integral must be equal to $2 \pi \I (1/2 - \E^{-2} /2)$. This matches a numerical approximation of the integral
 
 
 \begin{lstlisting}
@@ -490,11 +500,11 @@ Thus the integral must be equal to $2 \pi \I (1/2 - \E^{-2} /2)$.  This matches 
 \end{lstlisting}
 
 \begin{lstlisting}
-(-5.073166565789438e-16 + 2.716424322002157im, 0.0 + 2.716424322002157im)
+(-4.61073616575903e-16 + 2.7164243220021564im, 0.0 + 2.716424322002157im)
 \end{lstlisting}
 
 
-A more complicated example is 
+A more complicated example is
 
 \[
 f(z) = {\E^z \over z^2 (z+2)}
@@ -518,7 +528,7 @@ Again, residue calculus matches the numerical computation:
 \end{lstlisting}
 
 \begin{lstlisting}
-(-2.313334476762615e-16 + 1.7833804925887144im, 0.0 + 1.783380492588715im)
+(-2.6019610263896015e-16 + 1.7833804925887144im, 0.0 + 1.783380492588715im)
 \end{lstlisting}
 
 

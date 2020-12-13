@@ -11,8 +11,8 @@
 \setlength{\parskip}{1.2ex}
 
 \hypersetup
-       {   pdfauthor = {  },
-           pdftitle={  },
+       {   pdfauthor = { Marco Fasondini },
+           pdftitle={ foo },
            colorlinks=TRUE,
            linkcolor=black,
            citecolor=blue,
@@ -117,26 +117,38 @@
 \newcommand{\HLJLgt}[1]{#1}
 
 
+
 \def\qqand{\qquad\hbox{and}\qquad}
 \def\qqfor{\qquad\hbox{for}\qquad}
 \def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
 \def\D{ {\rm d} }
 \def\I{ {\rm i} }
 \def\E{ {\rm e} }
 \def\C{ {\mathbb C} }
 \def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
 \def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
 \def\HH{ {\cal H} }
 \def\LL{ {\cal L} }
 \def\vc#1{ {\mathbf #1} }
 \def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
 
 \def\qqqquad{\qquad\qquad}
 \def\qqwhere{\qquad\hbox{where}\qquad}
 \def\Res_#1{\underset{#1}{\rm Res}\,}
 \def\sech{ {\rm sech}\, }
 \def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
 \def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
 \def\upepsilon{\varepsilon}
 
 
@@ -162,6 +174,10 @@
 \def\dx{\D x}
 \def\dt{\D t}
 \def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
 
 \def\norm#1{\left\| #1 \right\|}
 
@@ -174,6 +190,7 @@
 \def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
 
 \def\endash{–}
+\def\emdash{—}
 \def\mdblksquare{\blacksquare}
 \def\lgblksquare{\blacksquare}
 \def\scre{\E}
@@ -213,7 +230,7 @@
 
 \def\Vectt[#1]{
 {
-\def\mapfunction##1{##1 \cr} 
+\def\mapfunction##1{##1 \cr}
 \def\dots{\vdots}
 	\begin{pmatrix}
 		\map[#1]
@@ -223,106 +240,11 @@
 \def\addtab#1={#1\;&=}
 \def\ccr{\\\addtab}
 
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
 \begin{document}
 
-
-
-\textbf{M3M6: Applied Complex Analysis (2021)}
-
-Dr. Marco Fasondini
-
-s.mfasondini@imperial.ac.uk
-
-Office Hours: 11am Tuesdays, Huxley 6M50
-
-Website: https://github.com/MarcoFasondini/M3M6AppliedComplexAnalysis
-
-References:
-
-\begin{itemize}
-\item[1. ] M.J. Ablowitz \& A.S. Fokas, Complex Variables: Introduction and Applications, Second Edition, Cambridge University Press, 2003
-
-\end{itemize}
-\subsection{Overview of course}
-\begin{itemize}
-\item[1. ] Complex analysis, Cauchy's theorem, residual calculus
-
-
-\item[2. ] Singular integrals of the form
-
-\end{itemize}
-\[
-\int_\Gamma {u(\zeta) \over z - \zeta}  d\zeta,
-\]
-\[
-\int_\Gamma u(\zeta) \log|z - \zeta|  ds
-\]
-with applications to PDEs, airfoil design, etc.
-
-\begin{itemize}
-\item[2. ] Weiner\ensuremath{\endash}Hopf method with applications to integral equations with integral operators
-
-\end{itemize}
-\[
-\int_0^\infty K(x-y) u(y)  dy
-\]
-\begin{itemize}
-\item[4. ] Orthogonal polynomials, with applications to Schrödinger operators, solving differential equations.
-
-
-\item[5. ] Conformal mapping and Schwartz\ensuremath{\endash}Christoffel maps.
-
-\end{itemize}
-\emph{Central themes}:
-
-\begin{itemize}
-\item[1. ] Finding "nice" formulae for problems that arise in applications (physics and elsewhere). These can be closed form solution, sums, integral representations, special functions, etc.
-
-
-\item[2. ] Computational tools for approximate solutions to problems that arise in applications.
-
-\end{itemize}
-\emph{Applications} (not necessarily discussed in the course):
-
-\begin{itemize}
-\item[1. ] Ideal fluid flow
-
-
-\item[2. ] Acoustic scattering
-
-
-\item[3. ] Electrostatics (Faraday cage)
-
-
-\item[4. ] Fracture mechanics
-
-
-\item[5. ] Schrödinger equations
-
-
-\item[6. ] Shallow water waves
-
-\end{itemize}
-\subsection{The Project}
-There is a project worth 10\%. This project is \emph{open ended}: you propose a topic. This could be computational based (possibly based on the slides), theoretical based (possibly looking at material from Ablowitz \& Fokas), or otherwise. If you are having difficulty coming up with a proposal, please attend the office hours for advice.
-
-Timeline:
-
-\begin{itemize}
-\item 11 Feb: Office hours to discuss potential projects
-
-
-\item 20 Feb: Turn in short description of proposed project (max 2 paragraphs)
-
-
-\item 20 March: Project due
-
-\end{itemize}
-\subsection{Problem sheets}
-There will be 4 problem sheets during the term.
-
-\subsection{Feedback on course work}
-I'll set aside four office hours to walk through individual solutions to the problem sheets on a 1-on-1 basis. Please email me ahead of time so I can schedule.
+\textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 1: Complex analysis review}
 The first  couple lectures will review the basics of complex analysis. We will use plots to help explain the material, and so this first lecture will focus on getting comfortable with plots of analytic functions.
@@ -350,7 +272,7 @@ Every complex-valued function can be written as $f(z) = u(z) + i v(z)$ where $u 
      (*@\HLJLnf{surface}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{yy}@*)(*@\HLJLp{,}@*) (*@\HLJLn{v}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLoB{{\textquotesingle}}@*) (*@\HLJLoB{.+}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{.*}@*)(*@\HLJLn{yy}@*)(*@\HLJLp{);}@*) (*@\HLJLn{title}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}imag"{}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_1_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_1_1.pdf}
 
 Or a heat plot:
 
@@ -360,7 +282,7 @@ Or a heat plot:
      (*@\HLJLnf{contourf}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{yy}@*)(*@\HLJLp{,}@*) (*@\HLJLn{v}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLoB{{\textquotesingle}}@*) (*@\HLJLoB{.+}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{.*}@*)(*@\HLJLn{yy}@*)(*@\HLJLp{);}@*) (*@\HLJLn{title}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}imag"{}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_2_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_2_1.pdf}
 
 \textbf{Method 2: absolute-value and angle}
 
@@ -381,18 +303,18 @@ Every complex number $z$ can be written as $re^{i \theta}$ for $0 \leq r$ and $-
       (*@\HLJLnf{contourf}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{yy}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\theta}}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLoB{{\textquotesingle}}@*) (*@\HLJLoB{.+}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{.*}@*)(*@\HLJLn{yy}@*)(*@\HLJLp{);}@*) (*@\HLJLn{title}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}phase"{}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_3_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_3_1.pdf}
 
-\_\_ Method 3: Phase portrait \_\_
+\textbf{Method 3: Phase portrait}
 
-This method is essentially the same, as before, but to \emph{only} plot the phase, and use a "colour wheel" to reflect the topology of $\theta$.
+This method is essentially the same, as before, but it \emph{only} plots the phase, and uses a "colour wheel" to reflect the topology of $\theta$.
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{8..8}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_4_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_4_1.pdf}
 
 This is seen most clearly with $f(z) = z$: in this case, letting $z = r \E^{\I \theta}$ we are simply plotting $\theta$:
 
@@ -401,54 +323,54 @@ This is seen most clearly with $f(z) = z$: in this case, letting $z = r \E^{\I \
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_5_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_5_1.pdf}
 
 In other words, the colour red corresponds to $\arg f(z) \approx 0$, green to $\arg f(z) \approx {2 \pi \over 3}$ aqua to $\arg f(z) \approx \pi$ and so on.
 
-Note that multiplying $z$ by a complex number $R \E^{\I \varphi}$ will rotate the wheel, but the colours still appear in the same order when read counter clockwise:
+Note that multiplying $z$ by a complex number $R \E^{\I \varphi}$ will rotate the wheel, but the colours still appear in the same order when read anticlockwise:
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_6_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_6_1.pdf}
 
-Therefore, if $f(z)$ has a zero at $z_0$, since it behaves like $f(z) = f'(z_0) (z - z_0)$, we will have the full colour wheel always in the counter clockwise order red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red:
+Therefore, if $f(z)$ has a zero at $z_0$, since it behaves like $f(z) = f'(z_0) (z - z_0)$, we will have the full colour wheel always in the anticlockwise order red-green-blue-red:
 
 
 \begin{lstlisting}
-(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{20..20}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{sin}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
+(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{20..20}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{6..6}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{sin}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_7_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_7_1.pdf}
 
-In the case of a double root like $f(z) = z^2 = r \E^{2 \I \theta}$, we have the wheel appearing twice, but still in the same order. Thus the order of a zero can be seen by the number of times we go around the colour wheel: here we see that the function has a triple root at zero since it goes red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red:
+In the case of a double root like $f(z) = z^2 = r \E^{2 \I \theta}$, we have the wheel appearing twice, but still in the same order. Thus the order of a zero can be seen by the number of times we go around the colour wheel: here we see that the function has a triple root at zero since it goes red-green-blue-red-green-blue-red-green-blue-red:
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{5..5}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLn{z}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{sin}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_8_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_8_1.pdf}
 
-On the other hand, if we plot $f(z) = z^{-1} = r^{-1} \E^{-\I \theta}$ the wheel is reversed to  be red\ensuremath{\endash}blue\ensuremath{\endash}green\ensuremath{\endash}red:
+On the other hand, if we plot $f(z) = z^{-1} = r^{-1} \E^{-\I \theta}$ the wheel is reversed to  be red-blue-green-red:
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_9_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_9_1.pdf}
 
-Thus we can see from a phase plot where the poles and zeros are, and the order of the poles and roots: the following function has a double pole at 0 (red\ensuremath{\endash}blue\ensuremath{\endash}green\ensuremath{\endash}red\ensuremath{\endash}blue\ensuremath{\endash}green), a zero at $-{\pi \over 2}$ (red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red) and a double zero at $\pi\over 2$ (red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red) :
+Thus we can see from a phase plot where the poles and zeros are, and the order of the poles and roots: the following function has a double pole at 0 (red-blue-green-red-blue-green), a zero at $-{\pi \over 2}$ (red-green-blue-red) and a double zero at $\pi\over 2$ (red-green-blue-red-green-blue-red):
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..5}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{cot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_10_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_10_1.pdf}
 
 Functions with more complicated singularities do not have such nice phase plots (these are what we will call \emph{essential} singularities):
 
@@ -457,42 +379,44 @@ Functions with more complicated singularities do not have such nice phase plots 
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_11_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_11_1.pdf}
 
-The jumps of functions like $\log z$ or $\sqrt z$ also appear naturally in the phase plot: here we see $\log z$ has a zero at $1$ (red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red) and a jump along $(-\infty,0]$
+Picard's great theorem: Within any arbitrarily small neighbourhood of an essential singularity of a function $f(z)$, $f(z)$ takes on every complex value, with at most one exception, infinitely often.
+
+The jumps of functions like $\log z$ or $\sqrt z$ also appear naturally in the phase plot: here we see $\log z$ has a zero at $1$ (red-green-blue-red) and a jump along $(-\infty,0]$
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_12_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_12_1.pdf}
 
-Often, singularities are in the complex plane. can you determine where the zeros and roots, and their orders, of the following function are from the picture?
+Often, singularities are in the complex plane. Can you determine where the zeros and roots, and their orders, of the following function are from the picture?
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLn{z}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{5}@*)  (*@\HLJLoB{/}@*) (*@\HLJLp{(}@*)(*@\HLJLni{1}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{z}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{3}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_13_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_13_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{erfc}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_14_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_14_1.pdf}
 
-Here's the Gamma function. Are they poles or zeros at 0, -1, -2, ...?
+Here's the Gamma function. Are they poles or zeros at 0, $-1$, $-2$, ...?
 
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{gamma}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_15_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_15_1.pdf}
 
-Something strange is happening at -1/2, -3/2, .... What if we differentiate? Here \texttt{dual(z,1)} is a \href{https://en.wikipedia.org/wiki/Dual_number}{dual number}, which provides a convenient way to implement automatic differentiation: \texttt{gammap(z)} is derivative of \texttt{gamma(z)} w.r.t. \texttt{z}.
+Something strange is happening at $-1/2$, $-3/2$, .... What if we differentiate? Here \texttt{dual(z,1)} is a \href{https://en.wikipedia.org/wiki/Dual_number}{dual number}, which provides a convenient way to implement automatic differentiation: \texttt{gammap(z)} is derivative of \texttt{gamma(z)} w.r.t. \texttt{z}.
 
 
 \begin{lstlisting}
@@ -501,320 +425,50 @@ Something strange is happening at -1/2, -3/2, .... What if we differentiate? Her
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{gammap}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_16_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_16_1.pdf}
 
-Finally, the Riemann Hypothesis: Here is a plot of the Riemann zeta function near the critical line $z = 0.5 + \I t$:
-
-
-\begin{lstlisting}
-(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLnfB{0.011}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{2}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLnfB{0.011}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{40}@*)(*@\HLJLp{,}@*) (*@\HLJLn{zeta}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_17_1.pdf}
-
-\subsection{Holomorphicity, Cauchy's theorem, and Analyticity}
-A beautiful feature of complex analysis is one starts with a very weak assumption of holomorphicity, essentially complex-differentiability in an open set, deduce Cauchy's theorem and Cauchy's integral formula, which then imply analyticity. That is, if we assume a function is one-time complex differentiable, then it has an infinite number of derivatives.
-
-These results are built up as follows:
-
-\begin{itemize}
-\item[1. ] Holomorphic functions
-
-
-\item[2. ] Cauchy's theorem
-
-
-\item[3. ] Deformation of contours
-
-
-\item[4. ] Cauchy's integral formula
-
-
-\item[5. ] Analyticity and Taylor series
-
-\end{itemize}
-We will review the first three topics this lecture, with the remaining for next lecture.
-
-\subsubsection{Holomorphic functions}
-\textbf{Definition (Complex-differentiable)} Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called \emph{complex-differentiable} at a point $z_0 \in D$ if
-
-\[
-   f'(z_0) =  \lim_{z \rightarrow z_0} {f(z) - f(z_0) \over z - z_0}
-\]
-exists, for any angle of approach to $z_0$.
-
-\textbf{Definition (Holomorphic)} Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called \emph{holomorphic} in $D$ if it is complex-differentiable at all $z \in D$.
-
-\textbf{Definition (Entire)} A function is \emph{entire} if it is holomorphic in ${\mathbb C}$
-
-\emph{Examples}
-
-\begin{itemize}
-\item[1. ] \[
-1
-\]
-is entire
-
-
-\item[2. ] \[
-z
-\]
-is entire
-
-
-\item[3. ] \[
-1/z
-\]
-is holomorphic in ${\mathbb C} \backslash \{0\}$
-
-
-\item[4. ] \[
-\sin z
-\]
-is entire
-
-
-\item[5. ] \[
-\csc z
-\]
-is holomorphic in ${\mathbb C} \backslash \{\ldots,-2\pi,-\pi,0,\pi,2\pi,\ldots\}$
-
-
-\item[6. ] \[
-\sqrt z
-\]
-is holomorphic in ${\mathbb C} \backslash (-\infty,0]$
-
-\end{itemize}
-\subsubsection{Cauchy's theorem}
-\textbf{Definition (Contour)} A \emph{contour}  is a continuous \& piecewise-continuously differentiable function $\gamma : [a,b] \rightarrow {\mathbb C}$.
-
-\textbf{Definition (Simple)} A \emph{simple contour} is a contour that is 1-to-1.
-
-\textbf{Definition (Closed)} A \emph{closed contour} is a contour such that $\gamma(a) = \gamma(b)$
-
-\emph{Examples of contours}
-
-\begin{itemize}
-\item[1. ] Line segment $[a,b]$ is a simple contour, with $\gamma(t) =  t$
-
-
-\item[2. ] Arc from $re^{ia}$ to $re^{ib}$ is a simple contour, with $\gamma(t) =  re^{i t}$
-
-
-\item[3. ] Circle of radius $r$ is a closed simple contour, with $\gamma(t) = re^{i t}$ and $a = -\pi$, $b = \pi$
-
-
-\item[4. ] \[
-\gamma(t) = \cos (t+i)^2
-\]
-defines a contour that is not simple or closed
-
-
-\item[5. ] \[
-\gamma(t) = e^{i t} + e^{2i t}
-\]
-for $[a,b] = [-\pi,\pi]$ defines a contour that is closed but not simple
-
-\end{itemize}
-\textbf{Definition (Contour integral)} The \emph{contour integral} over $\gamma$ is defined by
-
-\[
-\int_\gamma f(z) dz := \int_a^b f(\gamma(t)) \gamma'(t) dt
-\]
-An important property of a contour is its \emph{arclength}:
-
-\textbf{Definition (Arclength)} The \emph{arclength} of $\gamma$ is defined as
-
-\[
-    {\cal L}(\gamma) := \int_a^b |\gamma'(t)| dt
-\]
-A very useful result is that we can use the maximum and arclength to bound integrals:
-
-\textbf{Proposition (ML)} Let $f : \gamma \rightarrow {\mathbb C}$ and
-
-\[
-        M = \sup_{z \in \gamma} |f(z)|
-\]
-Then
-
-\[
-\left|\int_\gamma f(z) dz \right| \leq M {\cal L}(\gamma)
-\]
-\textbf{Proposition} If $f(z)$ is holomorphic on $\gamma$, then $\int_\gamma f'(z) dz = f(\gamma(b)) - f(\gamma(a))$
-
-\textbf{Theorem (Cauchy)} If $f$ is holomorphic inside and on a closed contour $\gamma$, then $\oint_\gamma f(z) dz = 0$
-
-\subsubsection{Deformation of contours}
-\textbf{Definition (Domain)} A \emph{domain} is a non-empty, open and connected set $D \subset {\mathbb C}$.
-
-\textbf{Definition (Homotopic)} Two closed contours $\gamma_1 : [a,b] \rightarrow D$ and $\gamma_2 \rightarrow D$ in a domain $D$ are \emph{homotopic} if they can be continuously deformed to one-another while remaining in $D$.
-
-\textbf{Theorem (Deformation of contours)} Let $f(z)$ be holomorphic in a domain $D$. Let $\gamma_1$ and $\gamma_2$ be two homotopic contours. Then
-
-\[
-    \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
-\]
-\textbf{Definition (Simply connected)} A domain is \emph{simply connected} if every closed contour is homotoic to a point.
-
-\textbf{Corollary (Deformation of contours on simply connected domains)} Let $f(z)$ be holomorphic in a simply-connected domain $D$. If $\gamma_1$ and $\gamma_2$ are two contours in $D$ with the same endpoints, then
-
-\[
-    \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
-\]
-\subsubsection{Demonstration}
-We can usually infer the domain where a function is holomorphic from a phase portrait, here we see that ${\rm arcsinh}\, z$ has cuts on $[\I,\I \infty)$ and $[-\I,-\I \infty)$, and a zero  (red\ensuremath{\endash}green\ensuremath{\endash}blue\ensuremath{\endash}red) at zero, hence we can infer that it is holomorphic in $\C \backslash ([\I,\I \infty) \cup [-\I,-\I \infty))$.
+The Riemann Hypothesis: Here is a plot of the Riemann zeta function near the critical line $z = 0.5 + \I t$:
 
 
 \begin{lstlisting}
-(*@\HLJLk{using}@*) (*@\HLJLn{Plots}@*)(*@\HLJLp{,}@*) (*@\HLJLn{ComplexPhasePortrait}@*)(*@\HLJLp{,}@*) (*@\HLJLn{SpecialFunctions}@*)(*@\HLJLp{,}@*) (*@\HLJLn{ApproxFun}@*)
-(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{4..4}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{4..4}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{asinh}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
+(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLnfB{0.011}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{10}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLnfB{0.011}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{40}@*)(*@\HLJLp{,}@*) (*@\HLJLn{zeta}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_18_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_17_1.pdf}
 
-The following example $\sqrt{z-1} \sqrt{z+1}$ is analytic in ${\mathbb C}\backslash [-1,1]$ and will be returned to:
+There are ways to include information about the modulus of a function in a phase portrait. Take again the example of the gamma function:
 
 
 \begin{lstlisting}
-(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{4..4}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{4..4}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{))}@*)
+(*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{gamma}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_19_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_18_1.pdf}
 
-Here's an example of a closed contour that is not simple:
+We can add contour lines/level curves of the modulus:
 
 
 \begin{lstlisting}
-(*@\HLJLn{a}@*)(*@\HLJLp{,}@*)(*@\HLJLn{b}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\pi}}@*)
-(*@\HLJLn{tt}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{range}@*)(*@\HLJLp{(}@*)(*@\HLJLn{a}@*)(*@\HLJLp{,}@*) (*@\HLJLn{stop}@*)(*@\HLJLoB{=}@*)(*@\HLJLn{b}@*)(*@\HLJLp{,}@*) (*@\HLJLn{length}@*)(*@\HLJLoB{=}@*)(*@\HLJLni{1000}@*)(*@\HLJLp{)}@*)
-
-(*@\HLJLn{\ensuremath{\gamma}}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{t}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{t}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{+}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{t}@*)(*@\HLJLp{)}@*)
-
-(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{real}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{tt}@*)(*@\HLJLp{)),}@*) (*@\HLJLn{imag}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{tt}@*)(*@\HLJLp{));}@*) (*@\HLJLn{ratio}@*)(*@\HLJLoB{=}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{,}@*) (*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{,}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{)}@*)
+(*@\HLJLn{xx}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLni{3}@*)(*@\HLJLoB{:}@*)(*@\HLJLnfB{0.001}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{3}@*)
+(*@\HLJLn{yy}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{xx}@*)
+(*@\HLJLn{zz}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{xx}@*)(*@\HLJLoB{{\textquotesingle}}@*) (*@\HLJLoB{.+}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{.*}@*)(*@\HLJLn{yy}@*)
+(*@\HLJLn{fz}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{gamma}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{zz}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{portrait}@*)(*@\HLJLp{(}@*)(*@\HLJLn{fz}@*)(*@\HLJLp{,}@*) (*@\HLJLn{PTstepmod}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_20_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_19_1.png}
 
-The notion of integration over a contour in the complex plane is independent of the notion of holomorphicity. For example, we can happily define the integral for non-holomorphic functions such as $\Re \E^z = \E^x \cos y$:
+Next the contour lines of the phase are added:
 
 
 \begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{real}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)),}@*) (*@\HLJLnf{Arc}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{1.}@*)(*@\HLJLp{,(}@*)(*@\HLJLni{0}@*)(*@\HLJLp{,}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)))}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{Not}@*) (*@\HLJLcs{holomorphic!}@*)
-
-(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{domain}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{);}@*) (*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{,}@*) (*@\HLJLn{ratio}@*)(*@\HLJLoB{=}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{,}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{portrait}@*)(*@\HLJLp{(}@*)(*@\HLJLn{fz}@*)(*@\HLJLp{,}@*) (*@\HLJLn{PTcgrid}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_21_1.pdf}
+\includegraphics[width=\linewidth]{figures/Lecture1_20_1.png}
 
-\begin{lstlisting}
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{this}@*) (*@\HLJLcs{means}@*) (*@\HLJLcs{contour}@*) (*@\HLJLcs{integral}@*)
-\end{lstlisting}
+We can also shade the phase portrait or plot the modulus in the third dimension. At the moment, Julia does not provide support for this but it can be done in \href{https://uk.mathworks.com/matlabcentral/fileexchange/44375-phase-plots-of-complex-functions}{MATLAB}.
 
-\begin{lstlisting}
--1.2485382363935422 + 1.949326343919058im
-\end{lstlisting}
-
-
-This is defined in terms of a parameterization, and so the following real integral gives the same result:
-
-
-\begin{lstlisting}
-(*@\HLJLn{g}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{t}@*)(*@\HLJLoB{->}@*) (*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{t}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{t}@*)(*@\HLJLp{),}@*) (*@\HLJLni{0}@*) (*@\HLJLoB{..}@*) (*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*) (*@\HLJLn{g}@*) (*@\HLJLp{)}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{this}@*) (*@\HLJLcs{is}@*) (*@\HLJLcs{standard}@*) (*@\HLJLcs{integral}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
--1.248538236393543 + 1.9493263439190578im
-\end{lstlisting}
-
-
-The following show that the contour of integration does not affect the integral for holomorphic functions:
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{),}@*) (*@\HLJLnf{Arc}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{1.}@*)(*@\HLJLp{,(}@*)(*@\HLJLni{0}@*)(*@\HLJLp{,}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)))}@*) (*@\HLJLcs{{\#}integrate}@*) (*@\HLJLcs{over}@*) (*@\HLJLcs{an}@*) (*@\HLJLcs{arc}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)  (*@\HLJLp{,}@*) (*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
-(-2.1779795225909053 + 0.8414709848078971im, -2.177979522590906 + 0.8414709
-848078968im)
-\end{lstlisting}
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{),}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{,}@*)(*@\HLJLn{im}@*)(*@\HLJLp{))}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{integrate}@*) (*@\HLJLcs{over}@*) (*@\HLJLcs{a}@*) (*@\HLJLcs{line}@*) (*@\HLJLcs{segment}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)  (*@\HLJLp{,}@*) (*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLnf{f}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
-(-2.1779795225909053 + 0.8414709848078966im, -2.177979522590907 + 0.8414709
-848078968im)
-\end{lstlisting}
-
-
-The following demonstrates Cauchy's theorem, integration over a closed contour equals zero:
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{),}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{())}@*)  (*@\HLJLcs{{\#}}@*)  (*@\HLJLcs{Holomorphic!}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
-6.751217953510028e-17 - 1.6526433588101707e-16im
-\end{lstlisting}
-
-
-If \texttt{f} is not holomorphic, it doesn't apply:
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{,}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{())}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{Not}@*) (*@\HLJLcs{holomorphic}@*) (*@\HLJLcs{at}@*) (*@\HLJLcs{zero}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
--7.899668397939031e-16 + 6.283185307179588im
-\end{lstlisting}
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{real}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)),}@*) (*@\HLJLnf{Circle}@*)(*@\HLJLp{())}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{Not}@*) (*@\HLJLcs{holomorphic}@*) (*@\HLJLcs{anywhere!}@*)
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
--3.3420237696193494e-16 + 3.141592653589793im
-\end{lstlisting}
-
-
-We can test contour deformation experimentally: in the following, the integral (implemented as \texttt{sum}) over two different contours returns the same value (up to numerical precision)
-
-
-\begin{lstlisting}
-(*@\HLJLn{f}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{),}@*) (*@\HLJLnf{Arc}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{1.}@*)(*@\HLJLp{,(}@*)(*@\HLJLni{0}@*)(*@\HLJLp{,}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)))}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{Holomorphic!}@*)
-(*@\HLJLn{fs}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{),}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{,}@*)(*@\HLJLn{im}@*)(*@\HLJLp{))}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{Holomorphic!}@*)
-
-(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{)}@*)  (*@\HLJLp{,}@*) (*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{fs}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\begin{lstlisting}
-(-2.1779795225909053 + 0.8414709848078971im, -2.1779795225909053 + 0.841470
-9848078966im)
-\end{lstlisting}
-
-
-Here is a depiction of the two contours:
-
-
-\begin{lstlisting}
-(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{domain}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLp{);}@*) (*@\HLJLn{ratio}@*)(*@\HLJLoB{=}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{,}@*) (*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{,}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{)}@*)
-(*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{domain}@*)(*@\HLJLp{(}@*)(*@\HLJLn{fs}@*)(*@\HLJLp{),}@*) (*@\HLJLn{arrow}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{true}@*)(*@\HLJLp{)}@*)
-\end{lstlisting}
-
-\includegraphics[width=\linewidth]{jl_z7eR69/Lecture1_30_1.pdf}
 
 
 \end{document}

@@ -1,57 +1,255 @@
-__M3M6: Applied Complex Analysis__
-
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
-
-
+__Applied Complex Analysis (2021)__
 
 # Lecture 2: Cauchy's integral formula and Taylor series
 
+## Holomorphicity, Cauchy's theorem, and Analyticity
 
-The starting point of our review was the following construction:
+A beautiful feature of complex analysis is one starts with a very
+weak assumption of holomorphicity, essentially
+complex-differentiability
+in an open set, deduce Cauchy's theorem and Cauchy's integral formula,
+which then imply analyticity. That is, if we assume a function
+is one-time complex differentiable, then it has an infinite number
+of derivatives.
+
+These results are built up as follows:
 
 1. Holomorphic functions
-2. Cauchy's theorem 
+2. Cauchy's theorem
 3. Deformation of contours
 4. Cauchy's integral formula
 5. Analyticity and Taylor series
 
-Last lecture we discussed 1--3, that (1) integrating a holomorphic functions
+###  Holomorphic functions
+
+**Definition (Complex-differentiability)** Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called _complex-differentiable_ at a point $z_0 \in D$ if
+$$
+   f'(z_0) =  \lim_{z \rightarrow z_0} {f(z) - f(z_0) \over z - z_0}
+$$
+exists, for any angle of approach to $z_0$.
+
+**Definition (Holomorphic)** Let $D \subset {\mathbb C}$ be an open set.  A function $f : D \rightarrow {\mathbb C}$ is called _holomorphic_ in $D$ if it is complex-differentiable at all $z \in D$.
+
+**Definition (Entire)** A function is _entire_ if it is holomorphic in ${\mathbb C}$
+
+*Examples*
+
+1. $1$ is entire
+2. $z$ is entire
+3. $1/z$ is holomorphic in ${\mathbb C} \backslash \{0\}$
+4. $\sin z$ is entire
+5. $\csc z$ is holomorphic in ${\mathbb C} \backslash \{\ldots,-2\pi,-\pi,0,\pi,2\pi,\ldots\}$
+6. $\sqrt z$ is holomorphic in ${\mathbb C} \backslash (-\infty,0]$
+
+### Cauchy's theorem
+
+**Definition (Contour)** A _contour_  is a continuous & piecewise-continuously differentiable function $\gamma : [a,b] \rightarrow {\mathbb C}$.
+
+**Definition (Simple)** A _simple contour_ is a contour that is 1-to-1, except possibly at the endpoints $a$ and $b$.
+
+**Definition (Closed)** A _closed contour_ is a contour such that $\gamma(a) = \gamma(b)$
+
+*Examples of contours*
+
+1. A line segment $t \in [a,b]$ is a simple contour, with $\gamma(t) =  t$
+2. An arc from $re^{ia}$ to $re^{ib}$ with $-\pi < a < b < \pi$ is a simple contour, with $\gamma(t) =  re^{i t}$
+3. A Circle of radius $r$ is a closed simple contour, with $\gamma(t) = re^{i t}$ and $a = -\pi$, $b = \pi$
+4. $\gamma(t) = \cos (t+i)^2$ for $[a,b] = [-2\pi/3,2\pi/3]$ defines a contour that is neither simple nor closed
+
+```julia
+using Plots, ComplexPhasePortrait, SpecialFunctions, ApproxFun
+a,b = -2π/3, 2π/3
+tt = range(a, stop=b, length=1000)
+
+γ = t -> cos((t+im)^2)
+
+plot(real.(γ.(tt)), imag.(γ.(tt)); ratio=1.0, legend=false, arrow=true)
+```
+
+5. $\gamma(t) = e^{i t} + e^{2i t}$ for $[a,b] = [-\pi,\pi]$ defines a contour that is closed but not simple
+
+```julia
+a,b = -π, π
+tt = range(a, stop=b, length=1000)
+
+γ = t -> exp(im*t) +exp(2im*t)
+
+plot(real.(γ.(tt)), imag.(γ.(tt)); ratio=1.0, legend=false, arrow=true)
+```
+
+**Definition (Contour integral)** The _contour integral_ over $\gamma$ is defined by
+$$
+\int_\gamma f(z) dz := \int_a^b f(\gamma(t)) \gamma'(t) dt
+$$
+
+An important property of a contour is its _arclength_:
+
+**Definition (Arclength)** The _arclength_ of $\gamma$ is defined as
+$$
+    {\cal L}(\gamma) := \int_a^b |\gamma'(t)| dt
+$$
+
+A very useful result is that we can use the maximum and arclength to bound integrals:
+
+**Proposition (ML)** Let $f : \gamma \rightarrow {\mathbb C}$ and
+$$
+        M = \sup_{z \in \gamma} |f(z)|
+$$
+Then
+$$
+\left|\int_\gamma f(z) dz \right| \leq M {\cal L}(\gamma)
+$$
+
+
+**Proposition** If $f(z)$ is holomorphic on $\gamma$, then
+$$\int_\gamma f'(z) dz = f(\gamma(b)) - f(\gamma(a))$$
+
+**Theorem (Cauchy)** If $f$ is holomorphic inside and on a closed contour $\gamma$, then
+$$\oint_\gamma f(z) dz = 0$$
+
+### Deformation of contours
+
+**Definition (Domain)** A _domain_ is a non-empty, open and connected set $D \subset {\mathbb C}$.
+
+**Definition (Homotopic)** Two closed contours $\gamma_1 : [a,b] \rightarrow D$ and $\gamma_2 \rightarrow D$ in a domain $D$ are _homotopic_ if they can be continuously deformed to one-another while remaining in $D$.
+
+**Theorem (Deformation of contours)** Let $f(z)$ be holomorphic in a domain $D$. Let $\gamma_1$ and $\gamma_2$ be two closed homotopic contours. Then
+$$
+    \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
+$$
+
+**Definition (Simply connected)** A domain is _simply connected_ if every closed contour is homotopic to a point in the domain.
+
+**Corollary (Deformation of contours on simply connected domains)** Let $f(z)$ be holomorphic in a simply-connected domain $D$. If $\gamma_1$ and $\gamma_2$ are two contours in $D$ with the same endpoints, then
+
+$$
+    \int_{\gamma_1} f(z) dz = \int_{\gamma_2} f(z) dz
+$$
+
+
+
+### Demonstration
+
+We can usually infer the domain where a function is holomorphic from a phase portrait, here we see that ${\rm arcsinh}\, z$ has cuts on $[\I,\I \infty)$ and $[-\I,-\I \infty)$, and a zero  (red-green-blue-red) at zero, hence we can infer that it is holomorphic in $\C \backslash ([\I,\I \infty) \cup [-\I,-\I \infty))$.
+
+```julia
+phaseplot(-4..4, -4..4, z -> asinh(z))
+```
+
+The following example $\sqrt{z-1} \sqrt{z+1}$ is analytic in ${\mathbb C}\backslash [-1,1]$ and will be returned to:
+
+```julia
+phaseplot(-4..4, -4..4, z -> sqrt(z-1)sqrt(z+1))
+```
+
+The notion of integration over a contour in the complex plane
+is independent of the notion of holomorphicity. For example, we
+can happily define the integral for non-holomorphic functions such as
+$\Re \E^z = \E^x \cos y$:
+
+```julia
+f = Fun( z -> real(exp(z)), Arc(0.,1.,(0,π/2)))  # Not holomorphic!
+
+plot(domain(f); legend=false, ratio=1.0, arrow=true)
+```
+```julia
+sum(f)  # this means contour integral
+```
+This is defined in terms of a parameterization, and so
+the following real integral gives the same result:
+```julia
+g = im*Fun(t-> f(exp(im*t))*exp(im*t), 0 .. π/2)
+sum( g )  # this is standard integral
+```
+
+The following show that the contour of integration does not affect the integral for holomorphic functions:
+
+```julia
+f = Fun( z -> exp(z), Arc(0.,1.,(0,π/2))) #integrate over an arc
+sum(f)  , f(im)-f(1)
+```
+
+```julia
+f = Fun( z -> exp(z), Segment(1,im)) # integrate over a line segment
+sum(f)  , f(im)-f(1)
+```
+
+The following demonstrates Cauchy's theorem, integration over a closed
+contour equals zero:
+```julia
+f = Fun( z -> exp(z), Circle())  #  Holomorphic!
+sum(f)
+```
+If `f` is not holomorphic, it doesn't apply:
+```julia
+f = Fun( z -> exp(z)/z, Circle())  # Not holomorphic at zero
+sum(f)
+```
+```julia
+f = Fun( z -> real(exp(z)), Circle())  # Not holomorphic anywhere!
+sum(f)
+```
+
+We can test contour deformation experimentally: in the following, the
+integral (implemented as `sum`) over two different contours returns the
+same value (up to numerical precision)
+```julia
+f = Fun( z -> exp(z), Arc(0.,1.,(0,π/2)))  # Holomorphic!
+fs = Fun( z -> exp(z), Segment(1,im))  # Holomorphic!
+
+sum(f)  , sum(fs)
+```
+
+Here is a depiction of the two contours:
+
+```julia
+plot(domain(f); ratio=1.0, legend=false, arrow=true)
+plot!(domain(fs), arrow=true)
+```
+
+The starting point of our review was the following construction:
+
+1. Holomorphic functions
+2. Cauchy's theorem
+3. Deformation of contours
+4. Cauchy's integral formula
+5. Analyticity and Taylor series
+
+We have discussed 1-3, that (1) integrating a holomorphic function
 over a simple closed contour returns zero and (2) therefore integrals over
-complex contours depend only on the start and end point provided the
-integrand is holomorphic inbetween. Here we use these to review 4--5.
+complex contours depend only on the start and end points provided the
+integrand is holomorphic in between. We now use these to review 4-5.
 
 
 ## Cauchy's integral formula
 
-Contours are _oriented_: there is a notion of "left" and "right" inherited from $[a,b]$. For closed contours, there is as notion of positive/negative orientation:
+Contours are _oriented_: there is a notion of "left" and "right" inherited from $[a,b]$. For closed contours, there is a notion of positive/negative orientation:
 
-**Definition (Positive/negative orientation)** Let $\gamma$ be a simple closed contour and $z$ in the interior of $\gamma$.  We say that $\gamma$ is _positively oriented_ if 
+**Definition (Positive/negative orientation)** Let $\gamma$ be a simple closed contour and $z$ in the interior of $\gamma$.  We say that $\gamma$ is _positively oriented_ if
 $${1 \over 2 \pi i} \oint_\gamma {d\zeta \over \zeta - z} = 1$$
-It is _negatively oriented_ if the reversed contour $\gamma_{\rm reversed}(t) = \gamma(b+a-t)$ for $t \in [a,b]$ is positively oriented, or equivalentally
+It is _negatively oriented_ if the reversed contour $\gamma_{\rm reversed}(t) = \gamma(b+a-t)$ for $t \in [a,b]$ is positively oriented, or equivalently
 $${1 \over 2 \pi i} \oint_\gamma {d\zeta \over \zeta - z} = -1$$
 
 
-Cauchy's integral formula allows us to recover a function from knowlerdge of its values on a surrounding contour:
+Cauchy's integral formula allows us to recover a function from knowledge of its values on a surrounding contour:
 
 **Theorem (Cauchy integral formula)** Suppose $f$ is holomorphic inside and on a positively oriented, simple, closed contour $\gamma$. Then
 $$
-f(z) = \begin{cases} 
+f(z) = \begin{cases}
 {1 \over 2 \pi \I} \oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta & z \hbox{ inside $\gamma$} \\
-0 & otherwise 
+0 & \hbox{ otherwise}
 \end{cases}
 $$
 
 **Sketch of Proof**
 
 Let $C_r := \{ z + r \E^{\I \theta} : 0 \leq \theta < 2\pi \}$ be a small
-circle around $z$ inside the domain of holomorphicity of $f$. 
-Contour deformation informs us that 
+circle around $z$ inside the domain of holomorphicity of $f$.
+Contour deformation informs us that
 $$
-\oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta  = 
+\oint_\gamma {f(\zeta) \over \zeta - z} \D \zeta  =
 \oint_{C_r} {f(\zeta) \over \zeta - z} \D \zeta =
-\I \int_0^{2 \pi} f(z + r \E^{\I \theta})\D \theta = 
+\I \int_0^{2 \pi} f(z + r \E^{\I \theta})\D \theta =
 2 \pi \I f(z) + \int_0^{2 \pi} {f(z + r \E^{\I \theta}) - f(z)} \D \theta.
 $$
 By continuity, the second integral tends to zero.
@@ -60,7 +258,7 @@ By continuity, the second integral tends to zero.
 
 Not only do we know $f$, a consequence of this formula is  that $f$ is infinitely-differentiable by differentiating the integrand with respect to $z$, and we know all its values:
 
-**Corollary (Cauchy integral formula for derivatives)** Suppose $f$ is holomorphic inside and on a positively oriented, simple, closed contour $\gamma$. Then $f$ is infinitely-differentiable at $z$ and 
+**Corollary (Cauchy integral formula for derivatives)** Suppose $f$ is holomorphic inside and on a positively oriented, simple, closed contour $\gamma$. Then $f$ is infinitely-differentiable at $z$ and
 $$
 f^{(k)}(z) = {k! \over 2 \pi i} \oint_\gamma {f(\zeta) \over (\zeta - z)^{k+1}} d \zeta
 $$
@@ -75,7 +273,7 @@ $$
 
 **Sketch of proof**
 
-For simplicity, take $z_0 = 0$. 
+For simplicity, take $z_0 = 0$.
 This result follows from approximating the Cauchy kernel $1/(z - \zeta)$ by its geometric series.
 Recall by telescoping sum
 $$
@@ -83,19 +281,19 @@ $$
 $$
 Therefore
 $$
-{1 \over z - \zeta} = {1 \over -\zeta} {1 \over 1 - z/\zeta} = {1 \over - \zeta} (1 + (z/\zeta) + \cdot + (z/\zeta)^n + {(z/\zeta)^{n+1} \over 1 - z/\zeta})
+{1 \over z - \zeta} = {1 \over -\zeta} {1 \over 1 - z/\zeta} = {1 \over - \zeta} (1 + (z/\zeta) + \cdots + (z/\zeta)^n + {(z/\zeta)^{n+1} \over 1 - z/\zeta})
 $$
 Thus for $C_r$, a circle of radius $r$, we have
 $$
 \begin{align*}
 f(z) &= {1 \over 2 \pi \I} \oint_{C_r} {f(\zeta) \over \zeta - z} \D \zeta \\
-&= 
+&=
 \sum_{k=0}^n z^n {1 \over 2 \pi \I}  \oint_{C_r} f(\zeta) \zeta^{-n-1} \D \zeta + {1 \over 2 \pi \I} \oint_{C_r} f(\zeta)  {(z/\zeta)^{n+1} \over 1 - z/\zeta} \D \zeta \\
 &=
 \sum_{k=0}^n {f^{(k)}(0) \over k!} z^n + R_n(z)
 \end{align*}
 $$
-Because $|z| < r$ we have $|z/\zeta| < 1$ which implies the integrand in $R_n(z)$ uniformly tends to zero, i.e., $R_n(z) \rightarrow 0$. 
+Because $|z| < r$ we have $|z/\zeta| < 1$ which implies the integrand in $R_n(z)$ uniformly tends to zero, i.e., $R_n(z) \rightarrow 0$ as $n \rightarrow \infty$.
 
 ◼
 
@@ -104,8 +302,7 @@ Because $|z| < r$ we have $|z/\zeta| < 1$ which implies the integrand in $R_n(z)
 ## Demonstration
 
 Here we see numerically that $1/z$ is positively oriented:
-```julia 
-using ApproxFun, Plots, ComplexPhasePortrait, SpecialFunctions
+```julia
 sum(Fun(z -> 1/z, Circle()))/(2π*im)
 ```
 This shows numerically that we can calculate $\E^{0.1}$ by integrating over a circle that surrounds $z = 0.1$:
@@ -142,7 +339,7 @@ exp_n = (n,z) -> sum(z^k/factorial(1.0k) for k=0:n)
 phaseplot(-20..20, -20..20, z -> exp_n.(10,z))
 ```
 This shows that we accurately approximate the function $\E^z$ inside
-a disk, and this disk grows with `n`. 
+a disk, and this disk grows with `n`.
 
 And now the $n$-term Taylor approximation to $1/(1-z)$:
 ```julia
@@ -153,7 +350,7 @@ phaseplot(-2..2, -2..2, z -> geometric_n.(20,z))
 
 And here the $n$-term Taylor approximation of $\sqrt z$ near $z_0$:
 ```julia
-function sqrt_n(n,z,z₀) 
+function sqrt_n(n,z,z₀)
     ret = sqrt(z₀)
     c = 0.5/ret*(z-z₀)
     for k=1:n
