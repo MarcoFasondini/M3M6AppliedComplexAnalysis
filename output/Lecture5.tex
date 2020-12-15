@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,15 +242,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 5: Applications of complex integration to real integrals}
@@ -294,7 +273,6 @@ In this lecture we discuss applications of residue calculus.
 
 \end{itemize}
 \end{itemize}
-\newpage
 \subsection{Trigonometric integrals}
 We can calculate integrals of the form
 
@@ -307,7 +285,7 @@ where $R(x,y)$ is rational by doing the change of variables $z = e^{\I \theta}$ 
 \oint_{C_1} R\left({z + z^{-1} \over 2}, {z - z^{-1} \over 2 \I} \right) {\D z \over \I z}
 \]
 This is rational in $z$ hence guaranteed to be amenable to residue calculus, provided we can find the poles of the denominator.
-\newpage
+
 \emph{Example} Consider
 
 \[
@@ -334,13 +312,15 @@ We can confirm this with a phase plot:
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.6\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_1_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_1_1.pdf}
 
 Thus we can use either the interior or exterior residue calculus.  Since we know the roots of the denominator of $f$ we determine that
+
 \[
 f(z) = {\I \over (z - \rho) (\rho z - 1)}
 \]
 Thus we find
+
 \[
 \int_0^{2\pi} {\D \theta \over 1 - 2\rho \cos \theta + \rho^2} = 2 \pi \I \Res_{z = \rho} f(z) =
 -2 \pi \I \Res_{z = 1/\rho} f(z) -2 \pi \I \Res_{z = \infty} f(z) = {2 \pi \over 1 - \rho^2}.
@@ -371,12 +351,11 @@ It is convenient to work with a slightly different notion where we take the limi
 \]
 This is a weaker concept:
 
-\textbf{Proposition (Integability $\Rightarrow$ Prinipal value integrability)} If $\int_{-\infty}^\infty f(x) \dx < \infty$ then
+\textbf{Proposition (Integrability $\Rightarrow$ Principal value integrability)} If $\int_{-\infty}^\infty f(x) \dx < \infty$ then
 
 \[
 \infdashint f(x) \dx = \int_{-\infty}^\infty f(x) \dx.
 \]
-\newpage
 \textbf{Example} Consider integrating $1/(x-\I)$ with indefinite integral $\log(x-\I)$. We use the Definition
 
 \[
@@ -402,7 +381,6 @@ is undefined. On the other hand, the Cauchy principal value integral gives
 \infdashint {\dx \over x - \I}&  = \lim_{M \rightarrow \infty} \br[\log(M-\I) - \log(-M - \I)] \\
                               & = \lim_{M \rightarrow \infty} \br[\log|M-\I| - \log|-M - \I|]  + \I \pi = \I \pi.
 \end{align*}
-\newpage
 \subsubsection{Residue theorem on the real line}
 The real line doesn't have an \emph{inside} and \emph{outside}, rather an \emph{above} and \emph{below}, or \emph{left} and \emph{right}. Thus we get the following two versions of the Residue theorem:
 
@@ -420,8 +398,7 @@ The closure is denoted
 \bar{\mathbb H}^+ = {\mathbb H}^+ \cup {\mathbb R} \cup \{\infty\}  \\
 \bar{\mathbb H}^- = {\mathbb H}^- \cup {\mathbb R} \cup \{\infty\}
 \end{align*}
-\newpage
-\textbf{Theorem (Residue theorem on the real line)} Suppose $f : \bar {\mathbb H}^+ \backslash \{z_1,\ldots,z_r \} \rightarrow {\mathbb C}$ is holomorphic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\Re z_k > 0$, and  $\lim_{\epsilon \rightarrow 0} f(x + i \epsilon) = f(x)$ converges uniformly.  If
+\textbf{Theorem (Residue theorem on the real line)} Suppose $f : \bar {\mathbb H}^+ \backslash \{z_1,\ldots,z_r \} \rightarrow {\mathbb C}$ is holomorphic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\mathrm{Im } z_k > 0$, and  $\lim_{\epsilon \rightarrow 0} f(x + i \epsilon) = f(x)$ converges uniformly.  If
 
 \[
 \lim_{z \rightarrow \infty} z f(z) = 0
@@ -436,7 +413,6 @@ Similarly, if the equivalent conditions hold in the lower half plane for $f : \b
 \[
 \infdashint f(x) \dx = -2 \pi \I \sum_{k=1}^r {\underset{z = z_k}{\rm Res}} \, f(z)
 \]
-\newpage
 \textbf{Proof} This follows by considering  the contour $\gamma_R = [-R,R] \cup H_R$ where
 
 \[
@@ -450,7 +426,7 @@ that is, the upper-half circle. Classical residue calculus gives
 provided $R$ is large enough to contain all singularities. But the decay in $f$ suffices to show that $\int_{H_R} f(z) \D z \rightarrow 0$ as $R \rightarrow \infty$. The result therefore follows.
 
 \ensuremath{\blacksquare}
-\newpage
+
 \emph{Demonstration}
 
 
@@ -459,7 +435,7 @@ provided $R$ is large enough to contain all singularities. But the decay in $f$ 
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{2..2}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_3_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_3_1.pdf}
 
 This function has poles in the upper plane, but has sufficient decay that we can apply Residue theorem:
 
@@ -493,7 +469,7 @@ We can also apply Resiude theorem in the lower-half plane, and we get the same r
 (2.221441469079183 + 5.231802747012948e-16im, 2.2214414690854802)
 \end{lstlisting}
 
-\newpage
+
 \subsubsection{Cauchy's integral formula on the real line}
 An immediate consequence of the Residue theorem is Cauchy's integral formula on the real line:
 
@@ -508,7 +484,7 @@ uniformly for $z \in \bar {\mathbb H}^+$, then
 f(z) = {1 \over 2 \pi \I} \infdashint {f(x) \over x - z} dx
 \]
 for all  $z \in {\mathbb H}^+$.
-\newpage
+
 \emph{Examples} Here is a simple example of $f(x) = {x^2 \over (x+ i)^3}$, which is analytic in the upper half plane:
 
 
@@ -575,7 +551,7 @@ This is difficult as a real integral as the integrand is very oscillatory:
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*)(*@\HLJLn{real}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{)))}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.65\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_10_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_10_1.pdf}
 
 An equivalent result holds in the lower half-plane, but be careful:
 
@@ -614,7 +590,7 @@ An equivalent result holds in the lower half-plane, but be careful:
 0092372837213im)
 \end{lstlisting}
 
-\newpage
+
 \subsubsection{Fourier transforms and Jordan's lemma}
 The case of calculating
 
@@ -634,7 +610,7 @@ On the other hand if $\omega < 0$ we have exponential decay in lower half plane 
 \int_{-\infty}^\infty {\E^{\I \omega x } \over x^2 + 1} \D x = -2 \pi \I \Res_{z = -\I} {\E^{\I \omega z } \over z^2 + 1} = \pi \E^{\omega}.
 \]
 That is, the Fourier transform of $g(x) = 1/(x^2+1)$ is $\pi \E^{-|\omega|}$.
-\newpage
+
 Exponential decay gives us a  sharper bound than the ML inequality:
 
 \textbf{Lemma (Jordan)} Assume $\omega > 0$. If $g(z)$ is continuous in on the half circle $H_R = \{ R e^{i \theta} : 0 \leq \theta \leq \pi \}$  then
@@ -653,7 +629,6 @@ where $M = \sup_{z \in H_R} |g(z)|$.
 \\
 &= 2MR \int_0^{\pi\over 2} e^{- \omega R\sin \theta } d\theta
 \end{align*}
-\newpage
 But we have $\sin \theta \geq {2 \theta \over \pi}$:
 
 
@@ -663,7 +638,7 @@ But we have $\sin \theta \geq {2 \theta \over \pi}$:
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\theta}}@*)(*@\HLJLp{,}@*) (*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\theta}}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{;}@*) (*@\HLJLn{label}@*) (*@\HLJLoB{=}@*) (*@\HLJLs{"{}2t}@*) (*@\HLJLs{/}@*) (*@\HLJLs{pi"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.65\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_14_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture5_14_1.pdf}
 
 Hence
 
@@ -690,7 +665,7 @@ Thus we can construct a Residue theorem for calculating
 \[
 \infdashint g(x) e^{\I \omega x} \dx
 \]
-provided that $g(z) \rightarrow 0$ and is analytic in the upper-half plane.
+provided that $g(z) \rightarrow 0$ and is analytic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\mathrm{Im } z_k > 0$.
 
 
 \begin{lstlisting}
@@ -702,5 +677,5 @@ provided that $g(z) \rightarrow 0$ and is analytic in the upper-half plane.
 \end{lstlisting}
 
 
-}
+
 \end{document}

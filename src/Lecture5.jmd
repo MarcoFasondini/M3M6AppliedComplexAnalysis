@@ -1,6 +1,6 @@
 __Applied Complex Analysis (2021)__
 
-# Lecture 4: Applications of complex integration to real integrals
+# Lecture 5: Applications of complex integration to real integrals
 
 In this lecture we discuss applications of residue calculus.
 
@@ -83,7 +83,7 @@ $$
 
 This is a weaker concept:
 
-**Proposition (Integability $\Rightarrow$ Prinipal value integrability)** If
+**Proposition (Integrability $\Rightarrow$ Principal value integrability)** If
 $\int_{-\infty}^\infty f(x) \dx < \infty$
 then
 $$
@@ -135,7 +135,7 @@ $$
 \end{align*}
 $$
 
-**Theorem (Residue theorem on the real line)** Suppose $f : \bar {\mathbb H}^+ \backslash \{z_1,\ldots,z_r \} \rightarrow {\mathbb C}$ is holomorphic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\Re z_k > 0$, and  $\lim_{\epsilon \rightarrow 0} f(x + i \epsilon) = f(x)$ converges uniformly.  If
+**Theorem (Residue theorem on the real line)** Suppose $f : \bar {\mathbb H}^+ \backslash \{z_1,\ldots,z_r \} \rightarrow {\mathbb C}$ is holomorphic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\mathrm{Im } z_k > 0$, and  $\lim_{\epsilon \rightarrow 0} f(x + i \epsilon) = f(x)$ converges uniformly.  If
 $$
 \lim_{z \rightarrow \infty} z f(z) = 0
 $$
@@ -308,7 +308,7 @@ Thus we can construct a Residue theorem for calculating
 $$
 \infdashint g(x) e^{\I \omega x} \dx
 $$
-provided that $g(z) \rightarrow 0$ and is analytic in the upper-half plane.
+provided that $g(z) \rightarrow 0$ and is analytic in ${\mathbb H}^+ \backslash \{z_1,\ldots,z_r \}$, where $\mathrm{Im } z_k > 0$.
 ```julia
 2π*im*exp(-1)*im/(im+im)  # 2π*im* residue of g(z)exp(im*z) at z = im
 ```
