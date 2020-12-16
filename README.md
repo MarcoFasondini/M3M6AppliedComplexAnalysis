@@ -1,14 +1,13 @@
 # M3M6AppliedComplexAnalysis
 Lecture notes and course material for Applied Complex Analysis (2021) at Imperial College
 
- Office Hours:
-
 ## Reading list
 
-1. M.J. Ablowitz & A.S. Fokas, Complex Variables: Introduction and Applications, Second Edition, Cambridge University Press, 2003
+1. M.J. Ablowitz & A.S. Fokas, [Complex Variables: Introduction and Applications](https://www.imperial.ac.uk/admin-services/library/), Second Edition, Cambridge University Press, 2003
 2. R. Earl, [Metric Spaces and Complex Analysis](https://courses.maths.ox.ac.uk/node/view_material/5392), 2015
+3. E. Wegert, [Visual Complex Functions: An Introduction with Phase Portraits](https://www.imperial.ac.uk/admin-services/library/), Birkhäuser, 2012
 
-See also previous lecture notes for previous course [M3M6 Methods of Mathematical Physics](https://github.com/dlfivefifty/M3M6MethodsOfMathematicalPhysics)
+See also previous lecture notes for previous courses: [M3M6 Methods of Mathematical Physics](https://github.com/dlfivefifty/M3M6MethodsOfMathematicalPhysics) and [Applied Complex Analysis (2020)](https://github.com/dlfivefifty/M3M6AppliedComplexAnalysis)
 
 ## Problem sheets and mastery material
 
