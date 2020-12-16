@@ -22,6 +22,10 @@ Examples of previous projects:
 1. [Wasim Rehman, Quantum Mechanics and Matrix Functions via Trapezium Rule](projects/Rehman.pdf)
 2. [Tianyi Pu, 2D Ideal Fluid Flow Around an Obstacle](projects/Pu.pdf)
 
+## Video lectures
+
+ View the lectures by logging in to [Panopto](https://www.imperial.ac.uk/admin-services/ict/self-service/teaching-learning/panopto/panopto-student-user-guide/)
+
 ## Lecture notes
 
 
