@@ -28,7 +28,7 @@ Examples of previous projects:
 ## Lecture notes
 
 
-
+0. [Running Julia code](notes/Lecture0.pdf)
 1. [Visualising complex functions](notes/Lecture1.pdf)
 2. [Cauchy's integral formula and Taylor series](notes/Lecture2.pdf)
 3. [Laurent series and residue calculus](notes/Lecture3.pdf)
