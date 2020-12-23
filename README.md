@@ -34,3 +34,4 @@ Examples of previous projects:
 3. [Laurent series and residue calculus](notes/Lecture3.pdf)
 4. [Analyticity at infinity](notes/Lecture4.pdf)
 5. [Applications of complex integration to real integrals](notes/Lecture5.pdf)
+6. [Trapezium rule, Fourier series and Laurent series](notes/Lecture6.pdf)
