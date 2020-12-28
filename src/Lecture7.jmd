@@ -1,8 +1,4 @@
-__M3M6: Applied Complex Analysis__
-
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
+__Applied Complex Analysis (2021)__
 
 # Lecture 7: Matrix norms and matrix functions
 
@@ -32,7 +28,17 @@ that is the maximum row sum and the $2$-norm
 $$
 \|A \|_2
 $$
-which equals the largest singular value, that is the square-root of the largest eigenvalue of $A^\top A$.
+which equals the largest singular value, or the square-root of the largest eigenvalue of $A^\top A$.
+
+We denote the set of eigenvalues of a square matrix $A$, also known as the spectrum of $A$, by $\sigma(A)$. The _spectral radius_ of $A$ is defined as
+$$
+\rho(A) = \max\left\lbrace \vert \lambda \vert \: : \: \lambda \in \sigma(A)   \right\rbrace
+$$
+Hence,
+$$
+\|A \|_2 = \sqrt{\rho(A^\top A)}.
+$$
+
 
 Matrix norms have the usual norm properties, here  $\alpha$ is constant and $B$ has same dimensions as $A$:
 
@@ -50,14 +56,14 @@ $$
 
 ### Taylor series definition
 
-One way to construct matrix exponentials is by Taylor series. 
+One way to construct matrix exponentials is by Taylor series.
 
 
-**Def(Taylor series matrix function)** Suppose
+**Definition (Taylor series matrix function)** Suppose
 $$
 f(z) = \sum_{k=0}^\infty f_k z^k
 $$
-converges in radius $R$. If $\|A \| < R$ holds true for any matrix norm, then define
+has radius of convergence $R$. If $\|A \| < R$ holds true for any matrix norm, then define
 $$
 f(A) := \sum_{k=0}^\infty f_k A^k.
 $$
@@ -73,7 +79,7 @@ $$
 \|\sum_{k=n}^m f_k A^k \| \leq \sum_{k=n}^m |f_k| \|A\|^k \leq \epsilon.
 $$
 
-The issue with Taylor series is that it requires analyticity to converge. We can see this clearly for the case 
+The issue with Taylor series is that it requires analyticity to converge. We can see this clearly for the case
 $\sqrt{A}$ with Taylor series around $1$:
 $$
 \sqrt{z+1} = 1 + z/2 - z^2/8 + z^3/16 - \cdots = 1 + z/2 + \sum_{k=3}^\infty {3 \cdots (2k-3) \over 2^k k!} (-z)^k
@@ -86,12 +92,12 @@ A = [1 0.1; 0.2 1]
 phaseplot(-2..2, -1..1, z -> sqrt(z))
 scatter!(real(λ),imag(λ); color=:black)
 ```
-Then, using a slightly modified `sqrt_n` from Lecture 6 to compute the Taylor series and 
-comparing with `sqrt(A)` which is Julia's implementation of matrix square root, we see convergence,
-as the spectrum of `A` lies inside the radius of convergence around 1:
+Then, using a slightly modified `sqrt_n` from Lecture 6 to compute the Taylor series and
+comparing with `sqrt(A)`, which is Julia's implementation of matrix square root, we see convergence,
+as the spectrum of `A` lies inside the disc of convergence of the Taylor series of $\sqrt{z}$ around 1:
 ```julia
-function sqrt_n(n,z,z₀) 
-    ret = sqrt(z₀) * one(A)
+function sqrt_n(n,z,z₀)
+    ret = sqrt(z₀) * one(z)
     c = 0.5*inv(ret)*(z-z₀*I)
     for k=1:n
         ret += c
@@ -102,10 +108,8 @@ end
 norm(sqrt(A) - sqrt_n(100,A,1))
 ```
 But  if the eigenvalues become much larger this won't work.
-Here we see an example of a matrix whose eigenvalues are not in the 
-radius of convergence:
+Here we see an example of a matrix whose eigenvalues are not within the disc of convergence of the Taylor series:
 ```julia
-using Plots, ComplexPhasePortrait, IntervalSets
 A = [-0.5 -4; 3 -0.5]
 λ = eigvals(A)
 phaseplot(-2..2, -5..5, z -> sqrt(z))
@@ -119,61 +123,61 @@ norm(sqrt(A) - sqrt_n(100,A,1))
 
 ## Diagonalisation/Jordan canonical form
 
-**Def (Diagonalisation matrix function)** Suppose $A = V \Lambda V^{-1}$ where
+**Definition (Diagonalisation of a matrix function)** Suppose $A = V \Lambda V^{-1}$ where
 $$
 \Lambda = \begin{pmatrix} \lambda_1 \\ & \ddots \\ && \lambda_d \end{pmatrix}
 $$
 Then
-define 
+define
 $$
 f(A) := V f(\Lambda) V^{-1} = V \begin{pmatrix} f(\lambda_1) \\ & \ddots \\ && f(\lambda_d) \end{pmatrix} V^{-1}
 $$
-This works very well as a definition but is slow for large matrices and does not take advantage of sparsity. 
+This works very well as a definition but is slow for large matrices and does not take advantage of sparsity.
 
 We can extend it to Jordan canonical form:
 
-**Def (Jordan canonical form)** Suppose 
+**Definition (Jordan canonical form)** Suppose
 $$
 A = V \begin{pmatrix} J_1 \\ & \ddots & \\&&& J_{\tilde d} \end{pmatrix} V^{-1}
 $$
-where $J_k$ are Jordan blocks, that is, 
+where $J_k$ are Jordan blocks, that is,
 $$
 J_k = \begin{pmatrix} \lambda_k & 1 \\ & \ddots & \ddots \\ && \lambda_k & 1 \\ &&& \lambda_k \end{pmatrix}
 $$
 Then
-define 
+define
 $$
 f(A) := V \begin{pmatrix} f(J_1) \\ & \ddots \\ && f(J_{\tilde d}) \end{pmatrix} V^{-1}
 $$
-using 
+using
 $$
 f\fpr(
-\begin{pmatrix} \lambda & 1 \\ & \ddots & \ddots \\ && \lambda & 1 \\ &&& \lambda \end{pmatrix}) = 
+\begin{pmatrix} \lambda & 1 \\ & \ddots & \ddots \\ && \lambda & 1 \\ &&& \lambda \end{pmatrix}) =
 \begin{pmatrix} f(\lambda) & f'(\lambda) & \cdots & f^{(m-1)}(\lambda)/(m-1)! \\
         & \ddots & \ddots & \vdots \\
             & & f(\lambda) & f'(\lambda)\\
             &&& f(\lambda)
             \end{pmatrix}.
 $$
-This definition can be verified to be consistent with Taylor series when both are valid by direct inspection. For example, 
+This definition can be verified to be consistent with Taylor series when both are valid by direct inspection. For example,
 we have
 $$
 \sopmatrix{
-\lambda & 1
+\lambda & 1 \\
 & \lambda
 }^k = \sopmatrix{
-\lambda^k & k \lambda^{k-1}
+\lambda^k & k \lambda^{k-1}\\
 & \lambda^k
 }.
 $$
 
 
-## Caucy's integral formula
+## Cauchy's integral formula
 
 The last approach we detail in the next lecture is to use the
 Cauchy integral formula:
 
-**Def (Cauchy's integral  matrix function)** Suppose
+**Definition (Cauchy's integral  matrix function)** Suppose
 $\gamma$ is a simple, closed contour that surrounds the spectrum of $A$ and $f$ is analytic in the interior. Then define
 $$
 f(A) := {1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta
@@ -181,7 +185,7 @@ $$
 Here the integrand is a matrix-valued function, hence consider the integral as defined entrywise.
 
 
-Before we explain where this comes from, we can test on a simple example. 
+Before we explain where this comes from, we can test on a simple example.
 ```julia
 A = [-0.5 -4; 3 -0.5]
 λ= eigvals(A)

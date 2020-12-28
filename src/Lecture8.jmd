@@ -1,38 +1,37 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+# Lecture 8: Computing matrix  functions via Cauchy's integral formula and the trapezium rule
 
-s.olver@imperial.ac.uk
+In this lecture we cover the following:
 
-# Lecture 8: Matrix  functions via Cauchy's integral formula
+1. Equivalence of the Cauchy formula to diagonalisation/Jordan canonical form.
+2. Gershgorin circle theorem
+3. Computing matrix functions via the trapezium rule
 
-Here we investigate the definition of Cauchy's integral formula.
+## Equivalence of the Cauchy formula to diagonalisation/Jordan canonical form
 
-**Def (Cauchy's integral  matrix function)** Suppose
+**Definition (Cauchy's integral  matrix function)** Suppose
 $\gamma$ is a simple, closed contour that surrounds the spectrum of $A$ and $f$ is analytic in the interior. Then define
 $$
 f(A) := {1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta
 $$
 
-
-## Equivalence to diagonalisation/Jordan canonical form
-
-We first show for diagonalisable $f$ this is equivalent to the definition by diagonalisation: if $A = V \Lambda V^{-1}$ we have
+We first show for diagonalisable $A$ this is equivalent to the definition by diagonalisation: if $A = V \Lambda V^{-1}$ we have
 $$
 \begin{align*}
-{1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta &= 
+{1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta &=
 {1 \over 2 \pi \I} \oint_\gamma f(\zeta) V (\zeta I - \Lambda)^{-1} V^{-1} \D \zeta \\
 &= {1 \over 2 \pi \I}  V \oint_\gamma f(\zeta)  (\zeta I - \Lambda)^{-1}  \D \zeta V^{-1}\\
 &=  V \sopmatrix{ {1 \over 2 \pi \I} \oint_\gamma f(\zeta)  (\zeta - \lambda_1)^{-1} \D \zeta\\
 &\ddots \\ && {1 \over 2 \pi \I} \oint_\gamma f(\zeta)  (\zeta - \lambda_d)^{-1} \D \zeta }  \D \zeta V^{-1} \\
 &= V \sopmatrix{ f(\lambda_1)\\
-&\ddots \\ && f(\lambda_d) }  \D \zeta V^{-1}  = f(A).
+&\ddots \\ && f(\lambda_d) }   V^{-1}  = f(A).
 \end{align*}
 $$
 
-For Jordan canonical form we need only show its valid on Jordan blocks. Note that provided $\alpha \neq 0$ we have
+For Jordan canonical form we need only show it's valid on Jordan blocks. Note that provided $\alpha \neq 0$ we have
 $$
-\sopmatrix{\alpha  & -1 \\  
+\sopmatrix{\alpha  & -1 \\
             & \ddots &\ddots \\
             &&\alpha & -1 \\ &&& \alpha}^{-1} = \sopmatrix{\alpha^{-1} & \alpha^{-2} & \cdots & \alpha^{-d} \\
                                                                     & \ddots& \ddots&\vdots \\
@@ -41,20 +40,20 @@ $$
 $$
 which is verifiable by inspection. Therefore for a Jordan block
 $$
-A =\sopmatrix{\lambda  & 1 \\  
+A =\sopmatrix{\lambda  & 1 \\
             & \ddots &\ddots \\
             &&\lambda & 1 \\ &&& \lambda}
 $$
 we have
 $$
 \begin{align*}
-{1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta 
-&= 
-{1 \over 2 \pi \I} \oint_\gamma f(\zeta) \sopmatrix{\zeta - \lambda  & -1 \\  
+{1 \over 2 \pi \I} \oint_\gamma f(\zeta)(\zeta I - A)^{-1} \D \zeta
+&=
+{1 \over 2 \pi \I} \oint_\gamma f(\zeta) \sopmatrix{\zeta - \lambda  & -1 \\
             & \ddots &\ddots \\
             &&\zeta - \lambda & -1 \\ &&& \zeta - \lambda}^{-1} \D \zeta \\
-&= 
-{1 \over 2 \pi \I} \oint_\gamma f(\zeta) \sopmatrix{(\zeta-\lambda)^{-1}\D & (\zeta-\lambda)^{-2} & \cdots & (\zeta-\lambda)^{-d} \\
+&=
+{1 \over 2 \pi \I} \oint_\gamma f(\zeta) \sopmatrix{(\zeta-\lambda)^{-1} & (\zeta-\lambda)^{-2} & \cdots & (\zeta-\lambda)^{-d} \\
                                                                     & \ddots& \ddots&  &\vdots \\
                                                                     & & (\zeta-\lambda)^{-1} & (\zeta-\lambda)^{-2} \\
                                                                     &&& (\zeta-\lambda)^{-1}} \D \zeta \\
@@ -75,19 +74,19 @@ $$
 
 If we only know $A$, how do we know how big to make the contour? Gershgorin's circle theorem gives the answer:
 
-**Theorem (Gershgorin)** Let $A \in {\mathbb C}^{d \times d}$ and define 
+**Theorem (Gershgorin)** Let $A \in {\mathbb C}^{d \times d}$ and define
 $$
-R_k = \sum_{j=1 \atop j \neq k}^d |a_{kj}| 
+R_k = \sum_{j=1 \atop j \neq k}^d |a_{kj}|
 $$
-Then 
+Then
 $$
-\rho(A) \subset \bigcup_{k=1}^d \bar B(a_{kk}, R_k)
+\sigma(A) \subset \bigcup_{k=1}^d \bar B(a_{kk}, R_k)
 $$
-where $\bar B(z_0, r)$ is the closed disk of radius $r$ and $\rho(A)$ is the set of eigenvalues.
+where $\bar B(z_0, r)$ is the closed disk of radius $r$ centred at $z_0$ and $\sigma(A)$ is the set of eigenvalues.
 
-**Proof **
+**Proof**
 
-We can assume any eigenvalue has at least one nonzero eigenvector, whose maximum entry is $1$ in the $k$-th entry. (Otherwise, rescale.) That is, there exists
+We can assume any eigenvalue has at least one nonzero eigenvector, whose maximum entry is $1$ in the $k$-th entry, for some $1 \leq k \leq d$. (Otherwise, rescale.) That is, there exists
 $$
 \vc v = \Vectt[v_1,\dots,v_{k-1},1,v_{k+1},\dots,v_d]
 $$
@@ -101,7 +100,7 @@ $$
 $$
 so that
 $$
-|\lambda - a_{kk}| \leq \sum_{j \neq k} |a_{kj}| = R_k. 
+|\lambda - a_{kk}| \leq \sum_{j \neq k} |a_{kj}| = R_k.
 $$
 
 ■
@@ -133,5 +132,48 @@ We can therefore use this to choose a contour big enough to surround all the cir
 z₀ = (maximum(diag(A) .+ R) + minimum(diag(A) .- R)) /2 # average edges of circle
 r = max(abs.(diag(A) .- R .- z₀)..., abs.(diag(A) .+ R .- z₀)...)
 
+plot!(Circle(z₀, r);ratio=1.0)
+```
+
+## Computing matrix functions via the trapezium rule
+
+We can compute matrix functions via discretising Cauchy's integral formula with the Trapezium rule. We integrate over a simple, closed contour $\gamma$ (often a circle or ellipse) that encloses the spectrum of the matrix, provided the function is analytic on and inside the contour. We can obtain such a contour from Gershgorin's circle theorem.
+
+On the curve $\gamma : [0,2 \pi) \rightarrow \mathbb{C}$, we apply the Trapezium rule:
+$$
+\begin{align*}
+f(A) & = {1 \over 2 \pi \I} \oint_\gamma f(\zeta) (\zeta I - A)^{-1} \D \zeta \\
+& = {1 \over 2 \pi \I} \int_0^{2\pi}  f(\gamma(\theta)) (\gamma(\theta) I - A)^{-1}\gamma'(\theta)  \D \theta \\
+& \approx
+{1 \over \I N}  \sum_{j=0}^{N-1} f(\gamma(\theta_j)) \gamma'(\theta_j) (\gamma(\theta_j) I - A)^{-1}.
+\end{align*}
+$$
+Thus matrix functions are reduced to a sum of inverses. This is useful if applying an inverse is fast, for example, we have
+$$
+f(A) \vc v \approx {1 \over \I N}  \sum_{j=0}^{N-1} f(\gamma(\theta_j)) \gamma'(\theta_j) (\gamma(\theta_j) I - A)^{-1} \vc v
+$$
+and if $A$ is sparse then each inverse is fast.
+
+_Demonstration_ Let's compute $f(A) = A^{-1}$ via discretising Cauchy's integral formula. Consider the matrix from before, the contour we chose based on Gershgorin's theorem and a smaller contour that also encloses the spectrum of $A$:
+
+```julia
 plot!(Circle(z₀, r))
+plot!(Circle(4, 3.5))
+```
+The Cauchy integral formula for $f(A) = A^{-1}$ is not valid if the integration contour $\gamma$ is the Gershgorin contour because $f$ is not analytic inside it; if $\gamma$ is the smaller contour, then the Cauchy formula is valid:
+
+```julia
+periodic_rule(N) = 2π/N*(0:(N-1)), 2π/N*ones(N)
+γ = θ -> z₀ + r*exp(im*θ)
+γp = θ -> im*r*exp(im*θ)
+N = 256
+θ,w = periodic_rule(N)
+norm(sum(w .* γp.(θ).* 1 ./(γ.(θ)) .* [inv(γ(θ)*I-A) for θ in θ])/(2π*im) - inv(A))
+```
+
+```julia
+r = 3.5; z₀ = 4
+γ = θ -> z₀ + r*exp(im*θ)
+γp = θ -> im*r*exp(im*θ)
+norm(sum(w .* γp.(θ).* 1 ./(γ.(θ)) .* [inv(γ(θ)*I-A) for θ in θ])/(2π*im) - inv(A))
 ```

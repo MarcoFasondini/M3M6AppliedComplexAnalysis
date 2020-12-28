@@ -35,3 +35,6 @@ Examples of previous projects:
 4. [Analyticity at infinity](notes/Lecture4.pdf)
 5. [Applications of complex integration to real integrals](notes/Lecture5.pdf)
 6. [Trapezium rule, Fourier series and Laurent series](notes/Lecture6.pdf)
+7. [Matrix norms and matrix functions](notes/Lecture7.pdf)
+8. [Computing matrix functions via Cauchy's integral formula and the trapezium rule](notes/Lecture8.pdf)
+9. [Matrix exponentials and the (fractional) heat equation](notes/Lecture9.pdf)
