@@ -141,7 +141,7 @@ $$
 $$
 where $\vc u_0 = \vectt[u_0(x_1), \dots, u_0(x_N)]$. Thus to evaluate the solution at time $t$ we have
 $$
-\vc u(t) = \E^{\Delta_N t} \vc u_0 \approx {1 \over 2\pi \I} \oint_\gamma \E^{\zeta t} (\zeta I - \Delta_N)^{-1} \vc u_0 \D \zeta.
+\vc u(t) = \E^{\Delta_N t} \vc u_0 = {1 \over 2\pi \I} \oint_\gamma \E^{\zeta t} (\zeta I - \Delta_N)^{-1} \vc u_0 \D \zeta.
 $$
 We need to surround the spectrum of $\Delta_N$. In this case it suffices to use Gershgorin's theorem to determine:
 $$
@@ -161,7 +161,7 @@ $$
 $$
 Or in other words,
 $$
-\vc u(t) = \E^{-(-\Delta_N)^\alpha t} \vc u_0 \approx {1 \over 2\pi \I} \oint_\gamma \E^{-\zeta^\alpha t} (\zeta I + \Delta_N)^{-1}  \vc u_0 \D \zeta.
+\vc u(t) = \E^{-(-\Delta_N)^\alpha t} \vc u_0 = {1 \over 2\pi \I} \oint_\gamma \E^{-\zeta^\alpha t} (\zeta I + \Delta_N)^{-1}  \vc u_0 \D \zeta.
 $$
 Gershgorin's theorem does not help us: it states
 $$
