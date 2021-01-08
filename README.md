@@ -38,3 +38,6 @@ Examples of previous projects:
 7. [Matrix norms and matrix functions](notes/Lecture7.pdf)
 8. [Computing matrix functions via Cauchy's integral formula and the trapezium rule](notes/Lecture8.pdf)
 9. [Matrix exponentials and the (fractional) heat equation](notes/Lecture9.pdf)
+10. [Branch cuts](notes/Lecture10.pdf)
+11. [Representing analytic functions by their behaviour near singularities](notes/Lecture11.pdf)
+12. [Cauchy transforms and Plemelj's theorem](notes/Lecture12.pdf)
