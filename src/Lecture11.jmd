@@ -1,44 +1,37 @@
-__M3M6: Applied Complex Analysis__
-
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
+__Applied Complex Analysis (2021)__
 
 # Lecture 11: Representing analytic functions by their behaviour near singularities
 
-A _key_ theme in complex analysis is representing functions by their behaviour near singularities.  
-A simple example of this is partial fraction expansion: a rational function $p(z)/q(z)$ can be
+A _key_ theme in complex analysis is representing functions by their behaviour near singularities.
+A simple example of this is a partial fraction expansion: a rational function $p(z)/q(z)$ can be
 expressed as a sum of its behaviour near poles and infinity. This is more complicated, but doable
 in a systematic manner for functions with branch cuts.  In this lecture we:
 
-1. Derive partial fraction expansion using Cauchy's integral formula
-3. Recoverying functions like $\sqrt(z-1)\sqrt(z+1)$ from their behaviour on the branch cut
-
-
+1. Derive partial fraction expansions using Cauchy's integral formula
+2. Recover functions such as $\sqrt{z-1}\sqrt{z+1}$ from their behaviour on the branch cut
 
 ## Partial fraction expansion
 
-
-**Corollary (Cauchy's integral representation around holes)** Let $D \subset {\mathbb C}$ be a domain with $g$ holes (i.e., genus $g$). 
-Suppose $f$ is holmorphic in and on the boundary of $D$.  Given $g$ simple closed negatively oriented contours 
- surrounding the holes $\gamma_1, \ldots, \gamma_g$ and a simple closed positively oriented contour $\gamma_\infty$ surrounding 
- the outer boundary of $D$, we have
+**Theorem (Cauchy's integral representation around holes)** Let $D \subset {\mathbb C}$ be a domain with $g$ holes (i.e., genus $g$).
+Suppose $f$ is holomorphic in and on the boundary of $D$.  Given $g$ simple closed negatively oriented contours
+ surrounding the holes $\gamma_1, \ldots, \gamma_g$ and a simple closed positively oriented contour $\gamma_\infty$ surrounding
+ the outer boundary of $D$, we have for $z \in D$,
 $$
 f(z) = {1 \over 2 \pi \I} \br[\sum_{k=1}^{g} \oint_{\gamma_k} + \oint_{\gamma_\infty}] {f(\zeta) \over \zeta - z} \D \zeta
 $$
 
-Here are is an example. Consider 
+Here is an example. Consider
 $$
 f(z) = (\E^{1/z} + \E^z) / (z (z+2))
 $$
-which has an essential singularity at 0 and $\infty$ and a simple pole at $2$. 
+which has an essential singularity at 0 and $\infty$ and a simple pole at $-2$.
 We can recover $f$ from contours around each singularity:
 ```julia
 using ApproxFun, ComplexPhasePortrait, Plots
 f = z -> (exp(1/z) + exp(z))/(z*(z+2))
 Γ = Circle(0.0, 4.0) ∪ Circle(0.0,0.5,false) ∪ Circle(-2.0,0.1,false)
 phaseplot(-5..5, -5..5, f)
-plot!(Γ; color=:black, label=:contour, arrow=true, linewidth=1.5)
+plot!(Γ; color=:black, label="contour", arrow=true, linewidth=1.5)
 ```
 Cauchy's integral formula is still valid:
 ```julia
@@ -47,12 +40,12 @@ z = 2.0+1.0im
 sum(f.(ζ)/(ζ - z))/(2π*im), f(z)
 ```
 
-Now we specialise to the case where we have a rational function 
+Now we specialise to the case where we have a rational function
 $$
 r(z) = {p(z) \over q(z)}
 $$
-where $p,q$ are both polynomials. This is analytic everywhere apart from the roots 
-of $q$, which we enumerate $\lambda_1,\ldots,\lambda_g$.   If we integrate over negatively oriented circles 
+where $p,q$ are both polynomials. This is analytic everywhere apart from the roots
+of $q$, which we enumerate $\lambda_1,\ldots,\lambda_g$.   If we integrate over negatively oriented circles
 around each root:
 ```julia
 n = 7
@@ -69,7 +62,7 @@ end
 r = z -> extrapolate(p,z)/extrapolate(q,z)
 
 phaseplot(-5..5, -5..5, r)
-plot!(Γ; color=:black, label=:contour)
+plot!(Γ; color=:black, label="contour")
 ```
 we recover the function:
 ```julia
@@ -77,17 +70,17 @@ we recover the function:
 z = 2.0+2.0im
 sum(r.(ζ)/(ζ - z))/(2π*im) , r(z)
 ```
-But now we can use the residue theorem to simplify the integrals! 
+But now we can use the residue theorem to simplify the integrals!
 
 Near the $j$th root we have the Laurent series
 $$
-r(z) = r_{-N_j}^j (z-\lambda_j)^{-N_j}  + \cdots + r_{-1}^j (z-\lambda_j)^{-1} + r_0 + r_1 (z-\lambda_j) + \cdots
+r(z) = r_{-N_j}^j (z-\lambda_j)^{-N_j}  + \cdots + r_{-1}^j (z-\lambda_j)^{-1} + r_0^j + r_1^j (z-\lambda_j) + \cdots
 $$
 where $N_j$ is the order of the zero of $q(z)$ at $\lambda_j$.
 
 Then it follows that
 $$
-{1 \over 2 \pi \I} \oint_{\gamma_j} {r(\zeta) \over z - \zeta} \D\zeta = 
+{1 \over 2 \pi \I} \oint_{\gamma_j} {r(\zeta) \over z - \zeta} \D\zeta =
 r_{-N_j}^j (z-\lambda_j)^{-N}  + \cdots + r_{-1}^j (z-\lambda_j)^{-1}
 $$
 for $z$ outside the contour $\gamma_j$.
@@ -96,11 +89,11 @@ Similarly, for the contour around infinity $\gamma_\infty$, if we have the Laure
 $$
 r(z) = \cdots + r_{-1}^\infty z^{-1} + r_0^\infty  + r_1^\infty z + \dots + r_{N_0}^\infty z^{N_0}
 $$
-where $N_\infty$ is the degree of $p(z)$ divided by the degree of $q(z)$. 
+where $N_\infty$ is the degree of $p(z)$ minus the degree of $q(z)$.
 Then we have
 $$
-{1 \over 2 \pi \I} \oint_{\gamma_\infty} {r(\zeta) \over z - \zeta} \D\zeta = 
-r_0^\infty + r_1^\infty z + \cdots +  r_{N_0}^\infty z^{N_0}.
+{1 \over 2 \pi \I} \oint_{\gamma_\infty} {r(\zeta) \over \zeta - z} \D\zeta =
+r_0^\infty + r_1^\infty z + \cdots +  r_{N_{\infty}}^\infty z^{N_{\infty}}.
 $$
 
 Thus we have the expansion summing over the behaviour near each singularity that holds for all $z$:
@@ -140,10 +133,10 @@ We now consider the above approach for 2 examples with branch cuts.
 
 __Example 1__
 
-Consider $\phi(z) = \log(z-1) - \log(z+1)$. For $x < -1$ the branch cuts cancel 
+Consider $\phi(z) = \log(z-1) - \log(z+1)$. For $x < -1$ the branch cuts cancel
 and we have
 $$
-\phi_+(x) = \lim \phi(x + \I \epsilon) = \log_+(x-1) - \log_+(x+1) = 
+\phi_+(x) = \lim_{\epsilon \to 0^{+}} \phi(x + \I \epsilon) = \log_+(x-1) - \log_+(x+1) =
 \log|x-1| + \I \pi - \log|x+1| - \I \pi = \log(1-x) - \log(-1-x).
 $$
 Similarly
@@ -153,45 +146,50 @@ $$
 i.e., we are continuous on the branch cut (with $\phi(x) := \phi_+(x)$)
 and therefore analytic. Thus $\phi(z)$ is analytic off $[-1,1]$
 which can be seen clearly from a phase portrait. Using the corollary above
-we can recover $f$ from integrating over two contours: $\gamma_\infty$ surrounding $\infty$ 
+we can recover $f$ from integrating over two contours: $\gamma_\infty$ surrounding $\infty$
 and $\gamma_0$ surrounding the branch cut, with $z$ in-between:
 ```julia
 φ = z -> log(z-1) - log(z+1)
 phaseplot(-3..3, -3..3, φ)
 θ = range(0,2π; length=200)
-plot!(2.5cos.(θ), 2.5sin.(θ); color=:black, label="\\gamma_inf", arrow=true)
-plot!(1.2cos.(θ), 0.2sin.(-θ); color=:blue, label="\\gamma_0", arrow=true)
+plot!(2.5cos.(θ), 2.5sin.(θ); color=:black, label="γ∞", arrow=true)
+plot!(1.2cos.(θ), 0.2sin.(-θ); color=:blue, label="γ₀", arrow=true)
 scatter!([0.1],[0.5]; label="z")
 ```
 That is, we have
 $$
 \phi(z) = {1 \over 2 \pi \I} \br[\oint_{\gamma_0} + \oint_{\gamma_\infty}] {\phi(\zeta) \over \zeta -z} \D \zeta
 $$
-Note that $\phi(z)$ is analytic in a neighbourhood of $\infty$ and has weaker-than-pole growth:
-it can only grow at worse like $\log z$. Thus it must be analytic at $\infty$. To determine the 
-constant we use a simple Taylor series argument, evaluating on the real axis to simplify rules of 
+<!--Note that $\phi(z)$ is analytic in a neighbourhood of $\infty$ and has weaker-than-pole growth:
+it can only grow at worse like $\log z$. Thus it must be analytic at $\infty$. To determine the
+constant we use a simple Taylor series argument, evaluating on the real axis to simplify rules of
 logarithms: as $x \rightarrow \infty$ we have
 $$
 \phi(x) = \log(x-1) - \log(x+1) = \log x + \log(1-1/x) - \log x - \log(1 +1/x) \rightarrow 0,
 $$
 that is $\phi(\infty) = 0$, and in fact $\phi(z) = O(z^{-1})$ as $\phi(z^{-1})$ is analytic at
-zero and therefore has a converging Taylor series. 
+zero and therefore has a converging Taylor series.-->
+Note that $\phi(z)$ is analytic at $\infty$ because it has a convergent Taylor expansion in inverse powers of $z$.  For $\vert z \vert > 1$,
+$$
+\phi(z) = -2\sum_{k=0}^{\infty} \frac{1}{(2k+1)z^{2k+1} },
+$$
+hence $\phi(\infty) = 0$. We can also show that $\phi(z)$ is analytic at infinity by showing that  $\phi(z^{-1})$ is analytic at $z = 0$.
 It follows from Cauchy's theorem (exterior) that
 $$
 \oint_{\gamma_\infty} {\phi(\zeta) \over \zeta -z} \D \zeta = 0
 $$
-as the integrand decays like $O(\zeta^{-2})$. 
+as the integrand decays like $O(\zeta^{-2})$.
 
-We are left with the integral on $\gamma_0$. We can think of it as a rectangular contour with contours 
+We are left with the integral on $\gamma_0$. We can think of it as a rectangular contour with contours
 $[-1-\epsilon-\I \epsilon, -1 -\epsilon+\I \epsilon,1 +\epsilon+\I\epsilon,1+\epsilon-\I \epsilon]$.
-Letting $\epsilon \rightarrow 0$, on the contour above $\phi(z)$ tends to 
+Letting $\epsilon \rightarrow 0$, on the contour above $\phi(z)$ tends to
 $$
 \lim_{\epsilon \rightarrow 0} \phi(x + \I \epsilon) = \phi_+(x)
 $$
 and similar to the contour below. Since $\phi$ only has logarithmic singularities this limit
 can be done safely. Thus we end up with the expression
 $$
-\phi(z) = {1 \over 2 \pi \I} \oint_{\gamma_0} {\phi(\zeta) \over \zeta -z} \D \zeta = 
+\phi(z) = {1 \over 2 \pi \I} \oint_{\gamma_0} {\phi(\zeta) \over \zeta -z} \D \zeta =
         {1 \over 2 \pi \I} \int_{-1}^1 {\phi_+(x) - \phi_-(x) \over x - z} \D x = \int_{-1}^1 {1 \over x -z} \D x.
 $$
 
@@ -207,7 +205,7 @@ hence we have (as above)
 $$
 {1 \over 2 \pi \I} \oint_{\gamma_\infty} {\phi(\zeta) \over \zeta - z} \D \zeta = z.
 $$
-The integral over the contour $\gamma_0$ can be collapsed. On the jump $-1 < x < 1$ we have 
+The integral over the contour $\gamma_0$ can be collapsed. On the jump $-1 < x < 1$ we have
 $$
 \phi_+(x) = \sqrt{x-1}_+ \sqrt{x+1} = \I \sqrt{|x-1|} \sqrt{x+1} = \I \sqrt{1-x} \sqrt{x+1} = \I \sqrt{1-x^2}
 $$
@@ -215,9 +213,9 @@ while $\phi_-(x) = - \phi_+(x) = - \I \sqrt{1-x^2}$.
 We thus have
 $$
 \begin{align*}
-\phi(z) &= z + {1 \over 2 \pi \I} \oint_{\gamma_0} {\phi(\zeta) \over \zeta -z} \D \zeta = 
+\phi(z) &= z + {1 \over 2 \pi \I} \oint_{\gamma_0} {\phi(\zeta) \over \zeta -z} \D \zeta =
         z + {1 \over 2 \pi \I} \int_{-1}^1 {\phi_+(x) - \phi_-(x) \over x - z} \D x \\
-        &= 
+        &=
         z + {1 \over \pi} \int_{-1}^1 {\sqrt{1-x^2} \over x -z} \D x.
 \end{align*}
 $$
