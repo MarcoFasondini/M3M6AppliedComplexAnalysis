@@ -9,8 +9,7 @@ See also previous lecture notes for previous courses: [M3M6 Methods of Mathemati
 
 ## Discussion forum/Q&A
 
-[Piazza](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021/home)
-Sign up [here](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021)
+On [Piazza](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021/home), sign up [here](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021)
 
 ## Office hours
 
