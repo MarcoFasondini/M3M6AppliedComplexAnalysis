@@ -1,0 +1,63 @@
+# Module Guide: Applied Complex Analysis (Spring Term, 2021)
+
+**Module code:** MATH96019/MATH97028/MATH97105
+
+**Lecturer:** Dr. Marco Fasondini
+
+**email:** m.fasondini@imperial.ac.uk
+
+**Website:** On GitHub, at [https://github.com/MarcoFasondini/M3M6AppliedComplexAnalysis](https://github.com/MarcoFasondini/M3M6AppliedComplexAnalysis)
+
+**Video lectures:**  [Panopto](https://www.imperial.ac.uk/admin-services/ict/self-service/teaching-learning/panopto/panopto-student-user-guide/)
+
+**Discussion forum:** Sign up [here](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021) to Piazza, where you can ask questions (anonymously, if you wish) and find fellow students to work with. The module's Piazza site is [here](https://www.piazza.com/imperial.ac.uk/spring2021/appliedcomplexanalysis2021/home)
+
+**Problem classes:** on [MS Teams](https://teams.microsoft.com/l/team/19%3a48e62f0e196348b68e070b9e9b4e66f7%40thread.tacv2/conversations?groupId=04eef181-b621-4c5d-a09a-737ac806f2c8&tenantId=2b897507-ee8c-4575-830b-4f8267c3d307) (for now). There are two problem classes on Thursdays in Weeks 2, 4, 6, 8 and 10; one is from 11:00-12:00, the other from 2:00-3:00. The same problem sheet (available on the module website) will be covered in each of the two problem classes.
+
+**Office hours:** Fridays, 11:00-12:00, on [MS Teams](https://teams.microsoft.com/l/team/19%3a48e62f0e196348b68e070b9e9b4e66f7%40thread.tacv2/conversations?groupId=04eef181-b621-4c5d-a09a-737ac806f2c8&tenantId=2b897507-ee8c-4575-830b-4f8267c3d307) (for the time being).
+
+**Reading list:**
+
+1. M.J. Ablowitz & A.S. Fokas, [Complex Variables: Introduction and Applications](https://www.imperial.ac.uk/admin-services/library/), Second Edition, Cambridge University Press, 2003
+2. R. Earl, [Metric Spaces and Complex Analysis](https://courses.maths.ox.ac.uk/node/view_material/5392), 2015
+3. E. Wegert, [Visual Complex Functions: An Introduction with Phase Portraits](https://www.imperial.ac.uk/admin-services/library/), Birkhäuser, 2012
+4.  B. Fornberg & C. Piret, Complex Variables and Analytic Functions: An Illustrated Introduction, SIAM, 2019 (this book might become available through the library later this term)
+
+
+## Overview of course
+
+
+1. Complex analysis, Cauchy's theorem, residue calculus
+2. Matrix-valued functions, with applications to PDEs and fractional-order PDEs
+3. Singular integrals of the form
+$$\int_\Gamma {u(\zeta) \over z - \zeta}  d\zeta,$$
+$$\int_\Gamma u(\zeta) \log|z - \zeta|  ds$$
+with applications to PDEs, airfoil design, etc.
+4. Orthogonal polynomials, with applications to Schrödinger operators, solving differential equations.
+5. Weiner-Hopf method with applications to integral equations with integral operators
+$$\int_0^\infty K(x-y) u(y)  dy$$
+
+
+_Central themes_:
+
+1. Finding "nice" formulae for problems that arise in applications (physics and elsewhere). These can be closed form solution, sums, integral representations, special functions, etc.
+2. Computational tools for approximate solutions to problems that arise in applications.
+
+
+_Applications_ (not necessarily discussed in the course):
+
+1. Ideal fluid flow
+2. Acoustic scattering
+3. Electrostatics (Faraday cage)
+4. Fracture mechanics
+5. Schrödinger equations
+6. Shallow water waves
+
+## The Project
+
+There is a project worth 10% of your final mark (and the exam is worth 90%). You can decide whether to do the project individually or in a group of up to four students in total. This project is _open ended_: you (or your group) propose a topic. This could be computationally based (possibly based on the slides), theoretically based (possibly looking at material on the reading list), or otherwise. If you are having difficulty coming up with a proposal, please attend the office hours for advice. You can find examples of projects on the module website.
+
+Timeline:
+
+* 26 Feb: Turn in short description of proposed project (max 2 paragraphs)
+* 26 March: Project due
