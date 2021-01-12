@@ -28,6 +28,7 @@ Examples of previous projects:
 
 1. [Wasim Rehman, Quantum Mechanics and Matrix Functions via Trapezium Rule](projects/Rehman.pdf)
 2. [Tianyi Pu, 2D Ideal Fluid Flow Around an Obstacle](projects/Pu.pdf)
+3. [Hao Hao, 2D Uniform Ideal Fluid Flow](projects/HaoHao.pdf)
 
 ## Reading list
 
@@ -37,6 +38,8 @@ Examples of previous projects:
 4.  B. Fornberg & C. Piret, Complex Variables and Analytic Functions: An Illustrated Introduction, SIAM, 2019
 
 ## Problem sheets and mastery material
+
+1. [Problem Sheet 1](sheets/Sheet1.pdf)
 
 ## Video lectures
 

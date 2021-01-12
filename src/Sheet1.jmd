@@ -1,0 +1,82 @@
+__Applied Complex Analysis (2021)__
+
+# Problem sheet 1
+
+----------
+## Problem 1.1
+
+Compute the residues of
+
+1.
+$$
+\Res_{z = a e^{\I \pi / 4}} {z^3 \sin z \over z^4 + a^4} \qqwhere a > 0
+$$
+2.
+$$
+\Res_{z = 1} {z+1 \over (z^2-1)^2}
+$$
+3.
+$$
+\Res_{z = a} {z^2 \E^z \over z^3 - a^3}\qqwhere a \neq 0
+$$
+
+## Problem 1.2
+
+Use contour integration to find the values of
+
+1.
+$$
+	\int_0^{2 \pi}     {1 \over 5 - 4\cos \theta}\D \theta
+$$
+2.
+$$
+	\int_0^{2 \pi}     {\cos 2 \theta \over 5 + 4\cos \theta}\D \theta
+$$
+3.
+$$
+	\int_{-\infty}^\infty    {1 \over (x^2+1)(x^2+4)} \dx
+$$
+4.
+$$
+	\int_{-\infty}^\infty    {x^2 - x +2 \over x^4 + 10x^2 + 9} \dx
+$$
+5.
+$$
+	\int_{-\infty}^\infty    {1 \over x + \I } \dx
+$$
+6.
+$$
+	\int_{-\infty}^\infty    {\sin 2x \over x^2 + x + 1} \dx
+$$
+7.
+$$
+	\int_{-\infty}^\infty    {\cos x \over x^2 + 4} \dx
+$$
+8.
+$$
+	\int_{-\infty}^\infty    {x \sin x \over x^2 + 1} \dx
+$$
+9.
+$$
+\int_{-\infty}^\infty {\cos a x - \cos b x \over x^2}  \dx \qqwhere a,b > 0
+$$
+10.
+$$
+\int_0^{2 \pi} (\cos \theta)^n \D \theta \qqwhere n  = 0,1,2,\ldots \qqqquad \hbox{(Hint: consider even and odd $n$ separately.)}
+$$
+
+----------
+## Problem 2.1
+By integrating around a rectangular contour with vertices at $\pm R$ and $\pi \I \pm R$ and letting $R \rightarrow \infty$, show that:
+$$
+	\int_0^\infty \sech x \dx = {\pi \over 2}
+$$
+where $\sech x = {2 \over \E^{-x} + \E^x}$.
+
+## Problem 2.2
+Show that the Fourier transform of $\sech x$ satisfies
+$$
+	\int_{-\infty}^\infty \E^{\I k x } \sech x \dx = \pi \sech {\pi k \over 2}
+$$
+
+----------
