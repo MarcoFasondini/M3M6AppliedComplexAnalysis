@@ -62,3 +62,4 @@ Examples of previous projects:
 12. [Cauchy transforms and Plemelj's theorem](notes/Lecture12.pdf)
 13. [Hilbert transforms](notes/Lecture13.pdf)
 14. [Inverting the Hilbert transform and ideal fluid flow](notes/Lecture14.pdf)
+15. [Electrostatic charges in a potential well](notes/Lecture15.pdf)

@@ -19,7 +19,7 @@ it is posed on is solved for.
 Consider a point charge in a potential well $V(x) = x^2 / 2$, initially located at $\lambda^0$.
 The dynamics of the point charge are governed by Newton's law
 $$
-m { \D \lambda^2 \over \dt^2} + \gamma { \D \lambda \over \dt}  = -V'(\lambda) = -  \lambda
+m { \D^2 \lambda \over \dt^2} + \gamma { \D \lambda \over \dt}  = -V'(\lambda) = -  \lambda
 $$
 Here $m$ is the mass (we will always take it to be 1) and $\gamma$ is a damping constant (think friction) which ensures that the charge eventually comes to
 rest.
@@ -197,7 +197,7 @@ $$
 (The choice of scaling like $\sqrt N$ was dictated by $V(x)$, if $V(x) = x^4$ it would be $N^{1/4}$.)
 Thus the limit of the charges is given when the change with $t$ vanishes, that is
 $$
-0 = {1 \over N} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} -  \mu_k
+0 = {1 \over N} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} -  \mu_k, \qquad  k = 1, \ldots, N
 $$
 It is convenient to represent the point charges by Dirac delta functions:
 $$
@@ -205,15 +205,15 @@ $$
 $$
 normalized so that $\int w_N(x) \dx = 1$, so that
 $$
-    {1 \over N} \sum_{k=1}^N {1 \over  x -\mu_j} = \int_{-\infty}^\infty {w_N(t) \dt \over x - t}
+    {1 \over N} \sum_{j=1}^N {1 \over  x -\mu_j} = \int_{-\infty}^\infty {w_N(t) \dt \over x - t}
 $$
 or in other words, we have
 $$
- \HH_{(-\infty,\infty)} w_N(\mu_k) = {V'(\mu_k) \over \pi}
+ \HH_{(-\infty,\infty)} w_N(\mu_k) = {V'(\mu_k) \over \pi}, \qquad  k = 1, \ldots, N
 $$
 since
 $$
-\HH w_n (\mu_k) = {1 \over \pi} \lim_{\epsilon\rightarrow 0} \left(\int_{-\infty}^{\mu_k-\epsilon} + \int_{\mu_k+\epsilon}^\infty\right) {w_N(t)  \over  \mu_k-t} \dt  = {1 \over N\pi} \sum_{j \neq k} {1 \over \mu_k - \mu_j}
+\HH w_N (\mu_k) = {1 \over \pi} \lim_{\epsilon\rightarrow 0} \left(\int_{-\infty}^{\mu_k-\epsilon} + \int_{\mu_k+\epsilon}^\infty\right) {w_N(t)  \over  \mu_k-t} \dt  = {1 \over N\pi} \sum_{j \neq k} {1 \over \mu_k - \mu_j}
 $$
 
 Formally (see a more detailed explanation below), $w_N(x)$ tends to a continuous limit as $N\rightarrow \infty$,
