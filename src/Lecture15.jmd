@@ -1,261 +1,267 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
-
-# Lecture 15: Inverting the Hilbert transform and ideal fluid flow
+# Lecture 15: Electrostatic charges in a potential well
 
 
-In this lecture we
-
-1. Discuss how to invert a Hilbert transform
-2. Use it to solve ideal fluid flow around a plate
-
-## Inverting the Hilbert transform
-
-We now consider the problem of finding $u$ such that
-$$
-H_{[a,b]} u(x) = f(x)
-$$
-for $a < x < b$. Note that this is an additive jump problem: if we write $\phi(z) = \CC u(z)$ then we want to solve
-$$
--\I (\phi_+(x) + \phi_-(x)) = f(x)
-$$
-where $\phi$ satisfies the conditions of Plemelj (Analyticity off $[a,b]$, weaker than pole singularities, decay at $\infty$). 
-If we can find such a $\phi$, Plemelj guarantees that $u$ is recovered via 
-$$
-\phi_+(x) - \phi_-(x) = (\CC^+ - \CC^-)u(x) = u(x)
-$$
-To tackle this we are going to reduce it to a subtractive problem. Writing 
-$$
-\kappa(z) = {1 \over \sqrt{z-a} \sqrt{z-b}}
-$$
-which satisfies 
-$$
-\kappa_+(x) = \I \sqrt{b-x} \sqrt{x-a} = - \I \kappa_-(x)
-$$
-Thus if we write
-$$
-\phi(z) = \kappa(z) \psi(z)
-$$
-for some new unkown $\psi$ we have that
-$$
-f(x) = -\I (\phi_+(x) + \phi_-(x)) = -\I ({\psi_+(x) \over \kappa_+(x)} + {\psi_-(x) \over \kappa_-(x)} = 
--\I {\psi_+(x) - \psi_-(x) \over \kappa_+(x)}
-$$
-In other words, we want
-$$
-\psi_+(x) - \psi_-(x) = - \I f(x) \kappa_+(x) = -f(x)\sqrt{b-x}\sqrt{x-a}
-$$
-where we need $\psi$ to be bounded (the decay in $\kappa$ then ensures the decay in $\phi$).  Therefore by Plemelj
-we have for $g(x) = f(x) \sqrt{b-x} \sqrt{x-a}$
-$$
-\psi(z) = -\CC g(z) + D
-$$
-and hence for
-$$
-\begin{align*}
-u(x) &= \phi_+(x) - \phi_-(x) = \psi_+(x) \kappa_+(x) - \psi_-(x) \kappa_-(x) \\
-&= -{\CC^+ g(x) + \CC^- g(x) + 2 D \over \kappa_+(x)}
-= -{\I \HH g(x) + 2D \over \kappa_+(x)}\\
-& = -{\HH_{[a,b]}[f \sqrt{b-\diamond}\sqrt{\diamond-a}](x) + 2 D \over \sqrt{b-x} \sqrt{x-a}}
-\end{align*}
-$$
-where $\diamond$ denotes a dummy variable and $D$ is arbitrary.
-
-In practice we determine $\HH g(x)$ by first computing its Cauchy transform.
+1. One charge in a well
+2. Two charges in a well
+3. $N$ charges in a well
+4. Limiting distribution
 
 
-_Example_ Let's try with $f(x) = x$ on $[-1,1]$. The first step is to compute the Cauchy transform of $g(x) = x \sqrt{1-x^2}$. 
-Using the usual technique this gives
-$$
-\CC g(z) = {z \sqrt{z-1} \sqrt{z+1} - z^2 +1/2 \over 2 \I}
-$$
-where we use the Laurent series
-$$
-\begin{align*}
-\sqrt{z-1} \sqrt{z+1} &= z \sqrt{1-1/z} \sqrt{1 + 1/z} \ccr
-= z (1+1/(2z) - 1/(8 z^2) + O(z^{-3})(1-1/(2z)  - 1/(8 z^2) + O(z^{-2}) \ccr
-= z -{1 \over 2 z} + O(z^{-1})
-\end{align*}
-$$
-Therefore
-$$
-\begin{align*}
-\HH g(x) &= -\I (\CC^+ + \CC^-) g(x) = - {x \sqrt{x-1}_+ \sqrt{x+1} - x \sqrt{x-1}_- \sqrt{x+1} \over 2} + x^2 - 1/2 \ccr
-= x^2 - 1/2
-\end{align*}
-$$
-Giving us
-$$
-u(x) = -{x^2 - 1/2 + 2 D \over \sqrt{1-x^2}}
-$$
-Choosing $D = -1/4$ recovers the known solution $\sqrt{1-x^2}$.
+We study the dynamics of many electric charges in a potential well.  We restrict our attention to 1D:
+picture an infinitely long wire with charges on it. We will see that as the number of charges becomes large,
+we can determine the limiting distribution by inverting the Hilbert transform, but one for which the _interval_
+it is posed on is solved for.
 
+## One charge in a potential well
 
-
-## Ideal fluid flow
-
-Understanding branch cuts and Cauchy transforms allows us to systematically solve equations involving Laplace equation. 
-A classic example is Ideal fluid flow. Consider the case of uniform flow with angle $\theta$ around an infinitesimally small 
-plate on $[-1,1]$. We can model this as
+Consider a point charge in a potential well $V(x) = x^2 / 2$, initially located at $\lambda^0$.
+The dynamics of the point charge are governed by Newton's law
 $$
-\begin{align*}
-v(x,y) &\sim y \cos \theta - x \sin \theta  \\
-v_{xx} + v_{yy} &= 0 \\
-v(x,0) & = 0 \qqfor -1 < x <1
-\end{align*}
+m { \D \lambda^2 \over \dt^2} + \gamma { \D \lambda \over \dt}  = -V'(\lambda) = -  \lambda
 $$
-Using the techniques we developed in the last few lectures, we obtain a nice, simple, closed form expression as the 
-imaginary part of an analytic function:
+Here $m$ is the mass (we will always take it to be 1) and $\gamma$ is a damping constant (think friction) which ensures that the charge eventually comes to
+rest.
+
+This is a simple damped harmonic oscillator: if we are positive we move left and if we are negative we move right.
+Here we show the evolution as a function of time, where we plot this on top of the potential to see its effect.
 ```julia
-using Plots, LinearAlgebra, ApproxFun, SingularIntegralEquations
-Cw = (θ,z) -> -im*sin(θ)*(sqrt(z-1)sqrt(z+1) - z)
-φ = (θ,z) -> exp(-im*θ)*z + Cw(θ,z)
-u = (θ,x,y) -> imag(φ(θ, x + im*y))
+using DifferentialEquations, Plots, StaticArrays
+V = x -> x^2/2  # Potential
+Vp = x -> x     # Force
 
-xx = yy = range(-3; stop=3 , length=500)
-contour(xx, yy, u.(1.3,xx',yy); nlevels = 100)
-plot!(Segment(-1.,1.); color=:black, label="obstacle")
+λ_0 = 2.3  # initial location
+v_0 = 1.2  # initial velocity
+γ = 1.0    # damping
+
+λv = solve(ODEProblem(((λ,v),_,t) -> SVector(v,-Vp(λ) - γ*v), SVector(λ_0,v_0), (0.0, 20.0)); reltol=1E-6);
+
+tt = range(0.,20; length=1000)
+xx = range(-sqrt(2*last(tt)),sqrt(2*last(tt)); length=1000)
+plot(xx, V.(xx); label="potential", xlabel="x", ylabel="time and potential")
+plot!(first.(λv.(tt)), tt; label="charge")
 ```
-We divide this task into stages:
 
-1. Rephrasing as a complex-analytical problem: $v(x,y)$ to $\phi(z)$
-2. Reduction to inverting a Hilbert transform: $\phi(z)$ to $w(x)$
-3. Calculating the inverse Hilbert transform: Finding $w(x)$
-4. Calculating its Cauchy transform: $w(x)$ to $\phi(z)$
+In the limit the charge reaches an equilibrium: it no longer varies in time. I.e.,
+it reaches a point where ${ \D \lambda^2 \over \dt^2} = { \D \lambda \over \dt}  = 0$, which is equivalent to solving
+$$
+ 0 = - V'(\lambda)  = - \lambda
+$$
+in other words, the minimum of the well, in this case $\lambda = 0$.
 
+## Two charges in a potential well
 
+A point charge at $x_0$ in 2D creates a (Newtonian) potential field of $V_{x_0}(x) = -\log|x - x_0|$ with derivative
+$$
+V_{x_0}'(x) = \begin{cases} -{1 \over x - x_0} & x > x_0 \\
+        {1 \over x_0 - x} & x < x_0
+\end{cases} = {1 \over x_0 - x}
+$$
+Here we are thinking of the charges as 2D but restricted to the real line: think of a 1D wire embedded in 2D space.
 
-### Real and imaginary parts of analytic functions satisfy Laplace's equation
-
-The real and imaginary parts of an analytic function satisfy Laplace's equation: that is  if 
-$\phi(z) = \phi(x + \I y) = u(x,y) + \I v(x,y)$ where $u$ and $v$ are the real/imaginary parts, then 
+Suppose there are now two charges, $\lambda_1$ and $\lambda_2$ but no potential well.  The effect on the first charge $\lambda_1$ is
+to repulse away from $\lambda_2$ via the potential field $V_{\lambda_2}(x) = -\log|x - \lambda_2|$. Since we have
 $$
-\begin{align*}
- u_{xx} + u_{yy}&= 0 \ccr
- v_{xx} + v_{yy} &= 0
-\end{align*}
+m {\D^2 \lambda_1 \over \D t^2} = - V_{\lambda_2}'(\lambda_1) =  {1 \over \lambda_1 -\lambda_2}
 $$
-To see this, note that the complex-derivative of $\phi(z)$ can be written in terms of two different partial derivatives:
+Similarly, the effect on $\lambda_2$ is
 $$
-\begin{align*}
-    \phi'(z) &= \lim_{h \rightarrow 0} {\phi(z+h) - \phi(z) \over h} = \lim_{h \rightarrow 0} {u(x+h,y)-u(x,y) + \I (v(x+h,y)-v(x,y)) \over h} = u_x + \I v_x \ccr
-    \phi'(z) = \lim_{h \rightarrow 0} {\phi(z+\I h) - \phi(z) \over \I h} = \lim_{h \rightarrow 0} {u(x,y+h)-u(x,y) + \I (v(x,y+h)-v(x,y)) \over \I h} = - \I u_y + v_y
-\end{align*}
+m {\D^2 \lambda_2 \over \D t^2} = {1 \over \lambda_2 -\lambda_1}
 $$
-Taking a second derivative we get two equations:
-$$
-    \phi''(z) = u_{xx} + \I v_{xx} = -u_{xx} -\I v_{yy} 
-$$
-which implies $u_{xx} + u_{yy} = 0$ and $v_{xx} + v_{yy} = 0$.
-
-
-### 2. Reduce PDE to the Hilbert transform of an unknown function
-
-Therefore we can rewrite the ideal fluid flow equation as a problem of calculating $\phi(z) = u(x,y) + \I v(x,y)$ 
-whose imaginary part is the solution too the ideal fluid flow PDE (we don't use the real part $u$). That is, we 
-want to find analytic $\phi(z)$ that satisfies
-$$
-\begin{align*}
-    \phi(z) &\sim \E^{-\I \theta} z \\
-    \Im \phi(x) &= 0  \qquad\hbox{for}\qquad -1 < x < 1
-\end{align*}
-$$
-
-Write
-$$
-\phi(z) = \E^{-\I \theta} z + c + \CC_{[-1,1]} w(z)
-$$
-for an as-of-yet unknown function $w$ and $C$ an unknown constant, we have (assuming $w$ is real) that
-$$
-0 = \Im \phi(x) = -x \sin \theta + \Im c + \Im \CC_{[-1,1]}^+ w(x) = -x \sin \theta + \Im c +{1 \over 2} \HH w(x)
-$$
-In this example, we can take $c = 0$. Therefore, we want to solve
-$$
-\HH w(x) =  2 x  \sin \theta
-$$
-for $w$.  
-
-
-### 3. Calculating the inverse Hilberrt transform
-
-We now plug the problem into the inverse Hilbert transform formula:
-$$
-    w(x) = {- 1\over \sqrt{1-x^2}} {\cal H}[f \sqrt{1-\diamond^2}](x)  + {D \over \sqrt{1-x^2}}
-$$
-where $f(x) = 2 x \sin \theta$. Now that
-
-Similar to last lecture, we find
-$$
-{\cal C}[\diamond \sqrt{1-\diamond^2}](z) = {z \sqrt{z-1} \sqrt{z+1} - z^2 + 1/2 \over 2 \I }
-$$
-and therefore
-$$
-{\cal H}[\diamond \sqrt{1-\diamond^2}](x) = -\I({\cal C}^+ + {\cal C}^-)[\diamond \sqrt{1-\diamond^2}](x) = x^2 - {1 \over 2} 
-$$
-Thus (relabeling $D$) we have
-$$
-w(x) = 2\sin \theta {x^2-D  \over \sqrt{1-x^2}} 
-$$
-
-_Demonstration_ Here we see that this gives us the right Hilbert transform:
+Unrestricted, the two potentials will repulse off to infinity:
 ```julia
-D = randn()
-θ = 0.1
-x = Fun()
-w = 2sin(θ) * (D-x^2)/sqrt(1-x^2)
--hilbert(w,0.2) , 2sin(θ)*0.2 # Minus in front of w to fix normalisation
+N = 2
+λ_0 = randn(2)  # random initial location
+v_0 = randn(2)  # random initial velocity
+prob = ODEProblem(function(λv,_,t)
+        λ = λv[1:N]
+        v = λv[N+1:end]
+        [v; 1/(λ[1] - λ[2]); 1/(λ[2] - λ[1])]
+        end, [λ_0; v_0], (0.0, 10.0))
+λv = solve(prob; reltol=1E-6)
+tt = range(0.,20; length=1000)
+λv(0.1)
+
+p = plot(;xlabel="x",ylabel="t")
+for j = 1:N
+    plot!(getindex.(λv.(tt),j), tt; label="charge $j")
+end
+p
 ```
-$D$ is arbitrary, but from physical principles we know that we don't want the solution to blow up. 
-If $w$ blows up then so does its Cauchy transform. Therefore, we choose $D = -1$ so that
-$$
-w(x) = 2 \sin \theta \sqrt{1-x^2}
-$$
-
-### 4. Calculating its Cauchy transform
-
-Now recall
-$$
-\CC\left[{\sqrt{1-\diamond^2}}\right](z) = {\sqrt{z-1} \sqrt{z+1} -z \over 2 \I}
-$$
-Therefore, $w(x) = 2 \sin \theta \sqrt{1-x^2}$,  implies
-$$
-\CC w(z) = - \I \sin \theta (\sqrt{z-1} \sqrt{z+1} -z)
-$$
-which means
-$$
-\phi(z) = \E^{-\I \theta} z - \I \sin \theta (\sqrt{z-1} \sqrt{z+1} -z).
-$$
 
 
-## Numerical example of two intervals
-
-We note that for obstacles on the real line, represented by a contour $\Gamma$, the problem of ideal fluid 
-flow around $\Gamma$ is still reducible to solving the singular integral equation
+Adding in a potential well and damping and we get an equilibrium again:
 $$
-\HH_\Gamma f(x) = 2 x  \sin \theta
+\begin{align*}
+{\D^2 \lambda_1 \over \D t^2} + \gamma {\D \lambda_1 \over \dt} = {1 \over \lambda_1 -\lambda_2} - V'(\lambda_1) \\
+{\D^2 \lambda_2 \over \D t^2}+ \gamma {\D \lambda_2 \over \dt} = {1 \over \lambda_2 -\lambda_1} - V'(\lambda_2)
+\end{align*}
 $$
-Even when not solvable exactly, one can solve it numerically:
+which we see here
 ```julia
-a = 0.3
-θ = 1.3
-Γ = Segment(-1,-a) ∪ Segment(a, 1)
+V = x -> x^2/2  # Potential
+Vp = x -> x     # Force
+γ = 1.0    # damping
 
-x = Fun(Γ)
-sp = PiecewiseSpace(JacobiWeight.(0.5,0.5,components(Γ))...)
-H = Hilbert(sp)
+prob = ODEProblem(function(λv,_,t)
+        λ = λv[1:N]
+        v = λv[N+1:end]
+        [v; 1/(λ[1] - λ[2]) - Vp(λ[1]) - γ*v[1]; 1/(λ[2] - λ[1])  - Vp(λ[2]) - γ*v[2]]
+        end, [λ_0; v_0], (0.0, 20.0))
+λv = solve(prob; reltol=1E-6);
 
-o_1 = Fun(x -> -1 ≤ x ≤ -a ? 1 : 0, Γ )
-o_2 = Fun(x -> a ≤ x ≤ 1 ? 1 : 0, Γ )
+xx = range(-sqrt(2*last(tt)),sqrt(2*last(tt)); length=1000)
+p = plot(xx, V.(xx); label="potential", xlabel="x", ylabel="time and potential")
+for j = 1:N
+    plot!(getindex.(λv.(tt),j), tt; label="charge $j")
+end
+p
+```
+The fixed point is when the change with time vanishes, given by
+$$
+\begin{align*}
+0 = {1 \over \lambda_1 -\lambda_2} - V'(\lambda_1) \\
+0 = {1 \over \lambda_2 -\lambda_1} - V'(\lambda_2)
+\end{align*}
+$$
+For this potential, we can solve it exactly: we need to solve
+$$
+\begin{align*}
+\lambda_1 = {1 \over \lambda_1 -\lambda_2}  \\
+\lambda_2 = {1 \over \lambda_2 -\lambda_1}
+\end{align*}
+$$
+Using $\lambda_1 = -\lambda_2$, we find that $\lambda_1 = \pm{1 \over \sqrt 2}$.
 
-a, b, f = [o_1 o_2 H] \ [-2x*sin(θ)]
+### $N$ charges in a potential well
 
-φ = (θ,z) -> exp(-im*θ)*z + cauchy(f, z)
-u = (θ,x,y) -> imag(φ(θ, x + im*y))
+We now consider $N$ charges, where each charge repulses every other charge by a logarithmic potential,
+so we end up needing to sum over all the other charges:
+$$
+\begin{align*}
+m {\D^2 \lambda_k \over \D t^2} + \gamma {\D \lambda_k \over \dt}  =
+    \sum_{j=1 \atop j \neq k}^N {1 \over \lambda_k -\lambda_j} - V'(\lambda_k)
+\end{align*}
+$$
+```julia
+N = 100
 
-xx = yy = range(-3.; stop=3., length=500)
-contour(xx, yy, u.(θ, xx',yy); nlevels = 100)
-plot!(Γ; color=:black, label="obstacle")
+V = x -> x^2/2  # Potential
+Vp = x -> x     # Force
+
+λ_0 = randn(N)  # initial location
+v_0 = randn(N)  # initial velocity
+γ = 1.0    # damping
+
+prob = ODEProblem(function(λv,_,t)
+        λ = λv[1:N]
+        v = λv[N+1:end]
+        [v; [sum(1 ./ (λ[k] .- λ[[1:k-1;k+1:end]])) - Vp(λ[k]) -  γ*v[k] for k=1:N]]
+        end, [λ_0; v_0], (0.0, 20.0))
+λv = solve(prob; reltol=1E-6)
+
+xx = range(-sqrt(2*last(tt)),sqrt(2*last(tt)); length=1000)
+p = plot(xx, V.(xx); legend=false, xlabel="x", ylabel="time and potential")
+for j = 1:N
+    plot!(getindex.(λv.(tt),j), tt; color=:red)
+end
+p
+```
+
+
+As the number of charges becomes large, they spread off to infinity. In the case of $V(x) = x^2$,
+we can renormalize by  dividing by $N$ so they stay bounded:
+$\mu_k = {\lambda_k \over \sqrt N}$.
+```julia
+p = plot(xx, V.(xx); legend=false, xlabel="x", ylabel="time and potential")
+for j = 1:N
+    plot!(getindex.(λv.(tt)./sqrt(N),j), tt; color=:red)
+end
+p
+```
+
+This begs questions: why does it balance out at $\pm \sqrt 2$?
+ Why does it have a nice histogram precisely like ${\sqrt{2-x^2} \over \pi}$:
+```julia
+histogram(λv.(20.0)[1:N]./sqrt(N); nbins=20, normalize=true, label="histogram of charges")
+plot!(x -> sqrt(2-x^2)/(π), range(eps()-sqrt(2.0); stop=sqrt(2)-eps(), length=100), label="semicircle")
+```
+
+### Equilibrium distribution
+
+Plugging in $\lambda_k = \sqrt N \mu_k$, we get a dynamical system for $\mu_k$:
+$$
+ m {\D^2  \mu_k \over \D t} + \gamma {\D  \mu_k \over \D t}= {1 \over N} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} -  \mu_k
+$$
+(The choice of scaling like $\sqrt N$ was dictated by $V(x)$, if $V(x) = x^4$ it would be $N^{1/4}$.)
+Thus the limit of the charges is given when the change with $t$ vanishes, that is
+$$
+0 = {1 \over N} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} -  \mu_k
+$$
+It is convenient to represent the point charges by Dirac delta functions:
+$$
+    w_N(x) = {1 \over N} \sum_{k=1}^N \delta_{\mu_k}(x)
+$$
+normalized so that $\int w_N(x) \dx = 1$, so that
+$$
+    {1 \over N} \sum_{k=1}^N {1 \over  x -\mu_j} = \int_{-\infty}^\infty {w_N(t) \dt \over x - t}
+$$
+or in other words, we have
+$$
+ \HH_{(-\infty,\infty)} w_N(\mu_k) = {V'(\mu_k) \over \pi}
+$$
+since
+$$
+\HH w_n (\mu_k) = {1 \over \pi} \lim_{\epsilon\rightarrow 0} \left(\int_{-\infty}^{\mu_k-\epsilon} + \int_{\mu_k+\epsilon}^\infty\right) {w_N(t)  \over  \mu_k-t} \dt  = {1 \over N\pi} \sum_{j \neq k} {1 \over \mu_k - \mu_j}
+$$
+
+Formally (see a more detailed explanation below), $w_N(x)$ tends to a continuous limit as $N\rightarrow \infty$,
+which we have guessed from the histogram to be $w(x) = { \sqrt{2-x^2}  \over \pi}$ for $-\sqrt 2 < x < \sqrt2$.
+We expect this limit to satisfy the same equation as $w_N$, that is
+$$
+ \HH w(x) = {x \over \pi}
+$$
+for $x$ in the support of $w(x)$.
+
+Why is it $[-\sqrt 2, \sqrt 2]$? Consider the problem posed on a general interval $[a,b]$ where $a$ and $b$ are unknowns.
+We  want to choose the interval $[a,b]$ so that there exists a $w(x)$  satisfying
+
+1. $w$ is bounded (Based on observation)
+2. $w(x) \geq 0$ for $a \leq x \leq b$ (Since it is a probability distribution)
+2. $\int_a^b w(x) \dx = 1$ (Since it is a probability distribution)
+3. $\HH_{[a,b]} w(x) = x/\pi$
+
+As we saw last lecture, there exists a bounded solution to
+$\HH_{[-b,b]} u =  x/\pi$,
+namely  $u(x) = { \sqrt{b^2-x^2} \over \pi}$. The choice $b = \sqrt{2}$ ensures that $\int_{-b}^b u(x) \dx = 1$, hence $u(x) = w(x)$.
+
+### Aside: Explanation of limit of $w_N(x)$
+
+This is beyond the scope of the course, but the convergence of $w_N(x)$ to $w(x)$ is known as weak-\* convergence.
+A simple version of this is that
+$$
+   \int_c^d w_N(x) \dx \rightarrow \int_c^d w(x) \dx
+$$
+for every choice of interval $(c,d)$. $\int_c^d w_N(x) \dx$ is precisely the number of charges in
+$(c,d)$ scaled by $1/N$,  which is exactly what a histogram plots.
+```julia
+using ApproxFun, SingularIntegralEquations
+a = -0.1; b= 0.3;
+w = Fun(x -> sqrt(2-x^2)/π, a .. b)
+sum(w),  # integral of w(x) between a and b
+length(filter(λ -> a ≤ λ ≤ b, λv(20.0)[1:N]/sqrt(N)))/N # integral of w_N(x) between a and b
+```
+Another variant of describing weak-\* convergence is that the Cauchy transforms converge,
+that is, for $z$ on any  contour $\gamma$ surrounding $a$ and $b$ (now the support of $w$) we have
+$$
+\int_a^b {w_N(x) \over x - z} \dx \rightarrow \int_a^b {w(x) \over x - z} \dx
+$$
+converges uniformly with respect to $N \rightarrow \infty$.
+here we demonstrate it converges at a point:
+```julia
+x = Fun(-sqrt(2) .. sqrt(2))
+w = sqrt(2-x^2)/π
+z = 0.1+0.2im
+cauchy(w, z), (sum(1 ./((λv(20.0)[1:N]/sqrt(N)) .- z))/N)/(2π*im)
 ```
