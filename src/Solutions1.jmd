@@ -270,12 +270,12 @@ $$
 We only have a residue of $2k-n-1 = -1$, that is, if $2k = n$. If $n$ is odd, this can't happen
 (duh! the integral is symmetric with respect to $\theta$). If it's even, then we have
 $$
-\int_0^{2 \pi} (\cos \theta)^n \D \theta =  {\pi \over 2^{n-1} }  {n! \over 2 (n/2)!}
+\int_0^{2 \pi} (\cos \theta)^n \D \theta =  {\pi \over 2^{n-1} }  {n! \over  ((n/2)!)^2}
 $$
 ```julia
 θ = Fun(0 .. 2π)
-n = 4;
-sum(cos(θ)^n), π*factorial(1.0n)/(2^(n-1)*2*factorial(n/2))
+n = 10;
+sum(cos(θ)^n), π*factorial(1.0n)/(2^(n-1)*factorial(n/2)^2)
 ```
 
 ## Problem 2.1
