@@ -39,7 +39,7 @@ Examples of previous projects:
 
 ## Problem sheets and mastery material
 
-1. [Problem Sheet 1](sheets/Sheet1.pdf)
+1. [Problem Sheet 1](sheets/Sheet1.pdf) [(Solutions)](sheets/Solutions1.pdf)
 
 ## Video lectures
 
