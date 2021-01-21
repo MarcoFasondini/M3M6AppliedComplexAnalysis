@@ -1,5 +1,60 @@
 __Applied Complex Analysis (2021)__
 
-# Problem sheet 1
+# Problem sheet 2
 
 ----------
+
+## Problem 1
+
+Let
+$$
+A = \sopmatrix{1 & 2 & -1 \cr -2 & 2 & 1 \cr 0 & 1 & 4}
+$$
+
+1. Use Gershgorin's theorem to bound the eigenvalues of $A$.
+
+2. Recall that the eigenvalues of $A$ and $A^\top$ are the same. Use this fact to find a bound on the eigenvalues based on the absolute _column_ sums.
+
+3. Design a circular contour surrounding the spectrum of $A$.
+
+----------
+
+## Problem 2
+
+
+1.  Given $A \in \R^{n \times n}$ that is symmetric positive definite (that is, all eigenvalues of $A$ are real and greater than zero) and $\vc u_0, \vc v_0 \in \R^n$, write a contour integral solution to the second-order linear constant coefficient ODE:
+$$
+\begin{align*}
+\vc u''(t) & = A \vc u(t) \\
+\vc u(0) & = \vc u_0 \\
+\vc u'(0) & = \vc v_0
+\end{align*}
+$$
+
+2. Was the restriction to symmetric positive definite matrices necessary? Why or why not?
+
+
+----------
+
+## Problem 3
+
+1.  Suppose that $g(\theta)$ has absolutely summable Fourier coefficients, that is,
+$$
+	g(\theta) = \sum_{k=-\infty}^\infty g_k \E^{\I k \theta} \qqwhere \sum_{k=-\infty}^\infty |g_k| < \infty.
+$$
+Show that the periodic trapezium rule satisfies
+$$
+	{1 \over n} \sum_{j=0}^{n-1} g(\theta_j) =  \cdots + g_{-2n} + g_{-n} + g_0 + g_n + g_{2n} + \cdots
+$$
+where $\theta_j = {2 \pi j \over n}$. Hint: use the geometric series to simplify $\sum_{j=0}^{n-1} \E^{\I k \theta_j}$.
+
+2. Suppose that  $g(\theta) = f(e^{i \theta})$ where $f(z)$ is holomorphic in an annulus $\{ z : R^{-1} < |z| < R \}$.   Prove that the periodic trapezium rule  converges exponentially fast:
+$$
+{1 \over n} \sum_{j=0}^{n-1} g(\theta_j)  \rightarrow {1 \over 2 \pi}	 \int_0^{2\pi} g(\theta) \D \theta.
+$$
+
+3. Find an upper bound for the error
+$$
+	\abs{{1 \over n} \sum_{j=0}^{n-1} g(\theta_j)  -  {1 \over 2 \pi} \int_0^{2\pi} g(\theta) \D \theta}
+$$
+for $g(\theta) = {1 \over 2 - \cos \theta}$.
