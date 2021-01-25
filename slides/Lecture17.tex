@@ -290,13 +290,11 @@ To tackle this problem, recall that $L u(z) = \Re M u(z)$ for
 \[
 M u(z) = {1 \over \pi} \int_a^b \log(z-t) u(t) \D t =  -2 \I \int_c^z \CC u(\zeta) \D \zeta + M u(c)
 \]
-where $c$ is arbitrary, in fact we can choose it to be $b$. Then we have
-
+where  $\CC := \CC_{[a, b]}$ and  $c$ is arbitrary, in fact we can choose it to be $b$. Then we have (assuming $u$ is real-valued)
 \[
-L u(x) =  \Re M^+ u(x) = 2\Im \int_b^x \CC^+ u(t) \D t =  \int_b^x H u(t) \D t
+L u(x) =  \Re M^+ u(x) = 2\Im \int_b^x \CC^+ u(t) \D t =  \int_b^x \HH u(t) \D t
 \]
 where
-
 \[
 \HH u(x) = {1 \over \pi} \dashint_a^b {u(t) \over t -x } \D t
 \]
@@ -324,6 +322,7 @@ hence varying $D$ will vary $u$ by a constant. To choose $D$,  we use the fact t
 f(c) = {1 \over \pi} \int_a^b u(t) \log |t-c| \dt
 \]
 for any choice of the point  $c$.
+\newpage
 
 \textbf{Demonstration}
 
@@ -433,7 +432,7 @@ we have $D = -1/\log 2$. Let's check:
 \begin{lstlisting}
 (*@\HLJLn{x}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{()}@*)
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{))}@*)
-(*@\HLJLnf{logkernel}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{,}@*) (*@\HLJLnfB{0.1}@*)(*@\HLJLp{)}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{approximately}@*) (*@\HLJLcs{0.1}@*)
+(*@\HLJLnf{logkernel}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{,}@*) (*@\HLJLnfB{0.1}@*)(*@\HLJLp{)}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{approximately}@*) (*@\HLJLcs{1}@*)
 \end{lstlisting}
 
 \begin{lstlisting}

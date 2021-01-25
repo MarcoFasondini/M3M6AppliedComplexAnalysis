@@ -19,9 +19,9 @@ To tackle this problem, recall that $L u(z) = \Re M u(z)$ for
 $$
 M u(z) = {1 \over \pi} \int_a^b \log(z-t) u(t) \D t =  -2 \I \int_c^z \CC u(\zeta) \D \zeta + M u(c)
 $$
-where $c$ is arbitrary, in fact we can choose it to be $b$. Then we have
+where  $\CC := \CC_{[a, b]}$ and  $c$ is arbitrary, in fact we can choose it to be $b$. Then we have (assuming $u$ is real-valued)
 $$
-L u(x) =  \Re M^+ u(x) = 2\Im \int_b^x \CC^+ u(t) \D t =  \int_b^x H u(t) \D t
+L u(x) =  \Re M^+ u(x) = 2\Im \int_b^x \CC^+ u(t) \D t =  \int_b^x \HH u(t) \D t
 $$
 where
 $$
@@ -134,7 +134,7 @@ we have $D = -1/\log 2$. Let's check:
 ```julia
 x = Fun()
 u = -1/(log(2)*sqrt(1-x^2))
-logkernel(u, 0.1) # approximately 0.1
+logkernel(u, 0.1) # approximately 1
 ```
 Physically, this solution gives us the potential field
 $$

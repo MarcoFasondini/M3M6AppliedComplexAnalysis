@@ -22,9 +22,11 @@ $$
 L_\gamma f(z) = {1 \over \pi} \int_\gamma f(\zeta) \log|\zeta-z| \D s
 $$
 where $\D s$ is the arclength differential (as in line integrals, not complex analysis) and $f$ is real-valued.
-We focus on intervals where the arclength differential is just the standard one:
+We focus on contours where the arclength differential is just the standard one:
 
-$$L_{a,b} f(z) = {1 \over \pi }\int_a^b f(t) \log | z - t| \dt$$
+$$L_{[a,b]} f(z) = {1 \over \pi }\int_a^b f(t) \log | z - t| \dt$$
+
+Physically, $L_{[a,b]} f(z)$ can be thought of as (the negative of) the potential at the point $(x, y)$, with $z = x + \I y$, that arises from a charge density of $f(x)$ on a wire on $[a, b]$.  For example, for a point charge at $x_0 \in [a, b]$, we have $f(x) = \delta(x-x_0)$ and  $L_{[a,b]} f(z) = \log | z - x_0|/\pi$. Logarithmic singular integrals not only have applications in electrostatics, but also in approximation theory (see [B. Fornberg, _A Practical Guide to Pseudospectral Methods_](https://www.imperial.ac.uk/admin-services/library/) and [L.N. Trefethen, _Approximation Theory and Approximation Practice_](https://www.imperial.ac.uk/admin-services/library/)).
 
 Note that off $[a,b]$, $u(x,y) \equiv u(x+\I y) = L f(x+\I y)$ solves Laplace's equation, and as the integrand
 has an integrable singularity it is continuous on $[a,b]$:
@@ -34,10 +36,10 @@ t = Fun()
 f = sqrt(1-t^2)*exp(t)
 u = z -> logkernel(f, z)  # logkernel(f,z) calculates 1/π * \int f(t)*log|t-z| dt
 
-xx = yy = -2:0.01:2
+xx = -3:0.01:3;yy = -2:0.01:2
 U = u.(xx' .+ im*yy)
 
-contour(xx, yy, U)
+contour(xx, yy, U;ratio=1.0)
 plot!(domain(t); color=:black, label="contour")
 ```
 Or this can also be seen from a surface plot:
@@ -62,7 +64,7 @@ which follows from $\log|z-t| = \log|t-z|$.
 
 
 To evaluate $L f(z)$ we evaluate $M f(z)$. Following our claim that the right way to represent
-analytic functions is by their behaviour at singularitites/branch cuts, we will accomplish this
+analytic functions is by their behaviour at singularitites/branch cuts, we will accomplish
 this by investigating the jumps of $M f(z)$. This allows us to reduce it to computing a Cauchy
 transform.
 
@@ -265,14 +267,14 @@ $$
 For $x \in (-1,1)$ we have
 $$
 \begin{align*}
-\phi_+(x) - \phi_-(x) &= {\log(\I \sqrt{1-x} + \sqrt{1-x}) -  \log(-\I \sqrt{1-x} + \sqrt{1-x}) \over \I} \\
+\phi_+(x) - \phi_-(x) &= {\log(\I \sqrt{1-x} + \sqrt{1+x}) -  \log(-\I \sqrt{1-x} + \sqrt{1+x}) \over \I} \\
 & =
-        2 \arg(\I \sqrt{1-x} + \sqrt{-x-1}) = 2 \atan {\sqrt{1-x} \over \sqrt{1+x}} = F(x).
+        2 \arg(\I \sqrt{1-x} + \sqrt{x+1}) = 2 \atan {\sqrt{1-x} \over \sqrt{1+x}} = F(x).
 \end{align*}
 $$
 Finally we have
 $$
-\phi(z) = {\log z \over 2 \I} - \I \log 2 + o(1)
+\phi(z) = {\log z \over 2 \I} - \I \log 2 + o(1), \qquad z \to \infty
 $$
 We therefore have from Plemelj that
 $$
