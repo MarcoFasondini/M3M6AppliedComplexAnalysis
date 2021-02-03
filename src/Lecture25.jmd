@@ -1,272 +1,360 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+# Lecture 25: Laplace transforms and half-Fourier transforms
 
-s.olver@imperial.ac.uk
-
-# Lecture 25: Riemann-Hilbert problems
-
- 
-Let $\Gamma$ be the unit circle or real line (or more generally, a set of general contours, but we won't pursue that in this course). 
-Given functions $f$ and $g$ defined on $\Gamma$, a (scalar) Riemann–Hilbert problem consists of finding a function $\Psi(z)$ with left/right limits 
-$$\Psi_\pm(x) = \lim_{\epsilon \rightarrow 0} \Psi(x \pm \I \epsilon),$$
-satisfying the following conditions:
-
-1. Analyticity: $\Psi(z)$ analytic in $\bar\C \backslash \Gamma$
-2. Asymptotics: $\lim_{z \rightarrow \infty} \Psi(z) = C$
-2. Regularity: $\Psi(z)$ has weaker than pole singularities everywhere
-2. Jump: $\Psi_+(x) - g(x) \Psi_-(x) = f(x)$ for $x \in \Gamma$
-
-
-Numerous applications! See [\[Trogdon & Olver 2015\]](http://bookstore.siam.org/ot146/). Here are some classical applications:
-
-1. Ideal fluid flow
-2. Solving integral equations via Weiner–Hopf factorization
-2. Spectral analysis of Schrödinger operators
-
-More recently, non-classical applications have arisen from integrable systems:
-
-2. Solutions to Painlevé equations 
-3. Random matrix eigenvalue statistics
-2. Solving partial differential equations like the Korteweg–de Vries (KdV) equation describing shallow water waves
+A key tool in the Wiener–Hopf method will be the half-Fourier transforms
 $$
-u_t + 6u u_x + u_{xxx} = 0
+\int_{-\infty}^0 u(t) \E^{-\I s t} \dt \qqand \int_0^\infty u(t) \E^{-\I s t} \dt
 $$
-
-
-
-We tackle the solution an RH problem similar to a differential equation: first find the homogeneous solution
-then use that to reduce inhomogeneous problems to something similar:
-1. Homogeneous problems: $f = 0$
-2. Inhomogeneous problems: $f \neq 0$
-   
-   
-  
-
-### Homogenous Riemann–Hilbert problems on the real line
-
-Let's assume $f$ is zero and $C = 1$, that is we wish to solve
+and the Laplace transform
 $$
-\Phi_+(\zeta) = g(\zeta) \Phi_-(\zeta) \qqand \Phi(\infty) = 1
+\int_0^\infty u(t) \E^{-z t} \dt
 $$
+in particular we are interested in the analyticity properties with respect to $s$/$z$.
 
-Formally, taking logs of both sides reduces this to a subtractive RH problem:
-$$
-\log \Phi_+(\zeta) - \log\Phi_-(\zeta) \questionequals \log g(\zeta)
-$$
-Assuming that $g(\zeta) \rightarrow 1$ as $s \rightarrow \pm \infty$ at a sufficient rate, this motivates the guess
-$$
-\Phi(z) = \E^{\CC[\log g](z)}
-$$
+Outline:
 
-Assuming $\log g(x)$ is "nice", we have guaranteed that this is the unique solution:
+2.  Analyticity properties of Fourier transforms
+   - Inverse Fourier transform on shifted contours
+1. Half-Fourier transforms
+   - Inverting the Half-Fourier transform
+   - Relationship to Laplace transform
+2. Application: solving differential equations on the half-line
 
-**Theorem (Homogeneous solution to RH problem)** Suppose $\log g(\zeta)$ satisfies the conditions of Plemelj on $\Gamma$ (the real line or unit circle),
-in particular, is continuously differentiable.
-Then $\Phi(z) = \E^{\CC_\Gamma[\log g](z)}$ is the unique solution to the following RH problem:
-1. Analyticity: $\Phi(z)$ is analytic off $\Gamma$
-2. Asymptotics: $\lim_{z\rightarrow \infty}\Phi(z) = 1$ 
-3. Regularity: $\Phi$ has weaker than pole singularities
-2. Jump: $\Phi_+(\zeta) = g(\zeta) \Phi_-(\zeta)$ for $\zeta \in \Gamma$
+## Analyticity properties of Fourier transforms
 
 
-**Proof** (1) follows from definition. (2) follows since $\CC[\log g](z) \rightarrow 0$. And (3) follows via:
+Consider the Fourier transform of
 $$
-\Phi_+(\zeta) = \E^{\CC_+[\log g](\zeta)} = \E^{\CC_-[\log g](\zeta) + \log g(\zeta)} = \Phi_-(\zeta) g(\zeta)
+\sech x = {2 \over \E^x + \E^{-x}}
 $$
-To see uniqueness, observe that $\Phi$ must be invertible, as it is an exponential of something finite. 
-Thus $\Phi(z)^{-1}$ is also analytic off $\R$. Therefore, if we have another solution $\tilde \Phi(z)$ we can consider $r(z) = \tilde\Phi(z) \Phi(z)^{-1}$ which satisfies:
+This function has exponential decay in both directions:
+```julia
+using Plots, ApproxFun, OscillatoryIntegrals, ComplexPhasePortrait, LinearAlgebra
+xx = -10:0.01:10
+plot(xx,sech.(xx))
+```
+Now the Fourier transform of $\sech x$ is
 $$
-r_+(\zeta) = {\tilde\Phi_+(\zeta) \over \Phi_+(\zeta)} = {\tilde\Phi_-(\zeta) g(\zeta) \over \Phi_-(\zeta) g(\zeta)} = r_-(\zeta)
+\FF\sech(s) = \int_{-\infty}^\infty \sech t \, \E^{-\I s t} \dt = \pi \sech{\pi s \over 2}
 $$
-Hence $r(z)$ is entire. since both terms tend to $1$, it must be $r(z) = 1$.
+This is calculated via Residue theorem with a bit of work.
+Note that
+$$
+\pi \sech {\pi z \over 2} = {2 \pi \over \E^{\pi z \over 2} + \E^{-{\pi z \over 2}}}
+$$
+is analytic for $-1 < \Im z < 1$.
+```julia
+phaseplot(-3..3, -3..3, z -> π*sech(π*z/2))
+```
+This is because of the expontial decay.
 
+**Theorem (Analyticity of Fourier transforms)** Suppose $|f(x) \E^{\gamma x}| < |M(x)|$
+where $M$ is absolutely integrable for all $a < \gamma < b$. Then
+$$
+\widehat f(z) = \int_{-\infty}^\infty f(t) \E^{-\I z t} \dt
+$$
+is analytic for $a < \Im z < b$.
 
+**Proof** Let $z = s + \I \gamma$ and note that $|f(t) \E^{\I z t}| = |f(t) \E^{\gamma t}|$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
+$$
+{\D \widehat f \over \dz} = -\I z \hat f(z)
+$$
 ■
 
-When is $\log g(\zeta)$ nice? For the real line it is necessary that $g(x) = 1 + O(x^{-1})$ at $x \rightarrow \pm \infty$. We also need to worry about the image: 
-for example, $g(\zeta) \neq 0$ is required to avoid a singularity.  We similarly need that the winding number of the image of $g(\zeta)$ to be zero: 
-otherwise, $\log g(\zeta)$ will extend to another sheet and be discontinuous.   For example, if $g(z) = {z-\I \over z+\I}$ it satisfies the right asymptotics, but surrounds the origin:
-```julia
-using Plots, ComplexPhasePortrait
-g = x -> (x-im)/(x+im)
+**Remark** We don't need $f$ to be analytic at all!  Decay in $f$ gives analyticity.
 
-xx = range(-10.,10.; length=1000)
-plot(real.(g.(xx)), imag.(g.(xx)); label="image of (x-i)/(x+i)")
-```
-Therefore, $\log g(x)$ has a branch cut if we use the standard branch, which breaks the continuity requirement:
-```julia
-plot(xx, real.(log.(g.(xx))))
-plot!(xx, imag.(log.(g.(xx))))
-```
-We could have analytically continued $\log g(z)$ using
-$$
-\log_1 z = \begin{cases} \log z & \Im z > 0 \\
-                            \log_+ z & z < 0 \\
-                            \log z + 2\pi \I & \Im z < 0 
-                            \end{cases}
-$$
-But then $\lim_{x\rightarrow + \infty} \log_1 g(x) = 2 \pi \I$:
-```julia
-log₁ = z -> imag(z) > 0 ? log(z) : log(z)+2π*im
-plot(xx, real.(log₁.(g.(xx))))
-plot!(xx, imag.(log₁.(g.(xx))))
-```
+In the case of $\sech x$, we get exponential decay in both directions:
+that is $\sech x \E^{|\gamma| x}$ is absolutely integrable for $\gamma < 1$.
 
-
-
-**Example** Consider 
+Another example is $\E^{-x^2/2}$, which is absolutely integrable for any $\gamma$. Therefore, it's Fourier transform is in fact entire:
 $$
-g(x) = {x^2+3 \over x^2+1} = 1 + O(x^{-1})
-$$
-Before we do anything _Verify that the winding number is zero_.
-
-
-We provide two methods for calculating $\Phi$: one guesses the solution, the other uses the solution formula.
-
-
-*Method 1 (Guess and check / kernel factorization)* If we can guess the solution, we can check it satisfies the right criteria.   Factoring $g$ we see immediately that
-$$
-g(x) = {x-\I \over x-\sqrt{3} \I} {x+\I \over x+\sqrt{3} \I}
-$$
-Note that the first term is analytic in  the upper half plane. The second term is analytic in the lower half plane _and_ invertible. Therefore we can guess the solution is 
-$$
-\Phi(z)  = \begin{cases}
-        {z+\sqrt 3\I \over z+\I} & \Im z > 0 \\
-            {z-\I \over z-\sqrt 3\I} & \Im z < 0
-           \end{cases}
-$$
-This satisfies the four conditions:
-1. Analyticity: $\Phi$ is analytic off $\R$
-2. Asymptotics: $\lim_{z\rightarrow \infty}\Phi(z) = 1$ 
-3. Weaker than pole singularities
-4. It has the right jump
-$$
-g(x) \Phi_-(x) =  {x^2+3 \over x^2+1} {x-\I \over x-\sqrt 3\I}  = {x+\I \over x+\sqrt 3 \I} = \Phi_+(x)
-$$
-This function is indeed analytic off the real line.
-
-
-
-*Method 2 (evaluate explicit form)* This is real valued and positive, hence the winding number of its image is zero.  We have 
-$$
-\log g(x) = \log({x+\sqrt 3\I \over x+\I}{x-\sqrt 3\I \over x-\I}) 
-$$
-Because they are complex conjugates, we know $\log a \bar a = \log a + \log \bar a$ as $[1, \bar a, a]$ lies in the same half plane for $a = {s+\sqrt 3 \I \over s+ \I}$, therefore we can expand:
-$$
-\log g(x) = \log{x+\sqrt 3\I \over x+\I} + \log {x-\sqrt 3\I \over x-\I}
-$$
-Now we note that $\log{x+3\I \over x+\I}$ is analytic in the upper-half plane, therefore it's Cauchy transform, by Plemelj, is
-$$
-\CC\br[\log{x+\sqrt 3\I \over x+\I}](z) = \begin{cases}
-        \log{z+\sqrt 3\I \over z+\I} & \Im z > 0 \\
-           0 & \Im z < 0
-           \end{cases}
-$$
-Similarly,
-$$
-\CC\br[\log{x-\sqrt 3\I \over x-\I}](z) = \begin{cases}
-        -\log{z-\sqrt 3\I \over z-\I} & \Im z > 0 \\
-           0 & \Im z < 0
-           \end{cases}
-$$
-We thus get:
-$$
-\Phi(z) = \E^{\CC\log g(z)} = \E^{\begin{cases}
-        \log{z+\sqrt 3 \I \over z+\I} & \Im z > 0 \\
-            -\log{z- \sqrt 3\I \over z-\I} & \Im z < 0
-           \end{cases}} = \begin{cases}
-        {z+ \sqrt 3 \I \over z+\I} & \Im z > 0 \\
-            {z-\I \over z-\sqrt 3\I} & \Im z < 0
-           \end{cases}
+\FF[\E^{-\diamond^2/2}](z) = \sqrt{2\pi} \E^{-{z^2 \over 2}}
 $$
 
 
+### Inverse Fourier transform on shifted contours
 
-### Inhomogenous Riemann–Hilbert problem
+A neglected fact of the Fourier transform is that we can think of $\hat f(z)$
+living on any line $(-\infty + \I \gamma, \infty+\I \gamma)$, and in fact we can recover $f$ from the
+Fourier transform only on this line. This works even if $\hat f(s)$ is not defined on the real-axis,
+the real-axis is NOT special!
 
-Consider now the  Riemann–Hilbert problem with zero at infinity:
+**Theorem** Suppose $f(x) \E^{\gamma x}$ is square integrable. Then
 $$
-\Psi_+(x) - g(x)\Psi_-(x) = f(x) \qqand \Psi(\infty) =0
-$$
-Consider writing $\Psi(z) =  \Phi(z) Y(z)$. Then we can reduce the Riemann–Hilbert problem to a subtractive problem: 
-
-$$
-\Psi_+(x) - g(x)\Psi_-(x) = \Phi_+(x)(Y_+(x) - Y_-(x))\qqand Y(\infty) = 0
-$$
-Thus once we have $\Phi$, we can determine $Y$ as a Cauchy transform, and thence construct $\Psi$.
-
-What if we don't have decay? Just add in a constant times $\Phi$:
-
-**Corollary** Suppose $\log g$ satisfies the conditions of Plemelj's theorem. Then
-$$
-\Psi(z) = \Phi(z) \CC_\R\br[{f \over \Phi_+}](z) + D \Phi(z)
-$$
-is the unique solution to
-$$
-\Psi_+(\zeta) - g(\zeta)\Psi_-(\zeta) = f(\zeta) \qqand \Psi(\infty) =D
+f(x) = {1 \over 2 \pi} \int_{-\infty+\I \gamma}^{\infty + \I \gamma} \widehat f(\zeta) \E^{\I x \zeta} \D \zeta
 $$
 
-
-*Example* Suppose $f(x) = {\I \over \I-x}$. 
-
-To decompose this as a sum of things analytic in half planes, we just use partial fraction expansion!
+**Proof**  Note for $g(x) = f(x) \E^{\gamma x}$
+$$
+\widehat g(s) = \int_{-\infty}^\infty f(t) \E^{\gamma t - \I s t} \dt = \widehat f(s + \I \gamma).
+$$
+Therefore we have
 $$
 \begin{align*}
-{\I \over \I-x} {x + \I \over x+ \I \sqrt{3}} &= {\I \over \I-x}{2\I \over \I(1+ \sqrt{3})}  +{\I \over \I(1+\sqrt 3)} {\I(1-\sqrt 3) \over x+ \I \sqrt{3}}\\
-&= \underbrace{{-2 \I \over x-\I}{1 \over 1+ \sqrt{3}}}_{-Y_-(x)}  + \underbrace{{\I \over 1+\sqrt 3} {1-\sqrt 3 \over x+ \I \sqrt{3}}}_{Y_+(x)}
+\E^{\gamma x} f(x) &= g(x) = \FF^{-1} \widehat g(x) = {1 \over 2 \pi} \int_{-\infty}^{\infty} \widehat g(s) \E^{\I x s} \D s  ={1 \over 2 \pi} \int_{-\infty}^{\infty} \widehat f(s + \I \gamma) \E^{\I x s} \D s \\
+   & = {1 \over 2 \pi} \int_{-\infty+ \I \gamma}^{\infty+ \I \gamma} \widehat f(\zeta) \E^{\I x (\zeta - \I \gamma)} \D \zeta \\
+    &= {1 \over 2 \pi}
+   \E^{\gamma x}  \int_{-\infty+ \I \gamma}^{\infty+ \I \gamma} \widehat f(\zeta) \E^{\I x \zeta} \D \zeta
 \end{align*}
 $$
-Thus we get
+Which shows the result by cancelling out $\E^{\gamma x}$.
+
+
+
+
+
+## Half-Fourier transforms
+
+Consider now
 $$
-Y(z) = \begin{cases} 
-{\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+ \I \sqrt{3}} & \Im z > 0 \\
-{2 \I \over z-\I}{1 \over 1+ \sqrt{3}} & \Im z < 0
-\end{cases}
+\int_0^\infty f(t) \E^{-\I s t} \dt
 $$
-Let's double check:
-We thus have the solution:
+This is in fact the Fourier transform of $f$ extended to the negative real axis by zero:
+$$
+\int_{-\infty}^\infty \begin{cases}f(t) & t \geq 0 \\ 0 & \hbox{otherwise} \end{cases} \E^{-\I s t} \dt
+$$
+To make sure we remember the domain of definition, we introduce the notation:
+$$
+f_{\rm R}(x) = \begin{cases}f(t) & t \geq 0 \\ 0 & \hbox{otherwise} \end{cases}
+$$
+and
+$$
+f_{\rm L}(x) = \begin{cases}f(t) & t < 0 \\ 0 & \hbox{otherwise} \end{cases}
+$$
+Therefore
+$$
+\widehat\fR(s) = \int_0^\infty f(t) \E^{-\I s t} \dt \qqand \widehat\fL(s) = \int_{-\infty}^0 f(t) \E^{-\I s t} \dt
+$$
+
+Because it is identically zero on the negative real axis, we immediately get the following:
+
+**Corollary (analyticity of Half-Fourier transform)**  Suppose $f(x)$ is bounded for $x \geq 0$.
+Then $\widehat{\fR}(z)$ is analytic in the lower half plane
+$$
+\H_+ = \{ z : \Im z < 0 \}.
+$$
+
+More generally, $f$ can even have exponential decay: if $f(x) \E^{\gamma x}$ is bounded
+then $\widehat\fR(z)$ is analytic in $\{z : \Im z < \gamma \}$.  As before, the same inversion formula follows:
+
+**Corollary  (inverting Half-Fourier transform)**  Suppose  $f(x) \E^{\gamma x}$ is square integrable for $x \geq 0$. Then
+$$
+f(x) = {1 \over 2 \pi} \int_{-\infty + \I M}^{\infty + \I M} \widehat{\fR}(\zeta) \E^{\I x \zeta} \D \zeta
+$$
+for any choice of $-\infty < M \leq \gamma$.
+
+
+**Example** Consider $f(x)  = x \E^{-x}$ for $0 \leq x < \infty$.  Note that $f(x) \E^{\gamma x}$
+is square integrable for any $\gamma < 1$, and we have
+$$
+\widehat\fR(z) = \int_0^\infty t \E^{-t -\I s t} \dt = {1 \over (1+\I s)^2}
+$$
+is analytic for $\Im z < 1$. Thus for any $M < 1$ we have
 $$
 \begin{align*}
-\Psi(z)  &= \Phi(z) \CC_\R\br[{f \over \Phi_+}](z) = \begin{cases} 
-{\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+ \I \sqrt{3}} {z+\sqrt{3}\I \over z+\I} & \Im z > 0 \\
-{2 \I \over z-\I}{1 \over 1+ \sqrt{3}} {z-\I \over z-\sqrt{3}\I} & \Im z < 0
-\end{cases} \\
-    &= \begin{cases} 
-{\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+\I} & \Im z > 0 \\
-{2 \I  \over 1+ \sqrt{3}} {1 \over z-\sqrt{3}\I} & \Im z < 0
-\end{cases}
+f(x) &= {1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M}\widehat\fR(\zeta) \E^{\I x \zeta}\D \zeta \\
+     &={1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M}{1 \over (1+\I \zeta)^2} \E^{\I x \zeta}\D \zeta
 \end{align*}
 $$
-Let's verify it's the right thing:
+Since $x > 0$, we can use Residue calculus in the upper-half plane, which confirms the result:
+$$
+\Res_{z = -\I} {\E^{\I x z} \over  (1+\I z)^2}  = \Res_{z = -\I} {\E^{- x} + \I x \E^{-x} (z +\I) + O(z+\I)^2 \over  -(z-\I)^2}  = -\I x \E^{-x}.
+$$
+**Example** Consider $f(x) = x$.  This function is not square-integrable, but we have
+$f(x) \E^{\gamma x}$ is square integrable for any $\gamma < 0$, and we find for $\Im z < 0$
+$$
+\widehat{\fR}(z) = -{1 \over z^2}
+$$
+Thus we can still use the result to say, for any $M < 0$,
+$$
+f(x) =-{1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M} {1 \over \zeta^2} \E^{\I x \zeta}\D \zeta
+$$
 
-1. It's analytic off $\R$
-```julia
-Ψ =  z -> imag(z) > 0 ? im*(1-sqrt(3))/(1+sqrt(3))/(z+im) :
-                       2im/((z-sqrt(3)*im)*(1+sqrt(3)))
 
-phaseplot(-3..3, -3..3, Ψ)
-```
-2\. It goes to zero at infinity
-```julia
-Ψ(300.0+300.0im)
-```
+Note that the results have corresponding analogues for $\fL$:
 
-3\. It satisfies the right jump:
+**Corollary (analyticity of left Half-Fourier transform)**
+Suppose $f(x) \E^{\gamma x}$  is bounded for $x \leq 0$.
+Then $\widehat{\fL}(z)$ is analytic for $\{z : \Im z > \gamma \}$.
+
+
+**Corollary  (inverting left Half-Fourier transform)**
+Suppose $f(x) \E^{\gamma x}$ is square integrable for $x < 0$. Then
+$$
+f(x) = {1 \over 2 \pi} \int_{-\infty + \I M}^{\infty + \I M} \widehat{\fL}(\zeta) \E^{\I x \zeta} \D \zeta
+$$
+for any choice of $\gamma \leq M < \infty$.
+
+
+
+### Laplace transforms
+
+Now consider the Laplace transform
+$$
+\check f(z) = \int_0^\infty f(t) \E^{-z t} \dt
+$$
+but this is just the half Fourier transform evaluated on the negative imaginary axis!
+$$
+\check f(z) = \widehat\fR (-\I z)
+$$
+Thus if $f(x) \E^{\gamma x}$ is square integrable, then $\check f(z)$ is well-defined for $\Re z \geq \gamma$.
+
+*NEVER* think of the Laplace transform as a real-valued object: it only makes sense as a complex object.
+This is seen from the inverse Laplace transform
+$$
+f(x) = {1 \over 2 \pi \I} \int_{-\I \infty - M}^{\I \infty - M}  \check f(\zeta) \E^{\zeta x} \D \zeta
+$$
+which is of course just the inverse Fourier transform in disguise.
+
+
+## Application: solving differential equations on the half-line
+
+Consider the following ODE for $x \geq 0$:
 $$
 \begin{align*}
- \Psi_+(x) - g(x) \Psi_-(x) = {\I \over 1+\sqrt 3} {1-\sqrt 3 \over x+\I}  - {x^2 + 3 \over x^2 + 1} 
-{2 \I  \over 1+ \sqrt{3}} {1 \over x-\sqrt{3}\I}  \\
- = {\I (x-\I) \over 1+\sqrt 3} {1-\sqrt 3 \over x^2+1}  - {x + \sqrt{3} \I \over x^2 + 1} 
-{2 \I  \over 1+ \sqrt{3}}  \\
-= {1\over x^2 + 1} 
-{1 \over 1+ \sqrt{3}}  \left(\I(1-\sqrt 3) x+1-\sqrt{3}  - 2\I x + 2 \sqrt{3}    \right) \\
-= {1\over x^2 + 1} 
- \left(-\I x+1    \right) = {\I \over \I - x}
+u''(x) + 2u'(x) + u(x) = f(x)
 \end{align*}
 $$
+with initial conditions $u(0) = u'(0) = 0$. Note that we have by integration-by-parts
+$$
+\begin{align*}
+\check{u'}(z) = \int_0^\infty u'(t) \E^{-z t} \dt = u(0) + z \int_0^\infty u(t) \E^{-z t} \dt = u(0) + z \check u(z) \\
+\check{u''}(z) = u'(0) + z \check{u'}(z) = u'(0) + z u(0) + z^2 \check u(0)
+\end{align*}
+$$
+Thus taking into account the initial conditions, are equation in Laplace space becomes
+$$
+(z^2 + 2z + 1) \check u(z) = \check f(z)
+$$
+Hence we have
+$$
+\check u(z) = {1 \over 2 \pi \I}\int_{-\I\infty-M}^{\I \infty-M} {\check f(\zeta) \over \zeta^2 + 2\zeta+1} \E^{x \zeta} \D \zeta
+$$
+Consider the case $f(x) = x$, so that
+$$
+\check f(z) = {1 \over z^2}
+$$
+Here we need $M < 0$ hence we are integrating on a contour in the right-half plane.  Using Residue calculus, we have
+$$
+\begin{align*}
+u(x) &= \left(\Res_{z = -1} + \Res_{z=0}\right) {\E^{z x} \over z^2 (z +1)^2} \\
+&= \Res_{z = -1}  {\E^{-x} +\E^{-x}(x+2) (z+1) +O(z+1)^2 \over  (z +1)^2} + \Res_{z=0} {1 + (x-2) z +O(z)^2 \over  z^2}  \\
+ &= (x+2)\E^{-x} + x-2
+ \end{align*}
+$$
+
+
+## Laplace transform of rational functions
+
+
+We now consider the question of calculating Laplace transforms (or equivalently, half-Fourier transforms)
+$$
+\check f(s) = \int_0^\infty f(t) \E^{-s t} \D t
+$$
+where $f$ is rational.
+We're going to do something seemingly crazy: we'll first calculate the Cauchy transform
+$$
+\CC[f \E^{-s \diamond}](z) = {1 \over 2 \pi \I} \int_0^\infty {f(t) \E^{-s t} \over t- z} \D t
+$$
+so that
+$$
+\check f(s) = -2 \pi \I\lim_{z \rightarrow \infty}  z \CC[f \E^{-s \diamond}](z)
+$$
+Note that the exponential decay in the integrand allows us to use Plemelj's lemma: if we find a
+function $\phi(z)$ such that
+1. $\phi(z)$ is analytic off $[0,\infty)$
+2. $\lim_{z \rightarrow \infty} \phi(z) = 0$ for any angle of approach
+3. $\phi$ has weaker than pole singularities at 0
+4. $\phi_+(x) - \phi_-(x) = f(x) \E^{-s x}$
+
+
+Then we have calculated the Cauchy transform:
+$$
+\phi(z) = \CC[f \E^{-s \diamond}](z).
+$$
+
+
+Let's start with $f(x) = 1$ and $s = 1$, that is, what is the Cauchy transform of $\E^{-x}$?
+Consider the exponential integral:
+$$
+{\rm Ei}(z) = \int_{-\infty}^z {\E^\zeta \over \zeta} \D \zeta
+$$
+Without loss of generality, the contour of integration is
+$$
+(\infty,-1) \cup [-1, z)
+$$
+that is, a straight line to $-1$ and a straightline from $-1$ to $z$.
+Thus we have a branch cut on $[0,\infty)$ which has the jump
+$$
+{\rm Ei}^+(x) - {\rm Ei}^-(x) = -\oint {\E^\zeta \over \zeta} \D \zeta = -2 \pi \I
+$$
+where
+$$
+{\rm Ei}^\pm(x) = \lim_{\epsilon \rightarrow 0} {\rm Ei}(x\pm\I \epsilon)
+$$
+Consider
+$$
+\phi(z) = -{\E^{-z} {\rm Ei}(z) \over 2 \pi \I }
+$$
+1. This is analytic off $[0,\infty)$
+2. Integrating by parts we have decay at $\infty$ in all directions:
+$$
+\E^{-z} {\rm Ei}(z) = {1  \over z}  - \int_{-\infty}^z {\E^{\zeta-z} \over \zeta^2} \D \zeta = O(z^{-1})
+$$
+3. $\phi$ has a logarithmic singularity at 0
+4.
+$$\phi_+(x) - \phi_-(x) = \E^{-x}.$$
+
+Thus
+$$
+\CC[ \E^{-s \diamond}](z) = \phi(s z) = - {\E^{-s z} {\rm Ei}(s z)  \over 2 \pi \I}
+$$
+
+Let's make sure I didn't make a mistake. Here we first define Ei:
 ```julia
-f = x -> im/(im-x)
-g = x -> (x^2+3)/(x^2+1)
-Ψ(0.1+eps()im) - Ψ(0.1-eps()im)*g(0.1) - f(0.1)
+const ei₋₁ = let ζ = Fun(-50 .. -1)
+    sum(exp(ζ)/ζ)
+end
+function ei(z)
+    ζ = Fun(Segment(-1 , z))
+    ei₋₁ + sum(exp(ζ)/ζ)
+end
+
+φ = (z) -> -exp(-z)*ei(z)/(2π*im)
+```
+The expression matches the Cauchy transform:
+```julia
+t = Fun(0 .. 50)
+s = 2.0
+z = 2.0+2.0im
+sum(exp(-s*t)/(t-z))/(2π*im), φ(s*z)
+```
+
+We then recover the Laplace transform by taking the limit:
+$$
+\check 1(s) = -2 \pi \I  \lim_{z\rightarrow \infty} z \phi(s z) =
+\lim_{z\rightarrow \infty} {z \over s z} = {1 \over s}
+$$
+
+What about rational $f$? Do the same trick of subtracting off the singularities.
+For example, consider $f(z) = 1/(z+1)$. Then
+$$
+{\phi(s z) - \phi(-s) \over z+1}
+$$
+satisfies all the necessary properties.
+```julia
+t = Fun(0 .. 50)
+s = 2.0
+z = 2.0+2.0im
+f = 1/(t+1)
+sum(exp(-s*t)*f/(t-z))/(2π*im), (φ(s*z)-φ(-s))/(z+1)
+```
+Therefore,
+$$
+\check f(s) = -2 \pi \I  \lim_{z\rightarrow \infty} z {\phi(s z) - \phi(-s) \over z+1}  =
+2 \pi \I \phi(-s) = -\E^{s} {\rm Ei}(-s)
+$$
+```julia
+sum(exp(-s*t)*f), 2π*im*φ(-s), -exp(s)*ei(-s)
 ```

@@ -1,249 +1,448 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
-
-s.olver@imperial.ac.uk
+# Lecture 19: Classical orthogonal polynomials
 
 
+We will also investigate the properties of _classical_ OPs.
+A good reference is  [Digital Library of Mathematical Functions, Chapter 18](http://dlmf.nist.gov/18).
 
-# Lecture 19: Inverting Log kernels
-
-2. Solving a logarithmic singular integral equation
-2. Application: electrostatic potentials in 2D
-    - Potential arising from a point charge and a single plate
-    
-
-
+This lecture we discuss
+1. Hermite, Laguerre, and Jacobi polynomials
+2. Legendre, Chebyshev, and ultraspherical polynomials
+3. Explicit construction for Chebyshev polynomials
 
 
-### Solving logarithmic singular integral equations
+## Definition of classical orthogonal polynomials
 
-Consider the problem of calculating $u(x)$ such that
-$$
-{1 \over \pi} \int_a^b u(t) \log | x-t| \dt = f(x) \qqfor a < x < b
-$$
+Classical orthogonal polynomials are orthogonal with respect to the following three weights:
 
 
-To tackle this problem, recall that $L u(z) = \Re M u(z)$ for
-$$
-M u(z) = {1 \over \pi} \int_a^b \log|z-t| u(t) \D t =  -2 \I \int_c^z \CC u(\zeta) \D \zeta + M u(c)
-$$
-where $c$ is arbitrary, in fact we can choose it to be $b$. Then we have
-$$
-L u(x) =  \Re M^+ u(x) = 2\Im \int_b^x \CC^+ u(t) \D t =  \int_b^x H u(t) \D t
-$$
-where 
-$$
-\HH u(x) = {1 \over \pi} \dashint_a^b {u(t) \over t -x } \D t
-$$
-is the Hilbert transform. In other words, we have
-$$
-{\D \over \dx} L u(x) = \HH u(x).
-$$
-Differentiating both sides of the equation for $u$ therefore gives
-$$
-\HH u(x) = f'(x).
-$$
-recall, we can express the solution as
-$$
-    u = {-\HH[\sqrt{b-\diamond}\sqrt{\diamond-a} f'] + D \over \sqrt{b-x}\sqrt{x-a}} 
-$$
-Here the constant $D$ is not arbitrary: recall that
-$$
-\LL[1/\sqrt{1-\diamond^2}](x) = - \log 2
-$$
-hence varying $D$ will vary $u$ by a constant.
-To choose $D$,  we use the fact that
-$$
-f(c) = {1 \over \pi} \int_a^b u(t) \log |t-c| \dt
-$$
-for any choice of point  $c$.
+| Name        |  $(a,b)$ |  $w(x)$      | Notation   |  $k_n$ |
+|:-------------|:------------- |:----------------------|:-----|:-----|
+| Hermite     |$(-\infty,\infty)$ | $\E^{-x^2}$             | $H_n(x)$ | $2^n$ |
+| Laguerre    | $(0,\infty)$ | $x^\alpha \E^{-x}$      |   $L_n^{(\alpha)}(x)$ | [Table 18.3.1](http://dlmf.nist.gov/18.3) |
+| Jacobi      | $(-1,1)$ | $(1-x)^{\alpha} (1+x)^\beta$      |    $P_n^{(\alpha,\beta)}(x)$ | [Table 18.3.1](http://dlmf.nist.gov/18.3) |
 
-__Demonstration__
 
-Let's do a numerical example:
+Note out of convention the parameters for Jacobi polynomials are right-to-left order.
+
+We can actually construct these polynomials in Julia, first consider Hermite:
 ```julia
-using ApproxFun, SingularIntegralEquations, Plots
-H(f) = -hilbert(f) # fix normalisation
-H(f,x) = -hilbert(f,x)
+using ApproxFun, Plots, LinearAlgebra, ComplexPhasePortrait
+H₀ = Fun(Hermite(), [1])
+H₁ = Fun(Hermite(), [0,1])
+H₂ = Fun(Hermite(), [0,0,1])
+H₃ = Fun(Hermite(), [0,0,0,1])
+H₄ = Fun(Hermite(), [0,0,0,0,1])
+H₅ = Fun(Hermite(), [0,0,0,0,0,1])
 
-
-x = Fun()
-f = exp(x)
-D = randn()
-
-u₁ = -H(sqrt(1-x^2)*f')/sqrt(1-x^2) 
-
-u = u₁ + D/sqrt(1-x^2)
-
-@show H(u, 0.1) + f(0.1)
-@show logkernel(u,0.1) - f(0.1)  # didn't work
-@show logkernel(u,0.2) - f(0.2);  # but we are only off by a constant
-```
-We thus need to choose the constant
-```julia
-# choose C so that
-# logkernel(u₁, 0) + C*logkernel(1/sqrt(1-x^2), 0) == f(0)
-C = (f(0) - logkernel(u₁, 0))/logkernel(1/sqrt(1-x^2), 0)
-u = u₁ + C/sqrt(1-x^2)
-
-@show hilbert(u, 0.1) + f(0.1)
-@show logkernel(u,0.1) - f(0.1)  # Works!
-@show logkernel(u,0.2) - f(0.2);  # And at all x!
+xx = -4:0.01:4
+plot(xx, H₀.(xx); label="H_0", ylims=(-400,400))
+plot!(xx, H₁.(xx); label="H_1", ylims=(-400,400))
+plot!(xx, H₂.(xx); label="H_2", ylims=(-400,400))
+plot!(xx, H₃.(xx); label="H_3", ylims=(-400,400))
+plot!(xx, H₄.(xx); label="H_4", ylims=(-400,400))
+plot!(xx, H₅.(xx); label="H_5")
 ```
 
-
-__Example 1__ We now do an example which can be solved by hand. 
-Find $u(x)$ so that: 
-$$
-\LL u(x) = x
-$$
-for $-1 < x < 1$. Differentiating his becomes
-$$
-\HH u(x) = 1
-$$
-which we solve via
-$$
-u(x) = {- \HH[\sqrt{1-\diamond^2}](x) + D \over \sqrt{1-x^2}} = {D-x \over \sqrt{1-x^2}}
-$$
-Note that 
-$$
-\LL u(0) = 0
-$$
-A symmetry argument shows that
-$$
-\LL [\diamond/\sqrt{1-\diamond^2}](x) = {1 \over \pi} \int_{-1}^1 {x \over \sqrt{1-x^2}} \log|x| \D x = 0
-$$
-which imples that $D = 0$ and we have 
-$$
-u(x) = {-x \over \sqrt{1-x^2}}
-$$
-We can confirm this:
+We verify their orthogonality:
 ```julia
-x = Fun()
-logkernel(-x/sqrt(1-x^2), 0.1) # approximately 0.1
+w = Fun(GaussWeight(), [1.0])
+
+@show sum(H₂*H₅*w)  # means integrate
+@show sum(H₅*H₅*w);
+```
+Now Jacobi:
+```julia
+α,β = 0.1,0.2
+P₀ = Fun(Jacobi(β,α), [1])
+P₁ = Fun(Jacobi(β,α), [0,1])
+P₂ = Fun(Jacobi(β,α), [0,0,1])
+P₃ = Fun(Jacobi(β,α), [0,0,0,1])
+P₄ = Fun(Jacobi(β,α), [0,0,0,0,1])
+P₅ = Fun(Jacobi(β,α), [0,0,0,0,0,1])
+
+xx = -1:0.01:1
+plot( xx, P₀.(xx); label="P_0^($α,$β)", ylims=(-2,2))
+plot!(xx, P₁.(xx); label="P_1^($α,$β)")
+plot!(xx, P₂.(xx); label="P_2^($α,$β)")
+plot!(xx, P₃.(xx); label="P_3^($α,$β)")
+plot!(xx, P₄.(xx); label="P_4^($α,$β)")
+plot!(xx, P₅.(xx); label="P_5^($α,$β)")
+```
+```julia
+w = Fun(JacobiWeight(β,α), [1.0])
+@show sum(P₂*P₅*w)  # means integrate
+@show sum(P₅*P₅*w);
 ```
 
+## Legendre, Chebyshev, and ultraspherical polynomials
 
+There are special families of Jacobi weights with their own name.
 
-__Example 2__
-Find $u(x)$ so that: 
-$$
-{1 \over \pi} \int_{-1}^1 u(t) \log | x-t| \dt = 1.
-$$
-Differentiating, we know that 
-$$
-\int_{-1}^1 {u(t) \over x-t} \dt = 0
-$$
-hence $u(x)$ must be of the form ${D / \sqrt{1-x^2}}$.  Since we know 
-$$
-\L[{1 /\sqrt{1-\diamond^2}}](x) = - \log 2
-$$
-we have $D = -1/\log 2$. Let's check:
+| Name        | Jacobi parameters  |  $w(x)$      | Notation   |  $k_n$ |
+|:-------------|:------------- |:----------------------|:-----|:------|
+| Jacobi      | $\alpha,\beta$ | $(1-x)^{\alpha} (1+x)^\beta$      |    $P_n^{(\alpha,\beta)}(x)$ | [Table 18.3.1](http://dlmf.nist.gov/18.3) |
+| Legendre      | $0,0$ | $1$      |    $P_n(x)$ | $2^n(1/2)_n/n!$ |
+| Chebyshev (1st)      | $-{1 \over 2},-{1 \over 2}$ | $1 \over \sqrt{1-x^2}$ | $T_n(x)$ | $1 (n=0), 2^{n-1} (n \neq 0)$ |
+| Chebyshev (2nd)      | ${1 \over 2},{1 \over 2}$ | $\sqrt{1-x^2}$      |    $U_n(x)$ | $2^n$
+| Ultraspherical      | $\lambda-{1 \over 2},\lambda-{1 \over 2}$ | $(1-x^2)^{\lambda - 1/2}, \lambda \neq 0$      |    $C_n^{(\lambda)}(x)$ | $2^n(\lambda)_n/n!$ |
+
+Note that other than Legendre, these polynomials have a different normalization than $P_n^{(\alpha,\beta)}$:
 ```julia
-x = Fun()
-u = -1/(log(2)*sqrt(1-x^2))
-logkernel(u, 0.1) # approximately 0.1
+T₂ = Fun(Chebyshev(), [0.0,0,1])
+P₂ = Fun(Jacobi(-1/2,-1/2), [0.0,0,1])
+plot(T₂; label="T_2", title="T_2 is C*P_2 for some C")
+plot!(P₂; label="P_2")
 ```
-Physically, this solution gives us the potential field 
-$
-\LL u(z)
-$
-corresponding to holding a metal plate at constant potential:
-```julia
-v = z -> logkernel(u, z)
+But because they are orthogonal w.r.t. the same weight, they must be a constant multiple of each-other,
+as discussed last lecture.
 
-xx = yy = -2:0.01:2
-V = v.(xx' .+ im*yy)
+### Explicit construction of Chebyshev polynomials (first kind and second kind)
 
-surface(xx, yy, V)
-```
+Chebyshev polynomials are pretty much the only OPs with _simple_ closed form expressions.
 
-## Application: Potential arising from a point charge and a single plate
+**Proposition (Chebyshev first kind formula)**
+$$T_n(x) = \cos n \acos x$$
+or in other words,
+$$
+T_n(\cos \theta) = \cos n \theta
+$$
 
-Now imagine we put a point source at $x = 2$, and a metal plate on $[-1,1]$. 
-We know the potential on the plate must be constant, but we don't know what constant. 
-This is equivalent to the following problem (see e.g. [\[Chapman, Hewett & Trefethen 2015\]](https://people.maths.ox.ac.uk/trefethen/chapman_hewett_trefethen.pdf)):
+**Proof** We first show that they are orthogonal w.r.t. $1/\sqrt{1-x^2}$. Too easy: do $x = \cos \theta$, $\dx = -\sin \theta$ to get (for $n \neq m$)
 $$
 \begin{align*}
-v_{xx} + v_{yy} = 0 &\qqfor \hbox{$z$ off $[-1,1]$ and $2$}  \\
-v(z) \sim \log |z - 2| + O(1) &\qqfor z \rightarrow 2 \\
-v(z) \sim \log|z| + o(1) &\qqfor z \rightarrow \infty \\
-v(x) = \kappa &\qqfor -1 < x < 1
+    \int_{-1}^1 {\cos n \acos x \cos m \acos x \dx \over \sqrt{1-x^2}} &= -\int_\pi^0  \cos n \theta \cos m \theta \D \theta \ccr
+    =  \int_0^\pi  {\E^{\I (-n-m)\theta} + \E^{\I (n-m)\theta} + \E^{\I (m-n)\theta} + \E^{\I (n+m)\theta}    \over 4} \D \theta =0
 \end{align*}
 $$
-where $\kappa$ is an unknown constant.  We write the solution as
+
+We then need to show it has the right highest order term $k_n$. Note that $k_0 = k_1 = 1$.  Using $z = \E^{\I \theta}$ we see that $\cos n \theta$ has a simple recurrence for $n=2,3,\ldots$:
 $$
-v(z) = {1 \over \pi} \int_{-1}^1 u(t) \log|t-z| \dt + \log|z-2|
+\cos n \theta = {z^n + z^{-n} \over 2} = 2 {z + z^{-1} \over 2} {z^{n-1} + z^{1-n} \over 2}- {z^{n-2} + z^{2-n} \over 2} =
+2 \cos \theta \cos (n-1)\theta - \cos(n-2)\theta
 $$
-for a to-be-determined $u$. On $-1 < x < 1$ this satisfies
+thus
 $$
- {1 \over \pi} \int_{-1}^1 u(t) \log|t-x| \dt  = \kappa - \log(2-x)
+\cos n \acos x = 2 x \cos(n-1) \acos x - \cos(n-2) \acos x
+$$
+It follows that
+$$
+k_n = 2  k_{n-1} = 2^{n-1} k_1 = 2^{n-1}
+$$
+By uniqueness we have $T_n(x) = \cos n \acos x$.
+
+■
+
+
+**Proposition (Chebyshev second kind formula)**
+$$U_n(x) = {\sin (n+1) \acos x \over \sin \acos x}$$
+or in other words,
+$$
+U_n(\cos \theta) = {\sin (n+1) \theta \over \sin \theta}
 $$
 
-We can solve this equation explicitly. By differentiating we see that $u$ satisfies the following:
+
+
+*Example* For the case of Chebyshev polynomials, we have
 $$
-\HH u(x) = f'(x) = {1 \over 2-x}
+J = \begin{pmatrix}
+0 & 1 \cr
+\half & 0 & \half \cr
+& \half & 0 & \half \cr
+&& \half & 0 & \ddots \cr
+&&&\ddots & \ddots
+\end{pmatrix}
 $$
-We now use the inverse Hilbert formula to determine:
+Therefore, the Chebyshev coefficients of $x f(x)$ are given by
 $$
-u(x) = {1\over\sqrt{1-x^2}} \HH [{1 \over \diamond-2} \sqrt{1-\diamond^2}](x) + {D \over \sqrt{1-x^2}}
+J^\top \vc f = \begin{pmatrix}
+0 & \half \cr
+1 & 0 & \half \cr
+& \half & 0 & \half \cr
+&& \half & 0 & \ddots \cr
+&&&\ddots & \ddots
+\end{pmatrix} \begin{pmatrix} f_0\\ f_1\\f_2\\f_3\\\vdots\end{pmatrix}
 $$
-Using the usual procedure of taking an obvious ansatz and subtracting off the singularities at poles and $\infty$ we find that:
-$$
-\CC[{\sqrt{1-\diamond^2} \over x -2}](z) = 
-\underbrace{\sqrt{z-1} \sqrt{z+1} \over 2 \I (z-2)}_{\hbox{ansatz}} - \underbrace{\sqrt 3\over 2 \I (z-2)}_{\hbox{remove pole near $z=2$}} - \underbrace{{1 \over 2 \I}}_{\hbox{remove constant at $\infty$}}
-$$
-This implies that
-$$
-\HH[{1 \over\diamond-2} \sqrt{1-\diamond^2}](x) = -\I(C^+ + C^-)[{1 \over\diamond-2} \sqrt{1-\diamond^2}](x) = {\sqrt 3 \over x -2} + 1
-$$
-in other words, 
-$$
-u = {\sqrt{3} \over (x - 2) \sqrt{1-x^2}} + {D \over \sqrt{1-x^2}}
-$$
-We still need to determine $D$. This is chosen so that we tend to $\log |z|$ near $\infty$. In particular, we know that
-$$
-{1 \over \pi} \int_{-1}^1 \log|z-x| u(x) \dx \sim  {\int_{-1}^1 u(x) \dx \over \pi}  \log |z|
-$$
-so we need to choose $D$ so that $\int_{-1}^1 u(x) \dx = 0$ and only the $\log|z-2|$ singularity appears near $\infty$. We first note that 
+
+### Demonstration
+In the case where $f$ is a degree $n-1$  polynomial, we can represent $J^\top$ as an $n+1 \times n$ matrix (this makes sense as $x f(x)$ is one more degree than $f$):
+```julia
+f = Fun(exp, Chebyshev())
+n = ncoefficients(f) # number of coefficients
+@show n
+J = zeros(n,n+1)
+J[1,2] = 1
+for k=2:n
+    J[k,k-1] = J[k,k+1] = 1/2
+end
+J'
+```
+```julia
+cfs = J'*f.coefficients # coefficients of x*f
+xf = Fun(Chebyshev(), cfs)
+
+xf(0.1) - 0.1*f(0.1)
+```
+We can construct $T_0(x),\ldots,T_{n-1}(x)$ via
 $$
 \begin{align*}
-C[{1 \over (\diamond - 2) \sqrt{1-\diamond^2}}](z) &= \underbrace{{\I \over 2 \sqrt{z-1} \sqrt{z+1} (z-2)}}_{\hbox{ansatz}} - \underbrace{{\I \over  2\sqrt{3} (z-2)}}_{\hbox{remove pole}} \\
-& = -{\I \over 2 \sqrt{3} z} + O(z^{-2})
+    T_0(x) &= 1\\
+    T_1(x) &= x T_0(x) \\
+    T_{k+1}(x) &= 2x  T_k(x) -  T_{k-1}(x), \qquad 1 \leq k \leq n-2
 \end{align*}
 $$
-near $\infty$. Since 
-$$
-Cw(z)  ={ \int_{-1}^1 w(x) \dx \over -2\pi \I z} + O(z^{-2})  
-$$
-we can  infer the integral from the Cauchy transform and find that
-$$
-\int_{-1}^1 {1 \over (x - 2) \sqrt{1-x^2}} \dx = -{ \pi \over \sqrt{3}}
-$$
-On the other hand,
-$$
-\int_{-1}^1 {\dx \over \sqrt{1-x^2}} = \pi
-$$
-Thus we require $D = 1$ and have the solution:
-$$
-u(x) = {\sqrt{3} \over (x - 2) \sqrt{1-x^2}} + {1 \over \sqrt{1-x^2}}
-$$
-
-
-_Demonstration_ 
+Believe it or not, this is much faster than using $\cos k \acos x$:
 ```julia
-x = Fun()
-u = sqrt(3)/((x-2)*sqrt(1-x^2)) + 1/sqrt(1-x^2)
-v = z -> logkernel(u, z) + log(abs(z-2))
+function recurrence_Chebyshev(n,x)
+    T = zeros(n)
+    T[1] = 1.0
+    T[2] = x*T[1]
+    for k = 2:n-1
+        T[k+1] = 2x*T[k] - T[k-1]
+    end
+    T
+end
 
-xx = yy = -4:0.011:4
-V = v.(xx' .+ im*yy)
+trig_Chebyshev(n,x) = [cos(k*acos(x)) for k=0:n-1]
 
-contour(xx, yy, V)
-plot!(domain(x); color=:black, legend=false)
+n = 10
+recurrence_Chebyshev(n, 0.1) - trig_Chebyshev(n,0.1) |>norm
 ```
-We can compute $\kappa$ numerically:
 ```julia
-v(0.2)
+n = 10000
+@time recurrence_Chebyshev(n, 0.1)
+@time trig_Chebyshev(n,0.1);
+```
+
+We can also demonstrate Clenshaw's algorithm for evaluating polynomials. To evaluate an expansion in Chebyshev polynomials,
+$$
+\sum_{k = 0}^{n-1}f_kT_k(x)
+$$
+ we want to solve the system
+$$
+\underbrace{\begin{pmatrix}
+1 & -x & \half \\
+& 1 & -x & \half  \\
+& & \half & -x & \ddots  \\
+& &     & \half & \ddots & \half \\
+&&&&\ddots & -x \\
+&&&&& \half
+\end{pmatrix}}_{L_x^\top} \begin{pmatrix} \gamma_0 \\\vdots\\ \gamma_{n-1} \end{pmatrix}
+$$
+via
+$$
+\begin{align*}
+\gamma_{n-1} &= 2f_{n-1} \\
+\gamma_{n-2} &= 2f_{n-2} + 2x \gamma_{n-1} \\
+\gamma_{n-3} &= 2 f_{n-3} + 2x \gamma_{n-2} - \gamma_{n-1} \\
+& \vdots \\
+\gamma_1 &= f_1 + x \gamma_2 - \half \gamma_3 \\
+\gamma_0 &= f_0 + x \gamma_1 - \half \gamma_2
+\end{align*}
+$$
+then $f(x) = \gamma_0$.
+```julia
+function clenshaw_Chebyshev(f,x)
+    n = length(f)
+    γ = zeros(n)
+    γ[n] = 2f[n]
+    γ[n-1] = 2f[n-1] +2x*f[n]
+    for k = n-2:-1:1
+        γ[k] = 2f[k] + 2x*γ[k+1] - γ[k+2]
+    end
+    γ[2] = f[2] + x*γ[3] - γ[4]/2
+    γ[1] = f[1] + x*γ[2] - γ[3]/2
+    γ[1]
+end
+
+f = Fun(exp, Chebyshev())
+clenshaw_Chebyshev(f.coefficients, 0.1) - exp(0.1)
+```
+
+With some high performance computing tweaks, this can be made more accurate.
+This is the algorithm used for evaluating functions in ApproxFun:
+```julia
+f(0.1) - exp(0.1)
+```
+
+
+## Approximation with Chebyshev polynomials
+
+Previously, we used the formula, derived via trigonometric manipulations,
+$$
+T_1(x) = x T_0(x), \qquad
+T_{n+1}(x) = 2x T_n(x) - T_{n-1}(x)
+$$
+Rearranging, this becomes
+$$
+ x T_0(x) = T_1(x), \qquad
+x T_n(x)  =  {T_{n-1}(x) \over 2} + {T_{n+1}(x) \over 2}
+$$
+This tells us that we have the three-term recurrence with $a_n = 0$, $b_0 = 1$, $c_n = b_n = {1 \over 2}$ for $n > 0$.
+
+This can be extended to function approximation. Provided the sum converges absolutely and uniformly in $x$, we can write
+$$
+f(x) = \sum_{k=0}^\infty f_k T_k(x).
+$$
+In practice, we can approximate smooth functions by a finite truncation:
+$$
+f(x) \approx \sum_{k=0}^{n-1} f_k T_k(x)
+$$
+
+Here we see that $\E^x$ can be approximated by a Chebyshev approximation using 14 coefficients and is accurate to 16 digits:
+```julia
+f = Fun(x -> exp(x), Chebyshev())
+scatter(0:ncoefficients(f)-1,abs.(f.coefficients);yscale=:log10,label="Chebyshev coefficients, fₖ",xlabel="k")
+```
+```julia
+@show ncoefficients(f)
+@show f(0.1) # equivalent to f.coefficients'*[cos(k*acos(x)) for k=0:ncoefficients(f)-1]
+@show exp(0.1);
+```
+
+The accuracy of this approximation is typically dictated by the smoothness of $f$: the more times we can differentiate, the faster it converges.
+For analytic functions, it's dictated by the domain of analyticity, just like Laurent/Fourier series. In the case above, $\E^x$ is entire hence we get faster than exponential convergence.
+
+
+Chebyshev expansions work even when Taylor series do not. For example, the following function has poles at $\pm {\I \over 5}$, which means the radius of convergence for the Taylor series is $|x| < {1 \over 5}$,
+but Chebyshev polynomials continue to work on $[-1,1]$:
+```julia
+f = Fun( x -> 1/(25x^2 + 1), Chebyshev())
+@show ncoefficients(f)
+plot(f;label=false)
+```
+
+This can be explained for Chebyshev expansion by noting that it is the cosine expansion / Fourier expansion of an even function:
+$$
+f(x) = \sum_{k=0}^\infty f_k T_k(x) \Leftrightarrow f(\cos \theta) = \sum_{k=0}^\infty f_k \cos k \theta
+$$
+
+### Exponential decay of Fourier coefficients of periodic, analytic functions revisited
+
+Before we get to the decay of Chebyshev coefficients, we revisit the proof of the exponential decay of _Fourier_ coefficients in Lecture 6. Suppose $f(\theta)$ is $2\pi$-periodic and analytic on $\theta \in [-\pi, \pi)$, then
+$$
+    f(\theta) = \sum_{k=-\infty}^\infty \hat f_k \E^{i k \theta}
+$$
+where
+$$
+\hat f_k = {1\over 2 \pi} \int_{-\pi}^\pi f(\theta) \E^{-i k \theta} d \theta.
+$$
+Recall in Lecture 6 we set $z = \E^{\I \theta}$ in which case the Fourier series of $f$ becomes a Laurent series of a function $g(z)$:
+$$
+f(\theta) = \sum_{k=-\infty}^\infty \hat f_k \E^{i k \theta} = \sum_{k=-\infty}^\infty g_k z^k =: g(z),
+$$
+with $g_k = \hat f_k$. We proved that if $g(z)$ is analytic on the closed annulus $A_{r,R} = \lbrace z : r \leq \vert z \vert \leq R \rbrace$, $0 < r <1$, $R > 1$ then for all $k \in \mathbb{Z}$, $$|g_k | \leq M\min\left\{{1 \over R^k} , {1 \over r^k}\right\}$$
+where $M = \sup_{z \in  A_{r,R}} |g(z)|$. This result implies the exponential decay of the Fourier coefficients of $f$.
+
+An annulus in the $z$-plane corresponds to a strip of width $2\pi$ in the (complex) $\theta$-plane under the transformation $z = \E^{\I \theta}$, $\Re \theta \in [-\pi, \pi)$:
+$$
+\begin{align*}
+& z \in A_{r,R} = \lbrace z : r \leq \vert z \vert \leq R \rbrace \qquad \underbrace{\Longleftrightarrow}_{z = \E^{\I \theta}} \\
+& \theta \in  S_{r,R} =   \lbrace \theta : -\pi \leq \Re  \theta < \pi,  -\log(R) \leq \Im \theta \leq \log(1/r) \rbrace.
+\end{align*}
+$$
+
+Suppose $f(\theta)$ is real-valued on $[-\pi, \pi)$, then $\overline{f(\theta)} = f(\overline{\theta})$. Hence if the closest singularity to the real $\theta$-axis is at $\theta = \theta_x + \I \theta_y$, with $\theta_x \in [-\pi, \pi)$ and $\theta_y > 0$, then $f$ also has a singularity at  $\theta_x - \I \theta_y$. Thus $f$ is analytic in the strip
+$$
+S_{r,R} = \theta \in    \lbrace \theta : -\pi \leq \Re  \theta < \pi,  -\log(R) \leq \Im \theta \leq \log(1/r) \rbrace
+$$
+with
+$$
+{1 \over r} = R \leq \E^{\theta_y}
+$$
+and the Fourier coefficients are bounded by
+$$
+|f_k | = |g_k |  \leq M\min\left\{{1 \over R^k} , {1 \over r^k}\right\} = M r^{|k|} = M R^{-|k|}, \qquad k \in \mathbb{Z},
+$$
+where $M = \sup_{z \in  A_{r,R}} |g(z)| = \sup_{\theta \in  S_{r,R}} |f(\theta)|$. The larger the strip of analyticity, the larger we can make $R$ and the faster the Fourier coefficients of $f$ decay as $\vert k \vert \to \infty$ (hence the faster the Fourier expansion of $f$ converges).
+
+_Example (see also Lecture 6)_ The function
+$$
+ f(\theta) = {1 \over 2 - \cos\theta},
+$$
+has poles at $\theta = \pm \I \log (2 + \sqrt{3})$; it is analytic in the strip $S_{r,R}$ with $R = 1/r < 2 + \sqrt{3}$ and the maximum of $\vert f(\theta) \vert$ on $S_{r,R}$ is
+$$
+M = {2 \over 4 - R^{-1} + R},
+$$
+ hence
+$$
+|f_k| =     |g_k| \leq {2 \over 4 - R -R^{-1}} R^{-\vert k \vert}, \qquad k \in \mathbb{Z},
+$$
+for all $R < 2 + \sqrt{3}$.
+```julia
+g =Fun(θ -> 1/(2-cos(θ)), Laurent(-π .. π))
+g₊ = g.coefficients[1:2:end]
+scatter(abs.(g₊); yscale=:log10, label="|g_k|", legend=:bottomleft,xlabel="k")
+R = 1.1
+scatter!(2/(4-R-inv(R))*R.^(-(0:length(g₊))), label = "R = $R")
+R = 3.5
+scatter!(2/(4-R-inv(R))*R.^(-(0:length(g₊))), label = "R = $R")
+R = 2+sqrt(3)-0.1
+scatter!(2/(4-R-inv(R))*R.^(-(0:length(g₊))), label = "R = $R")
+```
+
+### Exponential decay of Chebyshev coefficients of analytic functions
+
+Suppose $f(x)$ is analytic on $[-1, 1]$, then
+$$
+\begin{align*}
+f(x) & = \sum_{k = 0}^{\infty} f_k T_k(x) \\
+     & =\sum_{k = 0}^{\infty} f_k \cos k\theta \qquad (x = \cos\theta) \\
+     & = \sum_{k = 0}^{\infty} {f_k \over 2}\left( z^k + z^{-k}\right)  \qquad (z = \E^{\I \theta}) \\
+     & =: \sum_{k = -\infty}^{\infty} g_k z^{k} =: g(z) \qquad (g_0 = f_0, g_{k} = g_{-k} = f_k/2, k\geq 0)
+\end{align*}
+$$
+Now we can use the bound on the Laurent coefficients of $g(z)$ to bound the Chebyshev coefficients of $f(x)$. First we need to establish what is the image in the (complex) $x$-plane of an annulus in the $z$-plane under the transformation $2x = z + z^{-1}$, which is known as the Joukowsky map.
+
+Let $\rho > 1$ and
+$$
+A_{1,\rho} =  \lbrace z : 1 \leq \vert z \vert \leq \rho \rbrace, \qquad  A_{\rho^{-1},1} =  \lbrace z : \rho^{-1} \leq \vert z \vert \leq 1 \rbrace.
+$$
+The Joukowsky transformation maps $A_{1,\rho}$ and $A_{\rho^{-1},1}$ to the following ellipse (known as a Bernstein ellipse) in the $x$-plane:
+$$
+E_{\rho} = \left\lbrace x : {(\Re x)^2 \over \alpha^2} + {(\Im x)^2 \over \beta^2} \leq 1, \alpha = {1 \over 2}\left( \rho + \rho^{-1} \right),   \beta = {1 \over 2}\left( \rho - \rho^{-1} \right) \right\rbrace.
+$$
+We conclude that if $f(x)$ is analytic on $E_{\rho}$ (or $g(z)$ is analytic on $A_{\rho^{-1},\rho}$) and $M = \sup_{x \in  E_{\rho}} |f(x)| = \sup_{z \in  A_{\rho^{-1},\rho}} |g(z)|$, then
+$$
+\vert f_k \vert = 2 \vert g_k \vert \leq 2M\rho^{-k}, \qquad k \geq 1.
+$$
+The larger the Bernstein ellipse on which $f(x)$ is analytic, the faster the decay of the Chebyshev coefficients as $k \to \infty$ (and hence the faster the convergence of the Chebyshev expansion of $f$).
+
+_Example_  In the case of $f(x) = {1 \over 25 x^2 + 1}$, setting $2x = z + z^{-1}$, we find that
+$$
+f(x) = f\left( {z+z^{-1} \over 2 } \right) = g(z) = {4 z^2 \over 25 + 54 z^2 + 25 z^4}.
+$$
+In the complex $x$-plane, $f(x)$ has poles at $\pm \I/5$ and is analytic on $E_{\rho}$ with $\beta = (\rho - \rho^{-1})/2 < 1/5$, hence $\rho < { 1 + \sqrt{26} \over 5 }$. In the $z$-plane, $g(z)$ has poles at $\pm \I { 1 \pm \sqrt{26} \over 5 } \approx \pm 0.8198040\I,\pm1.2198\I$ and is analytic on the annulus $\rho^{-1} \leq \vert z \vert \leq \rho$.
+
+```julia
+ρ = (1 + sqrt(26))/5-0.05;
+α = (ρ + 1/ρ)/2
+β = (ρ - 1/ρ)/2
+θ = -π:0.01:π
+f = x -> 1/(25x^2 + 1)
+phaseplot(-2..2, -2..2, z -> f(z))
+plot!(α*cos.(θ),β*sin.(θ);linecolor="black",label="Bernstein ellipse")
+```
+```julia
+phaseplot(-3..3, -3..3, z -> f((z+1/z)/2))
+plot!(ρ*cos.(θ),ρ*sin.(θ),linecolor="black",label="|z| = ρ")
+plot!(cos.(θ)/ρ,sin.(θ)/ρ,linecolor="black",label="|z| = 1/ρ")
+```
+
+For $\beta = (\rho - \rho^{-1})/2 < 1/5$, we have
+$$
+M =  \sup_{x \in  E_{\rho}} |f(x)| = {1 \over 1 - 25 \beta^2}
+$$
+hence for $k \geq 1$,
+$$
+\vert f_k \vert \leq {2 \over   1 - 25 \beta^2} \rho^{-k}, \qquad 1 < \rho <  { 1 + \sqrt{26} \over 5 }.
+$$
+Therefore we predict a rate of decay of about $1.2198^{-k}$:
+```julia
+bound(β,k) = 2/(1-25*β^2)*(β + sqrt(β^2 + 1))^(-k)
+f = Fun( x -> 1/(25x^2 + 1), Chebyshev())
+scatter(abs.(f.coefficients) .+ eps(); yscale=:log10, label="Chebyshev coefficients")
+plot!( 1.2198.^(-(0:ncoefficients(f))); label="ρ^(-k)")
+plot!(1:ncoefficients(f), bound.(1/5-0.001,1:ncoefficients(f)); label="upper bound")
 ```

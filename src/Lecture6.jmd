@@ -89,7 +89,7 @@ where $g_k = \hat f_k$.
 Interestingly, analytic properties of $g$ can be used to show decaying properties in Fourier coefficients of $f$:
 
 **Theorem (Decay in Fourier/Laurent coefficients)** Suppose $g(z)$ is analytic in a closed annulus $A_{r,R}$ around $0$:
-$$A_r(z_0) = \{z : r ≤ | z| ≤ R\}$$.
+$$A_{r,R} = \{z : r ≤ | z| ≤ R\}$$.
 Then for all $k$
 $$|g_k | \leq M\min\left\{{1 \over R^k} , {1 \over r^k}\right\}$$
 where $M = \sup_{z \in  A_{r,R}} |g(z)|$.

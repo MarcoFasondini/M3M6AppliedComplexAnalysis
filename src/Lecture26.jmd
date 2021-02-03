@@ -1,347 +1,373 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+# Lecture 26: The Wiener-Hopf method
 
-s.olver@imperial.ac.uk
-
-
-# Lecture 26: Laurent and Toeplitz operators
-
-This lecture concerns the computation of the UL factorisation of Toeplitz
-operators, which are infinite matrices with constant diagonals. 
-It turns out this can be reduced to solving an RH problem on
-the unit circle.  We first discuss the case of inverting Laurent operators,
-which are bi-infinite matrices with constant diagonals.
-
-## Laurent operators
-
-A _Laurent operator_ is a bi-infinite matrix with constant diagonals.
-We associate it with a Laurent series on the unit circle called the _symbol_:
+The Wiener–Hopf method is an approach for solving integral equations of the form
 $$
-a(z) = \sum_{k=-\infty}^\infty a_k z^k
+\lambda u(x) + \int_0^\infty K(x-t)u(t) \dt = f(x)\qqfor 0 \leq x < \infty.
 $$
-Then the corresponding Laurent operator is
+Here $f$ and $K$ are given functions, $\lambda$ is a given constant, and we want to find $u$.
+The approach similarly extends to integro-differential equations of the form
 $$
-L[a(z)] := \sopmatrix{
-\ddots & \ddots & \ddots& \ddots& \ddots& \ddots& \ddots \\
-\ddots  & a_1 & a_0 & a_{-1} & a_{-2} & a_{-3} & \ddots \\
-\ddots  & a_2 & a_1 & a_0 & a_{-1} & a_{-2} & \ddots \\
-\ddots  & a_3 & a_2 & a_1 & a_0 & a_{-1} &  \ddots \\
-\ddots & \ddots & \ddots& \ddots& \ddots& \ddots& \ddots
-}
+c_1 u''(x) + c_2 u'(x) + \lambda u(x) + \int_0^\infty K(x-t)u(t) \dt = f(x)\qqfor 0 \leq x < \infty.
 $$
-In other words, for $k,j \in \Z$ we have
-$$
-\vc e_k^\top L[a(z)] \vc e_j = a_{k-j}
-$$
-
-Note that $L[a(z)] \vc b$ is a discrete convolution:
-$$
-\vc e_k^\top L[a(z)] \vc b = \sum_{j=-\infty}^\infty a_{k-j} b_j
-$$
-and gives the Laurent coefficients of $a(z) b(z)$ where
-$$
-b(z) = \sum_{k=-\infty}^\infty b_k z^k
-$$
-
-This implies an algebraic structure: we have 
-$$
-L[a(z)] L[b(z)] = L[a(z)b(z)] = L[b(z)] L[a(z)]
-$$
-in particular, provided $a(z) \neq 0$ on the unit circle,
-$$
-L[a(z)]^{-1} = L[a(z)^{-1}]
-$$
-
-### Example: bi-infinite discrete Laplacian
-
-The bi-infinite discrete Laplacian arises in simple models of crystal structure, though we can
-also think of it as a finite difference discretisation of the Laplacian
-on all of $\R$. 
-That is, consider the bi-infinite continuous Helmholtz equation
-$$
-u''(x) - k^2 u(x) = f(x)
-$$
-for $x \in \R$. If we represent the second derivative by its finite-difference
-approximation at the grid $x_k = k h$,
-$$
-{u(x_{k-1}) -2 u(x_k) + u(x_{k+1}) \over h^2}
-$$
-That is, we have the discretisation
-$$
-\Delta_h := {1 \over h^2}L[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{\ddots & \ddots \\ 
-                \ddots & -2 & 1 \\
-                & 1 & -2 & 1 \\
-                && 1 & -2 & \ddots \\
-                &&&\ddots & \ddots}
-$$
-which gives us the system:
-$$
-(\Delta_h - k^2 I) \vc u = \vc f
-$$
-Noting that
-$$
-\Delta_h - k^2 I  = L[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
-$$
-we know that we can invert this exactly as $L[a(z)^{-1}]$. To determite its Laurent series 
-we do partial fraction expansion
-$$
-a(z)^{-1} = \br[{(z-z_-) (z - z_+) \over  z h^2} ]^{-1} = 
-{z_- h^2 \over (z-z_-) (z_--z_+)}  + {z_+ h^2 \over (z-z_+) (z_+-z_-)}
-$$
-where 
-$$
-z_\pm = 1 + {h^2k^2 \over 2} \pm {h k \over 2} \sqrt{h^2 k^2+4}.
-$$
-To find the Laurent series we use $|z_-| < 1$ so that
-$$
-{1 \over z - z_-} = {1 \over z} + {z_- \over z^2} + {z_-^2 \over z^3} + \cdots
-$$
-and $|z_+| > 1$ so that
-$$
-{1 \over z - z_+} = -{1 \over z_+} - {z \over z_+^2} - {z^2 \over z_+^3} + \cdots,
-$$
-hence
-$$
-a(z)^{-1} = {z_-^2 h^2 \over z_- - z_+} \sum_{k=-\infty}^{-1} z_-^{-k} z^k + {h^2 \over z_- - z_+} \sum_{k=0}^\infty z_+^k z^k
-$$
-The entries of the Laurent series then give the entries of $L[a(z)^{-1}]$.
+Here $c_1, c_2, \lambda$ are given constants and again we want to find $u$.
 
 
-## Toeplitz operators
-
-A _Toeplitz operator_ is an infinite-dimensional matrix with constant diagonals.
-As in a Laurent operator, we associate it with a Laurent series on the unit circle called the _symbol_:
-$$
-a(z) = \sum_{k=-\infty}^\infty a_k z^k
-$$
-Then the corresponding Toeplitz operator is
-$$
-T[a(z)] := \sopmatrix{
- a_0 & a_{-1} & a_{-2} & a_{-3} & \ddots \\
- a_1 & a_0 & a_{-1} & a_{-2} & \ddots \\
- a_2 & a_1 & a_0 & a_{-1}   & \ddots \\
-\vdots & \ddots& \ddots& \ddots & \ddots
-}
-$$
-In other words, for $k,j \in \{0,1,2,3,\dots \}$ we have
-$$
-\vc e_k^\top T[a(z)] \vc e_j = a_{k-j}
-$$
-
-Note that $T[a(z)] \vc b$ is a half-discrete convolution:
-$$
-\vc e_k^\top L[a(z)] \vc b = \sum_{j=0}^\infty a_{k-j} b_j
-$$
-
-### Algebraic properties
-
-Unlike Laurent operators, we do not have a trivial algebraic structure: in general
-$$
-T[a(z)] T[b(z)] \neq T[a(z) b(z)] \neq T[b(z)] T[a(z)]
-$$
-For example, if $a(z) = z$ and $b(z) = z^{-1}$ so that $T[a(z)b(z)] = I$ we have
-$$
-\underbrace{\sopmatrix{0 \\ 1 \\ & 1 \\ &&\ddots}}_{T[a(z)]} \underbrace{\sopmatrix{0 & 1 \\ & & 1 \\ &&&\ddots}}_{T[b(z)]} = \sopmatrix{0 \\ & 1 \\ && 1 \\ &&& \ddots} \neq I
-$$
+In this course, we will only consider $K(x) = \E^{-\gamma |x|}$, though the methodology translates to
+other choices of $K$.
 
 
-On the other hand $T[b(z)] T[a(z)] = I$, and we will see that the analyticity properties 
-are what ensure this, and thence lead to a RH problem. 
+# Integral equations on the real line
 
-The easiest way to understand the algebraic properties is to note that a Toeplitz operator is 
-a sub-component of a Laurent operator, that is,
+Before discussing problems on the half line, we consider problems on the whole line:
 $$
-L[a(z)] = \sopmatrix{
-\times & \times \\ \times & T[a(z)]
-}
+\lambda u(x) + \int_{-\infty}^\infty K(x-t)u(t) \dt = f(x)\qqfor -\infty < x < \infty.
 $$
-(Here $\times$ means we don't use those entries.) In the special case where 
+Outline:
+
+
+Recall the Fourier transform of a function (using $s$ so I don't get confused with $K$):
 $$
-a(z) = \sum_{k=0}^\infty a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
+    {\hat{K}}(s) = {\cal F} K (s) =  \int_{-\infty}^\infty K(t) \E^{-\I s t} \dt
 $$
-are analytic, $L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are lower-triangular, hence
+so that
+$$
+K(x) = {\cal F}^{-1} \hat K(x) =  {1 \over 2\pi}\int_{-\infty}^\infty \hat K(s) \E^{ \I s x} \D s
+$$
+What effect does translating a function have on it's Fourier transform?
+$$
+\int_{-\infty}^\infty K(t+x_0) \E^{-\I s t} \dt = \int_{-\infty}^\infty K(\tau) \E^{-\I s (\tau - x_0)} \dt = \E^{\I s x_0} \hat K(s)
+$$
+
+We are interested in the  Fourier transform of the _convolution_ term
+$$
+\int_{-\infty}^\infty K(x-t)u(t) \dt
+$$
+But we have
+$$
+\int_{-\infty}^\infty \E^{-\I s x} \int_{-\infty}^\infty K(x-t)u(t) \dt \dx = \int_{-\infty}^\infty \int_{-\infty}^\infty \E^{-\I s x} K(x-t)\dx u(t) \dt =
+\int_{-\infty}^\infty \E^{-\I s t} \hat K(s) u(t) \dt = \hat K(s) \hat u(s)
+$$
+That is, convolution becomes multiplication. Thus our integral equation in Fourier space becomes:
+$$
+(\lambda + \hat K(s)) \hat u(s) = \hat f(s) \qqfor -\infty < s < \infty
+$$
+Or in other words,
+$$
+u(x) = {\cal F}^{-1} \left[{\hat f \over \lambda + \hat K }\right](x)
+$$
+
+### Example:
+
+Consider the kernel $K(x) = \E^{-\gamma |x|}$. Then we have
 $$
 \begin{align*}
-\sopmatrix{
-\times &  \\ \times & T[a(z) b(z)]
-} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
-\times &  \\ \times & T[a(z)]
-} \sopmatrix{
-\times &  \\ \times & T[b(z)]
-} \ccr
-= \sopmatrix{
-\times &  \\ \times & T[a(z)] T[b(z)]
-}
-\end{align*}
-$$
-Similarly, if 
-$$
-a(z) = \sum_{k=-\infty}^0 a_k z^k \qqand b(z) = \sum_{k=-\infty}^0 b_k z^k
-$$
-are analytic outside the unit circle, 
-$L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are upper-triangular, hence
-$$
-\begin{align*}
-\sopmatrix{
-\times & \times \\  & T[a(z) b(z)]
-} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
-\times & \times \\  & T[a(z)]
-} \sopmatrix{
-\times & \times  \\  & T[b(z)]
-} \ccr
-= \sopmatrix{
-\times & \times  \\  & T[a(z)] T[b(z)]
-}
-\end{align*}
-$$
-In both cases, if $a(z)$ is analytic inside/outside and has no roots,
-then the above imply that 
-$$
-T[a(z)]^{-1} = T[a(z)^{-1}]
-$$
-
-Finally, if 
-$$
-a(z) = \sum_{k=-\infty}^0 a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
-$$
-that is $a(z)$ is analytic outside and $b(z)$ is analytic inside the unit circle,
-then we have $L[a(z)]$ is upper triangular, $L[b(z)]$ is lower triangular, and
-$$
-\begin{align*}
-\sopmatrix{
-\times & \times \\ \times & T[a(z) b(z)]
-} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
-\times & \times \\  & T[a(z)]
-} \sopmatrix{
-\times &   \\ \times & T[b(z)]
-} \ccr
-= \sopmatrix{
-\times & \times  \\ \times & T[a(z)] T[b(z)]
-}
+\hat K(s) &= \int_{-\infty}^\infty K(t) \E^{-\I s t} \dt = \int_{-\infty}^0 \E^{( \gamma - \I s ) t} \dt  + \int_0^\infty \E^{(-\gamma - \I s ) t} = {1 \over  \gamma - \I s} - {1 \over -\gamma - \I s } \\
+&= {2\gamma \over \gamma^2 + s^2}
 \end{align*}
 $$
 
-### Wiener-Hopf factorisation
+```julia
+using Plots, ComplexPhasePortrait, ApproxFun, SingularIntegralEquations, OscillatoryIntegrals
+import ApproxFun: UnionDomain
 
-This presents a procedure for inverting Toeplitz operators: find $\phi_+(z)$ analytic
-inside the unit circle, and $\phi_-(z)$ is analytic outside with $\phi_-(\infty) = 1$
-satisfying
+γ = 2.0
+Γ = ApproxFun.UnionDomain((-Inf .. 0) , (0 .. Inf)) # Line split in two
+K = Fun(x -> exp(-γ*abs(x)), Γ)
+Kh = s -> fourier(K, -s) # magic routine for Fourier transforms
+Kh(2.0) , 2γ/(γ^2+2.0^2)
+```
+
+Consider a simple RHS like
 $$
-a(z) = \phi_+(z) \phi_-(z)
+f(x) = {1 \over x^2 + a^2}
 $$
-so that we have the UL decomposition
+Because of the decay, we can use Residue calculus to determine, for $s < 0$ deforming to the upper half plane,
 $$
-T[a(z)] = T[\phi_-(z)] T[\phi_+(z)]
+\hat f(s) = \int_{-\infty}^\infty {\E^{-\I s t} \over t^2 + a^2}\dt = 2 \pi \I \Res_{z = a \I}{\E^{-\I s z} \over z^2 + a^2} = \pi  {\E^{s a} \over a}
+$$
+and for $s > 0$ deforming to the lower half plane
+$$
+\hat f(s) =-2 \pi \I \Res_{z =- a \I}{\E^{-\I s z} \over z^2 + a^2} = \pi {\E^{-s a} \over  a}
+$$
+and for $s = 0$ the results match:
+$$
+\hat f(0) = {\pi  \over  a}
 $$
 
-This is equivalent to solving the RH problem
-$$
-\phi_+(z) = a(z) \phi_-(z)^{-1}
-$$
-assuming $\phi_-(z)$ has no zeros. As outlined last lecture, this is satisfied if
-the winding number of $a(z)$ is trivial. In particular, we have the solution
-$$
-\phi_\pm(z) = \E^{\pm \CC[\log a](z)}
-$$
-though when $a(z)$ is rational it is more feasible to compute the roots
-and factorise appropriately.
+**Remark** The Fourier transform of smooth functions that exponentially
+decay are smooth functions that exponentially decay. When we only have algebraic decay,
+that indicates that the Fourier transform is smooth apart from at $0$.
+```julia
+a = 2.0
+f = Fun(x -> 1/(x^2 + a^2), Γ)
+fh = s -> fourier(f, -s)
+fh(0) - π/a
 
-### Example: Finite difference on half-line
+fh(2.0) - (π*exp(-2.0*a)/a), fh(-2.0) - (π*exp(-2.0*a)/a)
+```
 
-We consider a semi-infinite discrete Laplacian. This arises naturally from
-a finite-difference discretisation with zero Dirichlet conditions, e.g., for $x > 0$ we have
+So we can now solve the integral equation
 $$
-u''(x)  - k^2 u(x) = f(x) \qqand u(0) = 0
+\lambda u(x) + \int_{-\infty}^\infty K(x-t)u(t) \dt = f(x)\qqfor -\infty < x < \infty.
 $$
-We discretise at $x_k = h k$ for $k = 0,1,\ldots$. The finite-difference gives us 
+by
+converting to Fourier space
+$$
+(\lambda + \hat K(s)) \hat u(s)  = \hat f(s)\qqfor -\infty < x < \infty.
+$$
+to get
+$$
+\hat u(s) = {\pi \over a} { \E^{-a |s|} (\gamma^2+s^2) \over \lambda (\gamma^2+s^2) + 2\gamma}
+$$
+Therefore, $u(x)$ is the inverse Fourier transform of this. We calculate it numerically first:
+```julia
+λ = 1.0
+uh = π/a*Fun(s -> exp(-a*abs(s))*(γ^2 + s^2)/(λ*(γ^2 + s^2) + 2γ), Γ)
+
+u = Fun(x -> fourier(uh, x), Γ)/(2π)
+
+plot(-10.0:0.1:10.0, u)
+```
+```julia
+λ*u(0.0) +  sum(u*K), f(0.0)
+```
+```julia
+x =2.0
+λ*u(x) +  sum(Fun(t -> K(x-t)*u(t), UnionDomain(-Inf .. x, x .. Inf))) , f(x)
+```
+
+Working out the analytic formula for this example takes a lot more work and involves other special functions,
+and is outside the scope of the course.
+
+
+# Integral equations on the half-line and Riemann–Hilbert problems
+
+
+Taking Fourier transforms, we get functions analytic above or below the real axis,
+giving us a Riemann–Hilbert problem of finding $\Phi(z)$ analytic off $(-\infty,\infty)$ such that
+$$
+\Phi_+(s) - g(s)\Phi_-(s) = h(s) \qqand \Phi(\infty) = C
+$$
+where $\Phi_\pm(s) = \lim_{\epsilon \rightarrow 0} \Phi(s \pm \I \epsilon)$
+are the limits from above and below.  Here $g$ and $h$ are given, and $g(\pm \infty) = 1$.
+
+Recall the notation
+$$
+f_{\rm R}(x) = \begin{cases}f(t) & t \geq 0 \\ 0 & \hbox{otherwise} \end{cases}
+$$
+and
+$$
+f_{\rm L}(x) = \begin{cases}f(t) & t < 0 \\ 0 & \hbox{otherwise} \end{cases}
+$$
+
+Using this, we can rewrite the integral equation on the half line
+$$
+\lambda u(x) + \int_{0}^\infty K(x-t)u(t) \dt = f(x)\qqfor 0 < x < \infty.
+$$
+as an integral equation on the whole line:
+$$
+\lambda u_{\rm R}(x) + \int_{-\infty}^\infty K(x-t)u_{\rm R}(t) \dt = f_{\rm R}(x) + p_{\rm L}(x)\qqfor -\infty < x < \infty.
+$$
+where
+$$
+p(x) = \int_{-\infty}^\infty K(x-t)u_{\rm R}(t) \dt
+$$
+Taking Fourier transforms, this becomes:
+$$
+(\lambda + \widehat K(s)) \widehat{u_{\rm R}}(s) = \widehat{f_{\rm R}}(s) + \widehat{p_{\rm L}}(s)
+$$
+As discussed last lecture, assuming $u$ is "nice" we are guaranteed that $\widehat{ u_{\rm R}}(s)$
+is analytic in the lower half-plane and $\widehat{ p_{\rm L}}(s)$ is analytic in the upper-half plane.
+Thus introduce the sectionally analytic function:
+$$
+\Phi(z) = \begin{cases}  \widehat{p_{\rm L}}(z) & \Im z > 0 \\
+                            \widehat{u_{\rm R}}(z) & \Im z < 0
+                            \end{cases}
+$$
+Then our integral transformed integral equation becomes:
+$$
+\underbrace{\Phi_+(s)}_{\widehat{p_{\rm L}}(s)} - \underbrace{g(s)}_{\lambda + \widehat K(s)} \underbrace{\Phi_-(s)}_{\widehat{u_{\rm R}}(s)} = \underbrace{h(s)}_{-\widehat{f_{\rm R}}(s) } \qqand \Phi(\infty) = 0
+$$
+
+Here there is one unknown $\Phi(z)$, and we claim that in certain conditions this has one—and only—one solution. Thus we wish to:
+
+1. Find $\Phi(z)$
+2. Recover $u(x)$ via the inverse Fourier transform ${\cal F}^{-1} \Phi_-$
+
+
+# The Wiener–Hopf method: an example
+
+We can now employ the Wiener–Hopf method to solve
+$$
+\lambda u(x) + \int_{0}^\infty K(x-t)u(t) \dt = f(x)\qqfor 0 < x < \infty.
+$$
+
+The Wiener–Hopf method consists of the following steps:
+
+1. Calculate Fourier transforms $\widehat K(s)$ and $\widehat{f_{\rm R}}(s)$ to reduce to RH problem
+$\Phi_+(s) -g(s) \Phi_-(s) = h(s)$ with $\lim \Phi(z) = 0$
+2. Find homogenous solution $\kappa_+(s) = g(s) \kappa_-(s)$ with $\lim \kappa(z) = 1$
+3. Solve Cauchy transform problem $Y_+(s) - Y_-(s) = {h(s) \over \kappa_+(s)}$
+4. Find $u(x)$ by inverting Fourier transform $\widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s)$
+
+
+We will demonstrate these four steps using the example $K(x) = \E^{-|x|}$ and $f(x) = \E^{-x}$,
+with $\lambda = 1$.
+
+## Step 1: Calculate Fourier transforms
+
+We have
+$$
+\widehat{K}(s) = \int_{-\infty}^0 \E^{t}\E^{-\I s t} \dt + \int_0^\infty \E^{-t} \E^{-\I s t} \dt =
+ {1 \over 1-\I s} - {1 \over -1-\I s} = {2 \over 1+s^2}
+$$
+Because we have exponential decay at $\pm \infty$, $\widehat{K}$ is analytic in a strip.
+Furthermore,
+$$
+\widehat{f_{\rm R}}(s) = \int_0^\infty \E^{-t} \E^{-\I t s} \dt = -{1 \over -1-\I s} = {\I \over \I-s}
+$$
+As predicted, $\widehat{\fR}(s)$ is analytic in the lower half-plane.
+
+We thus have the RH problem:
+$$
+\underbrace{\Phi_+(s)}_{\widehat{p_{\rm L}}(s)} - \underbrace{g(s)}_{1 + \widehat K(s)}
+\underbrace{\Phi_-(s)}_{\widehat{u_{\rm R}}(s)} = \underbrace{h(s)}_{-\widehat{\fR}(s)} \qqand \lim\Phi(z) = 0
+$$
+where
+$$
+p(x) = \int_{-\infty}^\infty K(x-t)u_{\rm R}(t) \dt
+$$
+is unknown, or in our case
+$$
+\Phi_+(s) - {3 + s^2 \over 1 + s^2} \Phi_-(s) = {\I \over s - \I} \qqand \lim\Phi(z) = 0
+$$
+
+Here we confirm our calculations are correct for the Fourier transforms:
+```julia
+t = Fun(0.0 .. 40)
+f = exp(-t)
+fourier(f, -2.0), im/(im-2.0)
+
+1-(fourier(-exp(-t), -2.0) + fourier(-exp(Fun(-40 .. 0)), -2.0)), (2.0^2 + 3)/(2.0^2+1)
+```
+
+## Step 2: Find homogeneous solution
+
+Last lecture we employed the "guess and check" kernel factorization method to find
+$$
+g(s) = {3 + s^2 \over 1 + s^2} = \underbrace{s + \I \sqrt{3} \over s + \I}_{\kappa_+(s)}
+\underbrace{s - \I \sqrt{3} \over s-\I }_{\kappa_-(s)^{-1}}
+$$
+That is, we have the solution
+$$
+\kappa(z) = \begin{cases} {z + \I \sqrt{3} \over z + \I}  & \Im z > 0 \\
+                            {z - \I  \over z - \I \sqrt{3}} & \Im z < 0
+                            \end{cases}
+$$
+Always verify this solution satisfies the right conditions:
+
+1. The function $\kappa(z)$ is analytic off $\R$, since the pole of ${z + \I \sqrt{3} \over z + \I}$ is in the lower-half plane and the pole of ${z - \I  \over z - \I \sqrt{3}} $ is in the upper-half plane
+2. $\lim \kappa(z) = 1$ by L'Hopital's rule or similar.
+3. It has the right jump:
+$$
+\kappa_+(s) = {s + \I \sqrt{3} \over s + \I} = {3 + s^2 \over 1 + s^2}{s - \I  \over s - \I \sqrt{3}} = g(s)\kappa_-(s)
+$$
+
+Here we confirm that we have the right jump:
+```julia
+κ = z -> imag(z) > 0 ? (z+im*sqrt(3))/(z+im) :
+                       (z-im)/(z-im*sqrt(3))
+
+κ(0.1+eps()im) , κ(0.1-eps()im)*(3+0.1^2)/(1+0.1^2)
+```
+
+
+## Step 3: Solve Cauchy transform problem
+
+Writing $\Phi(z) = \kappa(z) Y(z)$ we have
+$$
+\Phi_+(s) - g(s) \Phi_-(s) = \kappa_+(s) (Y_+(s) - Y_-(s))
+$$
+hence we need to solve
+$$
+Y_+(s) - Y_-(s) = {h(s) \over \kappa_+(s)} = {\I \over s- \I} {s + \I \over s+ \I \sqrt{3}}
+$$
+As in last lecture, we found:
+$$
+Y(z) = \begin{cases}
+{-\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+ \I \sqrt{3}} & \Im z > 0 \\
+{-2 \I \over z-\I}{1 \over 1+ \sqrt{3}} & \Im z < 0
+\end{cases}
+$$
+Let's double check that $Y$ has the right jump:
+```julia
+Y = z -> imag(z) > 0 ? -im*(1-sqrt(3))/(1+sqrt(3))/(z+im*sqrt(3)) :
+                       -2im/((z-im)*(1+sqrt(3)))
+
+s = 0.1
+
+Y(s+eps()im) - Y(s-eps()im), im/(s-im)*(s+im)/(s + im*sqrt(3))
+```
+Thus we get
 $$
 \begin{align*}
-u''(x_1) \approx {u(x_0) - 2 u(x_1) + u(x_2) \over h^2} &=  {-2 u(x_1) + u(x_2) \over h^2} \cr
-u''(x_k) \approx {u(x_{k-1}) - 2 u(x_k) + u(x_{k+1}) \over h^2} 
+\Phi(z)  &= \kappa(z) \CC_\R\br[{h \over \kappa_+}](z) = \begin{cases}
+{-\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+\I} & \Im z > 0 \\
+{-2 \I  \over 1+ \sqrt{3}} {1 \over z-\sqrt{3}\I} & \Im z < 0
+\end{cases}
 \end{align*}
 $$
-That is, we have the discretisation
-$$
-\Delta_h := {1 \over h^2}T[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{
-                 -2 & 1 \\
-                 1 & -2 & 1 \\
-                & 1 & -2 & \ddots \\
-                &&\ddots & \ddots}
-$$
-which gives us the system:
-$$
-(\Delta_h - k^2 I) \vc u = \vc f
-$$
-where 
-$$
-\vc u = \Vectt[u(x_1),u(x_2),\dots],\qquad \vc f = \Vectt[f(x_1),f(x_2),\dots].
-$$
 
-Noting that
+We can confirm it satisfies the right RHP:
+```julia
+φ =  z -> imag(z) > 0 ? -im*(1-sqrt(3))/(1+sqrt(3))/(z+im) :
+                       -2im/((z-sqrt(3)*im)*(1+sqrt(3)))
+
+g = s -> (s^2+3)/(s^2+1)
+
+s = 0.1
+φ(s+eps()im) - φ(s-eps()im)*g(s) , im/(s-im)
+```
+
+## Step 4: Invert the Fourier transform
+
+In particular, we have
 $$
-\Delta_h - k^2 I  = T[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
+\widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s) =  {-2 \I \over (1+\sqrt{3})(s-\I \sqrt 3)}
 $$
-we know that we can invert this exactly by finding the Wiener–Hopf factorisation of $a(z)$, namely,
-$$
-a(z) = \underbrace{(1-z_-/z)}_{\phi_-(z)} \underbrace{h^{-1} (z-z_+)}_{\phi_+(z)}
-$$
-where $z_\pm$ were defined above. Therefore
-$$
-T[a(z)] = T[\phi_-(z)] T[\phi_+(z)]
-$$
-This implies that
-$$
-T[a(z)]^{-1} = T[\phi_+(z)]^{-1} T[\phi_-(z)]^{-1} = T[\phi_+(z)^{-1}] T[\phi_-(z)^{-1}]
-$$
-We can use Geometric series to compute 
+This is analytic in the lower half plane, and for $x > 0$ we can use Jordan's lemma hence use
+Residue calculus in the upper-half plane:
 $$
 \begin{align*}
-\phi_+(z)^{-1} &= {h \over z - z_+} = -{h \over z_+} -{h z \over z_+^2} - {h z^2 \over z_+^3} - \cdots \ccr
-\phi_-(z)^{-1} = {1 \over 1-z_-/z} = 1 + {z_- \over z} + {z_-^2 \over z^2} + \cdots
+u(x) = {1 \over 2 \pi} \int_{-\infty}^\infty \widehat{u_{\rm R}}(s) \E^{\I s x} \ds  \ccr
+= {-\I \over \pi(1+\sqrt{3})} \int_{-\infty}^\infty {1 \over s-\I \sqrt 3} \E^{\I s x} \ds  \ccr
+= {2   \over (1+\sqrt{3})} \Res_{z=\I \sqrt 3} {1 \over z-\I \sqrt 3} \E^{\I z x}  =
+{2 \E^{-\sqrt{3}x}    \over 1+\sqrt{3}}
 \end{align*}
 $$
-The Laurent coefficients tell us the entries of $T[\phi_\pm(z)^{-1}]$.
 
 
-__Demonstration__
-We want to factorise and invert $T[a(z)]$:
+## Step 5: Check I didn't make a mistake
+
+Did this work? Amazingly, yes:
+$$
+\begin{align*}
+u(x) + \int_0^\infty K(t -x) u(t) \dt &= {2   \over 1+\sqrt{3}} \left(  \E^{-\sqrt{3}x}  +   \int_0^x \E^{t-x} \E^{-\sqrt{3}t} \dt +  \int_x^\infty \E^{x-t} \E^{-\sqrt{3}t}\dt \right) \\
+&={2    \over 1+\sqrt{3}}\left( \E^{-\sqrt{3}x}   +  \E^{-x}    \int_0^x \E^{(1-\sqrt{3})t} \dt + \E^x  \int_x^\infty  \E^{-(1+\sqrt{3})t}\dt \right) \\
+&={2     \over 1+\sqrt{3}}\left( \E^{-\sqrt{3}x}  + {1  \over 1-\sqrt 3}   (\E^{-\sqrt{3}x} - \E^{-x}) + { \E^{-\sqrt 3 x } \over 1+\sqrt{3}} \right) \\
+&=\E^{-x} + {2  \E^{-\sqrt{3}x}   \over 1+\sqrt{3}}\left({-2 \over -2}   + {1+ \sqrt 3  \over -2} + {1 - \sqrt 3 \over -2} \right)  \\
+&= \E^{-x}
+\end{align*}
+$$
+
+We can verify it numerically:
 ```julia
-using ToeplitzMatrices, LinearAlgebra
-h = k = 1
-n = 10
-Δ = 1/h^2 * Toeplitz([-2; 1; zeros(n-2)], [-2; 1; zeros(n-2)])
-T = Δ - k^2 * I
-```
-We can find the UL decomposition as follows
-```julia
-z_p = 1 + (h^2 * k^2)/2 + (h*k)/2 * sqrt(h^2*k^2+4)
-z_m = 1 + (h^2 * k^2)/2 - (h*k)/2 * sqrt(h^2*k^2+4)
+t = Fun(0 .. 10)
 
-z = exp(0.1im)
-(1-z_p/z)*(inv(h) * (z-z_m))
-z/h^2 - 2/h^2 + 1/(z*h^2) - k^2
+u = 2exp(-sqrt(3)*t)/(1+sqrt(3))
+x = 0.1
 
-U = Toeplitz([1; zeros(n-1)], [1; -z_m; zeros(n-2)])
+u(x) + sum(exp(-abs(t-x))*u) , exp(-x)
 ```
-```julia
-L = Toeplitz([-z_p/h; 1/h; zeros(n-2)], [-z_p/h; zeros(n-1)])
-```
-```julia
-U*L
-```
-This equals `T`, apart from the bottom right entry, which is off
-as these are finite-dimensional matrices. 
-
-We can then invert `U` and `L`, to construct the inverse of `T`:
-```julia
-Ui = Toeplitz([1; zeros(n-1)], z_m.^(0:n-1))
-Li = -h*Toeplitz(z_p.^(-(1:n)), [1/z_p; zeros(n-1)])
-Ti = Li*Ui
-```
-This is an inverse (apart from truncation error)
-```julia
-norm((Ti*T - I)[1:end-1,1:end-1])
-```
-
-

@@ -1,422 +1,637 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+# Lecture 20: Orthogonal polynomials and differential equations
 
-s.olver@imperial.ac.uk
+This lecture we do the following:
 
-
-
-# Lecture 20: Orthogonal polynomials
-
-
-We now introduce orthogonal polynomials (OPs). These are __fundamental__ for computational mathematics, with applications in
-1. Function approximation
-2. Quadrature (calculating integrals)
-2. Solving differential equations
-3. Spectral analysis of Schrödinger operators
-
-We will investigate the properties of _general_ OPs, in this lecture:
-
-1. Definition of orthogonal polynomials
-2. Three-term recurrence relationships
-3. Function approximation with orthogonal polynomials    
-2. Construction of orthogonal polynomials via Gram–Schmidt process    
+1. Recurrence relationships for Chebyshev and ultraspherical polynomials
+    - Conversion
+    - Three-term recurrence and Jacobi operators
+2. Application: solving differential equations
+    - First order constant coefficients differential equations
+    - Second order constant coefficient differential equations with boundary conditions
+    - Non-constant coefficients
+3. Differential equations satisfied by orthogonal polynomials
 
 
 
-## Definition of orthogonal polynomials
+That is, we introduce recurrences related to ultraspherical polynomials. This allows us to represent general linear differential equations as almost-banded systems.
 
-Let $p_0(x),p_1(x),p_2(x),…$ be a sequence of polynomials such that $p_n(x)$ is exactly degree $n$, that is,
+## Recurrence relationships for Chebyshev and ultraspherical polynomials
+
+
+We have discussed general properties, but now we want to discuss some classical orthogonal polynomials,
+beginning with Chebyshev (first kind) $T_n(x)$, which is orthogonal w.r.t.
+$$1\over \sqrt{1-x^2}$$
+and ultraspherical $C_n^{(\lambda)}(x)$, which is orthogonal w.r.t.
+$$(1-x^2)^{\lambda - \half}$$
+for $\lambda > 0$. Note that Chebyshev (second kind) satisfies $U_n(x) = C_n^{(1)}(x)$.
+
+For Chebyshev, recall we have the normalization constant (here we use a superscript $T_n(x) = k_n^{\rm T} x^n + O(x^{n-1})$)
 $$
-p_n(x) = k_n x^n + O(x^{n-1})
+k_0^{\rm T} = 1, k_n^{\rm T} = 2^{n-1}
 $$
-where $k_n \neq 0$.
+For Ultraspherical $C_n^{(\lambda)}$, this is
+$$
+k_n^{(\lambda)} = {2^n (\lambda)_n \over n!} = {2^n \lambda (\lambda+1) (\lambda+2) \cdots (\lambda+n-1)  \over n!}
+$$
+where $(\lambda)_n$ is the Pochhammer symbol. Note for $U_n(x) = C_n^{(1)}(x)$ this simplifies to $k_n^{\rm U} = k_n^{(1)} = 2^n$.
 
-Let $w(x)$ be a continuous weight function on a (possibly infinite) interval $(a,b)$: that is $w(x) \geq 0$ for all $a < x < b$. 
-This induces an inner product
+We have  already found the recurrence for Chebyshev:
 $$
-\ip<f,g> := \int_a^b f(x) g(x) w(x) \dx
+x T_n(x) = {T_{n-1}(x) \over 2} +  {T_{n+1}(x) \over 2}
 $$
-We say that $\{p_0, p_1,\ldots\}$ are _orthogonal with respect to the weight $w$_ if 
+We will show that we can use this to find the recurrence for _all_ ultraspherical polynomials. But first we need some special recurrences.
+
+**Remark** Jacobi, Laguerre, and Hermite all have similar relationships, which will be discussed further in the problem sheet.
+
+### Derivatives
+
+It turns out that the derivative of $T_n(x)$ is precisely a multiple of  $U_{n-1}(x)$, and similarly the derivative of $C_n^{(\lambda)}$ is a multiple of $C_{n-1}^{(\lambda+1)}$.
+
+**Proposition (Chebyshev derivative)**
 $$
-\ip<p_n,p_m> = 0\qqfor n \neq m.
-$$
-Because $w$ is continuous, we have
-$$
-\norm{p_n}^2 = \ip<p_n,p_n> > 0 .
+T_n'(x) = n U_{n-1}(x)
 $$
 
-Orthogonal polymomials are not unique: we can multiply each $p_n$ by a different nonzero constant $\tilde p_n(x) = c_n p_n(x)$, and 
-$\tilde p_n$ will be orthogonal w.r.t. $w$.  However, if we specify $k_n$, this is sufficient to uniquely define them:
+**Proof**
+We first show that $T_n'(x)$ is orthogonal w.r.t. $\sqrt{1-x^2}$ to all  polynomials of degree $m < n-1$, denoted $f_m$, using integration by parts:
+$$
+\begin{align*}
+\ip<T_n',f_m>_{\rm U} &= \int_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} \dx \ccr
+= -\int_{-1}^1 T_n(x) (f_m'(x)(1-x^2) + xf_m) {1  \over \sqrt{1-x^2}} \dx  \ccr
+= - \ip<T_n, f_m'(1-x^2) + x f_m >_{\rm T}  = 0
+\end{align*}
+$$
+since $f_m'(1-x^2) + f_m $ is degree $m-1 +2 = m+1 < n$.
 
-**Proposition (Uniqueness of OPs I)** Given a non-zero $k_n$, there is a unique polynomial $p_n$ orthogonal w.r.t. $w$ 
-to all lower degree polynomials.
+The constant works out since
+$$
+T_n'(x) = {\D \over \dx} (2^{n-1} x^n)  + O(x^{n-2}) = n 2^{n-1} x^{n-1} + O(x^{n-2})
+$$
+■
 
-**Proof** Suppose $r_n(x) = k_n x^n + O(x^{n-1})$ is another  OP w.r.t. $w$. We want to show $p_n - r_n$ is zero. 
-But this is a polynomial of degree $<n$, hence
+The exact same proof shows the following:
+
+**Proposition (Ultraspherical derivative)**
+$${\D \over \dx} C_n^{(\lambda)}(x) = 2 \lambda  C_{n-1}^{(\lambda+1)}(x)$$
+
+Like the three-term recurrence and Jacobi operators, it is useful to express this in matrix form. That is, for the derivatives of $T_n(x)$ we get
 $$
-p_n(x) - r_n(x) = \sum_{k=0}^{n-1} c_k p_k(x)
+{\D \over \dx}  \begin{pmatrix} T_0(x) \\ T_1(x) \\ T_2(x) \\ \vdots \end{pmatrix}= \begin{pmatrix}
+0 \cr
+1 \cr
+& 2 \cr
+&& 3 \cr
+&&&\ddots
+\end{pmatrix} \begin{pmatrix} U_0(x) \\ U_1(x) \\ U_2(x) \\ \vdots \end{pmatrix}
 $$
-But we have for $k \leq n-1$
+which let's us know that, for
 $$
-\ip<p_k,p_k> c_k = \ip<p_n - r_n, p_k> = \ip<p_n,p_k> - \ip<r_n, p_k> = 0 - 0 = 0
+f(x) = (T_0(x),T_1(x),\ldots) \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix}
 $$
-which shows all $c_k$ are zero.
+we have a derivative operator in coefficient space as
+$$
+f'(x) = (U_0(x),U_1(x),\ldots)\begin{pmatrix}
+0 & 1 \cr
+&& 2 \cr
+&&& 3 \cr
+&&&&\ddots
+\end{pmatrix}  \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix}
+$$
+
+_Demonstration_ Here we see that applying a matrix to a vector of coefficients successfully calculates the derivative:
+```julia
+using ApproxFun, Plots, LinearAlgebra
+f = Fun(x -> cos(x^2), Chebyshev())   # f is expanded in Chebyshev coefficients
+n = ncoefficients(f)   # This is the number of coefficients
+D = zeros(n-1,n)
+for k=1:n-1
+    D[k,k+1] = k
+end
+D
+```
+Here `D*f.coefficients` gives the vector of coefficients corresponding to the derivative, but now the coefficients are in the $U_n(x)$ basis, that is, `Ultraspherical(1)`:
+```julia
+fp = Fun(Ultraspherical(1), D*f.coefficients)
+fp(0.1)
+```
+Indeed, it matches the "true" derivative:
+```julia
+f'(0.1),-2*0.1*sin(0.1^2)
+```
+
+Note that in ApproxFun.jl we can construct these operators rather nicely:
+```julia
+D = Derivative()
+(D*f)(0.1)
+```
+Here we see that we can produce the ∞-dimensional version as follows:
+```julia
+D : Chebyshev() → Ultraspherical(1)
+```
+### Conversion
+
+
+
+We can convert between any two polynomial bases using a lower triangular operator, because their span's are equivalent.
+In the case of Chebyshev and ultraspherical polynomials, they have the added property that they are banded.
+
+**Proposition (Chebyshev T-to-U conversion)**
+$$
+\begin{align*}
+ T_0(x) &= U_0(x) \\
+ T_1(x) &= {U_1(x) \over 2} \\
+ T_n(x) &= {U_n(x) \over 2} - {U_{n-2}(x) \over 2}
+\end{align*}
+$$
+
+**Proof**
+
+Before we do the proof, note that the fact that there are limited non-zero entries follows immediately: if $m < n-2$ we have
+$$
+\ip<T_n, U_m>_{\rm U} = \ip<T_n, (1-x^2)U_m>_{\rm T} = 0
+$$
+
+To actually determine the entries, we use the trigonometric formulae. Recall for $x = (z + z^{-1})/2$, $z = \E^{\I \theta}$, we have
+$$
+\begin{align*}
+T_n(x) &= \cos n \theta = {z^{-n} + z^n \over 2}\\
+U_n(x) &= {\sin (n+1) \theta \over \sin \theta} = {z^{n+1} - z^{-n-1} \over z - z^{-1}} = z^{-n} + z^{2-n} + \cdots +  \cdots + z^{n-2} + z^n
+\end{align*}
+$$
+The result follows immediately.
 
 ■
 
-**Corollary (Uniqueness of OPs I)** If $q_n$ and $p_n$ are orthogonal w.r.t. $w$ to all lower degree polynomials, 
-then $q_n(x) = C p_n(x)$ for some constant $C$. 
-
-### Monic orthogonal polynomials
-
-If $k_n = 1$, that is, 
+**Corollary (Ultraspherical λ-to-(λ+1) conversion)**
 $$
-p_n(x) = x^n + O(x^{n-1})
+C_n^{(\lambda)}(x) = {\lambda \over n+ \lambda} (C_n^{(\lambda+1)}(x) - C_{n-2}^{(\lambda+1)}(x))
 $$
-then we refer to the orthogonal polymomials as monic.
 
-Monic OPs are unique as we have specified $k_n$.
-
-
-### Orthonormal polynomials
-
-If  $\norm{p_n} = 1$, then we refer to the orthogonal polynomials as orthonormal w.r.t. $w$.  
-We will usually use $q_n$ when they are orthonormal.   Note it's not unique: we can multiply by $\pm 1$ without changing the norm.
-
-
-**Remark** The classical OPs are __not__ monic or orthonormal (apart from one case). Many people make the mistake of using 
-orthonormal polynomials for computations. But there is a good reason to use classical OPs: their properties result in rational formulae, 
-whereas orthonormal polynomials require square roots. This makes a performance difference.
-
-## Function approximation with orthogonal polynomials
-
-A basic usage of orthogonal polynomials is for polynomial approximation. 
-Suppose $f(x)$ is a degree $n-1$ polynomial. Since $\{p_0(x),\ldots,p_{n-1}(x)\}$ span all degree $n-1$ polynomials, we know that
+**Proof** This follows from differentiating the previous result. For example:
 $$
-f(x) = \sum_{k=0}^{n-1} f_k p_k(x)
+\begin{align*}
+ {\D\over \dx} T_0(x) &= {\D\over \dx} U_0(x) \\
+ {\D\over \dx} T_1(x) &= {\D\over \dx} {U_1(x) \over 2} \\
+{\D\over \dx} T_n(x) &= {\D\over \dx} \left({U_n(x) \over 2} - {U_{n-2} \over 2} \right)
+\end{align*}
+$$
+becomes
+$$
+\begin{align*}
+    0 &= 0\\
+    U_0(x) &= C_0^{(2)}(x) \\
+   n U_{n-1}(x) &= C_{n-1}^{(2)}(x)  - C_{n-3}^{(2)}(x)
+\end{align*}
+$$
+Differentiating this repeatedly completes the proof.
+
+■
+
+
+Note we can write this in matrix form, for example, we have
+$$
+\underbrace{\begin{pmatrix}1 \cr
+                    0 & \half\cr
+                       -\half & 0 & \half \cr
+                           &\ddots &\ddots & \ddots\end{pmatrix} }_{(R_T^U)^\top} \begin{pmatrix}
+                           U_0(x) \\ U_1(x) \\ U_2(x) \\ \vdots \end{pmatrix}  =  \begin{pmatrix} T_0(x) \\ T_1(x) \\ T_2(x) \\ \vdots \end{pmatrix}
+$$
+
+therefore,
+$$
+f(x) =  (T_0(x),T_1(x),\ldots) \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix} =  (U_0(x),U_1(x),\ldots) R_T^U \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix}
+$$
+
+Again, we can construct this nicely in ApproxFun:
+```julia
+R_TU = I : Chebyshev() → Ultraspherical(1)
+
+f = Fun(exp, Chebyshev())
+g = R_TU*f
+
+g(0.1) , exp(0.1)
+```
+### Ultraspherical Three-term recurrence
+
+**Theorem (three-term recurrence for Chebyshev U)**
+$$
+\begin{align*}
+x U_0(x) &= {U_1(x) \over 2} \\
+x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}
+\end{align*}
+$$
+
+**Proof**
+Differentiating
+$$
+\begin{align*}
+ x T_0(x) &= T_1(x) \\
+x T_n(x)  &=  {T_{n-1}(x) \over 2} + {T_{n+1}(x) \over 2}
+\end{align*}
+$$
+we get
+$$
+\begin{align*}
+  T_0(x) &= U_0(x) \\
+ T_n(x) + n x U_{n-1}(x)  &=  {(n-1) U_{n-2}(x) \over 2} + {(n+1) U_n(x) \over 2}
+\end{align*}
+$$
+substituting in the conversion $T_n(x) = (U_n(x) - U_{n-2}(x))/2$ we get
+$$
+\begin{align*}
+  T_0(x) &= U_0(x) \\
+ n x U_{n-1}(x)  &=  {(n-1) U_{n-2}(x) \over 2} + {(n+1) U_n(x) \over 2} - (U_n(x) - U_{n-2}(x))/2 = {n U_{n-2}(x) \over 2} + {n U_n(x) \over 2}
+\end{align*}
+$$
+■
+
+Differentiating this theorem again and applying the conversion we get the following
+
+**Corollary (three-term recurrence for ultraspherical)**
+$$
+\begin{align*}
+x C_0^{(\lambda)}(x) &= {1 \over 2\lambda } C_1^{(\lambda)}(x) \\
+ x C_n^{(\lambda)}(x) &=  {n+2\lambda-1 \over 2(n+\lambda)} C_{n-1}^{(\lambda)}(x) + {n+1 \over 2(n+\lambda)} C_{n+1}^{(\lambda)}(x)
+\end{align*}
+$$
+
+Here's an example of the Jacobi operator (which is the transpose of the multiplication by $x$ operator):
+```julia
+Multiplication(Fun(), Ultraspherical(2))'
+```
+
+## Application: solving differential equations
+
+The preceding results allowed us to represent
+
+1. Differentiation
+2. Conversion
+3. Multiplication
+
+as banded operators. We will see that we can combine these, along with
+
+4. Evaluation
+
+to solve ordinary differential equations.
+
+### First order, constant coefficient differential equations
+
+Consider the simplest ODE:
+$$
+\begin{align*}
+u(0) &= 1 \\
+u'(x) - u(x) &= 0, \qquad x \in [-1, 1]
+\end{align*}
+$$
+and suppose we represent $u(x)$ in its Chebyshev expansion, with coefficients to be determined. In other words, we want to calculate coefficients $u_k$ such that
+$$
+u(x) = \sum_{k=0}^\infty u_k T_k(x) = (T_0(x), T_1(x), \ldots) \begin{pmatrix} u_0 \\ u_1 \\ \vdots \end{pmatrix}
+$$
+In this case we know that $u(x) = \E^x$, but we would still need other means to calculate $u_k$ (They are definitely not as simple as Taylor series coefficients).
+
+We can express the constraints as acting on the coefficients. For example, we have
+$$
+u(0) = (T_0(0), T_1(0), \ldots) \begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix} = (1,0,-1,0,1,\ldots)  \begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix}
+$$
+We also have
+$$
+u'(x) = (U_0(x),U_1(x),\ldots) \begin{pmatrix}
+0 & 1 \cr
+&& 2 \cr
+&&& 3 \cr
+&&&&\ddots
+\end{pmatrix}\begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix}
+$$
+To represent $u'(x) - u(x)$, we need to make sure the bases are compatible. In other words, we want to express $u(x)$ in its $U_k(x)$ basis using the conversion operator $R_T^{U}$:
+$$
+u(x) = (U_0(x),U_1(x),\ldots) \begin{pmatrix}
+    1 &0 & -\half \cr
+& \half & 0 & -\half \cr
+&&\ddots & \ddots & \ddots
+\end{pmatrix}\begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix}
+$$
+
+Which gives us,
+$$
+u'(x) - u(x) =  (U_0(x),U_1(x),\ldots)  \begin{pmatrix}
+    -1 &1 & \half \cr
+& -\half & 2 & \half \cr
+&& -\half & 3 & \half \cr
+&&&\ddots & \ddots & \ddots
+\end{pmatrix} \begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix}
+$$
+
+
+Combing the differential part and the evaluation part, we arrive at an (infinite) system of equations for the coefficients $u_0,u_1,\dots$:
+$$
+\begin{pmatrix}
+      1 & 0 & -1 & 0 & 1 & \cdots \\
+    -1 &1 & \half \cr
+& -\half & 2 & \half \cr
+&& -\half & 3 & \half \cr
+&&&\ddots & \ddots & \ddots
+\end{pmatrix} \begin{pmatrix} u_0\\u_1\\\vdots \end{pmatrix}  = \begin{pmatrix} 1 \\ 0 \\ 0 \\ \vdots \end{pmatrix}
+$$
+
+How to solve this system is outside the scope of this course (though a simple approach is to truncate the infinite system to finite systems). We can however do this in ApproxFun:
+```julia
+B  = Evaluation(0.0) : Chebyshev()
+D  = Derivative() : Chebyshev() → Ultraspherical(1)
+R_TU = I : Chebyshev() → Ultraspherical(1)
+L = [B;
+     D - R_TU]
+```
+We can solve this system as follows:
+```julia
+u = L \ [1; 0]
+plot(u;legend=false)
+```
+It matches the "true" result:
+```julia
+u(0.1) , exp(0.1)
+```
+Note we can incorporate right-hand sides as well, for example, to solve $u'(x) - u(x) = f(x)$, by expanding $f$ in its Chebyshev U series.
+
+### Second-order constant coefficient equations
+
+This approach extends to second-order constant-coefficient equations by using ultraspherical polynomials.  Consider
+$$
+\begin{align*}
+u(-1) &= 1\\
+u(1) &= 0\\
+u''(x) + u'(x)  + u(x) &= 0
+\end{align*}
+$$
+Evaluation works as in the first-order case. To handle second-derivatives, we need $C^{(2)}$ polynomials:
+```julia
+D₀ = Derivative() : Chebyshev() → Ultraspherical(1)
+D₁ = Derivative() : Ultraspherical(1) → Ultraspherical(2)
+D₁*D₀  # 2 zeros not printed in (1,1) and (1,2) entry
+```
+For the identity operator, we use two conversion operators:
+```julia
+R_TU = I : Chebyshev() → Ultraspherical(1)
+R_U2 = I : Ultraspherical(1) → Ultraspherical(2)
+R_T2 = R_U2*R_TU
+```
+And for the first derivative, we use a derivative and then a conversion:
+```julia
+R_U2*D₀  # or could have been D₁*R_TU
+```
+Putting everything together we get:
+```julia
+B₋₁ = Evaluation(-1) : Chebyshev()
+B₁ = Evaluation(1) : Chebyshev()
+# u(-1)
+# u(1)
+# u'' + u' +u
+
+L = [B₋₁;
+     B₁;
+     D₁*D₀ + R_U2*D₀ + R_U2*R_TU]
+
+u = L \ [1.0,0.0,0.0]
+plot(u;legend=false)
+```
+
+### Variable coefficients
+
+Consider the Airy ODE
+$$
+\begin{align*}
+u(-1) &= 1\\
+u(1) &= 0\\
+u''(x) - xu(x) &= 0
+\end{align*}
+$$
+to handle this, we need only use the Jacobi operator to represent multiplication by $x$:
+```julia
+x = Fun()
+X = Multiplication(x) : Chebyshev() → Chebyshev()  # transpose of the Jacobi operator
+```
+We set up the system as follows:
+```julia
+L = [B₋₁;   # u(-1)
+     B₁ ;   # u(1)
+     D₁*D₀ - R_U2*R_TU*X]   # u'' - x*u
+
+u = L \ [1.0;0.0;0.0]
+plot(u; legend=false)
+```
+If we introduce a small parameter, that is, solve
+$$
+\begin{align*}
+u(-1) &= 1\\
+u(1) &= 0\\
+\epsilon u''(x) - xu(x) &= 0
+\end{align*}
+$$
+we can see it's pretty hard to compute solutions:
+```julia
+ε = 1E-6
+L = [B₋₁;
+     B₁ ;
+     ε*D₁*D₀ - R_U2*R_TU*X]
+
+u = L \ [1.0;0.0;0.0]
+plot(u; legend=false)
+```
+Because of the banded structure, this can be solved fast:
+```julia
+ε = 1E-10
+L = [B₋₁;
+     B₁ ;
+     ε*D₁*D₀ - R_U2*R_TU*X]
+
+@time u = L \ [1.0;0.0;0.0]
+@show ncoefficients(u);
+```
+To handle other variable coefficients, first consider a polynomial $p(x)$. If Multiplication by $x$ is represented by multiplying the coefficients by $J^\top$, then multiplication by $p$ is represented by $p(J^\top)$:
+```julia
+M = -I + X + (X)^2  # represents -1+x+x^2
+
+ε = 1E-6
+L = [B₋₁;
+     B₁ ;
+     ε*D₁*D₀ - R_U2*R_TU*M]
+
+@time u = L \ [1.0;0.0;0.0]
+
+@show ε*u''(0.1) - (-1+0.1+0.1^2)*u(0.1)
+plot(u)
+```
+
+For other smooth functions, we first approximate in a polynomial basis,  and without loss of generality we use Chebyshev T basis. For example, consider
+$$
+\begin{align*}
+u(-1) &= 1\\
+u(1) &= 0\\
+\epsilon u''(x) - \E^x u(x) &= 0
+\end{align*}
 $$
 where
 $$
-f_k = {\ip<f, p_k> \over \ip<p_k,p_k>}
+\E^x  \approx p(x) = \sum_{k=0}^{m-1} p_k T_k(x)
 $$
-
-
-Sometimes, we want to incorporate the weight into the approximation. This is typically one of two forms, depending on the application: 
-$$
-f(x) = w(x) \sum_{k=0}^\infty f_k p_k(x)
-$$
-or
-$$
-        f(x) = \sqrt{w(x)} \sum_{k=0}^\infty f_k p_k(x)
-$$
-
-
-
-
-## Jacobi operators and three-term recurences for general orthogonal polynomials
-### Three-term recurrence relationships
-
-
-A central theme: if you know the Jacobi operator / three-term recurrence, you know the polynomials. 
-This is the __best__ way to evaluate expansions in orthogonal polynomials: even for cases where we have explicit
-formulae (e.g. Chebyshev polynomials $T_n(x) = \cos n \acos x$), 
-using the recurrence avoids evaluating trigonometric functions.
-
-Every family of orthogonal polynomials has a three-term recurrence relationship:
-
-**Theorem (three-term recurrence)** Suppose $\{p_n(x)\}$ are a family of orthogonal polynomials w.r.t. a weight $w(x)$. 
-Then there exists constants $a_n \neq 0$, $b_n$ and $c_n$ such that
+Evaluating at a point $x$, recall Clenshaw's algorithm:
 $$
 \begin{align*}
-x p_0(x) = a_0 p_0(x) + b_0 p_1(x) \\
-x p_n(x) = c_n p_{n-1}(x) + a_n p_n(x) + b_n p_{n+1}(x)
-\end{align*}
-$$
-
-**Proof**
-The first part follows since $p_0(x)$ and $p_1(x)$ span all degree 1 polynomials.
-
-The second part follows essentially because multiplication by $x$ is "self-adjoint", that is,
-$$
-\ip<x f, g> = \int_a^b x f(x) g(x) w(x) \dx = \ip<f, x g>
-$$
-Therefore, if $f_m$ is a degree $m < n-1$ polynomial, we have
-$$
-\ip<x p_n, f_m> = \ip<p_n, x f_m> = 0.
-$$
-In particular, if we write
-$$
-x p_n(x) = \sum_{k=0}^{n+1} C_k p_k(x)
-$$
-then
-$$
-C_k = {\ip< x p_n, p_k> \over \norm{p_k}^2} = 0
-$$
-if $k < n-1$.
-
-■
-
-
-Monic polynomials clearly have $b_n = 1$.  Orthonormal polynomials have an even simpler form:
-
-**Theorem (orthonormal three-term recurrence)** Suppose $\{q_n(x)\}$ are a family of orthonotms polynomials w.r.t. a weight $w(x)$. 
-Then there exists constants $a_n$ and $b_n$ such that
-$$
-\begin{align*}
-x q_0(x) = a_0 q_0(x)  + b_0 q_1(x)\\
-x q_n(x) = b_{n-1} q_{n-1}(x) + a_n q_n(x) + b_{n} q_{n+1}(x)
-\end{align*}
-$$
-
-**Proof**
-Follows again by self-adjointness of multiplication by $x$:
-$$
-c_n = \ip<x q_n, q_{n-1}> = \ip<q_n, x q_{n-1}> = \ip<x q_{n-1}, q_n> = b_{n-1}
-$$
-■
-
-
-**Corollary (symmetric three-term recurrence implies orthonormal)** Suppose $\{p_n(x)\}$ are a family of orthogonal polynomials 
-w.r.t. a weight $w(x)$ such that
-$$
-\begin{align*}
-x p_0(x) = a_0 p_0(x)  + b_0 p_1(x)\\
-x p_n(x) = b_{n-1} p_{n-1}(x) + a_n p_n(x) + b_{n} p_{n+1}(x)
-\end{align*}
-$$
-with $b_n \neq 0$. Suppose further that $\norm{p_0} = 1$. Then $p_n$ must be orthonormal.
-
-**Proof** This follows from
-$$
-b_n = {\ip<x p_n,p_{n+1}> \over \norm{p_{n+1}}^2} = {\ip<x p_{n+1}, p_n> \over \norm{p_{n+1}}^2} = b_n   {\norm{p_n}^2 \over \norm{p_{n+1}}^2 }
-$$
-which implies
-$$
-\norm{p_{n+1}}^2 = \norm{p_n}^2 = \cdots = \norm{p_0}^2 = 1
-$$
-■
-
-**Remark** We can scale $w(x)$ by a constant without changing the orthogonality properties, hence we can make $\|p_0\| = 1$ by changing the weight.
-
-**Remark** This is beyond the scope of this course, but satisfying a three-term recurrence like this such that coefficients 
-are bounded with $p_0(x) = 1$ is sufficient to show that there exists a $w(x)$ (or more accurately, a Borel measure) 
-such that $p_n(x)$ are orthogonal w.r.t. $w$. The relationship between the coefficients $a_n,b_n$ and the $w(x)$ is 
-an object of study in spectral theory, particularly when the coefficients are periodic, quasi-periodic or random.  
-
-## Jacobi operators and multiplication by $x$
-
-We can rewrite the three-term recurrence as
-$$
-x \begin{pmatrix} p_0(x) \cr p_1(x) \cr p_2(x) \cr \vdots \end{pmatrix} = J\begin{pmatrix} p_0(x) \cr p_1(x) \cr p_2(x) \cr \vdots \end{pmatrix}
-$$
-where $J$ is a Jacobi operator, an infinite-dimensional tridiagonal matrix:
-$$
-J = \begin{pmatrix} 
-a_0 & b_0 \cr
-c_1 & a_1 & b_1 \cr
-& c_2 & a_2 & b_2 \cr
-&& c_3 & a_3 & \ddots \cr
-&&&\ddots & \ddots
-\end{pmatrix} 
-$$
-
-When the polynomials are monic, we have $1$ on the superdiagonal.  When we have an orthonormal basis, then $J$ is symmetric:
-$$
-J = \begin{pmatrix} 
-a_0 & b_0 \cr
-b_0 & a_1 & b_1 \cr
-& b_1 & a_2 & b_2 \cr
-&& b_2 & a_3 & \ddots \cr
-&&&\ddots & \ddots
-\end{pmatrix} 
-$$
-
-
-Given a polynomial expansion, $J$ tells us how to multiply by $x$ in coefficient space, that is, if
-$$
-f(x) = \sum_{k=0}^\infty f_k p_k(x) =   (p_0(x) ,  p_1(x) , \ldots ) \begin{pmatrix}f_0\\ f_1\\f_2\\\vdots\end{pmatrix}
-$$
-then (provided the relevant sums converge absolutely and uniformly)
-$$
-x f(x) = x (p_0(x) ,  p_1(x) , \ldots ) \begin{pmatrix}f_0\\ f_1\\f_2\\\vdots\end{pmatrix} =
-    \left(J \begin{pmatrix} p_0(x) \cr p_1(x) \cr p_2(x) \cr \vdots \end{pmatrix}\right)^\top  \begin{pmatrix}f_0\\ f_1\\f_2\\\vdots\end{pmatrix} = (p_0(x) ,  p_1(x) , \ldots ) X \begin{pmatrix}f_0\\ f_1\\f_2\\\vdots\end{pmatrix}
-$$
-where $X := J^\top$. 
-
-
-
-### Evaluating polynomials
-
-
-We can use the three-term recurrence to construct the polynomials. 
-I think it's nicest to express this in terms of linear algebra. 
-Suppose we are given $p_0(x) = k_0$ (where $k_0 = 1$ is pretty much always the case in practice). This can be written in matrix form as
-$$
-(1,0,0,0,0,\ldots) \begin{pmatrix} p_0(x) \cr p_1(x) \cr p_2(x) \cr \vdots \end{pmatrix} = k_0
-$$
-We can combine this with the Jacobi operator to get
-$$
-\underbrace{\begin{pmatrix}
-1 \\
-a_0-x & b_0 \\
-c_1 & a_1-x & b_1 \\
-& c_2 & a_2-x & b_2 \cr
-&& c_3 & a_3-x & b_3 \cr
-&&&\ddots & \ddots & \ddots
-\end{pmatrix}}_{L_x} \begin{pmatrix} p_0(x) \cr p_1(x) \cr p_2(x) \cr \vdots \end{pmatrix} = \begin{pmatrix} k_0\cr 0 \cr 0 \cr \vdots \end{pmatrix}
-$$
-For $x$ fixed, this is a lower triangular system, that is, the polynomials equal 
-$$
-k_0 L_x^{-1} \vc e_0
-$$
-This  can be solved  via forward recurrence:
-$$
-\begin{align*}
-    p_0(x) &= k_0 \\
-    p_1(x) &= {(x-a_0) p_0(x) \over b_0}\\
-    p_2(x) &= {(x-a_1) p_0(x) - c_1 p_0(x) \over b_1}\\    
-    p_3(x) &= {(x-a_2) p_1(x) - c_2 p_1(x) \over b_2}\\ 
-    &\vdots
-\end{align*}
-$$
-
-We can use this to evaluate functions as well: 
-$$
-f(x) = (p_0(x),p_1(x),\ldots) \begin{pmatrix}f_0 \\ f_1\\ \vdots \end{pmatrix} = 
-k_0 \vc e_0^\top L_x^{-\top}  \begin{pmatrix}f_0 \\ f_1\\ \vdots \end{pmatrix}
-$$
-when $f$ is a degree $n-1$ polynomial, this becomes a problem of inverting an upper triangular matrix, 
-that is, we want to solve the $n \times n$ system
-$$
-\underbrace{\begin{pmatrix}
-1 & a_0-x & c_1 \\
-& b_0 & a_1-x & c_2  \\
-& & b_1 & a_2-x & \ddots  \\
-& &     & b_2 & \ddots & c_{n-2} \\
-&&&&\ddots & a_{n-2}-x \\
-&&&&& b_{n-2}
-\end{pmatrix}}_{L_x^\top} \begin{pmatrix} \gamma_0 \\\vdots\\ \gamma_{n-1} \end{pmatrix}
-$$
-so that $f(x) = \gamma_0$. We we can solve this  via back-substitution:
-$$
-\begin{align*}
-\gamma_{n-1} &= {f_{n-1} \over b_{n-2}} \\
-\gamma_{n-2} &= {f_{n-2} - (a_{n-2}-x) \gamma_{n-1} \over b_{n-3}} \\
-\gamma_{n-3} &= {f_{n-3} - (a_{n-3}-x) \gamma_{n-2} - c_{n-2} \gamma_{n-1} \over b_{n-4}} \\
+\gamma_{n-1} &= 2p_{n-1} \\
+\gamma_{n-2} &= 2p_{n-2} + 2x \gamma_{n-1} \\
+\gamma_{n-3} &= 2 p_{n-3} + 2x \gamma_{n-2} - \gamma_{n-1} \\
 & \vdots \\
-\gamma_1 &= {f_1 - (a_1-x) \gamma_2 - c_2 \gamma_3 \over b_0} \\
-\gamma_0 &= f_0 - (a_0-x) \gamma_1 - c_1 \gamma_2
+\gamma_1 &= p_1 + x \gamma_2 - \half \gamma_3 \\
+p(x) = \gamma_0 &= p_0 + x \gamma_1 - \half \gamma_2
 \end{align*}
 $$
-We give examples of these algorithms applied to Chebyshev polynomials in the next lecture.
-
-
-## Gram–Schmidt algorithm
-
-In general we don't have nice formulae. But we can always construct them via Gram–Schmidt:
-
-**Proposition (Gram–Schmidt)** Define
+If multiplication by $x$ becomes $J^\top$, then multiplication by $p(x)$ becomes $p(J^\top)$, and hence we calculate:
 $$
 \begin{align*}
-p_0(x) = 1 \\
-q_0(x) = {1 \over \norm{p_0}}\\
-p_{n+1}(x) = x q_n(x) - \sum_{k=0}^n \ip<x q_n, q_k> q_k(x)\\
-q_{n+1}(x) = {p_{n+1}(x) \over \norm{p_n}}
+\Gamma_{n-1} &= 2p_{n-1}I \\
+\Gamma_{n-2} &= 2p_{n-2}I + 2J^\top \Gamma_{n-1} \\
+\Gamma_{n-3} &= 2 p_{n-3}I + 2J^\top \Gamma_{n-2} - \Gamma_{n-1} \\
+& \vdots \\
+\Gamma_1 &= p_1I + J^\top \Gamma_2 - \half \Gamma_3 \\
+p(J^\top) = \Gamma_0 &= p_0 + x \Gamma_1 - \half \Gamma_2
 \end{align*}
 $$
-Then $q_0(x), q_1(x), \ldots$ are orthonormal w.r.t. $w$.
 
-**Proof** By linearity we have
+Here is an example:
+```julia
+p = Fun(exp, Chebyshev()) # polynomial approximation to exp(x)
+M = Multiplication(p) : Chebyshev() # constructed using Clenshaw:
+
+ε = 1E-6
+L = [B₋₁;
+     B₁ ;
+     ε*D₁*D₀ + R_U2*R_TU*M]
+
+@time u = L \ [1.0;0.0;0.0]
+
+@show ε*u''(0.1) + exp(0.1)*u(0.1)
+plot(u)
+```
+
+# Differential equations satisfied by orthogonal polynomials
+
+
+This lecture we do the following:
+
+1. Differential equations for orthogonal polynomials
+    - Sturm–Liouville equations
+    - Weighted differentiation for ultraspherical polynomials
+    - Differential equation for ultraspherical polynomials
+2. Application: Eigenstates of Schrödinger operators with quadratic potentials
+
+
+
+The three classical weights are (Hermite) $w(x) = \E^{-x^2}$, (Laguerre) $w_\alpha(x) = x^\alpha \E^{-x}$ and (Jacobi) $w_{\alpha,\beta}(x) = (1-x)^\alpha (1+x)^\beta$.
+Note all weights form a simple hierarchy: when differentiated, they give a linear polynomial times the previous weight in the hierarchy.  For Hermite,
 $$
-\ip<p_{n+1}, q_j> = \ip<x q_n - \sum_{k=0}^n {\ip<x q_n, q_k>} q_k, q_j> = \ip<x q_n, q_j> - \ip<x q_n, q_j> \ip<q_j,q_j> = 0
+{\D \over \dx} w(x) = -2x w(x)
 $$
-Thus $p_{n+1}$ is orthogonal to all lower degree polynomials. So is $q_{n+1}$, since it is a constant multiple of $p_{n+1}$.
+for Laguerre,
+$$
+{\D \over \dx} w^{(\alpha)}(x) = (\alpha  - x) w^{(\alpha-1)}(x)
+$$
+and for Jacobi
+$$
+{\D \over \dx} w^{(\alpha,\beta)}(x) = (\beta(1-x) - \alpha(1+x)) w^{(\alpha-1,\beta-1)}(x)
+$$
+These relationships  lead to simple differential equations that have the classical orthogonal polynomials as eigenfunctions.
+
+### Sturm–Liouville operator
+We first consider a simple class of operators that are self-adjoint:
+
+**Proposition (Sturm–Liouville self-adjointness)** Consider the weighted inner product
+$$
+\ip<f,g>_w = \int_a^b f(x) g(x) w(x) \dx
+$$
+then for any continuously differentiable function $q(x)$ satisfying $q(a) = q(b) = 0$, the operator
+$$
+Lu = {1 \over w(x)} {\D \over \dx}\left[ q(x) {\D u\over \dx} \right]
+$$
+is self-adjoint in the sense
+$$
+\ip<L f,g>_w = \ip<f, Lg>_w
+$$
+
+**Proof** Simple integration by parts argument:
+$$
+\begin{align*}
+\ip<L f,g>_w &= \int_a^b {\D \over \dx}\left[ q(x) {\D u\over \dx}\right]  g(x)\dx \ccr
+=  -\int_a^b q(x) {\D u\over \dx}    {\D g\over \dx} \dx =  \int_a^b   u(x)  {\D \over \dx} \left[ q(x) {\D g\over \dx}\right] \dx \ccr
+=
+ \int_a^b   u(x)  {1 \over w(x)} {\D \over \dx}\left[q(x) {\D g\over \dx}\right] w(x) \dx = \ip<f, Lg>_w
+ \end{align*}
+$$
 
 ■
 
-Let's make our own family:
-```julia
-using ApproxFun, Plots
-x = Fun()
-w = exp(x)
-ip = (f,g) -> sum(f*g*w)
-nrm = f    -> sqrt(ip(f,f))
-n = 10
-q = Array{Fun}(undef,n)
-p = Array{Fun}(undef,n)
-p[1] = Fun(1, -1 .. 1 )
-q[1] = p[1]/nrm(p[1])
-
-for k=1:n-1
-    p[k+1] = x*q[k] 
-    for j=1:k
-        p[k+1] -= ip(p[k+1],q[j])*q[j]
-    end
-    q[k+1] = p[k+1]/nrm(p[k+1])
-end
-
-sum(q[2]*q[4]*w)
-
-p = plot(; legend=false)
-for k=1:10
-    plot!(q[k])
-end
-p
-```
+We claim that the classical orthogonal polynomials are eigenfunctions of a Sturm–Liouville problem, that is, in each case there exists a $q(x)$ so that
+$$
+L p_n(x) = \lambda_n p_n(x)
+$$
+where $\lambda_n$ is the (real) eigenvalue. We will derive this for the ultraspherical polynomials.
 
 
+### Weighted differentiation for ultraspherical polynomials
 
-The three-term recurrence means we can simplify Gram--Schmidt, and calculate the recurrence coefficients at the same time:
-
-
-**Proposition (Gram–Schmidt)** Define
+We have already seen that Chebyshev and ultraspherical polynomials have simple expressions for derivatives where we decrement the degree and increment the parameter:
 $$
 \begin{align*}
-p_0(x) &= 1 \\
-q_0(x) &= {1 \over \norm{p_0}}\\
-a_n &= \ip<x q_n, q_n> \\
-b_{n-1} &= \ip<x q_n, q_{n-1}>\\
-p_{n+1}(x) &= x q_n(x) -  a_n q_n(x) -  b_{n-1} q_{n-1}(x)\\
-q_{n+1}(x) &= {p_{n+1}(x) \over \norm{p_n}}
+{\D \over \dx } T_n(x) & = n U_{n-1}(x) = n C_{n-1}^{(1)}(x) \\
+{\D \over \dx } C_n^{(\lambda)}(x) &= 2 \lambda C_{n-1}^{(\lambda+1)}(x)
 \end{align*}
 $$
-Then $q_0(x), q_1(x), \ldots$ are orthonormal w.r.t. $w$.
+In this section, we see that differentiating the weighted polynomials actually decrements the parameter and increments the degree:
 
-**Remark** This can be made a bit more efficient by using $\norm{p_n}$ to calculate $b_n$.
-```julia
-x = Fun()
-w = exp(x)
-ip = (f,g) -> sum(f*g*w)
-nrm = f    -> sqrt(ip(f,f))
-n = 10
-q = Array{Fun}(undef, n)
-p = Array{Fun}(undef, n)
-a = zeros(n)
-b = zeros(n)
-p[1] = Fun(1, -1 .. 1 )
-q[1] = p[1]/nrm(p[1])
+**Proposition (weighted differentiation)**
+$$
+\begin{align*}
+{\D \over \dx }[\sqrt{1-x^2} U_n(x)] &= - {n+1 \over \sqrt{1-x^2}} T_{n+1}(x) \\
+{\D \over \dx }[(1-x^2)^{\lambda-\half} C_n^{(\lambda)}(x)] & = -{(n+1) (n+2 \lambda-1) \over 2 (\lambda-1) }  (1-x^2)^{\lambda - {3 \over 2}} C_{n+1}^{(\lambda-1)}(x)
+\end{align*}
+$$
+**Proof** We show the first result by showing that the left-hand side is orthogonal to all  polynomials of degree less than $n+1$ by integration by parts:
+$$
+\ip< \sqrt{1-x^2} {\D \over \dx }[\sqrt{1-x^2} U_n(x)], p_m(x)>_{\rm T} = -\int_{-1}^1 \sqrt{1-x^2} U_n(x) p_m' \dx =0
+$$
+Note that
+$$
+\sqrt{1-x^2} {\D \over \dx } \sqrt{1-x^2} f(x) = (1-x^2) f'(x) - x f(x)
+$$
+Thus we just have to verify the constant in front:
+$$
+\sqrt{1-x^2} {\D \over \dx }[\sqrt{1-x^2} U_n(x) = (-n -1) 2^n x^{n+1}
+$$
 
-p[2] = x*q[1]
-a[1] = ip(p[2],q[1])
-p[2] -= a[1]*q[1]
-q[2] = p[2]/nrm(p[2])
+The other ultraspherical polynomial follow similarly.
+■
 
-for k=2:n-1
-    p[k+1] = x*q[k] 
-    b[k-1] =ip(p[k+1],q[k-1])
-    a[k] = ip(p[k+1],q[k])
-    p[k+1] = p[k+1] - a[k]q[k] - b[k-1]q[k-1]
-    q[k+1] = p[k+1]/nrm(p[k+1])
-end
 
-ip(q[5],q[2]) # shows orthogonality (to numerical accuracy)
-```
-Here we see a plot of the first 10 polynomials:
-```julia
-p = plot(; legend=false)
-for k=1:10
-    plot!(q[k])
-end
-p
-```
+### Eigenvalue equation for Ultraspherical polynomials
+
+Note that differentiating increments the parameter and decrements the degree while weight differentiation decrements the parameter and increments the degree. Therefore combining them brings us back to where we started.
+
+In the case of Chebyshev polynomials, this gives us a Sturm–Liouville equation:
+$$
+\sqrt{1-x^2} {\D \over \dx} \sqrt{1-x^2} {\D T_n \over \dx} =
+n \sqrt{1-x^2} {\D \over \dx} \sqrt{1-x^2} U_{n-1}(x) = -n^2 T_n(x)
+$$
+
+Note that the chain rule gives us a simple expression as
+$$
+(1-x^2) {\D^2 T_n \over \dx^2} -x {\D T_n \over \dx} = -n^2 T_n(x)
+$$
+
+Similarly,
+$$
+(1-x^2)^{\half - \lambda} {\D \over \dx}(1-x^2)^{\lambda + \half} {\D C_n^{(\lambda)} \over \dx} = -n (n+2 \lambda) C_n^{(\lambda)}(x)
+$$
+or in other words,
+$$
+(1-x^2) {\D^2 C_n^{(\lambda)} \over \dx^2} - (2\lambda+1) x {\D C_n^{(\lambda)} \over \dx}  = -{n (n+2 \lambda) \over 2\lambda}C_n^{(\lambda)}(x)
+$$

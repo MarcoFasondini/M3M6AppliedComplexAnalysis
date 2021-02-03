@@ -1,0 +1,614 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = { Marco Fasondini },
+           pdftitle={ foo },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+
+\def\qqand{\qquad\hbox{and}\qquad}
+\def\qqfor{\qquad\hbox{for}\qquad}
+\def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
+\def\D{ {\rm d} }
+\def\I{ {\rm i} }
+\def\E{ {\rm e} }
+\def\C{ {\mathbb C} }
+\def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
+\def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
+\def\HH{ {\cal H} }
+\def\LL{ {\cal L} }
+\def\vc#1{ {\mathbf #1} }
+\def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
+
+\def\qqqquad{\qquad\qquad}
+\def\qqwhere{\qquad\hbox{where}\qquad}
+\def\Res_#1{\underset{#1}{\rm Res}\,}
+\def\sech{ {\rm sech}\, }
+\def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
+\def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
+\def\upepsilon{\varepsilon}
+
+
+\def\Xint#1{ \mathchoice
+   {\XXint\displaystyle\textstyle{#1} }%
+   {\XXint\textstyle\scriptstyle{#1} }%
+   {\XXint\scriptstyle\scriptscriptstyle{#1} }%
+   {\XXint\scriptscriptstyle\scriptscriptstyle{#1} }%
+   \!\int}
+\def\XXint#1#2#3{ {\setbox0=\hbox{$#1{#2#3}{\int}$}
+     \vcenter{\hbox{$#2#3$}}\kern-.5\wd0} }
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+% \def\dashint
+\def\infdashint{\dashint_{-\infty}^\infty}
+
+
+
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+\def\ip<#1>{\left\langle{#1}\right\rangle}
+\def\dx{\D x}
+\def\dt{\D t}
+\def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
+
+\def\norm#1{\left\| #1 \right\|}
+
+\def\pr(#1){\left({#1}\right)}
+\def\br[#1]{\left[{#1}\right]}
+
+\def\abs#1{\left|{#1}\right|}
+\def\fpr(#1){\!\pr({#1})}
+
+\def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
+
+\def\endash{–}
+\def\emdash{—}
+\def\mdblksquare{\blacksquare}
+\def\lgblksquare{\blacksquare}
+\def\scre{\E}
+\def\mapengine#1,#2.{\mapfunction{#1}\ifx\void#2\else\mapengine #2.\fi }
+
+\def\map[#1]{\mapengine #1,\void.}
+
+\def\mapenginesep_#1#2,#3.{\mapfunction{#2}\ifx\void#3\else#1\mapengine #3.\fi }
+
+\def\mapsep_#1[#2]{\mapenginesep_{#1}#2,\void.}
+
+
+\def\vcbr[#1]{\pr(#1)}
+
+
+\def\bvect[#1,#2]{
+{
+\def\dots{\cdots}
+\def\mapfunction##1{\ | \  ##1}
+	\sopmatrix{
+		 \,#1\map[#2]\,
+	}
+}
+}
+
+
+
+\def\vect[#1]{
+{\def\dots{\ldots}
+	\vcbr[{#1}]
+} }
+
+\def\vectt[#1]{
+{\def\dots{\ldots}
+	\vect[{#1}]^{\top}
+} }
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr}
+\def\dots{\vdots}
+	\begin{pmatrix}
+		\map[#1]
+	\end{pmatrix}
+} }
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
+\begin{document}
+
+\textbf{Applied Complex Analysis (2021)}
+
+\section{Problem sheet 3}
+\rule{\textwidth}{1pt}
+\subsection{Problem 1.1}
+Use the Plemelj formulae to calculate the following:
+
+\begin{itemize}
+\item[1. ] \[
+{1 \over 2 \pi \I} \int_{-1}^1 {\sqrt{1-t^2} \over (1+t^2)(t -z)} \dt
+\]
+for $z \notin [-1,1]$.
+
+
+\item[2. ] \[
+{1 \over 2 \pi \I} \int_{-1}^1 {1 \over (t -z) (2+t)} \dt
+\]
+for $z \notin [-1,1]$.
+
+
+\item[3. ] \[
+\dashint_{-1}^1 {t \over (t -x) \sqrt{1-t^2} } \dt
+\]
+for $-1 < x < 1$.
+
+\end{itemize}
+\subsection{Problem 1.2}
+Find all solutions $\phi(z)$ analytic on $\bar \C \backslash [-1,1]$ with weaker than pole singularities satisfying the following, where $-1 < x <1$:
+
+\begin{itemize}
+\item[1. ] \[
+\phi_+(x) + \phi_-(x) = 1
+\]
+and $\phi(\infty) = 0$
+
+
+\item[2. ] \[
+\phi_+(x) + \phi_-(x) = 0
+\]
+and $\phi(\infty) = 1$
+
+
+\item[3. ] \[
+\phi_+(x) + \phi_-(x) = \sqrt{1-x^2}
+\]
+and $\phi(\infty) = 0$
+
+
+\item[4. ] \[
+\phi_+(x) + \phi_-(x) = {1 \over x^2 + 1}
+\]
+$\phi(\infty) = 0$ and $\lim_{z \rightarrow \infty} z \phi(z) = 0$.
+
+\end{itemize}
+\subsection{Problem 1.3}
+Use Plemelj formulae to find all solutions $u(x)$ defined on $[-1,1]$ to the following, where $-1 < x < 1$:
+
+\begin{itemize}
+\item[1. ] \[
+{1 \over \pi} \dashint_{-1}^1 {u(t) \over t -x} \dt = {x \over \sqrt{1-x^2}}
+\]
+.
+
+
+\item[2. ] \[
+{1 \over \pi} \dashint_{-1}^1 {u(t) \over t -x} \dt = {1 \over 2 + x}
+\]
+where $u$ is bounded at the right-endpoint.
+
+\end{itemize}
+\rule{\textwidth}{1pt}
+In the following problems, use only the definitions
+
+
+\begin{align*}
+	\log z  &= \int_1^z {1 \over \zeta} \D\zeta \qqfor z \notin (-\infty,0] \\
+		\log_\pm x  &= \log(x \pm \I \epsilon)\qqfor x \in (-\infty,0]
+\end{align*}
+For example, do not use $\log z = \log |z| + \I \arg z$ as we need to prove it first!  You can use the result from lectures  that $\log z^{-1} = - \log z$ and $\log_\pm x =  \log |x| \pm \I \pi$.
+
+\subsection{Problem 2.1}
+Show that $\log(ab) = \log a + \log b$ provided that the closed contour defined by the oriented line segments $\gamma = [1, 1/b] \cup [1/b, a] \cup [a, 1]$ does not surround the origin.  Show that if $\gamma$ surrounds the origin counter-clockwise then
+
+\[
+	\log(ab) = \log a + \log b + 2 \pi \I
+\]
+and if $\gamma$ surrounds the origin  clockwise then
+
+\[
+	\log(ab) = \log a + \log b - 2 \pi \I
+\]
+Use $\log_\pm x$ to express the equivalent formulae for all cases where $\gamma$ passes through the origin.
+
+\subsection{Problem 2.2}
+Show that $\overline{\log z} = \log \bar z $. Use this to show that $\log z = \log |z| + \I \arg z$. (Hint: deform along an arc for the imaginary part.)
+
+\subsection{Problem 2.3}
+Consider $\log_1 z$ defined off $[0,\infty)$ by
+
+\[
+\log_1  z := \begin{cases}
+	\log z & \text{if } \Im z > 0 \\
+	\log_+ z & \text{if } \Im z = 0 \text{ and } z <  0	 \\
+	\log z + 2 \pi \I & \text{if } \Im z < 0
+	\end{cases}
+\]
+show that $\log_1 z$ is analytic in $\C \backslash [0,\infty)$ and for $x > 0$
+
+\[
+	\lim_{\epsilon \rightarrow 0} \log_1 (x- \I \epsilon) = \lim_{\epsilon \rightarrow 0} \log_1 (x+ \I \epsilon) + 2 \pi \I.
+\]
+(This is the analytic continuation of $\log z$ over its branch cut.)
+
+\rule{\textwidth}{1pt}
+Consider the Cauchy transform over the unit circle ${\Bbb T} = \{ z : |z| = 1\}$:
+
+\[
+\CC_{\Bbb T} f(z) = {1 \over 2 \pi \I} \oint {f(\zeta) \over \zeta - z} \D \zeta
+\]
+Denote the limit from the left/right (inside/outside) as
+
+
+\begin{align*}
+\CC_{\Bbb T}^+f (\zeta) & = \lim_{\epsilon \rightarrow 0} \CC_{\Bbb T} f((1-\epsilon) \zeta) \\
+\CC_{\Bbb T}^-f (\zeta) & = \lim_{\epsilon \rightarrow 0} \CC_{\Bbb T} f((1+\epsilon) \zeta)
+\end{align*}
+\subsection{Problem 3.1}
+Assuming that $f$ is analytic in an annulus containing ${\Bbb T}$, show that $\CC_{\Bbb T} f(z)$ satisfies the following (Plemelj formulae on the circle):
+
+\begin{itemize}
+\item[1. ] \[
+\CC_{\Bbb T} f(z)
+\]
+is analytic in $\bar\C \backslash {\Bbb T}$
+
+
+\item[2. ] \[
+\CC_{\Bbb T}^+ f(\zeta) - \CC_{\Bbb T}^- f(\zeta) = f(\zeta)
+\]
+
+\item[3. ] \[
+\CC_{\Bbb T} f(\infty) = 0
+\]
+.
+
+\end{itemize}
+\subsection{Problem 3.2}
+Show that it is the unique function $\phi(z)$ satisfying
+
+\begin{itemize}
+\item[1. ] \[
+\phi(z)
+\]
+is analytic in $\bar\C \backslash {\Bbb T}$
+
+
+\item[2. ] \[
+\phi^+(\zeta) -\phi^-(\zeta) = f(\zeta)
+\]
+where $f$ is analytic in an annulus containing ${\Bbb T}$,
+
+
+\item[3. ] \[
+\phi(\infty) = 0
+\]
+.
+
+\end{itemize}
+where
+
+
+\begin{align*}
+\phi^+(\zeta) & = \lim_{\epsilon \rightarrow 0} \phi((1-\epsilon) \zeta), \\
+\phi^-(\zeta) & = \lim_{\epsilon \rightarrow 0} \phi((1+\epsilon) \zeta)
+\end{align*}
+You can assume that $\phi^\pm(\zeta)$ converges uniformly.
+
+\subsection{Problem 3.3}
+What is $\CC_{\Bbb T}[\diamond^k](z)$?  What about  $\Re \CC_{\Bbb T}^- [\diamond^k](\zeta)$ and $\Im \CC_{\Bbb T}^- [\diamond^k](\zeta)$? Express your answers separately for negative and non-positive $k$ and justify the answers using 3.1 and 3.2.
+
+\subsection{Problem 3.4}
+Construct the solution to ideal fluid flow around a circle, that is, to find a function $v(x,y)$ satisfying
+
+\begin{itemize}
+\item[1. ] \[
+v_{xx} + v_{yy} = 0
+\]
+for $x^2 + y^2 > 1$.
+
+
+\item[2. ] \[
+v(x,y) \sim y \cos \theta  - x \sin \theta
+\]
+
+\item[3. ] \[
+v(x,y) = 0
+\]
+for $x^2 + y^2 = 1$.
+
+\end{itemize}
+\rule{\textwidth}{1pt}
+We investigate the solutions to  $\phi^+(x) - c \phi^-(x) = f(x)$ on $[-1,1]$.
+
+\subsection{Problem 4.1}
+Describe all solutions $\kappa(z)$ to
+
+\begin{itemize}
+\item[1. ] \[
+\kappa(z)
+\]
+is analytic off $[-1,1]$.
+
+
+\item[2. ] \[
+\kappa(\infty) = 0
+\]
+.
+
+
+\item[3. ] \[
+\kappa
+\]
+has weaker than pole singularities at $\pm 1$.
+
+
+\item[4. ] $\kappa^+(x) - \E^{\I \theta} \kappa^-(x) = 0$ for $-1 < x <1$.
+
+\end{itemize}
+Show that your answer satisfies all three properties.
+
+\subsection{Problem 4.2}
+Construct all solutions $\phi(z)$  to
+
+\begin{itemize}
+\item[1. ] \[
+\phi(z)
+\]
+is analytic off $[-1,1]$.
+
+
+\item[2. ] \[
+\phi(\infty) = 0
+\]
+.
+
+
+\item[3. ] \[
+\phi
+\]
+has weaker than pole singularities at $\pm 1$.
+
+
+\item[4. ] \[
+\phi^+(x) - \E^{\I \theta} \phi^-(x) = f(x)
+\]
+.
+
+\end{itemize}
+in terms of a Cauchy transform involving $f$. You can assume that $f$ is smooth (infinitely-differentiable on $[-1,1]$), and use the fact that
+
+\[
+\CC_{[-1,1]} [(1-\diamond)^\alpha (1+\diamond)^\beta f(\diamond) ](z)
+\]
+is bounded for all $z$ if $\alpha, \beta > 0$ when $f$ is smooth.
+
+\subsection{Problem 4.3}
+Let $c \in \C$. Repeat Problem 4.1 and Problem 4.2 for $\phi^+(x) - c \phi^-(x) = f(x)$.
+
+\rule{\textwidth}{1pt}
+We investigate the solutions to  $\phi^+(x) + \phi^-(x) = f(x)$ on two intervals $(-1,-a) \cup (a, 1)$, where $0 < a < 1$.
+
+\subsection{Problem 5.1}
+Show that $\kappa(z) = {1 \over \sqrt{z-1} \sqrt{z-a} \sqrt{z+a} \sqrt{z+1}}$ satisfies the following properties:
+
+\begin{itemize}
+\item[1. ] \[
+\kappa(z)
+\]
+is analytic off $[-1,-a] \cup [1,a]$.
+
+
+\item[2. ] \[
+\kappa^+(x) + \kappa^-(x) = 0
+\]
+for $a < |x| < 1$.
+
+
+\item[3. ] \[
+\kappa
+\]
+has weaker than pole singularities everywhere.
+
+
+\item[4. ] \[
+\kappa(\infty) = 0
+\]
+.
+
+\end{itemize}
+\subsection{Problem 5.2}
+Describe all solutions $\psi(z)$ satisfying:
+
+\begin{itemize}
+\item[1. ] \[
+\psi(z)
+\]
+is analytic off $[-1,-a] \cup [1,a]$.
+
+
+\item[2. ] \[
+\psi^+(x) + \psi^-(x) = 0
+\]
+for $a < |x| < 1$.
+
+
+\item[3. ] \[
+\psi
+\]
+has weaker than pole singularities everywhere.
+
+
+\item[4. ] \[
+\psi(\infty) = 0
+\]
+.
+
+\end{itemize}
+\subsection{Problem 5.3}
+Assuming $f(x)$ is smooth (infinitely differentiable on $[-1,-a] \cup [a, 1]$), express  in terms of a Cauchy transform involving $f$ all solutions $\phi(z)$ to the following:
+
+\begin{itemize}
+\item[1. ] \[
+\phi(z)
+\]
+is analytic off $[-1,-a] \cup [1,a]$.
+
+
+\item[2. ] \[
+\phi^+(x) + \phi^-(x) = f(x)
+\]
+for $a < |x| < 1$.
+
+
+\item[3. ] \[
+\phi
+\]
+has weaker than pole singularities everywhere.
+
+
+\item[4. ] \[
+\phi(\infty) = 0
+\]
+.
+
+\end{itemize}
+\rule{\textwidth}{1pt}
+\subsection{Problem 6.1}
+Describe the limiting distribution of electric charges under the potential $V(x) = x^4$, that is, the limit of
+
+\[
+{\D^2 \lambda_k \over \D t^2} + {\D \lambda_k \over \D t}  = \sum_{j=1 \atop j \neq k}^N {1 \over \lambda_k -\lambda_j} - V'(\lambda_k)
+\]
+for $k = 1,\ldots, N$ as $N \rightarrow \infty$.  (Hint: scale $\lambda_k$ appropriately.)
+
+\rule{\textwidth}{1pt}
+
+
+\end{document}

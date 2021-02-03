@@ -1,215 +1,340 @@
-__M3M6: Applied Complex Analysis__
+__Applied Complex Analysis (2021)__
 
-Dr. Sheehan Olver
+# Lecture 24: Laurent and Toeplitz operators
 
-s.olver@imperial.ac.uk
+This lecture concerns the computation of the UL factorisation of Toeplitz
+operators, which are infinite matrices with constant diagonals.
+It turns out this can be reduced to solving an RH problem on
+the unit circle.  We first discuss the case of inverting Laurent operators,
+which are bi-infinite matrices with constant diagonals.
 
+## Laurent operators
 
-
-# Lecture 24: Hermite polynomials
-
-This lecture we overview features of Hermite polynomials, some of which also 
-apply to Jacobi polynomials.  This includes
-
-1. Rodriguez formula
-2. Approximation with Hermite polynomials
-3. Eigenstates of Schrödinger equations with quadratic well
-
-
-## Rodriguez formula
-
-Because of the special structure of classical orthogonal weights, we have special Rodriguez formulae of the form
+A _Laurent operator_ is a bi-infinite matrix with constant diagonals.
+We associate it with a Laurent series on the unit circle called the _symbol_:
 $$
- p_n(x) = {1 \over \kappa_n w(x)} {\D^n \over \dx^n} w(x) F(x)^n
+a(z) = \sum_{k=-\infty}^\infty a_k z^k
 $$
-where $w(x)$ is the weight and $F(x) = (1-x^2)$ (Jacobi), $x$ (Laguerre) or $1$ (Hermite) and $\kappa_n$ is a normalization constant.
+Then the corresponding Laurent operator is
+$$
+L[a(z)] := \sopmatrix{
+\ddots & \ddots & \ddots& \ddots& \ddots& \ddots& \ddots \\
+\ddots  & a_1 & a_0 & a_{-1} & a_{-2} & a_{-3} & \ddots \\
+\ddots  & a_2 & a_1 & a_0 & a_{-1} & a_{-2} & \ddots \\
+\ddots  & a_3 & a_2 & a_1 & a_0 & a_{-1} &  \ddots \\
+\ddots & \ddots & \ddots& \ddots& \ddots& \ddots& \ddots
+}
+$$
+In other words, for $k,j \in \Z$ we have
+$$
+\vc e_k^\top L[a(z)] \vc e_j = a_{k-j}
+$$
 
-**Proposition (Hermite Rodriguez)** 
+Note that $L[a(z)] \vc b$ is a discrete convolution:
 $$
-H_n(x)= (-1)^n \E^{x^2}  {\D^n \over \dx^n} \E^{-x^2}
+\vc e_k^\top L[a(z)] \vc b = \sum_{j=-\infty}^\infty a_{k-j} b_j
+$$
+and gives the Laurent coefficients of $a(z) b(z)$ where
+$$
+b(z) = \sum_{k=-\infty}^\infty b_k z^k
 $$
 
-**Proof**
-We first show that it's a degree $n$ polynomial. This proceeds by induction:
+This implies an algebraic structure: we have
+$$
+L[a(z)] L[b(z)] = L[a(z)b(z)] = L[b(z)] L[a(z)]
+$$
+in particular, provided $a(z) \neq 0$ on the unit circle,
+$$
+L[a(z)]^{-1} = L[a(z)^{-1}]
+$$
+
+### Example: bi-infinite discrete Laplacian
+
+The bi-infinite discrete Laplacian arises in simple models of crystal structure, though we can
+also think of it as a finite difference discretisation of the Laplacian
+on all of $\R$.
+That is, consider the bi-infinite continuous Helmholtz equation
+$$
+u''(x) - k^2 u(x) = f(x)
+$$
+for $x \in \R$. If we represent the second derivative by its finite-difference
+approximation at the grid $x_k = k h$,
+$$
+{u(x_{k-1}) -2 u(x_k) + u(x_{k+1}) \over h^2}
+$$
+That is, we have the discretisation
+$$
+\Delta_h := {1 \over h^2}L[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{\ddots & \ddots \\
+                \ddots & -2 & 1 \\
+                & 1 & -2 & 1 \\
+                && 1 & -2 & \ddots \\
+                &&&\ddots & \ddots}
+$$
+which gives us the system:
+$$
+(\Delta_h - k^2 I) \vc u = \vc f
+$$
+Noting that
+$$
+\Delta_h - k^2 I  = L[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
+$$
+we know that we can invert this exactly as $L[a(z)^{-1}]$. To determite its Laurent series
+we do partial fraction expansion
+$$
+a(z)^{-1} = \br[{(z-z_-) (z - z_+) \over  z h^2} ]^{-1} =
+{z_- h^2 \over (z-z_-) (z_--z_+)}  + {z_+ h^2 \over (z-z_+) (z_+-z_-)}
+$$
+where
+$$
+z_\pm = 1 + {h^2k^2 \over 2} \pm {h k \over 2} \sqrt{h^2 k^2+4}.
+$$
+To find the Laurent series we use $|z_-| < 1$ so that
+$$
+{1 \over z - z_-} = {1 \over z} + {z_- \over z^2} + {z_-^2 \over z^3} + \cdots
+$$
+and $|z_+| > 1$ so that
+$$
+{1 \over z - z_+} = -{1 \over z_+} - {z \over z_+^2} - {z^2 \over z_+^3} + \cdots,
+$$
+hence
+$$
+a(z)^{-1} = {z_-^2 h^2 \over z_- - z_+} \sum_{k=-\infty}^{-1} z_-^{-k} z^k + {h^2 \over z_- - z_+} \sum_{k=0}^\infty z_+^k z^k
+$$
+The entries of the Laurent series then give the entries of $L[a(z)^{-1}]$.
+
+
+## Toeplitz operators
+
+A _Toeplitz operator_ is an infinite-dimensional matrix with constant diagonals.
+As in a Laurent operator, we associate it with a Laurent series on the unit circle called the _symbol_:
+$$
+a(z) = \sum_{k=-\infty}^\infty a_k z^k
+$$
+Then the corresponding Toeplitz operator is
+$$
+T[a(z)] := \sopmatrix{
+ a_0 & a_{-1} & a_{-2} & a_{-3} & \ddots \\
+ a_1 & a_0 & a_{-1} & a_{-2} & \ddots \\
+ a_2 & a_1 & a_0 & a_{-1}   & \ddots \\
+\vdots & \ddots& \ddots& \ddots & \ddots
+}
+$$
+In other words, for $k,j \in \{0,1,2,3,\dots \}$ we have
+$$
+\vc e_k^\top T[a(z)] \vc e_j = a_{k-j}
+$$
+
+Note that $T[a(z)] \vc b$ is a half-discrete convolution:
+$$
+\vc e_k^\top L[a(z)] \vc b = \sum_{j=0}^\infty a_{k-j} b_j
+$$
+
+### Algebraic properties
+
+Unlike Laurent operators, we do not have a trivial algebraic structure: in general
+$$
+T[a(z)] T[b(z)] \neq T[a(z) b(z)] \neq T[b(z)] T[a(z)]
+$$
+For example, if $a(z) = z$ and $b(z) = z^{-1}$ so that $T[a(z)b(z)] = I$ we have
+$$
+\underbrace{\sopmatrix{0 \\ 1 \\ & 1 \\ &&\ddots}}_{T[a(z)]} \underbrace{\sopmatrix{0 & 1 \\ & & 1 \\ &&&\ddots}}_{T[b(z)]} = \sopmatrix{0 \\ & 1 \\ && 1 \\ &&& \ddots} \neq I
+$$
+
+
+On the other hand $T[b(z)] T[a(z)] = I$, and we will see that the analyticity properties
+are what ensure this, and thence lead to a RH problem.
+
+The easiest way to understand the algebraic properties is to note that a Toeplitz operator is
+a sub-component of a Laurent operator, that is,
+$$
+L[a(z)] = \sopmatrix{
+\times & \times \\ \times & T[a(z)]
+}
+$$
+(Here $\times$ means we don't use those entries.) In the special case where
+$$
+a(z) = \sum_{k=0}^\infty a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
+$$
+are analytic, $L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are lower-triangular, hence
 $$
 \begin{align*}
- H_0(x) &= \E^{x^2} {\D^0 \over \dx^0}\E^{-x^2} = 1 \\
- H_{n+1}(x) &= -\E^{x^2}{\D \over \dx}\left[\E^{-x^2} H_{n}(x)\right] =   2x H_{n}(x) + H_n'(x)
+\sopmatrix{
+\times &  \\ \times & T[a(z) b(z)]
+} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
+\times &  \\ \times & T[a(z)]
+} \sopmatrix{
+\times &  \\ \times & T[b(z)]
+} \ccr
+= \sopmatrix{
+\times &  \\ \times & T[a(z)] T[b(z)]
+}
 \end{align*}
 $$
-and  then we have
+Similarly, if
 $$
- {\D^n \over \dx^n}[p_m(x) \E^{-x^2}]=  {\D^{n-1} \over \dx^{n-1}}  (p_m'(x)-2x p_m(x))  \E^{-x^2}
+a(z) = \sum_{k=-\infty}^0 a_k z^k \qqand b(z) = \sum_{k=-\infty}^0 b_k z^k
 $$
-Orthogonality follows from integration by parts:
+are analytic outside the unit circle,
+$L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are upper-triangular, hence
 $$
-\ip<H_n, p_m>_{\rm H} = (-1)^n \int  {\D^n  \E^{-x^2} \over \dx^n} p_m \dx = \int  \E^{-x^2} {\D^n p_m \over \dx^n} \dx = 0 
-$$
-if $m < n$.
-
-Now we just need to show we have the right constant. But we have 
-$$
- {\D^n \over \dx^n}[\E^{-x^2}] =  {\D^{n-1} \over \dx^{n-1}}[-2x \E^{-x^2}] = {\D^{n-2} \over \dx^{n-2}}[(4x^2 + O(x)) \E^{-x^2}] = \cdots = (-1)^n 2^n x^n
-$$
- 
-■
-
-Note this tells us the Hermite recurrence: Here we have the simple expressions
-$$
-H_n'(x) = 2n H_{n-1}(x) \qqand {\D \over \dx}[\E^{-x^2} H_n(x)] = -\E^{-x^2} H_{n+1}(x)
-$$
-These follow from the same arguments as before since $w'(x) = -2x w(x)$. But using the Rodriguez formula, we get
-
-$$
-2n H_{n-1}(x)  = H_{n}'(x) = (-1)^{n} 2 x  \E^{x^2}  {\D^{n} \over \dx^{n}} \E^{-x^2}  + (-1)^n \E^{x^2}  {\D^{n+1} \over \dx^{n+1}} \E^{-x^2} = 2x H_n(x) - H_{n+1}(x)
-$$
-which means
-$$
-x H_n(x) = nH_{n-1}(x) +{H_{n+1}(x) \over 2}
-$$
-
-
-
-## Approximation with Hermite polynomials
-
-
-Hermite polynomials are typically used with the weight for approximation of functions: on the real line polynomial approximation is unnatural unless
- the function approximated is a polynomial as otherwise the behaviour at ∞ is inconsistent (polynomials blow up).
- Thus we can either use
-$$
-f(x) = \E^{-x^2}\sum_{k=0}^\infty f_k H_k(x)
-$$
-or
-$$
-f(x) = \E^{-x^2/2}\sum_{k=0}^\infty f_k H_k(x)
-$$
-
-** Demonstration **
-
-Depending on your problem, getting this wrong can be disasterous. For example, while we can certainly
-approximate polynomials with Hermite expansions:
-```julia
-using ApproxFun, Plots
-f = Fun(x -> 1+x +x^2, Hermite())
-f(0.10)
-```
-We get nonsense when trying to approximating $\sech(x)$ by a degree 50 polynomial:
-```julia
-f = Fun(x -> sech(x), Hermite(), 51)
-xx = -8:0.01:8
-plot(xx, sech.(xx); ylims=(-10,10), label="sech x")
-plot!(xx, f.(xx); label="f")
-```
-
-Incorporating the weight $\sqrt{w(x)} = \E^{-x^2/2}$ works:
-```julia
-f = Fun(x -> sech(x), GaussWeight(Hermite(),1/2),101)
-
-plot(xx, sech.(xx); ylims=(-10,10), label="sech x")
-plot!(xx, f.(xx); label="f")
-```
-Weighted by w(x) = exp(-x^2) breaks again:
-```julia
-f = Fun(x -> sech(x), GaussWeight(Hermite()),101)
-
-plot(xx, sech.(xx); ylims=(-10,10), label="sech x")
-plot(xx, f.(xx); label="f")
-```
-Note that correctly weighted Hermite, that is, with $\sqrt{w(x)} = \E^{-x^2/2}$ look "nice":
-```julia
-p = plot()
-for k=0:6
-    H_k = Fun(GaussWeight(Hermite(),1/2),[zeros(k);1])
-    plot!(xx, H_k.(xx); label="H_$k")
-end
-p
-```
-
-Compare this to weighting by $w(x) = \E^{-x^2}$:
-```julia
-p = plot()
-for k=0:6
-    H_k = Fun(GaussWeight(Hermite()),[zeros(k);1])
-    plot!(xx, H_k.(xx); label="H_$k")
-end
-p
-```
-
-
-
-## Application:  Eigenstates of Schrödinger operators with quadratic potentials
-
-Using the derivative formulae tells us a Sturm–Liouville operator for Hermite polynomials:
-$$
-\E^{x^2} {\D \over \dx} \E^{-x^2} {\D H_n \over \dx} = 2n \E^{x^2} {\D \over \dx} \E^{-x^2} H_{n-1}(x) = -2nH_n(x)
-$$
-or rewritten, this gives us
-$$
-{\D^2 H_n \over \dx^2} -2x {\D H_n \over \dx} = -2nH_n(x)
-$$
-
-
-We therefore have
-$$
-{\D^2 \over \dx^2}[\E^{-{x^2 \over 2}} H_n(x)] = \E^{-{x^2 \over 2}} (H_n''(x)  -2x H_n'(x) + (x^2-1) H_n(x)) = \E^{-{x^2 \over 2}} (x^2-1-2n) H_n(x)
-$$
-In other words, for the Hermite function $\psi_n(x)$ we have
-$$
-{\D^2 \psi_n \over \dx^2} -x^2 \psi_n = -(2n+1) \psi_n
-$$
-and therefore $\psi_n$ are the eigenfunctions.
-
-We want to normalize.  In Schrödinger equations the square of the wave $\psi(x)^2$ represents a probability distribution, which should integrate to 1. Here's a trick: we know that 
-$$
-x \begin{pmatrix} H_0(x) \\ H_1(x) \\ H_2(x) \\ \vdots \end{pmatrix} = \underbrace{\begin{pmatrix} 0 & {1 \over 2} \\ 
-1 & 0 & \half \\
-& 2 & 0 & \half \\
-&& 3 & 0 & \ddots \\
-&&& \ddots & \ddots
-\end{pmatrix}}_J\begin{pmatrix} H_0(x) \\ H_1(x) \\ H_2(x) \\ \vdots \end{pmatrix}
-$$
-We want to conjugate by a diagonal matrix so that
-$$
-\begin{pmatrix}1 \\ & d_1 \\ &&d_2 \\&&&\ddots \end{pmatrix}  J \begin{pmatrix}1 \\ & d_1^{-1} \\ &&d_2^{-1} \\&&&\ddots \end{pmatrix} = \begin{pmatrix} 0 & {1 \over 2d_1} \\ 
-d_1 & 0 & {d_1 \over 2 d_2} \\
-& {2d_2 \over d_1} & 0 & {d_2 \over 2 d_3} \\
-&& {3d_3 \over d_2} & 0 & \ddots \\
-&&& \ddots & \ddots
-\end{pmatrix}
-$$
-becomes symmetric. This becomes a sequence of equations:
 \begin{align*}
-d_1 &= {1 \over 2 d_1} \Rightarrow d_1^2 = {1 \over 2} \\
-2d_2d_1^{-1} &= {d_1 \over 2 d_2} \Rightarrow d_2^2 = {d_1^2 \over 4} = {1 \over 8} = {1 \over 2^2 2!} \\
-3d_3d_2^{-1} &= {d_2 \over 2 d_3} \Rightarrow d_3^2 = {d_2^2 \over 3\times 2} = {1 \over 2^3 3!} \\
-&\vdots \\
-d_n^2 = {1 \over 2^n n!} 
+\sopmatrix{
+\times & \times \\  & T[a(z) b(z)]
+} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
+\times & \times \\  & T[a(z)]
+} \sopmatrix{
+\times & \times  \\  & T[b(z)]
+} \ccr
+= \sopmatrix{
+\times & \times  \\  & T[a(z)] T[b(z)]
+}
 \end{align*}
+$$
+In both cases, if $a(z)$ is analytic inside/outside and has no roots,
+then the above imply that
+$$
+T[a(z)]^{-1} = T[a(z)^{-1}]
+$$
 
-Thus the norm of $d_n H_n(x)$ is constant. If we also normalize using
+Finally, if
 $$
-    \int_{-\infty}^\infty \E^{-x^2} \dx = \sqrt{\pi}
+a(z) = \sum_{k=-\infty}^0 a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
 $$
-we get the normalized eigenfunctions
+that is $a(z)$ is analytic outside and $b(z)$ is analytic inside the unit circle,
+then we have $L[a(z)]$ is upper triangular, $L[b(z)]$ is lower triangular, and
 $$
-    \psi_n(x) = {H_n(x)\E^{-x^2/2}  \over \sqrt{\sqrt{\pi} 2^n n!} }
+\begin{align*}
+\sopmatrix{
+\times & \times \\ \times & T[a(z) b(z)]
+} &= L[a(z)b(z)] = L[a(z)] L[b(z)] =  \sopmatrix{
+\times & \times \\  & T[a(z)]
+} \sopmatrix{
+\times &   \\ \times & T[b(z)]
+} \ccr
+= \sopmatrix{
+\times & \times  \\ \times & T[a(z)] T[b(z)]
+}
+\end{align*}
 $$
+
+### Wiener-Hopf factorisation
+
+This presents a procedure for inverting Toeplitz operators: find $\phi_+(z)$ analytic
+inside the unit circle, and $\phi_-(z)$ is analytic outside with $\phi_-(\infty) = 1$
+satisfying
+$$
+a(z) = \phi_+(z) \phi_-(z)
+$$
+so that we have the UL decomposition
+$$
+T[a(z)] = T[\phi_-(z)] T[\phi_+(z)]
+$$
+
+This is equivalent to solving the RH problem
+$$
+\phi_+(z) = a(z) \phi_-(z)^{-1}
+$$
+assuming $\phi_-(z)$ has no zeros. As outlined last lecture, this is satisfied if
+the winding number of $a(z)$ is trivial. In particular, we have the solution
+$$
+\phi_\pm(z) = \E^{\pm \CC[\log a](z)}
+$$
+though when $a(z)$ is rational it is more feasible to compute the roots
+and factorise appropriately.
+
+### Example: Finite difference on half-line
+
+We consider a semi-infinite discrete Laplacian. This arises naturally from
+a finite-difference discretisation with zero Dirichlet conditions, e.g., for $x > 0$ we have
+$$
+u''(x)  - k^2 u(x) = f(x) \qqand u(0) = 0
+$$
+We discretise at $x_k = h k$ for $k = 0,1,\ldots$. The finite-difference gives us
+$$
+\begin{align*}
+u''(x_1) \approx {u(x_0) - 2 u(x_1) + u(x_2) \over h^2} &=  {-2 u(x_1) + u(x_2) \over h^2} \cr
+u''(x_k) \approx {u(x_{k-1}) - 2 u(x_k) + u(x_{k+1}) \over h^2}
+\end{align*}
+$$
+That is, we have the discretisation
+$$
+\Delta_h := {1 \over h^2}T[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{
+                 -2 & 1 \\
+                 1 & -2 & 1 \\
+                & 1 & -2 & \ddots \\
+                &&\ddots & \ddots}
+$$
+which gives us the system:
+$$
+(\Delta_h - k^2 I) \vc u = \vc f
+$$
+where
+$$
+\vc u = \Vectt[u(x_1),u(x_2),\dots],\qquad \vc f = \Vectt[f(x_1),f(x_2),\dots].
+$$
+
+Noting that
+$$
+\Delta_h - k^2 I  = T[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
+$$
+we know that we can invert this exactly by finding the Wiener–Hopf factorisation of $a(z)$, namely,
+$$
+a(z) = \underbrace{(1-z_-/z)}_{\phi_-(z)} \underbrace{h^{-1} (z-z_+)}_{\phi_+(z)}
+$$
+where $z_\pm$ were defined above. Therefore
+$$
+T[a(z)] = T[\phi_-(z)] T[\phi_+(z)]
+$$
+This implies that
+$$
+T[a(z)]^{-1} = T[\phi_+(z)]^{-1} T[\phi_-(z)]^{-1} = T[\phi_+(z)^{-1}] T[\phi_-(z)^{-1}]
+$$
+We can use Geometric series to compute
+$$
+\begin{align*}
+\phi_+(z)^{-1} &= {h \over z - z_+} = -{h \over z_+} -{h z \over z_+^2} - {h z^2 \over z_+^3} - \cdots \ccr
+\phi_-(z)^{-1} = {1 \over 1-z_-/z} = 1 + {z_- \over z} + {z_-^2 \over z^2} + \cdots
+\end{align*}
+$$
+The Laurent coefficients tell us the entries of $T[\phi_\pm(z)^{-1}]$.
+
+
+__Demonstration__
+We want to factorise and invert $T[a(z)]$:
 ```julia
-p = plot()
-for n = 0:5
-    H = Fun(Hermite(), [zeros(n);1])
-    ψ = Fun(x -> H(x)exp(-x^2/2), -10.0 .. 10.0)/sqrt(sqrt(π)*2^n*factorial(1.0n))
-    plot!(ψ; label="n = $n")
-end
-p
+using ToeplitzMatrices, LinearAlgebra
+h = k = 1
+n = 10
+Δ = 1/h^2 * Toeplitz([-2; 1; zeros(n-2)], [-2; 1; zeros(n-2)])
+T = Δ - k^2 * I
 ```
-It's convention to shift them by the eigenvalue:
+We can find the UL decomposition as follows
 ```julia
-p = plot(pad(Fun(x -> x^2, -10 .. 10), 100); ylims=(0,25))
-for n = 0:10
-    H = Fun(Hermite(), [zeros(n);1])
-    ψ = Fun(x -> H(x)exp(-x^2/2), -10.0 .. 10.0)/sqrt(sqrt(π)*2^n*factorial(1.0n))
-    plot!(ψ + 2n+1; label="n = $n")
-end
-p
+z_p = 1 + (h^2 * k^2)/2 + (h*k)/2 * sqrt(h^2*k^2+4)
+z_m = 1 + (h^2 * k^2)/2 - (h*k)/2 * sqrt(h^2*k^2+4)
+
+z = exp(0.1im)
+(1-z_p/z)*(inv(h) * (z-z_m))
+z/h^2 - 2/h^2 + 1/(z*h^2) - k^2
+
+U = Toeplitz([1; zeros(n-1)], [1; -z_m; zeros(n-2)])
+```
+```julia
+L = Toeplitz([-z_p/h; 1/h; zeros(n-2)], [-z_p/h; zeros(n-1)])
+```
+```julia
+U*L
+```
+This equals `T`, apart from the bottom right entry, which is off
+as these are finite-dimensional matrices.
+
+We can then invert `U` and `L`, to construct the inverse of `T`:
+```julia
+Ui = Toeplitz([1; zeros(n-1)], z_m.^(0:n-1))
+Li = -h*Toeplitz(z_p.^(-(1:n)), [1/z_p; zeros(n-1)])
+Ti = Li*Ui
+```
+This is an inverse (apart from truncation error)
+```julia
+norm((Ti*T - I)[1:end-1,1:end-1])
 ```
