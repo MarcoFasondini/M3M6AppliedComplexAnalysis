@@ -67,3 +67,4 @@ Examples of previous projects:
 15. [Electrostatic charges in a potential well](notes/Lecture15.pdf)
 16. [Logarithmic singular integrals](notes/Lecture16.pdf)
 17. [Inverting logarithmic singular integrals and 2D electrostatic potentials](notes/Lecture17.pdf)
+18. [Orthogonal polynomials](notes/Lecture18.pdf)
