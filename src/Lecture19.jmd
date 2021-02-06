@@ -349,13 +349,13 @@ S_{r,R} = \theta \in    \lbrace \theta : -\pi \leq \Re  \theta < \pi,  -\log(R) 
 $$
 with
 $$
-{1 \over r} = R \leq \E^{\theta_y}
+{1 \over r} = R < \E^{\theta_y}
 $$
 and the Fourier coefficients are bounded by
 $$
 |f_k | = |g_k |  \leq M\min\left\{{1 \over R^k} , {1 \over r^k}\right\} = M r^{|k|} = M R^{-|k|}, \qquad k \in \mathbb{Z},
 $$
-where $M = \sup_{z \in  A_{r,R}} |g(z)| = \sup_{\theta \in  S_{r,R}} |f(\theta)|$. The larger the strip of analyticity, the larger we can make $R$ and the faster the Fourier coefficients of $f$ decay as $\vert k \vert \to \infty$ (hence the faster the Fourier expansion of $f$ converges).
+where $M = \sup_{z \in  A_{r,R}} |g(z)| = \sup_{\theta \in  S_{r,R}} |f(\theta)|$. The larger the strip of analyticity, the larger we can make $R$ and the faster the Fourier coefficients of $f$ decay as $\vert k \vert \to \infty$ (hence the faster the truncated Fourier expansion $\sum_{k=-n}^{n}\hat f_k \E^{i k \theta}$ of $f$ converges to $f$ as $n \to \infty$).
 
 _Example (see also Lecture 6)_ The function
 $$
@@ -409,6 +409,15 @@ $$
 $$
 The larger the Bernstein ellipse on which $f(x)$ is analytic, the faster the decay of the Chebyshev coefficients as $k \to \infty$ (and hence the faster the convergence of the Chebyshev expansion of $f$).
 
+A truncated Chebyshev expansion with $n$ terms of a function $f(x)$ that is analytic on $E_{\rho}$ converges at essentially the same exponential rate as the bound on the Chebyshev coefficients as $n \to \infty$:
+$$
+\begin{align*}
+\left \vert f(x) -   \sum_{k = 0}^{n-1}f_kT_k(x) \right\vert & = \left \vert  \sum_{k = n}^{\infty}f_kT_k(x) \right\vert \leq \sum_{k = n}^{\infty}\vert f_k \vert \leq 2M \sum_{k = n}^{\infty} \rho^{-k}\\
+& = 2M \frac{\rho^{-n}}{1 - \rho^{-1}}
+\end{align*}
+$$
+
+
 _Example_  In the case of $f(x) = {1 \over 25 x^2 + 1}$, setting $2x = z + z^{-1}$, we find that
 $$
 f(x) = f\left( {z+z^{-1} \over 2 } \right) = g(z) = {4 z^2 \over 25 + 54 z^2 + 25 z^4}.
@@ -443,6 +452,10 @@ Therefore we predict a rate of decay of about $1.2198^{-k}$:
 bound(β,k) = 2/(1-25*β^2)*(β + sqrt(β^2 + 1))^(-k)
 f = Fun( x -> 1/(25x^2 + 1), Chebyshev())
 scatter(abs.(f.coefficients) .+ eps(); yscale=:log10, label="Chebyshev coefficients")
-plot!( 1.2198.^(-(0:ncoefficients(f))); label="ρ^(-k)")
 plot!(1:ncoefficients(f), bound.(1/5-0.001,1:ncoefficients(f)); label="upper bound")
+# Also calculate the error of truncated Chebyshev expansions with n terms for n = 1, 2, ...
+xx = -1:0.001:1 # a fine grid on which to evaluate
+Errv = [(maximum(abs.(f.(xx)-Fun(f,Chebyshev(),n).(xx)))) for n = 1:ncoefficients(f)]
+scatter!(1:ncoefficients(f),Errv.+eps();label="truncated expansion error")
+plot!( 1.2198.^(-(0:ncoefficients(f))); label="ρ^(-k)")
 ```
