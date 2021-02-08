@@ -87,7 +87,7 @@ using ApproxFun, Plots
 f = Fun(x -> 1+x +x^2, Hermite())
 f(0.10)
 ```
-We get nonsense when trying to approximating $\sech(x)$ by a degree 50 polynomial:
+We get nonsense when trying to approximate $\sech(x)$ by a degree 50 polynomial:
 ```julia
 f = Fun(x -> sech(x), Hermite(), 51)
 xx = -8:0.01:8
@@ -102,33 +102,39 @@ f = Fun(x -> sech(x), GaussWeight(Hermite(),1/2),101)
 plot(xx, sech.(xx); ylims=(-10,10), label="sech x")
 plot!(xx, f.(xx); label="f")
 ```
-Weighted by w(x) = exp(-x^2) breaks again:
+Weighted by $w(x) = \E^{-x^2}$ breaks again:
 ```julia
 f = Fun(x -> sech(x), GaussWeight(Hermite()),101)
 
 plot(xx, sech.(xx); ylims=(-10,10), label="sech x")
 plot(xx, f.(xx); label="f")
 ```
-Note that correctly weighted Hermite, that is, with $\sqrt{w(x)} = \E^{-x^2/2}$ look "nice":
-```julia
-p = plot()
-for k=0:6
-    H_k = Fun(GaussWeight(Hermite(),1/2),[zeros(k);1])
-    plot!(xx, H_k.(xx); label="H_$k")
-end
-p
-```
 
-Compare this to weighting by $w(x) = \E^{-x^2}$:
-```julia
-p = plot()
-for k=0:6
-    H_k = Fun(GaussWeight(Hermite()),[zeros(k);1])
-    plot!(xx, H_k.(xx); label="H_$k")
-end
-p
-```
-
+This can be explained by observing that the functions
+$$
+\phi_k(x) = \E^{-x^2/2}H_k(x)
+$$
+ are orthogonal in $L^2_{\mathbb{R}}$; the functions
+$$
+\widetilde{\phi}_k(x) = \E^{-x^2}H_k(x)
+$$
+are orthogonal in $L^2_{\mathbb{R}}(\E^{x^2})$; $\sech(x) \in L^2_{\mathbb{R}}$ but  $\sech(x) \notin L^2_{\mathbb{R}}(\E^{x^2})$. That is, the  $\phi_k(x)$ are orthogonal with respect to the weight $w(x) = 1$ on $\mathbb{R}$:
+$$
+\langle f, g \rangle_{w} = \int_{-\infty}^{\infty}f(x)g(x) \D x,
+$$
+the $\widetilde{\phi}_k(x)$ are orthogonal with respect to $\widetilde{w} = \E^{x^2}$:
+$$
+\langle f, g \rangle_{\widetilde{w}} = \int_{-\infty}^{\infty}f(x)g(x) \E^{x^2} \D x,
+$$
+for $f(x) = \sech(x)$, we have that
+$$
+\| f \|_{w}^2 = \langle f, f \rangle_{w} < \infty, \qquad \| f \|_{\widetilde{w}} = \sqrt{\langle f, f \rangle_{\widetilde{w}}} = \infty.
+$$
+Hence, $\sech(x)$ cannot have a convergent expansion of the form
+$$
+f(x) = \sum_{k = 0}^{\infty} f_k \widetilde{\phi}_k(x) = \E^{-x^2}  \sum_{k = 0}^{\infty} f_k H_k(x)
+$$
+in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$.
 
 
 ## Application:  Eigenstates of Schrödinger operators with quadratic potentials

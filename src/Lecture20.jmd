@@ -59,11 +59,11 @@ We first show that $T_n'(x)$ is orthogonal w.r.t. $\sqrt{1-x^2}$ to all  polynom
 $$
 \begin{align*}
 \ip<T_n',f_m>_{\rm U} &= \int_{-1}^1 T_n'(x) f_m(x) \sqrt{1-x^2} \dx \ccr
-= -\int_{-1}^1 T_n(x) (f_m'(x)(1-x^2) + xf_m) {1  \over \sqrt{1-x^2}} \dx  \ccr
-= - \ip<T_n, f_m'(1-x^2) + x f_m >_{\rm T}  = 0
+= -\int_{-1}^1 T_n(x) (f_m'(x)(1-x^2) - xf_m) {1  \over \sqrt{1-x^2}} \dx  \ccr
+= - \ip<T_n, f_m'(1-x^2) - x f_m >_{\rm T}  = 0
 \end{align*}
 $$
-since $f_m'(1-x^2) + f_m $ is degree $m-1 +2 = m+1 < n$.
+since $f_m'(1-x^2) - x f_m $ is degree $m-1 +2 = m+1 < n$.
 
 The constant works out since
 $$
@@ -86,7 +86,7 @@ $$
 &&&\ddots
 \end{pmatrix} \begin{pmatrix} U_0(x) \\ U_1(x) \\ U_2(x) \\ \vdots \end{pmatrix}
 $$
-which let's us know that, for
+which lets us know that, for
 $$
 f(x) = (T_0(x),T_1(x),\ldots) \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix}
 $$
@@ -134,7 +134,7 @@ D : Chebyshev() → Ultraspherical(1)
 
 
 
-We can convert between any two polynomial bases using a lower triangular operator, because their span's are equivalent.
+We can convert between any two polynomial bases using a lower triangular operator, because their spans are equivalent.
 In the case of Chebyshev and ultraspherical polynomials, they have the added property that they are banded.
 
 **Proposition (Chebyshev T-to-U conversion)**
@@ -448,7 +448,7 @@ L = [B₋₁;
 @time u = L \ [1.0;0.0;0.0]
 @show ncoefficients(u);
 ```
-To handle other variable coefficients, first consider a polynomial $p(x)$. If Multiplication by $x$ is represented by multiplying the coefficients by $J^\top$, then multiplication by $p$ is represented by $p(J^\top)$:
+To handle other variable coefficients, first consider a polynomial $p(x)$. If Multiplication by $x$ is represented by multiplying the coefficients by $J^\top$, then multiplication by $p$ is represented by multiplying the coefficients by $p(J^\top)$:
 ```julia
 M = -I + X + (X)^2  # represents -1+x+x^2
 
@@ -494,7 +494,7 @@ $$
 \Gamma_{n-3} &= 2 p_{n-3}I + 2J^\top \Gamma_{n-2} - \Gamma_{n-1} \\
 & \vdots \\
 \Gamma_1 &= p_1I + J^\top \Gamma_2 - \half \Gamma_3 \\
-p(J^\top) = \Gamma_0 &= p_0 + x \Gamma_1 - \half \Gamma_2
+p(J^\top) = \Gamma_0 &= p_0 + J^\top \Gamma_1 - \half \Gamma_2
 \end{align*}
 $$
 
@@ -614,7 +614,7 @@ The other ultraspherical polynomial follow similarly.
 
 ### Eigenvalue equation for Ultraspherical polynomials
 
-Note that differentiating increments the parameter and decrements the degree while weight differentiation decrements the parameter and increments the degree. Therefore combining them brings us back to where we started.
+Note that differentiating increments the parameter and decrements the degree while weighted differentiation decrements the parameter and increments the degree. Therefore combining them brings us back to where we started.
 
 In the case of Chebyshev polynomials, this gives us a Sturm–Liouville equation:
 $$

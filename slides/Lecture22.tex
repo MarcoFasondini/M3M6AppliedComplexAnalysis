@@ -364,7 +364,7 @@ Depending on your problem, getting this wrong can be disasterous. For example, w
 \end{lstlisting}
 
 
-We get nonsense when trying to approximating $\sech(x)$ by a degree 50 polynomial:
+We get nonsense when trying to approximate $\sech(x)$ by a degree 50 polynomial:
 
 
 \begin{lstlisting}
@@ -374,7 +374,7 @@ We get nonsense when trying to approximating $\sech(x)$ by a degree 50 polynomia
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_2_1.pdf}
+\cent{\includegraphics[width=0.9\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_2_1.pdf}}
 
 Incorporating the weight $\sqrt{w(x)} = \E^{-x^2/2}$ works:
 
@@ -386,9 +386,9 @@ Incorporating the weight $\sqrt{w(x)} = \E^{-x^2/2}$ works:
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_3_1.pdf}
+\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_3_1.pdf}}
 
-Weighted by w(x) = exp(-x\^{}2) breaks again:
+Weighted by $w(x) = \E^{-x^2}$ breaks again:
 
 
 \begin{lstlisting}
@@ -398,35 +398,31 @@ Weighted by w(x) = exp(-x\^{}2) breaks again:
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_4_1.pdf}
+\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_4_1.pdf}}
 
-Note that correctly weighted Hermite, that is, with $\sqrt{w(x)} = \E^{-x^2/2}$ look "nice":
+This can be explained by observing that the functions
+$\phi_k(x) = \E^{-x^2/2}H_k(x)$
+ are orthogonal in $L^2_{\mathbb{R}}$; the functions
+$\widetilde{\phi}_k(x) = \E^{-x^2}H_k(x)$
+are orthogonal in $L^2_{\mathbb{R}}(\E^{x^2})$; $\sech(x) \in L^2_{\mathbb{R}}$ but  $\sech(x) \notin L^2_{\mathbb{R}}(\E^{x^2})$. That is, the  $\phi_k(x)$ are orthogonal with respect to the weight $w(x) = 1$ on $\mathbb{R}$:
+$$
+\langle f, g \rangle_{w} = \int_{-\infty}^{\infty}f(x)g(x) \D x,
+$$
+the $\widetilde{\phi}_k(x)$ are orthogonal with respect to $\widetilde{w} = \E^{x^2}$:
+$$
+\langle f, g \rangle_{\widetilde{w}} = \int_{-\infty}^{\infty}f(x)g(x) \E^{x^2} \D x,
+$$
+for $f(x) = \sech(x)$, we have that
+$$
+\| f \|_{w}^2 = \langle f, f \rangle_{w} < \infty, \qquad \| f \|_{\widetilde{w}} = \sqrt{\langle f, f \rangle_{\widetilde{w}}} = \infty.
+$$
+Hence, $\sech(x)$ cannot have a convergent expansion of the form
+$$
+f(x) = \sum_{k = 0}^{\infty} f_k \widetilde{\phi}_k(x) = \E^{-x^2}  \sum_{k = 0}^{\infty} f_k H_k(x)
+$$
+in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$.
 
-
-\begin{lstlisting}
-(*@\HLJLn{p}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{plot}@*)(*@\HLJLp{()}@*)
-(*@\HLJLk{for}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{=}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{6}@*)
-    (*@\HLJLn{H{\_}k}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{GaussWeight}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Hermite}@*)(*@\HLJLp{(),}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{),[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{k}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
-    (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{H{\_}k}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}H{\_}}@*)(*@\HLJLsi{{\$}k}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{)}@*)
-(*@\HLJLk{end}@*)
-(*@\HLJLn{p}@*)
-\end{lstlisting}
-
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_5_1.pdf}
-
-Compare this to weighting by $w(x) = \E^{-x^2}$:
-
-
-\begin{lstlisting}
-(*@\HLJLn{p}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{plot}@*)(*@\HLJLp{()}@*)
-(*@\HLJLk{for}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{=}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{6}@*)
-    (*@\HLJLn{H{\_}k}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{GaussWeight}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Hermite}@*)(*@\HLJLp{()),[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{k}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
-    (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{H{\_}k}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}H{\_}}@*)(*@\HLJLsi{{\$}k}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{)}@*)
-(*@\HLJLk{end}@*)
-(*@\HLJLn{p}@*)
-\end{lstlisting}
-
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_6_1.pdf}
+\newpage
 
 \subsection{Application:  Eigenstates of Schrödinger operators with quadratic potentials}
 Using the derivative formulae tells us a Sturm\ensuremath{\endash}Liouville operator for Hermite polynomials:
@@ -450,7 +446,7 @@ In other words, for the Hermite function $\psi_n(x)$ we have
 {\D^2 \psi_n \over \dx^2} -x^2 \psi_n = -(2n+1) \psi_n
 \]
 and therefore $\psi_n$ are the eigenfunctions.
-
+\newpage
 We want to normalize.  In Schrödinger equations the square of the wave $\psi(x)^2$ represents a probability distribution, which should integrate to 1. Here's a trick: we know that
 
 \[
@@ -502,7 +498,7 @@ we get the normalized eigenfunctions
 (*@\HLJLn{p}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_7_1.pdf}
+\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_7_1.pdf}}
 
 It's convention to shift them by the eigenvalue:
 
@@ -514,10 +510,9 @@ It's convention to shift them by the eigenvalue:
     (*@\HLJLn{\ensuremath{\psi}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{H}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{),}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{10.0}@*) (*@\HLJLoB{..}@*) (*@\HLJLnfB{10.0}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{factorial}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLn{n}@*)(*@\HLJLp{))}@*)
     (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\psi}}@*) (*@\HLJLoB{+}@*) (*@\HLJLni{2}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}n}@*) (*@\HLJLs{=}@*) (*@\HLJLsi{{\$}n}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{)}@*)
 (*@\HLJLk{end}@*)
-(*@\HLJLn{p}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_8_1.pdf}
+\cent{\includegraphics[width=0.7\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_8_1.pdf}}
 
 }
 \end{document}

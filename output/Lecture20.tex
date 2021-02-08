@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,15 +242,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 20: Orthogonal polynomials and differential equations}
@@ -298,15 +277,17 @@ This lecture we do the following:
 
 \end{itemize}
 That is, we introduce recurrences related to ultraspherical polynomials. This allows us to represent general linear differential equations as almost-banded systems.
-\newpage
+
 \subsection{Recurrence relationships for Chebyshev and ultraspherical polynomials}
 We have discussed general properties, but now we want to discuss some classical orthogonal polynomials, beginning with Chebyshev (first kind) $T_n(x)$, which is orthogonal w.r.t. $1\over \sqrt{1-x^2}$ and ultraspherical $C_n^{(\lambda)}(x)$, which is orthogonal w.r.t. $(1-x^2)^{\lambda - \half}$ for $\lambda > 0$. Note that Chebyshev (second kind) satisfies $U_n(x) = C_n^{(1)}(x)$.
 
 For Chebyshev, recall we have the normalization constant (here we use a superscript $T_n(x) = k_n^{\rm T} x^n + O(x^{n-1})$)
+
 \[
 k_0^{\rm T} = 1, k_n^{\rm T} = 2^{n-1}
 \]
 For Ultraspherical $C_n^{(\lambda)}$, this is
+
 \[
 k_n^{(\lambda)} = {2^n (\lambda)_n \over n!} = {2^n \lambda (\lambda+1) (\lambda+2) \cdots (\lambda+n-1)  \over n!}
 \]
@@ -337,7 +318,7 @@ T_n'(x) = n U_{n-1}(x)
 = -\int_{-1}^1 T_n(x) (f_m'(x)(1-x^2) - xf_m) {1  \over \sqrt{1-x^2}} \dx  \ccr
 = - \ip<T_n, f_m'(1-x^2) - x f_m >_{\rm T}  = 0
 \end{align*}
-since $f_m'(1-x^2) - xf_m $ is degree $m-1 +2 = m+1 < n$.
+since $f_m'(1-x^2) - x f_m $ is degree $m-1 +2 = m+1 < n$.
 
 The constant works out since
 
@@ -376,7 +357,6 @@ f'(x) = (U_0(x),U_1(x),\ldots)\begin{pmatrix}
 &&&&\ddots
 \end{pmatrix}  \begin{pmatrix} f_0\\f_1\\\vdots \end{pmatrix}
 \]
-\newpage
 \emph{Demonstration} Here we see that applying a matrix to a vector of coefficients successfully calculates the derivative:
 
 
@@ -388,8 +368,9 @@ f'(x) = (U_0(x),U_1(x),\ldots)\begin{pmatrix}
 (*@\HLJLk{for}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{=}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)
     (*@\HLJLn{D}@*)(*@\HLJLp{[}@*)(*@\HLJLn{k}@*)(*@\HLJLp{,}@*)(*@\HLJLn{k}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{k}@*)
 (*@\HLJLk{end}@*)
+(*@\HLJLn{D}@*)
 \end{lstlisting}
-{\normalsize
+
 \begin{lstlisting}
 31(*@\ensuremath{\times}@*)32 Array(*@{{\{}}@*)Float64,2(*@{{\}}}@*):
  0.0  1.0  0.0  0.0  0.0  0.0  0.0  (*@\ensuremath{\dots}@*)   0.0   0.0   0.0   0.0   0.0   0.0
@@ -412,7 +393,7 @@ f'(x) = (U_0(x),U_1(x),\ldots)\begin{pmatrix}
  0.0  0.0  0.0  0.0  0.0  0.0  0.0      0.0   0.0   0.0  29.0   0.0   0.0
  0.0  0.0  0.0  0.0  0.0  0.0  0.0      0.0   0.0   0.0   0.0  30.0   0.0
  0.0  0.0  0.0  0.0  0.0  0.0  0.0  (*@\ensuremath{\dots}@*)   0.0   0.0   0.0   0.0   0.0  31.0
-\end{lstlisting}}
+\end{lstlisting}
 
 
 Here \texttt{D*f.coefficients} gives the vector of coefficients corresponding to the derivative, but now the coefficients are in the $U_n(x)$ basis, that is, \texttt{Ultraspherical(1)}:
@@ -452,7 +433,7 @@ Note that in ApproxFun.jl we can construct these operators rather nicely:
 -0.001999966666833569
 \end{lstlisting}
 
-\newpage
+
 Here we see that we can produce the \ensuremath{\infty}-dimensional version as follows:
 
 
@@ -475,7 +456,8 @@ ConcreteDerivative : Chebyshev() (*@\ensuremath{\to}@*) Ultraspherical(1)
  (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\ddots}@*)
 \end{lstlisting}
 
-\newpage
+
+
 \subsubsection{Conversion}
 We can convert between any two polynomial bases using a lower triangular operator, because their spans are equivalent. In the case of Chebyshev and ultraspherical polynomials, they have the added property that they are banded.
 
@@ -487,7 +469,6 @@ We can convert between any two polynomial bases using a lower triangular operato
  T_1(x) &= {U_1(x) \over 2} \\
  T_n(x) &= {U_n(x) \over 2} - {U_{n-2}(x) \over 2}
 \end{align*}
-\newpage
 \textbf{Proof}
 
 Before we do the proof, note that the fact that there are limited non-zero entries follows immediately: if $m < n-2$ we have
@@ -505,7 +486,7 @@ U_n(x) &= {\sin (n+1) \theta \over \sin \theta} = {z^{n+1} - z^{-n-1} \over z - 
 The result follows immediately.
 
 \ensuremath{\blacksquare}
-\newpage
+
 \textbf{Corollary (Ultraspherical \ensuremath{\lambda}-to-(\ensuremath{\lambda}+1) conversion)}
 
 \[
@@ -530,7 +511,7 @@ becomes
 Differentiating this repeatedly completes the proof.
 
 \ensuremath{\blacksquare}
-\newpage
+
 Note we can write this in matrix form, for example, we have
 
 \[
@@ -564,16 +545,22 @@ Again, we can construct this nicely in ApproxFun:
 
 \subsubsection{Ultraspherical Three-term recurrence}
 \textbf{Theorem (three-term recurrence for Chebyshev U)}
+
+
 \begin{align*}
 x U_0(x) &= {U_1(x) \over 2} \\
 x U_n(x) &= {U_{n-1}(x) \over 2} + {U_{n+1}(x) \over 2}
 \end{align*}
 \textbf{Proof} Differentiating
+
+
 \begin{align*}
  x T_0(x) &= T_1(x) \\
 x T_n(x)  &=  {T_{n-1}(x) \over 2} + {T_{n+1}(x) \over 2}
 \end{align*}
 we get
+
+
 \begin{align*}
   T_0(x) &= U_0(x) \\
  T_n(x) + n x U_{n-1}(x)  &=  {(n-1) U_{n-2}(x) \over 2} + {(n+1) U_n(x) \over 2}
@@ -583,13 +570,15 @@ substituting in the conversion $T_n(x) = (U_n(x) - U_{n-2}(x))/2$ we get
 
 \begin{align*}
   T_0(x) &= U_0(x) \\
-\hspace*{-0.6 cm} n x U_{n-1}(x)  &=  {(n-1) U_{n-2}(x) \over 2} + {(n+1) U_n(x) \over 2} - (U_n(x) - U_{n-2}(x))/2 = {n U_{n-2}(x) \over 2} + {n U_n(x) \over 2}
+ n x U_{n-1}(x)  &=  {(n-1) U_{n-2}(x) \over 2} + {(n+1) U_n(x) \over 2} - (U_n(x) - U_{n-2}(x))/2 = {n U_{n-2}(x) \over 2} + {n U_n(x) \over 2}
 \end{align*}
 \ensuremath{\blacksquare}
 
 Differentiating this theorem again and applying the conversion we get the following
 
 \textbf{Corollary (three-term recurrence for ultraspherical)}
+
+
 \begin{align*}
 x C_0^{(\lambda)}(x) &= {1 \over 2\lambda } C_1^{(\lambda)}(x) \\
  x C_n^{(\lambda)}(x) &=  {n+2\lambda-1 \over 2(n+\lambda)} C_{n-1}^{(\lambda)}(x) + {n+1 \over 2(n+\lambda)} C_{n+1}^{(\lambda)}(x)
@@ -616,6 +605,8 @@ AdjointOperator : Ultraspherical(2) (*@\ensuremath{\to}@*) Ultraspherical(2)
   (*@\ensuremath{\cdot}@*)                   (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\dots}@*)   (*@\ensuremath{\cdot}@*)       (*@\ensuremath{\cdot}@*)                   (*@\ensuremath{\ddots}@*)    (*@\ensuremath{\ddots}@*)
 \end{lstlisting}
 
+
+
 \subsection{Application: solving differential equations}
 The preceding results allowed us to represent
 
@@ -631,15 +622,19 @@ The preceding results allowed us to represent
 \end{itemize}
 as banded operators. We will see that we can combine these, along with
 
-4. Evaluation
+\begin{itemize}
+\item[4. ] Evaluation
 
+\end{itemize}
 to solve ordinary differential equations.
 
 \subsubsection{First order, constant coefficient differential equations}
 Consider the simplest ODE:
+
+
 \begin{align*}
 u(0) &= 1 \\
-u'(x) - u(x) &= 0, \qquad x \in [-1, 1],
+u'(x) - u(x) &= 0, \qquad x \in [-1, 1]
 \end{align*}
 and suppose we represent $u(x)$ in its Chebyshev expansion, with coefficients to be determined. In other words, we want to calculate coefficients $u_k$ such that
 
@@ -722,16 +717,15 @@ rical(1)]
 \end{lstlisting}
 
 
-
 We can solve this system as follows:
 
 
 \begin{lstlisting}
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*) (*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLni{0}@*)(*@\HLJLp{]}@*)
-(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{;}@*)(*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.8\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_9_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_9_1.pdf}
 
 It matches the "true" result:
 
@@ -749,17 +743,22 @@ Note we can incorporate right-hand sides as well, for example, to solve $u'(x) -
 
 \subsubsection{Second-order constant coefficient equations}
 This approach extends to second-order constant-coefficient equations by using ultraspherical polynomials.  Consider
+
+
 \begin{align*}
-u(-1) = 1,\: u(1) &= 0\\
+u(-1) &= 1\\
+u(1) &= 0\\
 u''(x) + u'(x)  + u(x) &= 0
 \end{align*}
 Evaluation works as in the first-order case. To handle second-derivatives, we need $C^{(2)}$ polynomials:
-{\Large
+
+
 \begin{lstlisting}
 (*@\HLJLn{D\ensuremath{\_0}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Derivative}@*)(*@\HLJLp{()}@*) (*@\HLJLoB{:}@*) (*@\HLJLnf{Chebyshev}@*)(*@\HLJLp{()}@*) (*@\HLJLoB{\ensuremath{\rightarrow}}@*) (*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{D\ensuremath{\_1}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Derivative}@*)(*@\HLJLp{()}@*) (*@\HLJLoB{:}@*) (*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\rightarrow}}@*) (*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{D\ensuremath{\_1}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{2}@*) (*@\HLJLcs{zeros}@*) (*@\HLJLcs{not}@*) (*@\HLJLcs{printed}@*) (*@\HLJLcs{in}@*) (*@\HLJLcs{(1,1)}@*) (*@\HLJLcs{and}@*) (*@\HLJLcs{(1,2)}@*) (*@\HLJLcs{entry}@*)
 \end{lstlisting}
+
 \begin{lstlisting}
 ConcreteDerivative : Chebyshev() (*@\ensuremath{\to}@*) Ultraspherical(2)
  (*@\ensuremath{\cdot}@*)  (*@\ensuremath{\cdot}@*)  4.0   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\cdot}@*)
@@ -773,7 +772,7 @@ ConcreteDerivative : Chebyshev() (*@\ensuremath{\to}@*) Ultraspherical(2)
  (*@\ensuremath{\cdot}@*)  (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\ddots}@*)
  (*@\ensuremath{\cdot}@*)  (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\ddots}@*)
  (*@\ensuremath{\cdot}@*)  (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\cdot}@*)   (*@\ensuremath{\ddots}@*)
-\end{lstlisting}}
+\end{lstlisting}
 
 
 For the identity operator, we use two conversion operators:
@@ -784,7 +783,7 @@ For the identity operator, we use two conversion operators:
 (*@\HLJLn{R{\_}U2}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{I}@*) (*@\HLJLoB{:}@*) (*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\rightarrow}}@*) (*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{R{\_}T2}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{R{\_}TU}@*)
 \end{lstlisting}
-{\Large
+
 \begin{lstlisting}
 TimesOperator : Chebyshev() (*@\ensuremath{\to}@*) Ultraspherical(2)
  1.0  0.0   -0.6666666666666666    0.0    (*@\ensuremath{\dots}@*)    (*@\ensuremath{\cdot}@*)                     (*@\ensuremath{\cdot}@*)     
@@ -809,14 +808,14 @@ TimesOperator : Chebyshev() (*@\ensuremath{\to}@*) Ultraspherical(2)
  (*@\ensuremath{\ddots}@*)
   (*@\ensuremath{\cdot}@*)    (*@\ensuremath{\cdot}@*)      (*@\ensuremath{\cdot}@*)                     (*@\ensuremath{\cdot}@*)     (*@\ensuremath{\dots}@*)    (*@\ensuremath{\cdot}@*)                     (*@\ensuremath{\cdot}@*)     
  (*@\ensuremath{\ddots}@*)
-\end{lstlisting}}
+\end{lstlisting}
 
 
 And for the first derivative, we use a derivative and then a conversion:
 
 
 \begin{lstlisting}
-(*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{or}@*) (*@\HLJLcs{could}@*) (*@\HLJLcs{have}@*) (*@\HLJLcs{been}@*) (*@\HLJLcs{D\ensuremath{\_1}*R\ensuremath{\_}TU}@*)
+(*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*)  (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{or}@*) (*@\HLJLcs{could}@*) (*@\HLJLcs{have}@*) (*@\HLJLcs{been}@*) (*@\HLJLcs{D\ensuremath{\_1}*R{\_}TU}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -844,17 +843,21 @@ Putting everything together we get:
 (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u(-1)}@*)
 (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u(1)}@*)
 (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u{\textquotesingle}{\textquotesingle}}@*) (*@\HLJLcs{+}@*) (*@\HLJLcs{u{\textquotesingle}}@*) (*@\HLJLcs{+u}@*)
+
 (*@\HLJLn{L}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{[}@*)(*@\HLJLn{B\ensuremath{\_-}\ensuremath{\_1}}@*)(*@\HLJLp{;}@*)
      (*@\HLJLn{B\ensuremath{\_1}}@*)(*@\HLJLp{;}@*)
      (*@\HLJLn{D\ensuremath{\_1}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{R{\_}TU}@*)(*@\HLJLp{]}@*)
+
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*) (*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{,}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{]}@*)
-(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{;}@*)(*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.75\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_14_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_14_1.pdf}
 
 \subsubsection{Variable coefficients}
 Consider the Airy ODE
+
+
 \begin{align*}
 u(-1) &= 1\\
 u(1) &= 0\\
@@ -891,15 +894,18 @@ We set up the system as follows:
 (*@\HLJLn{L}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{[}@*)(*@\HLJLn{B\ensuremath{\_-}\ensuremath{\_1}}@*)(*@\HLJLp{;}@*)   (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u(-1)}@*)
      (*@\HLJLn{B\ensuremath{\_1}}@*) (*@\HLJLp{;}@*)   (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u(1)}@*)
      (*@\HLJLn{D\ensuremath{\_1}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*) (*@\HLJLoB{-}@*) (*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{R{\_}TU}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{X}@*)(*@\HLJLp{]}@*)   (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{u{\textquotesingle}{\textquotesingle}}@*) (*@\HLJLcs{-}@*) (*@\HLJLcs{x*u}@*)
+
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*) (*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{;}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{;}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{]}@*)
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{;}@*) (*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.8\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_16_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_16_1.pdf}
 
 If we introduce a small parameter, that is, solve
+
+
 \begin{align*}
-u(-1) = 1, \: 
+u(-1) &= 1\\
 u(1) &= 0\\
 \epsilon u''(x) - xu(x) &= 0
 \end{align*}
@@ -911,10 +917,12 @@ we can see it's pretty hard to compute solutions:
 (*@\HLJLn{L}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{[}@*)(*@\HLJLn{B\ensuremath{\_-}\ensuremath{\_1}}@*)(*@\HLJLp{;}@*)
      (*@\HLJLn{B\ensuremath{\_1}}@*) (*@\HLJLp{;}@*)
      (*@\HLJLn{\ensuremath{\varepsilon}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_1}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{D\ensuremath{\_0}}@*) (*@\HLJLoB{-}@*) (*@\HLJLn{R{\_}U2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{R{\_}TU}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{X}@*)(*@\HLJLp{]}@*)
+
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*) (*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLp{;}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{;}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{]}@*)
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{;}@*) (*@\HLJLn{legend}@*)(*@\HLJLoB{=}@*)(*@\HLJLkc{false}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
-\cent{\includegraphics[width=0.55\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_17_1.pdf}}
+
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_17_1.pdf}
 
 Because of the banded structure, this can be solved fast:
 
@@ -930,7 +938,7 @@ Because of the banded structure, this can be solved fast:
 \end{lstlisting}
 
 \begin{lstlisting}
-3.457937 seconds (10.63 M allocations: 260.175 MiB, 19.17(*@{{\%}}@*) gc time)
+2.478050 seconds (11.40 M allocations: 271.981 MiB, 2.22(*@{{\%}}@*) gc time)
 ncoefficients(u) = 62496
 \end{lstlisting}
 
@@ -953,15 +961,11 @@ To handle other variable coefficients, first consider a polynomial $p(x)$. If Mu
 \end{lstlisting}
 
 \begin{lstlisting}
-0.109666 seconds (229.04 k allocations: 5.980 MiB)
-(*@\ensuremath{\upepsilon}@*) * ((u(*@{{\textquotesingle}}@*))(*@{{\textquotesingle}}@*))(0.1) - (-1 + 0.1 + 0.1 (*@{{\textasciicircum}}@*) 2) * u(0.1) = -1.3572476476042539e-14
+0.119528 seconds (245.87 k allocations: 6.237 MiB)
+(*@\ensuremath{\varepsilon}@*( * ((u(*@{{\textquotesingle}}@*))(*@{{\textquotesingle}}@*))(0.1) - (-1 + 0.1 + 0.1 (*@{{\textasciicircum}}@*) 2) * u(0.1) = -1.3572476476042539e-14
 \end{lstlisting}
 
-%\begin{lstlisting}
-%(*@\ensuremath{\upepsilon}@*) * ((u(*@{{\textquotesingle}}@*))(*@{{\textquotesingle}}@*))(0.1) - (-1 + 0.1 + 0.1 (*@{{\textasciicircum}}@*) 2) * u(0.1) = -1.3572476476042539e-14
-%\end{lstlisting}
-
-\cent{\includegraphics[width=0.8\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_19_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_19_1.pdf}
 
 For other smooth functions, we first approximate in a polynomial basis,  and without loss of generality we use Chebyshev T basis. For example, consider
 
@@ -1017,14 +1021,14 @@ Here is an example:
 \end{lstlisting}
 
 \begin{lstlisting}
-0.373222 seconds (846.95 k allocations: 19.106 MiB, 15.86(*@{{\%}}@*) gc time)
-(*@\ensuremath{\upepsilon}@*) * ((u(*@{{\textquotesingle}}@*))(*@{{\textquotesingle}}@*))(0.1) + exp(0.1) * u(0.1) = 4.773959005888173e-15
+0.316422 seconds (908.05 k allocations: 20.038 MiB)
+(*@\ensuremath{\varepsilon}@*( * ((u(*@{{\textquotesingle}}@*))(*@{{\textquotesingle}}@*))(0.1) + exp(0.1) * u(0.1) = 4.773959005888173e-15
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.9\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_20_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture20_20_1.pdf}
 
 \section{Differential equations satisfied by orthogonal polynomials}
-Here we do the following:
+This lecture we do the following:
 
 \begin{itemize}
 \item[1. ] Differential equations for orthogonal polynomials
@@ -1044,14 +1048,17 @@ Here we do the following:
 
 \end{itemize}
 The three classical weights are (Hermite) $w(x) = \E^{-x^2}$, (Laguerre) $w_\alpha(x) = x^\alpha \E^{-x}$ and (Jacobi) $w_{\alpha,\beta}(x) = (1-x)^\alpha (1+x)^\beta$. Note all weights form a simple hierarchy: when differentiated, they give a linear polynomial times the previous weight in the hierarchy.  For Hermite,
+
 \[
 {\D \over \dx} w(x) = -2x w(x)
 \]
 for Laguerre,
+
 \[
 {\D \over \dx} w^{(\alpha)}(x) = (\alpha  - x) w^{(\alpha-1)}(x)
 \]
 and for Jacobi
+
 \[
 {\D \over \dx} w^{(\alpha,\beta)}(x) = (\beta(1-x) - \alpha(1+x)) w^{(\alpha-1,\beta-1)}(x)
 \]
@@ -1061,14 +1068,17 @@ These relationships  lead to simple differential equations that have the classic
 We first consider a simple class of operators that are self-adjoint:
 
 \textbf{Proposition (Sturm\ensuremath{\endash}Liouville self-adjointness)} Consider the weighted inner product
+
 \[
 \ip<f,g>_w = \int_a^b f(x) g(x) w(x) \dx
 \]
 then for any continuously differentiable function $q(x)$ satisfying $q(a) = q(b) = 0$, the operator
+
 \[
 Lu = {1 \over w(x)} {\D \over \dx}\left[ q(x) {\D u\over \dx} \right]
 \]
 is self-adjoint in the sense
+
 \[
 \ip<L f,g>_w = \ip<f, Lg>_w
 \]
@@ -1084,6 +1094,7 @@ is self-adjoint in the sense
 \ensuremath{\blacksquare}
 
 We claim that the classical orthogonal polynomials are eigenfunctions of a Sturm\ensuremath{\endash}Liouville problem, that is, in each case there exists a $q(x)$ so that
+
 \[
 L p_n(x) = \lambda_n p_n(x)
 \]
@@ -1091,18 +1102,21 @@ where $\lambda_n$ is the (real) eigenvalue. We will derive this for the ultrasph
 
 \subsubsection{Weighted differentiation for ultraspherical polynomials}
 We have already seen that Chebyshev and ultraspherical polynomials have simple expressions for derivatives where we decrement the degree and increment the parameter:
+
+
 \begin{align*}
-{\D \over \dx } T_n(x) = n U_{n-1}(x) &= n C_{n-1}^{(1)}(x) \\
-{\D \over \dx } C_n^{(\lambda)}(x) & = 2 \lambda C_{n-1}^{(\lambda+1)}(x)
+{\D \over \dx } T_n(x) & = n U_{n-1}(x) = n C_{n-1}^{(1)}(x) \\
+{\D \over \dx } C_n^{(\lambda)}(x) &= 2 \lambda C_{n-1}^{(\lambda+1)}(x)
 \end{align*}
 In this section, we see that differentiating the weighted polynomials actually decrements the parameter and increments the degree:
 
 \textbf{Proposition (weighted differentiation)}
+
+
 \begin{align*}
 {\D \over \dx }[\sqrt{1-x^2} U_n(x)] &= - {n+1 \over \sqrt{1-x^2}} T_{n+1}(x) \\
 {\D \over \dx }[(1-x^2)^{\lambda-\half} C_n^{(\lambda)}(x)] & = -{(n+1) (n+2 \lambda-1) \over 2 (\lambda-1) }  (1-x^2)^{\lambda - {3 \over 2}} C_{n+1}^{(\lambda-1)}(x)
 \end{align*}
-\newpage
 \textbf{Proof} We show the first result by showing that the left-hand side is orthogonal to all  polynomials of degree less than $n+1$ by integration by parts:
 
 \[
@@ -1119,7 +1133,7 @@ Thus we just have to verify the constant in front:
 \sqrt{1-x^2} {\D \over \dx }[\sqrt{1-x^2} U_n(x) = (-n -1) 2^n x^{n+1}
 \]
 The other ultraspherical polynomial follow similarly. \ensuremath{\blacksquare}
-\newpage
+
 \subsubsection{Eigenvalue equation for Ultraspherical polynomials}
 Note that differentiating increments the parameter and decrements the degree while weighted differentiation decrements the parameter and increments the degree. Therefore combining them brings us back to where we started.
 
@@ -1145,5 +1159,5 @@ or in other words,
 (1-x^2) {\D^2 C_n^{(\lambda)} \over \dx^2} - (2\lambda+1) x {\D C_n^{(\lambda)} \over \dx}  = -{n (n+2 \lambda) \over 2\lambda}C_n^{(\lambda)}(x)
 \]
 
-}
+
 \end{document}

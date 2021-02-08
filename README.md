@@ -69,3 +69,4 @@ Examples of previous projects:
 17. [Inverting logarithmic singular integrals and 2D electrostatic potentials](notes/Lecture17.pdf)
 18. [Orthogonal polynomials](notes/Lecture18.pdf)
 19. [Classical orthogonal polynomials](notes/Lecture19.pdf)
+20. [Orthogonal polynomials and differential equations](notes/Lecture20.pdf)
