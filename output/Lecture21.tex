@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,15 +242,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 21: Orthogonal polynomials and singular integrals}
@@ -287,7 +266,6 @@ This lecture we do the following:
 \item[2. ] Log transform of weighted \emph{classical} orthogonal polynomials
 
 \end{itemize}
-\newpage
 \subsection{Cauchy transforms of orthogonal polynomials}
 Given a family of orthogonal polynomials $p_k(x)$ with respect to the weight $w(x)$ on $(a,b)$, we always know it satisfies a three-term recurrence:
 
@@ -308,7 +286,6 @@ C_k(z) := {\cal C}_{[a,b]}[p_k w](z) = {1 \over 2 \pi \I} \int_a^b {p_k(x) w(x) 
 z C_0(z) &= a_0 C_0(z) + b_0 C_1(z) - {1 \over 2 \pi \I} \int_a^b w(x) \dx \\
 z C_k(z) &= c_k C_{k-1}(z) + a_k C_k(z) + b_k C_{k+1}(z)
 \end{align*}
-\newpage
 \textbf{Proof}
 
 
@@ -331,24 +308,29 @@ c_1 & a_1-z & b_1 \\
 &&&\ddots & \ddots
 \end{pmatrix}\begin{pmatrix}C_0(z) \\C_1(z) \\C_2(z) \\C_3(z) \\ \vdots \end{pmatrix} = \begin{pmatrix}C_0(z) \\{1 \over 2 \pi \I} \int_a^b w(x) \dx \\0 \\0 \\ \vdots \end{pmatrix}
 \]
-\newpage
 \textbf{Example (Chebyshev Cauchy transform)}
 
 Consider the Chebyshev case $w(x) = {1 \over \sqrt{1-x^2}}$, which satisfies $\int_{-1}^1 w(x) \dx = {\pi}$. Recall that
+
 \[
     C_0(z) ={\cal C}w(z) = { \I \over 2\sqrt{z-1}\sqrt{z+1}}
 \]
 Further, we have
+
+
 \begin{align*}
 x T_0(x) = T_1(x) \\
 x T_k(x) = {T_{k-1}(x) \over 2} + { T_{k+1}(x) \over 2}
 \end{align*}
 hence
+
+
 \begin{align*}
 z C_0(z) = C_1(z) -  {1  \over 2 \I} \\
 z C_k(z) = {C_{k-1}(z) \over 2} +{C_{k+1}(z) \over 2} .
 \end{align*}
 In other words, we want to solve
+
 \[
 \begin{pmatrix}
 1 \\
@@ -360,6 +342,8 @@ In other words, we want to solve
 \end{pmatrix}\begin{pmatrix}C_0(z) \\C_1(z) \\C_2(z) \\C_3(z) \\ \vdots \end{pmatrix} = \begin{pmatrix} { \I \over 2\sqrt{z-1}\sqrt{z+1}} \\{1 \over 2 \I} \\0 \\0 \\ \vdots \end{pmatrix}
 \]
 with forward substitution.
+
+
 \begin{lstlisting}
 (*@\HLJLk{using}@*) (*@\HLJLn{ApproxFun}@*)(*@\HLJLp{,}@*) (*@\HLJLn{SingularIntegralEquations}@*)(*@\HLJLp{,}@*) (*@\HLJLn{LinearAlgebra}@*)(*@\HLJLp{,}@*) (*@\HLJLn{Plots}@*)(*@\HLJLp{,}@*) (*@\HLJLn{ComplexPhasePortrait}@*)
 (*@\HLJLn{x}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{()}@*)
@@ -405,7 +389,9 @@ with forward substitution.
     (*@\HLJLn{L}@*)(*@\HLJLp{[}@*)(*@\HLJLn{k}@*)(*@\HLJLp{,}@*)(*@\HLJLn{k}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)
     (*@\HLJLn{L}@*)(*@\HLJLp{[}@*)(*@\HLJLn{k}@*)(*@\HLJLp{,}@*)(*@\HLJLn{k}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*)(*@\HLJLp{[}@*)(*@\HLJLn{k}@*)(*@\HLJLp{,}@*)(*@\HLJLn{k}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)
 (*@\HLJLk{end}@*)
+
 (*@\HLJLn{C}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*) (*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{));}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLn{im}@*)(*@\HLJLp{);}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)]}@*)
+
 (*@\HLJLn{T\ensuremath{\_2}\ensuremath{\_0}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Chebyshev}@*)(*@\HLJLp{(),}@*) (*@\HLJLp{[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLni{20}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
 
 (*@\HLJLn{C}@*)(*@\HLJLp{[}@*)(*@\HLJLni{21}@*)(*@\HLJLp{],}@*) (*@\HLJLnf{cauchy}@*)(*@\HLJLp{(}@*)(*@\HLJLn{T\ensuremath{\_2}\ensuremath{\_0}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
@@ -423,80 +409,98 @@ Forward substitution is an unstable algorithm for calculating the $C_k(z)$ becau
 \begin{lstlisting}
 (*@\HLJLn{L}@*)(*@\HLJLp{[}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLp{,}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{]}@*)
 (*@\HLJLn{C}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{L}@*)(*@\HLJLp{[}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLp{,}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{]}@*)(*@\HLJLoB{{\textbackslash}}@*) (*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*)(*@\HLJLn{im}@*)(*@\HLJLp{);}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)]}@*)
+
 (*@\HLJLn{C}@*)(*@\HLJLp{[}@*)(*@\HLJLni{6}@*)(*@\HLJLp{]}@*)(*@\HLJLoB{-}@*) (*@\HLJLnf{cauchy}@*)(*@\HLJLp{(}@*)(*@\HLJLn{T\ensuremath{\_5}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
 -3.072062106493749e-17 + 4.368604850944066e-17im
 \end{lstlisting}
-This algorithm also becomes unstable for large $z$.  For large $z$, we can compute the $C_k$ using
-$$
-C_k(z) = {1 \over 2\pi \I}\int_{a}^{b}{p_k(x)w(x) \over x - z} \D x = -{1 \over 2\pi \I z}\int_{a}^{b} p_k(x)w(x)\sum_{n=0}^{\infty}\left({x\over z}\right)^n  \D x =  -{1 \over 2\pi \I }\sum_{n=k}^{\infty} {\mu_n\over z^{n+1}},
-$$
-where $\mu_n$ is the $n$-th moment of the OP $p_k$:
-$$
-\mu_n = \int_{a}^{b} x^n p_k(x)w(x) \D x.
-$$
 
-\newpage
+
+This algorithm also becomes unstable for large $z$.  For large $z$, we can compute the $C_k$ using
+
+\[
+C_k(z) = {1 \over 2\pi \I}\int_{a}^{b}{p_k(x)w(x) \over x - z} \D x = -{1 \over 2\pi \I z}\int_{a}^{b} p_k(x)w(x)\sum_{n=0}^{\infty}\left({x\over z}\right)^n  \D x =  -{1 \over 2\pi \I }\sum_{n=k}^{\infty} {\mu_n\over z^{n+1}},
+\]
+where $\mu_n$ is the $n$-th moment of the OP $p_k$:
+
+\[
+\mu_n = \int_{a}^{b} x^n p_k(x)w(x) \D x.
+\]
 \subsection{Hilbert transform of weighted orthogonal polynomials}
 Now consider the Hilbert transform of weighted orthogonal polynomials:
+
 \[
 H_k(x) = \HH_{(a,b)}[p_k w](x) = {1 \over \pi} \int_a^b {p_k(t) w(t) \over x-t} \dt
 \]
 Just like Cauchy transforms, the Hilbert transforms have
 
 \textbf{Corollary (Hilbert transform recurrence)}
+
+
 \begin{align*}
 x H_0(x) &=  a_0 H_0(x) + b_0 H_1(x) + {1 \over \pi} \int_a^b w(x) \dx\\
 x H_k(x) &=  c_k H_{k-1}(x) + a_k H_k(x) + b_k H_{k+1}(x)
 \end{align*}
-\newpage
 \textbf{Proof} Recall
+
 \[
 \CC^+ f(x) + \CC^- f(x) = \I \HH f(x)
 \]
 Therefore, we have
+
 \[
 C_k^+(x) + C_k^-(x) = \I \HH[w p_k](x)
 \]
 hence we have
+
+
 \begin{align*}
-x H_0(x) &= -\I x (C_0^+(x) + C_0^-(x))\\
-& = - \I \left[a_0 (C_0^+(x) + C_0^-(x)) + b_0 (C_1^+(x) + C_1^-(x))    -{1 \over  \pi \I} \int_a^b w(x) \dx \right]\\
+x H_0(x) &= -\I x (C_0^+(x) + C_0^-(x)) = - \I \left[a_0 (C_0^+(x) + C_0^-(x)) + b_0 (C_1^+(x) + C_1^-(x))    -{1 \over  \pi \I} \int_a^b w(x) \dx \right]\\
             &=  a_0 H_0(x) + b_0 H_1(x) + {1 \over \pi} \int_a^b w(x) \dx
 \end{align*}
 Other $k$ follows by a similar argument.
 
 \ensuremath{\blacksquare}
-\newpage
+
 \subsubsection{Example 1: weighted Chebyshev T}
 For
+
 \[
 H_k(x) := \HH[T_k/\sqrt{1-x^2}](x) =  {1 \over \pi} \int_{-1}^1 {T_k(t) \over (x-t)\sqrt{1-t^2}} \dt
 \]
 The recurrence gives us
+
+
 \begin{align*}
 x H_0(x) &= H_1(x) + 1 \\
-x H_k(x) &= {H_{k-1}(x) \over 2} + {H_k(x) \over 2} 
+x H_k(x) &= {H_{k-1}(x) \over 2} + {H_{k+1}(x) \over 2} \\
 \end{align*}
-In this case, we have $H_0(x) = \HH[w](x) =  0$. Therefore, we can rewrite this recurrence as 
+In this case, we have $H_0(x) = \HH[w](x) =  0$. Therefore, we can rewrite this recurrence as
+
+
 \begin{align*}
-H_1(x)= -1,\:  x H_1(x) &= {H_2(x) \over 2} \\
-x H_k(x) &= {H_{k-1}(x) \over 2} + {H_{k+1}(x) \over 2} 
+H_1(x)&= -1  \\
+x H_1(x) &= {H_2(x) \over 2} \\
+x H_k(x) &= {H_{k-1}(x) \over 2} + {H_{k+1}(x) \over 2} \\
 \end{align*}
 This is precisely the three-term recurrence satisfied by $-U_{k-1}$! We therefore have
+
 \[
 H_k(x) = -U_{k-1}(x)
 \]
 This gives a very easy way to compute Hilbert transforms: if
+
 \[
 f(x) = \sum_{k=0}^\infty f_k T_k(x)
 \]
 then
+
 \[
 \HH\left[{f \over \sqrt{1-\diamond^2}}\right](x) = -\sum_{k=0}^\infty f_{k+1} U_k(x)
 \]
+
 \begin{lstlisting}
 (*@\HLJLn{x}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*)
 (*@\HLJLn{T}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Chebyshev}@*)(*@\HLJLp{(),[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
@@ -507,13 +511,17 @@ then
 \begin{lstlisting}
 (-0.5608031061203765, -0.5608031061203765)
 \end{lstlisting}
-\newpage
+
+
 \subsubsection{Example 2: weighted Chebyshev U}
 For
+
 \[
 H_k(x) := \HH[U_k \sqrt{1-x^2}](x) =  {1 \over \pi} \int_{-1}^1 {U_k(t) \sqrt{1-t^2} \over x-t} \dt
 \]
 The recurrence gives us
+
+
 \begin{align*}
 x H_0(x) &= {H_1(x) \over 2} + 1/2 \\
 x H_k(x) &= {H_{k-1}(x) \over 2} + {H_k(x) \over 2} \\
@@ -534,6 +542,7 @@ H_k(x) = T_{k+1}(x)
 \]
 \subsection{Log transforms of weighted orthogonal polynomials}
 Now consider ${1 \over \pi} \int_a^b p_k(x) w(x) \log |z-x| \dx$, which we write in terms of the real part of
+
 
 \begin{align*}
 M_k(z) = M[p_k w](z)& = {1 \over \pi } \int_a^b p_k(x) w(x) \log (z-x) \dx \\
@@ -567,16 +576,18 @@ in other words,
 \int_x^1 {T_k(t) \over \sqrt{1-t^2}} \dt = {\sqrt{1-x^2} U_{k-1}(x) \over k}
 \]
 Thus for $k=1,2,\ldots$,
-$$
-M_k(z)= {1 \over \pi} \int_{-1}^1 {T_k(x) \over \sqrt{1-x^2}}\log(z-x) \dx  = {2\I \over k} \CC[\sqrt{1-\diamond^2} U_{k-1}](z)
-$$
-and for $k = 0$,
-$$
-M_0(z) = 2\log(\sqrt{z-1} + \sqrt{z+1}) - 2\log 2
-$$
 
+\[
+M_k(z)= {1 \over \pi} \int_{-1}^1 {T_k(x) \over \sqrt{1-x^2}}\log(z-x) \dx  = {2\I \over k} \CC[\sqrt{1-\diamond^2} U_{k-1}](z)
+\]
+and for $k = 0$,
+
+\[
+M_0(z) = 2\log(\sqrt{z-1} + \sqrt{z+1}) - 2\log 2
+\]
 As we saw above, Cauchy transforms of weighted OPs satisfy simple recurrences, and this relationship renders log transforms equally calculable.
-\newpage
+
+
 \begin{lstlisting}
 (*@\HLJLn{T\ensuremath{\_5}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Chebyshev}@*)(*@\HLJLp{(),}@*) (*@\HLJLp{[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLni{5}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
 (*@\HLJLn{U\ensuremath{\_4}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{Ultraspherical}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLp{),}@*) (*@\HLJLp{[}@*)(*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLni{4}@*)(*@\HLJLp{);}@*)(*@\HLJLni{1}@*)(*@\HLJLp{])}@*)
@@ -586,9 +597,11 @@ As we saw above, Cauchy transforms of weighted OPs satisfy simple recurrences, a
 \end{lstlisting}
 
 \begin{lstlisting}
-(6.576121814966234e-8 - 2.0389718362285198e-7im, 6.576121814966217e-8 - 2.0389718362285196e-7im)
+(6.576121814966234e-8 - 2.0389718362285198e-7im, 6.576121814966217e-8 - 2.0
+389718362285196e-7im)
 \end{lstlisting}
-\newpage
+
+
 For $z = x \in [-1, 1]$ and $k > 0$
 
 
@@ -602,7 +615,7 @@ L_k(x) & = {1 \over \pi}\int_{-1}^{1} {T_k(t) \log\vert t - x \vert \over  \sqrt
 and
 
 \[
-L_0(x) = \Re M_0^{+}(x) = -2\log 2
+L_0(x) = \Re M_0^{+}(x) = -\log 2
 \]
 
 \begin{lstlisting}
@@ -615,5 +628,6 @@ L_0(x) = \Re M_0^{+}(x) = -2\log 2
 (0.14142135623730945, 0.14142135623730942)
 \end{lstlisting}
 
-}
+
+
 \end{document}

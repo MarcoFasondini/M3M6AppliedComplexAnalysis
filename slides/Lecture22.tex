@@ -302,11 +302,6 @@ H_n(x)= (-1)^n \E^{x^2}  {\D^n \over \dx^n} \E^{-x^2}
  H_0(x) &= \E^{x^2} {\D^0 \over \dx^0}\E^{-x^2} = 1 \\
  H_{n+1}(x) &= -\E^{x^2}{\D \over \dx}\left[\E^{-x^2} H_{n}(x)\right] =   2x H_{n}(x) - H_n'(x)
 \end{align*}
-and  then we have
-
-\[
- {\D^n \over \dx^n}[p_m(x) \E^{-x^2}]=  {\D^{n-1} \over \dx^{n-1}}  (p_m'(x)-2x p_m(x))  \E^{-x^2}
-\]
 Orthogonality follows from integration by parts:
 
 \[
@@ -317,7 +312,7 @@ if $m < n$.
 Now we just need to show we have the right constant. But we have
 
 \[
- {\D^n \over \dx^n}[\E^{-x^2}] =  {\D^{n-1} \over \dx^{n-1}}[-2x \E^{-x^2}] = {\D^{n-2} \over \dx^{n-2}}[(4x^2 + O(x)) \E^{-x^2}] = \cdots = (-1)^n 2^n x^n
+\hspace*{-0.5cm} {\D^n \over \dx^n}[\E^{-x^2}] =  {\D^{n-1} \over \dx^{n-1}}[-2x \E^{-x^2}] = {\D^{n-2} \over \dx^{n-2}}[(4x^2 + O(x)) \E^{-x^2}] = \cdots = \left[(-1)^n 2^n x^n + O(x^{n-1})\right]\E^{-x^2}
 \]
 \ensuremath{\blacksquare}
 \newpage

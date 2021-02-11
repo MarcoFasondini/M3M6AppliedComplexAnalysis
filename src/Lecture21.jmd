@@ -135,14 +135,21 @@ T₂₀ = Fun(Chebyshev(), [zeros(20);1])
 
 C[21], cauchy(T₂₀*w, z)
 ```
-Get around it by dropping the first row:
+Forward substitution is an unstable algorithm for calculating the $C_k(z)$ because the general solution of the linear recurrence (or linear difference equation) satisfied by the  $C_k(z)$ is a superposition (or linear combination) of an exponentially growing solution and an exponentially decaying solution. For large $k$, the $C_k(z)$ calculated via forward recurrence will pick up the exponentially growing solution because of rounding errors. The computed values of the $C_k(z)$ will then grow exponentially for large $k$ while the actual values the $C_k(z)$ are bounded. Instead, a stable algorithm (e.g., Miller's algorithm or Olver's algorithm) is used to compute the $C_k(z)$. A simple way to compute the $C_k$ more stably is to drop the first row of the recurrence:
 ```julia
 L[2:end,1:end-1]
-
 C = L[2:end,1:end-1]\ [1/(2im); zeros(n-2)]
 
 C[6]- cauchy(T₅*w, z)
 ```
+This algorithm also becomes unstable for large $z$.  For large $z$, we can compute the $C_k$ using
+$$
+C_k(z) = {1 \over 2\pi \I}\int_{a}^{b}{p_k(x)w(x) \over x - z} \D x = -{1 \over 2\pi \I z}\int_{a}^{b} p_k(x)w(x)\sum_{n=0}^{\infty}\left({x\over z}\right)^n  \D x =  -{1 \over 2\pi \I }\sum_{n=k}^{\infty} {\mu_n\over z^{n+1}},
+$$
+where $\mu_n$ is the $n$-th moment of the OP $p_k$:
+$$
+\mu_n = \int_{a}^{b} x^n p_k(x)w(x) \D x.
+$$
 
 ## Hilbert transform of weighted orthogonal polynomials
 
@@ -192,7 +199,7 @@ The recurrence gives us
 $$
 \begin{align*}
 x H_0(x) &= H_1(x) + 1 \\
-x H_k(x) &= {H_{k-1}(x) \over 2} + {H_k(x) \over 2} \\
+x H_k(x) &= {H_{k-1}(x) \over 2} + {H_{k+1}(x) \over 2} \\
 \end{align*}
 $$
 In this case, we have $H_0(x) = \HH[w](x) =  0$. Therefore, we can rewrite this recurrence as
@@ -233,7 +240,7 @@ $$
 The recurrence gives us
 $$
 \begin{align*}
-x H_0(x) &= H_1(x) + 1/2 \\
+x H_0(x) &= {H_1(x) \over 2} + 1/2 \\
 x H_k(x) &= {H_{k-1}(x) \over 2} + {H_k(x) \over 2} \\
 \end{align*}
 $$
@@ -271,7 +278,7 @@ where $F(x) = \int_{x}^{1} p_k(t) w(t) \mathrm{d}t$. For $k > 0$ we have $\int_a
 x = Fun()
 T₅ = Fun(Chebyshev(), [zeros(5);1])
 w = 1/sqrt(1-x^2)
-M₅ = z-> -2im*cauchyintegral(w*T₅, z)
+M₅ = z-> -2im*cauchyintegral(w*T₅, z) # cauchyintegral computes an indefinite integral of the Cauchy transform
 
 phaseplot(-3..3, -3..3, M₅)
 ```
@@ -293,14 +300,37 @@ Thus for $k=1,2,\ldots$,
 $$
 M_k(z)= {1 \over \pi} \int_{-1}^1 {T_k(x) \over \sqrt{1-x^2}}\log(z-x) \dx  = {2\I \over k} \CC[\sqrt{1-\diamond^2} U_{k-1}](z)
 $$
+and for $k = 0$,
+$$
+M_0(z) = 2\log(\sqrt{z-1} + \sqrt{z+1}) - 2\log 2
+$$
 
 
-As we saw above, Cauchy transforms of OPs satisfy simple recurrences, and this relationship renders log transforms equally calculable.
-
+As we saw above, Cauchy transforms of weighted OPs satisfy simple recurrences, and this relationship renders log transforms equally calculable.
 ```julia
 T₅ = Fun(Chebyshev(), [zeros(5);1])
 U₄ = Fun(Ultraspherical(1), [zeros(4);1])
 x = Fun()
 M₅ = z->sum(T₅/sqrt(1-x^2) * log(z-x))/π
 M₅(z), 2im*cauchy(sqrt(1-x^2)*U₄,z)/5
+```
+
+For $z = x \in [-1, 1]$ and $k > 0$
+$$
+\begin{align*}
+L_k(x) & = {1 \over \pi}\int_{-1}^{1} {T_k(t) \log\vert t - x \vert \over  \sqrt{1-t^2}} \dt \\
+ & =\Re M_k^{+}(x)  \\
+ & = - {2\over k} \Im \CC^{+}[\sqrt{1-\diamond^2} U_{k-1}](x)\\
+& = -{\HH [\sqrt{1-\diamond^2} U_{k-1}](x)\over k} \\
+& = - {T_k(x)\over k}
+\end{align*}
+$$
+and
+$$
+L_0(x) = \Re M_0^{+}(x) = -\log 2
+$$
+```julia
+x₀ = 1/sqrt(2)
+L₅(x) = logkernel(w*T₅,x)
+L₅(x₀),-T₅(x₀)/5
 ```
