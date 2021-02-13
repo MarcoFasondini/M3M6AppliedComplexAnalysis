@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,15 +242,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 22: Hermite polynomials}
@@ -280,12 +259,11 @@ This lecture we overview features of Hermite polynomials, some of which also app
 \item[3. ] Eigenstates of Schrödinger equations with a quadratic well
 
 \end{itemize}
-\newpage
 \subsection{Rodriguez formula}
 Because of the special structure of classical orthogonal weights, we have special Rodriguez formulae of the form
 
 \[
- p_n(x) = {1 \over \kappa_n w(x)} {\D^n \over \dx^n} w(x) \left[F(x)\right]^n
+ p_n(x) = {1 \over \kappa_n w(x)} {\D^n \over \dx^n} w(x) F(x)^n
 \]
 where $w(x)$ is the weight and $F(x) = (1-x^2)$ (Jacobi), $x$ (Laguerre) or $1$ (Hermite) and $\kappa_n$ is a normalization constant.
 
@@ -294,7 +272,6 @@ where $w(x)$ is the weight and $F(x) = (1-x^2)$ (Jacobi), $x$ (Laguerre) or $1$ 
 \[
 H_n(x)= (-1)^n \E^{x^2}  {\D^n \over \dx^n} \E^{-x^2}
 \]
-\newpage
 \textbf{Proof} We first show that it's a degree $n$ polynomial. This proceeds by induction:
 
 
@@ -307,15 +284,15 @@ Orthogonality follows from integration by parts:
 \[
 \ip<H_n, p_m>_{\rm H} = (-1)^n \int_{-\infty}^{\infty}  {\D^n  \E^{-x^2} \over \dx^n} p_m \dx = \int_{-\infty}^{\infty}  \E^{-x^2} {\D^n p_m \over \dx^n} \dx = 0
 \]
-if $m < n$.
+if $m < n$
 
 Now we just need to show we have the right constant. But we have
 
 \[
-\hspace*{-0.5cm} {\D^n \over \dx^n}[\E^{-x^2}] =  {\D^{n-1} \over \dx^{n-1}}[-2x \E^{-x^2}] = {\D^{n-2} \over \dx^{n-2}}[(4x^2 + O(x)) \E^{-x^2}] = \cdots = \left[(-1)^n 2^n x^n + O(x^{n-1})\right]\E^{-x^2}
+ {\D^n \over \dx^n}[\E^{-x^2}] =  {\D^{n-1} \over \dx^{n-1}}[-2x \E^{-x^2}] = {\D^{n-2} \over \dx^{n-2}}[(4x^2 + O(x)) \E^{-x^2}] = \cdots = \left[(-1)^n 2^n x^n + O(x^{n-1})\right]\E^{-x^2}
 \]
 \ensuremath{\blacksquare}
-\newpage
+
 Note this tells us the Hermite recurrence: Here we have the simple expressions
 
 \[
@@ -331,7 +308,6 @@ which means
 \[
 x H_n(x) = nH_{n-1}(x) +{H_{n+1}(x) \over 2}
 \]
-\newpage
 \subsection{Approximation with Hermite polynomials}
 Hermite polynomials are typically used with the weight for approximation of functions: on the real line polynomial approximation is unnatural unless  the function approximated is a polynomial as otherwise the behaviour at \ensuremath{\infty} is inconsistent (polynomials blow up).  Thus we can either use
 
@@ -369,7 +345,7 @@ We get nonsense when trying to approximate $\sech(x)$ by a degree 50 polynomial:
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.9\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_2_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_2_1.pdf}
 
 Incorporating the weight $\sqrt{w(x)} = \E^{-x^2/2}$ works:
 
@@ -381,7 +357,7 @@ Incorporating the weight $\sqrt{w(x)} = \E^{-x^2/2}$ works:
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_3_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_3_1.pdf}
 
 Weighted by $w(x) = \E^{-x^2}$ breaks again:
 
@@ -393,31 +369,39 @@ Weighted by $w(x) = \E^{-x^2}$ breaks again:
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*) (*@\HLJLn{f}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{);}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}f"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_4_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_4_1.pdf}
 
 This can be explained by observing that the functions
-$\phi_k(x) = \E^{-x^2/2}H_k(x)$
- are orthogonal in $L^2_{\mathbb{R}}$; the functions
-$\widetilde{\phi}_k(x) = \E^{-x^2}H_k(x)$
-are orthogonal in $L^2_{\mathbb{R}}(\E^{x^2})$; $\sech(x) \in L^2_{\mathbb{R}}$ but  $\sech(x) \notin L^2_{\mathbb{R}}(\E^{x^2})$. That is, the  $\phi_k(x)$ are orthogonal with respect to the weight $w(x) = 1$ on $\mathbb{R}$:
-$$
-\langle f, g \rangle_{w} = \int_{-\infty}^{\infty}f(x)g(x) \D x,
-$$
-the $\widetilde{\phi}_k(x)$ are orthogonal with respect to $\widetilde{w} = \E^{x^2}$:
-$$
-\langle f, g \rangle_{\widetilde{w}} = \int_{-\infty}^{\infty}f(x)g(x) \E^{x^2} \D x,
-$$
-for $f(x) = \sech(x)$, we have that
-$$
-\| f \|_{w}^2 = \langle f, f \rangle_{w} < \infty, \qquad \| f \|_{\widetilde{w}} = \sqrt{\langle f, f \rangle_{\widetilde{w}}} = \infty.
-$$
-Hence, $\sech(x)$ cannot have a convergent expansion of the form
-$$
-f(x) = \sum_{k = 0}^{\infty} f_k \widetilde{\phi}_k(x) = \E^{-x^2}  \sum_{k = 0}^{\infty} f_k H_k(x)
-$$
-in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$. Obtaining bounds on the expansion coefficients $f_k$ in the functions $\phi_k(x)$ (as we did previously for Fourier expansions and Chebyshev expansions) is rather complicated and beyond the scope of this module.
 
-\newpage
+\[
+\phi_k(x) = \E^{-x^2/2}H_k(x)
+\]
+are orthogonal in $L^2_{\mathbb{R}}$; the functions
+
+\[
+\widetilde{\phi}_k(x) = \E^{-x^2}H_k(x)
+\]
+are orthogonal in $L^2_{\mathbb{R}}(\E^{x^2})$; $\sech(x) \in L^2_{\mathbb{R}}$ but  $\sech(x) \notin L^2_{\mathbb{R}}(\E^{x^2})$. That is, the  $\phi_k(x)$ are orthogonal with respect to the weight $w(x) = 1$ on $\mathbb{R}$:
+
+\[
+\langle f, g \rangle_{w} = \int_{-\infty}^{\infty}f(x)g(x) \D x,
+\]
+the $\widetilde{\phi}_k(x)$ are orthogonal with respect to $\widetilde{w} = \E^{x^2}$:
+
+\[
+\langle f, g \rangle_{\widetilde{w}} = \int_{-\infty}^{\infty}f(x)g(x) \E^{x^2} \D x,
+\]
+for $f(x) = \sech(x)$, we have that
+
+\[
+\| f \|_{w}^2 = \langle f, f \rangle_{w} < \infty, \qquad \| f \|_{\widetilde{w}} = \sqrt{\langle f, f \rangle_{\widetilde{w}}} = \infty.
+\]
+Hence, $\sech(x)$ cannot have a convergent expansion of the form
+
+\[
+f(x) = \sum_{k = 0}^{\infty} f_k \widetilde{\phi}_k(x) = \E^{-x^2}  \sum_{k = 0}^{\infty} f_k H_k(x)
+\]
+in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$. Obtaining bounds on the expansion coefficients $f_k$ in the functions $\phi_k(x)$ (as we did previously for Fourier expansions and Chebyshev expansions) is rather complicated and beyond the scope of this module.
 
 \subsection{Application:  Eigenstates of Schrödinger operators with quadratic potentials}
 Using the derivative formulae tells us a Sturm\ensuremath{\endash}Liouville operator for Hermite polynomials:
@@ -441,7 +425,7 @@ In other words, for the Hermite function $\psi_n(x)$ we have
 {\D^2 \psi_n \over \dx^2} -x^2 \psi_n = -(2n+1) \psi_n
 \]
 and therefore $\psi_n$ are the eigenfunctions.
-\newpage
+
 We want to normalize.  In Schrödinger equations the square of the wave $\psi(x)^2$ represents a probability distribution, which should integrate to 1. Here's a trick: we know that
 
 \[
@@ -493,7 +477,7 @@ Hence the orthonormal eigenfunctions in $L^2_{\mathbb{R}}$ with respect to the w
 (*@\HLJLn{p}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.85\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_7_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_5_1.pdf}
 
 It's convention to shift them by the eigenvalue:
 
@@ -505,8 +489,10 @@ It's convention to shift them by the eigenvalue:
     (*@\HLJLn{\ensuremath{\psi}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{->}@*) (*@\HLJLnf{H}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{),}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{10.0}@*) (*@\HLJLoB{..}@*) (*@\HLJLnfB{10.0}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{factorial}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{1.0}@*)(*@\HLJLn{n}@*)(*@\HLJLp{))}@*)
     (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\psi}}@*) (*@\HLJLoB{+}@*) (*@\HLJLni{2}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}n}@*) (*@\HLJLs{=}@*) (*@\HLJLsi{{\$}n}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{)}@*)
 (*@\HLJLk{end}@*)
+(*@\HLJLn{p}@*)
 \end{lstlisting}
-\cent{\includegraphics[width=0.7\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_8_1.pdf}}
 
-}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture22_6_1.pdf}
+
+
 \end{document}

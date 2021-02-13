@@ -130,7 +130,7 @@ Hence, $\sech(x)$ cannot have a convergent expansion of the form
 $$
 f(x) = \sum_{k = 0}^{\infty} f_k \widetilde{\phi}_k(x) = \E^{-x^2}  \sum_{k = 0}^{\infty} f_k H_k(x)
 $$
-in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$.
+in $L^2_{\mathbb{R}}(\E^{x^2})$ but it has an expansion in the functions $\phi_k(x)$ in $L^2_{\mathbb{R}}$. Obtaining bounds on the expansion coefficients $f_k$ in the functions $\phi_k(x)$ (as we did previously for Fourier expansions and Chebyshev expansions) is rather complicated and beyond the scope of this module.
 
 
 ## Application:  Eigenstates of Schrödinger operators with quadratic potentials
@@ -157,40 +157,39 @@ and therefore $\psi_n$ are the eigenfunctions.
 
 We want to normalize.  In Schrödinger equations the square of the wave $\psi(x)^2$ represents a probability distribution, which should integrate to 1. Here's a trick: we know that
 $$
-x \begin{pmatrix} H_0(x) \\ H_1(x) \\ H_2(x) \\ \vdots \end{pmatrix} = \underbrace{\begin{pmatrix} 0 & {1 \over 2} \\
+x \underbrace{\begin{pmatrix} H_0(x) \\ H_1(x) \\ H_2(x) \\ \vdots \end{pmatrix}}_{\bm{H}} = \underbrace{\begin{pmatrix} 0 & {1 \over 2} \\
 1 & 0 & \half \\
 & 2 & 0 & \half \\
 && 3 & 0 & \ddots \\
 &&& \ddots & \ddots
 \end{pmatrix}}_J\begin{pmatrix} H_0(x) \\ H_1(x) \\ H_2(x) \\ \vdots \end{pmatrix}
 $$
-We want to conjugate by a diagonal matrix so that
+Let $\bm{H} = D^{-1}\bm{Q}$, where $D = \mathrm{diag}(d_0, d_1, \ldots)$ and $\bm{Q} = \left(q_0(x), q_1(x), \ldots \right)^\top$ denotes the (infinite) vector of orthonormal Hermite polynomials. We want to conjugate by $D$ so that $DJD^{-1}$ is symmetric because $x\bm{Q} = DJD^{-1}\bm{Q}$. We have
 $$
-\begin{pmatrix}1 \\ & d_1 \\ &&d_2 \\&&&\ddots \end{pmatrix}  J \begin{pmatrix}1 \\ & d_1^{-1} \\ &&d_2^{-1} \\&&&\ddots \end{pmatrix} = \begin{pmatrix} 0 & {1 \over 2d_1} \\
-d_1 & 0 & {d_1 \over 2 d_2} \\
+DJD^{-1} = \begin{pmatrix}d_0 \\ & d_1 \\ &&d_2 \\&&&\ddots \end{pmatrix}  J \begin{pmatrix} d_0^{-1} \\ & d_1^{-1} \\ &&d_2^{-1} \\&&&\ddots \end{pmatrix} = \begin{pmatrix} 0 & {d_0 \over 2d_1} \\
+{d_1 \over d_0} & 0 & {d_1 \over 2 d_2} \\
 & {2d_2 \over d_1} & 0 & {d_2 \over 2 d_3} \\
 && {3d_3 \over d_2} & 0 & \ddots \\
 &&& \ddots & \ddots
 \end{pmatrix}
 $$
-becomes symmetric. This becomes a sequence of equations:
+We require:
 $$
 \begin{align*}
-d_1 &= {1 \over 2 d_1} \Rightarrow d_1^2 = {1 \over 2} \\
-2d_2d_1^{-1} &= {d_1 \over 2 d_2} \Rightarrow d_2^2 = {d_1^2 \over 4} = {1 \over 8} = {1 \over 2^2 2!} \\
-3d_3d_2^{-1} &= {d_2 \over 2 d_3} \Rightarrow d_3^2 = {d_2^2 \over 3\times 2} = {1 \over 2^3 3!} \\
+d_1d_0^{-1} &= {d_0 \over 2 d_1} \Rightarrow d_1^2 = {d_0^2 \over 2} \\
+2d_2d_1^{-1} &= {d_1 \over 2 d_2} \Rightarrow d_2^2 = {d_1^2 \over 4} = {d_0^2 \over 8} = {d_0^2 \over 2^2 2!} \\
+3d_3d_2^{-1} &= {d_2 \over 2 d_3} \Rightarrow d_3^2 = {d_2^2 \over 3\times 2} = {d_0^2 \over 2^3 3!} \\
 &\vdots \\
-d_n^2 = {1 \over 2^n n!}
+d_n^2 = {d_0^2 \over 2^n n!}.
 \end{align*}
 $$
-
-Thus the norm of $d_n H_n(x)$ is constant. If we also normalize using
+To determine $d_0$, note that $q_0 = d_0H_0 = d_0$ and thus
 $$
-    \int_{-\infty}^\infty \E^{-x^2} \dx = \sqrt{\pi}
+\langle q_0, q_0 \rangle_{\rm H} =     d_0^2\int_{-\infty}^\infty \E^{-x^2} \dx = d_0^2\sqrt{\pi} = 1.
 $$
-we get the normalized eigenfunctions
+Hence the orthonormal eigenfunctions in $L^2_{\mathbb{R}}$ with respect to the weight $w=1$ are
 $$
-    \psi_n(x) = {H_n(x)\E^{-x^2/2}  \over \sqrt{\sqrt{\pi} 2^n n!} }
+    \psi_n(x) = q_n(x)\E^{-x^2/2} = d_n H_n(x)\E^{-x^2/2} = {H_n(x)\E^{-x^2/2}  \over \sqrt{\sqrt{\pi} 2^n n!} }
 $$
 ```julia
 p = plot()
