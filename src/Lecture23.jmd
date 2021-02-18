@@ -10,21 +10,22 @@ satisfying the following conditions:
 
 1. Analyticity: $\Psi(z)$ analytic in $\bar\C \backslash \Gamma$
 2. Asymptotics: $\lim_{z \rightarrow \infty} \Psi(z) = C$
-2. Regularity: $\Psi(z)$ has weaker than pole singularities everywhere
-2. Jump: $\Psi_+(x) - g(x) \Psi_-(x) = f(x)$ for $x \in \Gamma$
+3. Regularity: $\Psi(z)$ has weaker than pole singularities everywhere
+4. Jump: $\Psi_+(x) - g(x) \Psi_-(x) = f(x)$ for $x \in \Gamma$
 
 
 Numerous applications! See [\[Trogdon & Olver 2015\]](http://bookstore.siam.org/ot146/). Here are some classical applications:
 
 1. Ideal fluid flow
 2. Solving integral equations via Weiner–Hopf factorization
-2. Spectral analysis of Schrödinger operators
+3. Spectral analysis of Schrödinger operators
 
 More recently, non-classical applications have arisen from integrable systems:
 
-2. Solutions to Painlevé equations
-3. Random matrix eigenvalue statistics
-2. Solving partial differential equations like the Korteweg–de Vries (KdV) equation describing shallow water waves
+4. Solutions to Painlevé equations
+5. Random matrix eigenvalue statistics
+6. Asymptotics of orthogonal polynomials
+7. Solving partial differential equations like the Korteweg–de Vries (KdV) equation describing shallow water waves
 $$
 u_t + 6u u_x + u_{xxx} = 0
 $$
@@ -39,7 +40,7 @@ then use that to reduce inhomogeneous problems to something similar:
 
 
 
-### Homogenous Riemann–Hilbert problems on the real line
+### Homogeneous Riemann–Hilbert problems on the real line
 
 Let's assume $f$ is zero and $C = 1$, that is we wish to solve
 $$
@@ -50,7 +51,7 @@ Formally, taking logs of both sides reduces this to a subtractive RH problem:
 $$
 \log \Phi_+(\zeta) - \log\Phi_-(\zeta) \questionequals \log g(\zeta)
 $$
-Assuming that $g(\zeta) \rightarrow 1$ as $s \rightarrow \pm \infty$ at a sufficient rate, this motivates the guess
+Assuming that $g(\zeta) \rightarrow 1$ as $\zeta \rightarrow \pm \infty$ at a sufficient rate, this motivates the guess
 $$
 \Phi(z) = \E^{\CC[\log g](z)}
 $$
@@ -66,11 +67,11 @@ Then $\Phi(z) = \E^{\CC_\Gamma[\log g](z)}$ is the unique solution to the follow
 2. Jump: $\Phi_+(\zeta) = g(\zeta) \Phi_-(\zeta)$ for $\zeta \in \Gamma$
 
 
-**Proof** (1) follows from definition. (2) follows since $\CC[\log g](z) \rightarrow 0$. And (3) follows via:
+**Proof** (1) follows from definition. (2) follows since $\CC[\log g](z) \rightarrow 0$. And (4) follows via:
 $$
 \Phi_+(\zeta) = \E^{\CC_+[\log g](\zeta)} = \E^{\CC_-[\log g](\zeta) + \log g(\zeta)} = \Phi_-(\zeta) g(\zeta)
 $$
-To see uniqueness, observe that $\Phi$ must be invertible, as it is an exponential of something finite.
+To see uniqueness, observe that we can take the reciprocal of $\Phi$, as it is an exponential of something finite.
 Thus $\Phi(z)^{-1}$ is also analytic off $\R$. Therefore, if we have another solution $\tilde \Phi(z)$ we can consider $r(z) = \tilde\Phi(z) \Phi(z)^{-1}$ which satisfies:
 $$
 r_+(\zeta) = {\tilde\Phi_+(\zeta) \over \Phi_+(\zeta)} = {\tilde\Phi_-(\zeta) g(\zeta) \over \Phi_-(\zeta) g(\zeta)} = r_-(\zeta)
@@ -81,14 +82,14 @@ Hence $r(z)$ is entire. since both terms tend to $1$, it must be $r(z) = 1$.
 ■
 
 When is $\log g(\zeta)$ nice? For the real line it is necessary that $g(x) = 1 + O(x^{-1})$ at $x \rightarrow \pm \infty$. We also need to worry about the image:
-for example, $g(\zeta) \neq 0$ is required to avoid a singularity.  We similarly need that the winding number of the image of $g(\zeta)$ to be zero:
+for example, $g(\zeta) \neq 0$ is required to avoid a singularity.  We also need the winding number of the image of $g(\zeta)$ to be zero:
 otherwise, $\log g(\zeta)$ will extend to another sheet and be discontinuous.   For example, if $g(z) = {z-\I \over z+\I}$ it satisfies the right asymptotics, but surrounds the origin:
 ```julia
 using Plots, ComplexPhasePortrait
 g = x -> (x-im)/(x+im)
 
 xx = range(-10.,10.; length=1000)
-plot(real.(g.(xx)), imag.(g.(xx)); label="image of (x-i)/(x+i)")
+plot(real.(g.(xx)), imag.(g.(xx)); label="image of (x-i)/(x+i)", ratio=1.0)
 ```
 Therefore, $\log g(x)$ has a branch cut if we use the standard branch, which breaks the continuity requirement:
 ```julia
@@ -123,9 +124,9 @@ We provide two methods for calculating $\Phi$: one guesses the solution, the oth
 
 *Method 1 (Guess and check / kernel factorization)* If we can guess the solution, we can check it satisfies the right criteria.   Factoring $g$ we see immediately that
 $$
-g(x) = {x-\I \over x-\sqrt{3} \I} {x+\I \over x+\sqrt{3} \I}
+g(x) = \left({x+\sqrt{3} \I \over x+\I}\right)\left({ x-\sqrt{3} \I \over  x-\I}\right)
 $$
-Note that the first term is analytic in  the upper half plane. The second term is analytic in the lower half plane _and_ invertible. Therefore we can guess the solution is
+Note that the first term is analytic in  the upper half plane. The second term is analytic in the lower half plane _and_ we can take its reciprocal. Therefore we can guess the solution is
 $$
 \Phi(z)  = \begin{cases}
         {z+\sqrt 3\I \over z+\I} & \Im z > 0 \\
@@ -138,7 +139,7 @@ This satisfies the four conditions:
 3. Weaker than pole singularities
 4. It has the right jump
 $$
-g(x) \Phi_-(x) =  {x^2+3 \over x^2+1} {x-\I \over x-\sqrt 3\I}  = {x+\I \over x+\sqrt 3 \I} = \Phi_+(x)
+g(x) \Phi_-(x) =  {x^2+3 \over x^2+1} {x-\I \over x-\sqrt 3\I}  = {x+\sqrt 3 \I\over x+\I} = \Phi_+(x)
 $$
 This function is indeed analytic off the real line.
 
@@ -155,8 +156,8 @@ $$
 Now we note that $\log{x+3\I \over x+\I}$ is analytic in the upper-half plane, therefore it's Cauchy transform, by Plemelj, is
 $$
 \CC\br[\log{x+\sqrt 3\I \over x+\I}](z) = \begin{cases}
-        \log{z+\sqrt 3\I \over z+\I} & \Im z > 0 \\
-           0 & \Im z < 0
+        \log{z+\sqrt 3\I \over z+\I} & \Im z < 0 \\
+           0 & \Im z > 0
            \end{cases}
 $$
 Similarly,
@@ -179,7 +180,7 @@ $$
 
 
 
-### Inhomogenous Riemann–Hilbert problem
+### Inhomogeneous Riemann–Hilbert problem
 
 Consider now the  Riemann–Hilbert problem with zero at infinity:
 $$
@@ -188,7 +189,7 @@ $$
 Consider writing $\Psi(z) =  \Phi(z) Y(z)$. Then we can reduce the Riemann–Hilbert problem to a subtractive problem:
 
 $$
-\Psi_+(x) - g(x)\Psi_-(x) = \Phi_+(x)(Y_+(x) - Y_-(x))\qqand Y(\infty) = 0
+\Psi_+(x) - g(x)\Psi_-(x) = \Phi_+(x)(Y_+(x) - Y_-(x)) = f(x)\qqand Y(\infty) = 0
 $$
 Thus once we have $\Phi$, we can determine $Y$ as a Cauchy transform, and thence construct $\Psi$.
 

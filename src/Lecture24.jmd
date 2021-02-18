@@ -98,7 +98,7 @@ $$
 $$
 hence
 $$
-a(z)^{-1} = {z_-^2 h^2 \over z_- - z_+} \sum_{k=-\infty}^{-1} z_-^{-k} z^k + {h^2 \over z_- - z_+} \sum_{k=0}^\infty z_+^k z^k
+a(z)^{-1} = {h^2 \over z_- - z_+} \left(\sum_{k=-\infty}^{-1} z_-^{-k} z^k + \sum_{k=0}^\infty z_+^{-k} z^k\right)
 $$
 The entries of the Laurent series then give the entries of $L[a(z)^{-1}]$.
 

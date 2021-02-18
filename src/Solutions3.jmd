@@ -1,654 +1,876 @@
-
-__M3M6: Applied Complex Analysis__
-
-Dr. Sheehan Olver
-s.olver@imperial.ac.uk
+__Applied Complex Analysis (2021)__
 
 # Solution Sheet 3
 
 ## Problem 1.1
 
-Since $\int_{-1}^1 x \dx = 0$, we have no logarithmic growth at infinity. 
-Thus by the formula relating log to Cauchy transforms we find for
+### 1.
+
+Take as an initial guess
 $$
-F(x) = \int_x^1 t \dt = {1 - x^2 \over 2}
+ \phi_1(z) = {\sqrt{z-1} \sqrt{z+1}  \over 2\I(1 + z^2)}
 $$
-that
+This satisfies for $-1 < x < 1$
 $$
-\int_{-1}^1 \log|z-x| x \dx = \Re\pr({-2 \I \pi C F(z)})
+\phi_1^+(x) -\phi_1^-(x) = { \sqrt{1-x^2}  \over 2(1 + x^2)} -  {- \sqrt{1-x^2}  \over 2(1 + x^2)} = {\sqrt{1 - x^2} \over 1+x^2}
 $$
 
-So we just have to work out the Cauchy transform. Try as an ansatz
+Further, as $z \rightarrow \infty$,
 $$
-{1 - z^2 \over 2} {\log(z-1) - \log(z+1) \over 2 \pi \I}
-$$
-We only need to remove the growth at infinity. We do so via:
-$$
-\log(z-1) - \log(z+1)  = -{2 \over z} + O(z^{-3})
-$$
-telling us
-$$
-C F(z) = {1 - z^2 \over 2} {\log(z-1) - \log(z+1)  \over 2 \pi \I} + {z \over 2 \pi \I}
-$$
-and
-$$
-\int_{-1}^1 \log|z-x| x \dx = \Re \left({1 - z^2 \over 2} (\log(z-1) - \log(z+1)) - z \right)
+\phi_1(z) \sim {z \over \I(1+ z^2)} \rightarrow 0
 $$
 
-_Verification_
+The catch is that it has poles at $\pm \I$:
+$$
+\begin{align*}
+    \phi_1(z) = -{\sqrt{\I -1} \sqrt{\I+1} \over 4} { 1 \over z - \I} + O(1)  \\
+    \phi_1(z) = {\sqrt{-\I -1} \sqrt{-\I+1} \over 4} { 1 \over z + \I} + O(1)
+\end{align*}
+$$
+Thus it follows that
+$$
+\phi(z) =  \phi_1(z) + {\sqrt{\I -1} \sqrt{\I+1} \over 4} { 1 \over z - \I} - {\sqrt{-\I -1} \sqrt{-\I+1} \over 4} { 1 \over z + \I}
+$$
+is
+ 1. Analyticity: Analytic at $\pm \I$ and off $[-1,1]$
+ 2. Decay: $\phi(\infty) = 0$
+ 3. Regularity: Has weaker than pole singularities
+ 4. Jump: Satisfies
+$$
+\phi_+(x) - \phi_-(x) = {\sqrt{1-x^2} \over 1+x^2}
+$$
 
-We can confirm the formula:
+By Plemelj II, this must be the Cauchy transform.
+
+_Demonstration_ We will see experimentally that it correct. First we do a phase plot to make sure we satisfy (Analyticity):
 ```julia
-using ApproxFun, SingularIntegralEquations, Plots, QuadGK, LinearAlgebra, SpecialFunctions
-import ApproxFunOrthogonalPolynomials: Recurrence
+using ComplexPhasePortrait, Plots, ApproxFun, SingularIntegralEquations
 
-H(f,x) = -hilbert(f,x)
 H(f) = -hilbert(f)
+H(f,x) = -hilbert(f,x)
 
-z = 2+im
+φ = z -> sqrt(z-1)sqrt(z+1)/(2im*(1+z^2)) +
+        sqrt(im-1)sqrt(im+1)/4*1/(z-im) -
+        sqrt(-im-1)sqrt(-im+1)/4*1/(z+im)
 
+phaseplot(-3..3, -3..3, φ)
+```
+We can also see from the phase plot (Regularity): we have weaker than pole singularities,
+otherwise we would have at least a full,counter clockwise colour wheel. We can check decay as well:
+```julia
+φ(200.0+200.0im)
+```
+Finally, we compare it numerically it to `cauchy(f, z)` which is implemented in SingularIntegralEquations.jl:
+```julia
 x = Fun()
-π*logkernel(x,z) , real((1-z^2)/2 * (log(z-1)-log(z+1)) - z)
+φ(2.0+2.0im),cauchy(sqrt(1-x^2)/(1+x^2), 2.0+2.0im)
+```
+
+### 2.
+
+Recall that
+$$
+\psi(z) = {\log(z-1) - \log(z+1)  \over 2 \pi \I}
+$$
+satisfies
+$$
+\psi_+(x) - \psi_-(x) = 1
+$$
+Therefore, consider
+$$
+\phi_1(z) = {\psi(z) \over 2 + z}
+$$
+This has the right jump, but has an extra pole at $z = -2$: for $x < -1$ we have
+$$
+\phi_1(x) = {\log_+(x-1) - \log_+(x+1)  \over 2 \pi \I} {1 \over 2 + x} =
+   {\log(1-x) - \log(-1-x)  \over 2 \pi \I} {1 \over 2 + x}
+$$
+hence we arrive at the solution
+$$
+\phi_1(z) - {\log 3 \over 2 \pi \I (2+z)}
+$$
+We can verify that $\phi_1(\infty) = 0$.
+```julia
+φ =  z -> (log(z-1)-log(z+1)) / ((2π*im)*(2+z)) - log(3)/(2π*im*(2+z))
+
+phaseplot(-3..3, -3..3, φ)
+```
+
+### 3.
+
+We first calculate the Cauchy transform of $f(x) = x/\sqrt{1-x^2}$:
+$$
+\phi(z) = {\I z  \over 2 \sqrt{z -1} \sqrt{z+1}} - {\I \over 2}
+$$
+This vanishes at $\infty$ and has the correct jump. We then have
+$$
+\I{\cal H}f(x) = \phi^+(x) + \phi^-(x) = -\I
+$$
+This implies that (note the sign)
+$$
+\dashint_{-1}^1 {t \over (t-x) \sqrt{1-t^2}} \dt = -\pi \HH f(x) = \pi
+$$
+```julia
+f = x/sqrt(1-x^2)
+-π*H(f, 0.1)
 ```
 
 ## Problem 1.2
 
-From the hint and the fact that $\asin 1 = \pi/2$ we have
-$$
-F(x) = {\pi \over 4}- {x \sqrt{1-x^2} + \asin x \over 2} =
-    -{\acos x + x \sqrt{1-x^2} \over 2}
-$$
-and  (for $f(x) = \sqrt{1-x^2}$)
-$$
-\int_{-1}^1 f(x) \D x = F(-1) = {\pi \over 2}
-$$
-Thus we need to dermine the Cauchy transform of $F(x)$. 
-Using the usual techniques of subtracting out the growth at 
-infinity
-$$
-\CC[x \sqrt{1-x^2}](z) = {z  \sqrt{z-1} \sqrt{z+1} - z^2 +1/2 \over 2 \I} 
-$$
-Using the hint allows us to related the Cauchy transform of $\asin x$
-to that of $\acos x$. Recall from lectures
-$$
-\CC \acos(z) = {\log(\sqrt{z-1} + \sqrt{z+1}) \over \I} - {\log(z+1) \over 2 \I} + \I \log 2 
-$$
-Thus we have 
-$$
-\CC F(z) = -{\log(\sqrt{z-1} + \sqrt{z+1}) \over 2\I} + {\log(z+1) \over 4 \I} - \I {\log 2 \over 2} 
-  - {z  \sqrt{z-1} \sqrt{z+1} - z^2 +1/2 \over 4 \I} 
-$$
-And
-$$
-M f(z) = {\log(z+1) \over 2} - 2 \I \CC F(z) = \log(\sqrt{z-1} + \sqrt{z+1})- \log 2 - {z  \sqrt{z-1} \sqrt{z+1} - z^2 +1/2 \over 2} 
-$$
-taking the real part and multiplying by π gives the answer.
+### 1.2.1
 
-_Verification_
-
+From Problem 1.1 part 3, we have a solution:
+$$
+\phi(z) = -{ z  \over 2 \sqrt{z -1} \sqrt{z+1}} + {1 \over 2}
+$$
+All other solutions are then of the form:
+$$
+\phi(z) + {C \over \sqrt{z-1} \sqrt{z+1}}
+$$
 ```julia
-x = Fun()
-f = sqrt(1-x^2)
-
-z = 1+im
-π*logkernel(f, z), π*real(log(sqrt(z-1)+sqrt(z+1))-log(2) - (z*sqrt(z-1)sqrt(z+1)-z^2+1/2)/2)
+C = randn()
+φ = z -> -z/(2*sqrt(z-1)*sqrt(z+1))+1/2 + C/(sqrt(z-1)*sqrt(z+1))
+φ(0.1+0.0im)+φ(0.1-0.0im), φ(1E8)
 ```
 
+### 1.2.2
 
-## Problem 1.3
+$$
+\psi(z) = -2\phi(z) + 1 = { z  \over  \sqrt{z -1} \sqrt{z+1}}
+$$
+satisfies
+$$
+\psi_+(x) + \psi_-(x) = 0, \qquad \psi(\infty) = 1
+$$
+```julia
+C = randn()
+φ = z -> z/(sqrt(z-1)*sqrt(z+1)) + C/(sqrt(z-1)*sqrt(z+1))
 
-We want to solve
-$$
-\int_{-1}^1 \log |x-t| u(t) \dt = {1 \over x^2 + 1}
-$$
-differentiating and multiplying though by $1/\pi$ we have
-$$
-{1 \over \pi} \dashint_{-1}^1 {u(t) \over x-t} \D t = -{2 x \over \pi (1+x^2)^2}
-$$
+φ(0.1+0.0im)+φ(0.1-0.0im),φ(1E9)
+```
 
-This is an inverse Hilbert problem so we know
-$$
-u(x) = -{1 \over \sqrt{1-x^2} } H[\sqrt{1-t^2} f(t)](x)  + {C \over \sqrt{1-x^2}}
-$$
-for 
-$$
-f(x) =  -{2 x \over \pi (1+x^2)^2}.
-$$
+### 1.2.3
 
-We determine the Cauchy transform of $\sqrt{1-x^2} f(x)$ using the usual methods: 
-start with the ansatz
+For $f(x) = \sqrt{1-x^2}$, we use the formula
 $$
-\phi(z) = -{\sqrt{z-1} \sqrt{z+1} \over 2 \I} {2 z \over \pi (1+z^2)^2}
+\phi(z) = {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[\sqrt{1-\diamond^2} f](z) + {C \over \sqrt{z-1}\sqrt{z+1}}  = {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[1-\diamond^2](z) + {C \over \sqrt{z-1}\sqrt{z+1}}
 $$
-This decays at infinity so we just need to remove the poleas at $\pm \I$. Here we determine:
+We already know $\CC1(z)$, and we can deduce $\CC[\diamond^2]$ as follows: try
 $$
-\phi(z) = -{\sqrt{\I -1 } \sqrt{\I + 1} \over \pi} \left(-{1  \over 4 (z-\I)^2}  + {\I \over 8  (z-\I)} + O(1) \right)
+\phi_1(z) = z^2 \CC1(z) = z^2 {\log(z-1) - \log(z+1) \over 2 \pi \I}
 $$
-and
+this has the right jump, but blows up at $\infty$ like:
 $$
-\phi(z) = -{\sqrt{-\I -1 } \sqrt{1-\I } \over \pi} \left({1  \over 4 (z+\I)^2}  + {\I \over 8  (z+\I)} + O(1) \right)
+x^2 (\log(x-1) - \log(x+1)) = x^2 (\log(1-1/x)  - \log(1+1/x) )
+= -2 x + O(x^{-1})
 $$
-Telling us that
+using
 $$
-\begin{align*}
-C[\sqrt{1-t^2} f(t)](z) &=  -{\sqrt{z-1} \sqrt{z+1} \over 2 \I} {2 z \over \pi (1+z^2)^2} +  {\sqrt{\I -1 } \sqrt{\I + 1} \over \pi} \left(-{1  \over 4 (z-\I)^2}  + {\I \over 8  (z-\I)} \right) \\
-&\qquad+  {\sqrt{-\I -1 } \sqrt{1-\I } \over \pi} \left({1  \over 4 (z+\I)^2}  + {\I \over 8  (z+\I)} \right)
-\end{align*}
+\log z = (z-1) - {1\over 2}(z-1)^2 + O(z-1)^3
 $$
 Thus we have
 $$
-\begin{align*}
-H[\sqrt{1-t^2} f](x) &= -\I (C^+ + C^-)[\sqrt{1-t^2} f](x) \ccr
-= -  {2\I \sqrt{\I -1 } \sqrt{\I + 1} \over \pi} \left(-{1  \over 4 (x-\I)^2}  + {2\I \over 8  (x-\I)} \right) \\
-&\qquad-  {2\I \sqrt{-\I -1 } \sqrt{1-\I } \over \pi} \left({1  \over 4 (x+\I)^2}  + {\I \over 8  (x+\I)} \right)
-\end{align*}
+\CC[\diamond^2](z) = {z^2 (\log(z-1) - \log(z+1)) + 2 z \over 2 \pi \I}
+$$
+and
+$$
+\phi(z) = {\I \over \sqrt{z - 1} \sqrt{z+1}} {(1-z^2)(\log(z-1) - \log(z+1)) - 2 z \over 2 \pi \I}  + {C \over \sqrt{z-1}\sqrt{z+1}}
 $$
 
-In other words, for
-$$
-\tilde u(x) = {2\I \sqrt{\I -1 } \sqrt{\I + 1} \over \pi \sqrt{1-x^2}} \left(-{1  \over 4 (x-\I)^2}  + {2\I \over 8  (x-\I)} \right) -  {2\I \sqrt{-\I -1 } \sqrt{1-\I } \over \pi \sqrt{1-x^2}} \left({1  \over 4 (x+\I)^2}  + {\I \over 8  (x+\I)} \right)
-$$
-we have
-$$
-u(x) =  \tilde u(x) + {C \over \sqrt{1-x^2}}.
-$$
-
-
-To find $C$ we impose the condition that
-$$
-\int_{-1}^1 \log|t| u(t) \dt = 1
-$$
-We thus need to determine $C$. Recall that
-$$
-{1 \over \pi} \int_{-1}^1 {\log(z-x) \over \sqrt{1-x^2}} \dx = 2 \log(\sqrt{z-1}+\sqrt{z+1}) - 2 \log 2
-$$
-Thus for $x \in [-1,1]$ we have
-$$
-{1 \over \pi} \int_{-1}^1 {\log|x-t| \over \sqrt{1-t^2}} \dt = 2 \Re(\log(\I \sqrt{1-x}+\sqrt{x+1}) - 2 \log 2)
-$$
-or in particular 
-$$
-{1 \over \pi} \int_{-1}^1 {\log|x| \over \sqrt{1-x^2}} \dx = \log(1/2)
-$$
-Thus we want to solve
-$$
-\int_{-1}^1 \log|t| \tilde u(t) \dt + C {\log(1/2) \over \pi} = 1
-$$
-i.e.
-$$
-C = (1 - \int_{-1}^1 \log|t| \tilde u(t) \dt)  {1 \over  \pi \log(1/2)}
-$$
-
-
-
-_Check derivation_
-
-Let's check the derivation. First we can calculate $u$ numerically:
+_Demonstration_ Here we see that the Cauchy transform of $x^2$ has the correct formula:
 ```julia
-L = SingularIntegral(0) : JacobiWeight(-0.5,-0.5,Chebyshev())
+z = 2.0+2.0im
+cauchy(x^2, z),(z^2*(log(z-1)-log(z+1))+2z)/(2π*im)
+```
+We now see that $\phi$ has the right jumps:
+```julia
+C = randn()
+φ = z -> im/(sqrt(z-1)*sqrt(z+1)) * ((1-z^2)*(log(z-1)-log(z+1))-2z)/(2π*im) + C/(sqrt(z-1)sqrt(z+1))
 
-x = Fun()
-g = 1/(x^2+1)
-u = (π*L) \ g
-
-π*logkernel(u, 0.1) , g(0.1)
+φ(0.1+0.0im) + φ(0.1-0.0im) - sqrt(1-0.1^2)
+```
+Finally, it vanishes at infinity:
+```julia
+φ(1E5)
 ```
 
-Differentiating it satisfies $H u = g'/(\pi)$:
+### 1.2.4
+
+Let $f(x) = {1 \over 1+x^2}$. From Problem 1.1 part 1 we know
+$$
+\CC\left[{\sqrt{1-\diamond^2}\over 1 + \diamond^2}\right] (z) = {\sqrt{z-1} \sqrt{z+1}  \over 2\I(1 + z^2)}  + {\sqrt{\I -1} \sqrt{\I+1} \over 4} { 1 \over z - \I} - {\sqrt{-\I -1} \sqrt{-\I+1} \over 4} { 1 \over z + \I}
+$$
+hence from the solution formula we have
+$$
+\phi(z) = {1  \over 2(1 + z^2)}  + {\sqrt{\I -1} \sqrt{\I+1} \I \over 4\sqrt{z-1} \sqrt{z+1}} { 1 \over z - \I} - {\sqrt{-\I -1} \sqrt{-\I+1} \I \over 4\sqrt{z-1} \sqrt{z+1}} { 1 \over z + \I} + {C \over \sqrt{z-1} \sqrt{z+1}}
+$$
+
+But we want something stronger: that $\phi(z) = O(z^{-2})$. To accomplish this, we need to choose $C$.  Fortunately, I made the problem easy as every term apart from the last one is already $O(z^{-2})$, so choose $C = 0$:
 ```julia
-H(u,0.1) , g'(0.1)/(π) , -(2*0.1)/(π*(1+0.1^2)^2)
-```
-The Cauchy transform also works:
-```julia
-f = g'/(π)
+φ = z -> 1/(2*(1+z^2)) +
+        sqrt(im-1)sqrt(im+1)*im/(4sqrt(z-1)sqrt(z+1))*1/(z-im) -
+        sqrt(-im-1)sqrt(-im+1)*im/(4sqrt(z-1)sqrt(z+1))*1/(z+im)
 
-z = 1+im
-ψ = z -> -sqrt(z-1)sqrt(z+1)/(2im) * 2z/(π*(1+z^2)^2) + 
-                sqrt(im-1)sqrt(im+1)/π * (-1/(4*(z-im)^2) + im/(8(z-im))) + 
-                sqrt(-im-1)sqrt(1-im)/π * (1/(4*(z+im)^2) + im/(8(z+im)))
-
-cauchy(sqrt(1-x^2)*f, z) , ψ(z)
-```
-
-Therefore the Hilbert transform is given by:
-```julia
-Hf = x-> - 2im*sqrt(im-1)sqrt(im+1)/π * (-1/(4*(x-im)^2) + im/(8(x-im))) - 
-            2im*sqrt(-im-1)sqrt(1-im)/π * (1/(4*(x+im)^2) + im/(8(x+im)))
-
-H(sqrt(1-x^2)*f)(0.1) , Hf(0.1)
+φ(1E5)*1E5
 ```
 
-We thus have an expression for $u$, we are just missing the constant:
+We see also that it has the right jump:
 ```julia
-ũ = x -> -Hf(x)/sqrt(1-x^2)
-
-C = u(0.0) + Hf(0.0)
-u(0.1) ≈ ũ(0.1) + C/sqrt(1-0.1^2)
+φ(0.1+0.0im) + φ(0.1-0.0im),1/(1+0.1^2)
 ```
-We can find $C$ interms of the relevant integral, which we call $D$:
-```julia
-D = quadgk(x -> x == 0 ? 0.0 : ũ(x)*log(abs(x)),-1,1)[1]
-C, (1-D)/(π*log(1/2))
-```
+## Problem 1.3
 
-
-## Problem 2
-
-### Problem 2.1
-
-From Lecture 19 we know that we want to solve
-
-1. $v_{xx} + v_{yy} =0$ for $z \notin [-1,1] \cup \I$
-2. $v(z) \sim \log|z|$ as $z \rightarrow \infty$
-3. $v(z) \sim \log|z-\I|$ as $z \rightarrow \I$
-3. $v(x,0) = D$ for some unknown constant $D$ on $[-1,1]$. 
-
-### Problem 2.2
-
-
-We write
+1. From the Hilbert formula, we know that the general solution of $\HH u = f$ is
 $$
-v(x,y) = \int_{-1}^1 u(t) \log|z-t| \dt + \log|z-\I|
+    u(x) =  {-1 \over \sqrt{1 - x^2}}\HH \left[{ f(\diamond)  \sqrt{1-\diamond^2} }\right](x)  - {C \over \sqrt{1-x^2}}
 $$
-The behaviour at infinity requires that $\int_{-1}^1 u(t) \dt = 0$. We further have the singular integral equation
+Plugging in $f(x) = x/\sqrt{1-x^2}$ means we need to calculate
 $$
-  \int_{-1}^1 u(t) \log|x-t| \dt = C - \log|x-\I|
+\HH \left[{\diamond}\right](x)
 $$
-which follows from $D = v(x,0)$
-
-We can actually solve this numerically:
-```julia
-w = SingularIntegral(0) \ (-log(abs(x-im))/π)
-u = w - sum(w)/(π*sqrt(1-x^2)) # ensure integrates to zero
-v = z -> π*logkernel(u, z) + log(abs(z-im))
-D = v(0)
-
-xx = yy = -4:0.011:4
-V = v.(xx' .+ im*yy)
-
-contour(xx, yy, V; nlevels=50)
-plot!(domain(x); color=:black, legend=false)
-```
-
-#### Problem 2.3
-
-As usual for logarithmic singular integral equations we want to solve
+We do so by first finding the Cauchy transform. Consider
 $$
-{1 \over \pi} \dashint_{-1}^1 {u(t)  \over x-t} \dt = {f'(x)  \over \pi}
+\phi_1(z) = z \CC 1(z) = z {\log(z-1) - \log(z+1) \over 2 \pi \I}
 $$
-we need to be a bit careful differentiating $f$:
+This has the right jump:
 $$
-{\D \over \dx} \log|x-\I| = {\D \over \dx} \log\sqrt{x^2 + 1} = { x \over x^2 + 1}
+\phi_1^+(x) - \phi_1^-(x) = x
 $$
-Now we do our usual game and solve for $u$ using the inverse Hilbert transform formula. That is, first calculate
-$$
-C[\sqrt{1-x^2} {x \over x^2+1}](z) = {z \sqrt{z-1} \sqrt{z+1} \over 2\I (z^2+1)} - {1 \over 2 \I} + {\I \sqrt{\I - 1} \sqrt{\I+1} \over 4 (z-\I)} +  {\I \sqrt{-\I - 1} \sqrt{-\I+1} \over 4 (z+\I)}
-$$
-Therefore, we know that
-$$
-u(x) =  {\sqrt{\I - 1} \sqrt{\I+1} \over 2 \pi (x-\I)\sqrt{1-x^2}} +  {\sqrt{-\I - 1} \sqrt{-\I+1} \over 2 \pi (x+\I) \sqrt{1-x^2}} + {C \over \sqrt{1-x^2}}
-$$
-We can show (e.g. by finding its Cauchy transform and lookin at the asymptotic behaviour) that
-$$
-\int_{-1}^1\left[ {\sqrt{\I - 1} \sqrt{\I+1} \over 2 \pi (x-\I)\sqrt{1-x^2}} +  {\sqrt{-\I - 1} \sqrt{-\I+1} \over 2 \pi (x+\I) \sqrt{1-x^2}} \right] = -1
-$$
-Combined with the fact that
-$$
-\int_{-1}^1 {1 \over \sqrt{1-x^2}} = \pi
-$$
-we find that $C = 1/\pi$.
-
-_Verification_ Let's check our work. First we see that the Hilbert transform of $u$ does 
-indeed satisfy the specified equation (using the numerical `u` as calculated above):
-```julia
-fp = x -> -x/(x^2+1)
-H(u, 0.1) , fp(0.1)/π
-```
-
-And the Cauchy transform of $\sqrt{1-x^2} f'(x)$ satisfies the derived formula:
-```julia
-Cf = z -> z * sqrt(z-1)sqrt(z+1)/(2im*(z^2+1)) - 1/(2im) + im*sqrt(im-1)sqrt(im+1)/(4(z-im)) +
-         im*sqrt(-im-1)sqrt(-im+1)/(4(z+im))
--cauchy(sqrt(1-x^2)fp(x), z) , Cf(z)
-```
-
-Therefore we can invert to the Hilbert transform for $f'$:
-```julia
-w = -H(sqrt(1-x^2)fp(x))/sqrt(1-x^2)
-w2 = sqrt(im-1)sqrt(im+1)/(2(x-im) * sqrt(1-x^2)) +
-         sqrt(-im-1)sqrt(-im+1)/(2(x+im) * sqrt(1-x^2))
-H(w,0.1) , H(w2,0.1) , fp(0.1)
-```
-And we have recovered $u$ up to $C/\sqrt{1-x^2}$:
-```julia
-C = 1/π
-
-u(0.1) , w2(0.1)/π + C/sqrt(1-0.1^2)
-```
-
-
-## Problem 3.1 
-
-We actually start by showing the second properties of Problem 3.2, for all $\alpha$:
+but doesn't decay at $\infty$:
 $$
 \begin{align*}
-{\D \over \dx} \br[x^\alpha \E^{-x} L_n^{(\alpha)}(x)] &= {1 \over n!}  {\D^{n+1} \over \dx^{n+1}}\br[x^{\alpha+n}\E^{-x}] \ccr
-= (n+1)x^{\alpha-1}\E^{-x}  {x^{1-\alpha} \E^{x} \over (n+1)!}{ \D^{n+1} \over \dx^{n+1}}\br[x^{\alpha+n}\E^{-x}] \ccr
-= (n+1) x^{\alpha-1}\E^{-x} L_{n+1}^{(\alpha-1)}(x).
+x {\log(x-1) - \log(x+1) \over 2 \pi \I} = x {\log x + \log(1-1/x) - \log x -\log(1+1/x) \over 2 \pi \I} \\
+= -x { 2 \over x 2 \pi \I}  = -{1 \over \I \pi}
 \end{align*}
 $$
-Expanding out the derivative we see
+But this means that
 $$
-x^{\alpha-1} \E^{-x}\pr({(\alpha -x)L_n^{(\alpha)}(x) + (L_n^{(\alpha)})'(x)}) = (n+1) x^{\alpha-1}\E^{-x} L_{n+1}^{(\alpha-1)}(x)
+\phi(z) = \phi_1(z) + {1 \over \I \pi} = z {\log(z-1) - \log(z+1) \over 2 \pi \I}  + {1 \over \I \pi}
 $$
-or in other words
-$$
-(\alpha -x)L_n^{(\alpha)}(x) + (L_n^{(\alpha)})'(x) = (n+1) L_{n+1}^{(\alpha-1)}(x)
-$$
-By induction with the fact $L_0^{(\alpha)}(x) = 0$, we therefore get 
-$$
-L_n^{(\alpha)}(x) = {(\alpha+1 -x)L_{n-1}^{(\alpha+1)}(x) + (L_n^{(\alpha+1)})'(x) \over n}
-$$
-is a degree $n$ polynomial. We further have that the leading coefficient is
-$$
-\begin{align*}
-L_n^{(\alpha)}(x) &= -{x \over n} L_{n-1}^{(\alpha+1)}(x) +O(x^{n-1}) =   {x^2 \over n(n-1)} L_{n-2}^{(\alpha+2)}(x) +O(x^{n-1}) = \cdots \ccr
-= {(-1)^n x^n \over n!} L_0^{(\alpha+n)}(x) +O(x^{n-1}) \\
-&= {(-1)^n x^n \over n!} +O(x^{n-1})
-\end{align*}
-$$
-
-We now show orthogonality with lower degree polynomials using integration by parts:
-$$
-\int_0^\infty L_n^{(\alpha)}(x) p_m(x) x^\alpha \E^{-x} \dx = 
-\int_0^\infty  {1 \over n!} {\D^n \over \dx^n}\br[x^{\alpha+n}\E^{-x}]  p_m(x)  \dx = (-1)^n \int_0^\infty  {1 \over n!} \br[x^{\alpha+n}\E^{-x}]  p_m^{(n)}(x)  \dx = 0
-$$
-since $p_m^{(n)}(x) = 0$.
-Note we use the fact that
-$$
-{\D^k \over \dx^k}\br[x^{\alpha+n}\E^{-x}]  = O(x^{\alpha+n-k})
-$$
-hence vanishes at zero to ignore the boundary terms in integration by parts.
-
-
-
-## Problem 3.2 
-
-We showed the second property as part of 3.1. For the first part, it is clear that we have the correct constant. Now we show orthogonality with all degree $m < n-1$ polynomials (using the fact that $x^{\alpha+1} \E^{-x}$ is zero at $x = 0$):
-$$
-\int_0^\infty {\D L_n^{(\alpha)}(x) \over \dx} p_m(x) x^{\alpha+1} \E^{-x} \dx = -\int_0^\infty L_n^{(\alpha)}(x) (x p_m'(x) + (\alpha+1) p_m - x p_m) x^{\alpha} \E^{-x} \dx = 0
-$$
-since $(x p_m'(x) + (\alpha+1) p_m - x p_m) $ is degree $m+1 < n$.
-
-For the third part, use the product rule on the last derivative:
-$$
-\begin{align*}
-(n+1) L_{n+1}^{(\alpha)}(x) &= {x^{-\alpha}\E^x \over n!} {\D^{n} \over \dx^{n}} {\D \over \dx} \br[x^{\alpha+n+1} \E^{-x}] \\
-  &= {x^{-\alpha}\E^x \over n!} {\D^{n} \over \dx^{n}}  \br[(\alpha+n+1)x^{\alpha+n} \E^{-x}-x^{\alpha+n+1} \E^{-x}]  \\
-    &= (\alpha+n+1)L_n^{(\alpha)}(x) -   xL_n^{(\alpha+1)}(x)
-\end{align*}
-$$
-For the last result, we apply the product rule $n$ times:
-$$
-\begin{align*}
-L_{n}^{(\alpha+1)}(x) &= {x^{-1-\alpha}\E^x \over n!} {\D^{n} \over \dx^{n}} {\D \over \dx} \br[x x^{\alpha+n} \E^{-x}] \\
-&= {x^{-1-\alpha}\E^x \over n!} {\D^{n-1} \over \dx^{n-1}} \br[ x^{\alpha+n} \E^{-x}]  + {x^{-1-\alpha}\E^x \over n!} {\D^{n-1} \over \dx^{n-1}} x {\D \over \dx} \br[ x^{\alpha+n} \E^{-x}]  \\
-&= {2 \over n}L_{n-1}^{(\alpha+1)}(x)   + {x^{-1-\alpha}\E^x \over n!} {\D^{n-2} \over \dx^{n-2}} x {\D^2 \over \dx^2} \br[ x^{\alpha+n} \E^{-x}]  \\
-&= {3 \over n}L_{n-1}^{(\alpha+1)}(x)   + {x^{-1-\alpha}\E^x \over n!} {\D^{n-3} \over \dx^{n-3}} x {\D^3 \over \dx^3} \br[ x^{\alpha+n} \E^{-x}]  \\
-&\vdots\\
-&={n \over n}L_{n-1}^{(\alpha+1)}(x)   + {x^{-\alpha}\E^x \over n!} {\D^{n} \over \dx^{n}}  \br[ x^{\alpha+n} \E^{-x}] \\
-&=L_{n-1}^{(\alpha+1)}(x) + L_n^{(\alpha)}(x)
-\end{align*}
-$$
-
-
-
-## Problem 3.3 
-
-Note that relationship 3 above did not depend on $\alpha >-1$.  We therefore have from 3.2, comibing property (3) and (4),
-$$
-\begin{align*}
-x L_n^{(\alpha)}(x) &= -(n+1)L_{n+1}^{(\alpha-1)}(x) +(n+\alpha)L_n^{(\alpha-1)}(x) \\
-  &= -(n+1)L_{n+1}^{(\alpha)}(x) + (n+1)L_{n}^{(\alpha)}(x) +(n+\alpha)L_{n}^{(\alpha)}(x) - (n+\alpha)L_{n-1}^{(\alpha)}(x) \\
-  &= - (n+\alpha)L_{n-1}^{(\alpha)}(x) + (2n+\alpha+1) L_n^{(\alpha)}(x) -(n+1)L_{n+1}^{(\alpha)}(x)
-\end{align*}
-$$
-
-The Jacobi operator therefore has the form
-$$
-x \begin{pmatrix} L_0^{(\alpha)}(x) \\
-            L_1^{(\alpha)}(x) \\
-                \vdots
-                \end{pmatrix} = \begin{pmatrix} \alpha+1 &-1 \\
-                                                -1-\alpha & \alpha+3 & -2 \\
-                                                   & -2-\alpha & \alpha+5 &-3 \\                  &       & -3-\alpha & \alpha+7 &-4 \\
-                                                      &&   & -4-\alpha & \alpha+9 &\ddots \\
-                                                      &&&&\ddots & \ddots
-                                                    \end{pmatrix} \begin{pmatrix} L_0^{(\alpha)}(x) \\
-            L_1^{(\alpha)}(x) \\
-                \vdots
-                \end{pmatrix}
-$$
-
-
-## Problem 4.1
-
-Note that
-$$
-{\D \over \dx} \E^{-x/2} u(x) =  \E^{-x/2} (-{u(x) \over 2} +u'(x)) 
-$$
-Thus 
-$$
-{\D \over \dx} \E^{-x/2} u(x)  = \E^{-x/2} (u'(x) -{u(x) \over 2} - x u(x))
-$$
-
-
-We have the derivative operator from $L_k(x)$ to $L_k^{(1)}(x)$ as:
-$$
-D = \begin{pmatrix}
-0 & -1 \\
-  &&-1 \\
-  &&&\ddots
-\end{pmatrix}
-$$
-and the Multiplication operator for $\alpha = 0$ (from Problem 3.3)
-$$
-J^\top = \begin{pmatrix} 1 &-1\\
-                        -1 & 3 &-2\\
-                            &\ddots & \ddots & \ddots
-                            \end{pmatrix}
-$$
-and the conversion operator (from Problem 3.2 property 4)
-$$
-S = \begin{pmatrix}
-        1 & -1 \\ & 1 & -1 \\&&\ddots & \ddots
-\end{pmatrix}        
-$$
-We thus have multiplication by $x$ from basis to the other as
-$$
-S J^\top = \begin{pmatrix}
-2 & -4 & 2 \\
--1 & 5 & -7 & 3 \\
-& -2 & 8 & -10 & 4\\
-&&\ddots&\ddots&\ddots&\ddots
-\end{pmatrix}
-$$
-Putting everything together, we get the operator
+Decays and has the right jump, hence is $\CC[\diamond](z)$.
 ```julia
-D = Derivative() :  Laguerre(0) → Laguerre(1)
-S = I : Laguerre(0) → Laguerre(1)
-
-Jt = Recurrence(Laguerre(0))
-
-(D - S/2 -S*Jt)[1:10,1:10]
+t = Fun()
+z = 2.0+2.0im
+cauchy(t, z), z*(log(z-1)-log(z+1))/(2π*im) + 1/(im*π)
 ```
-
-## Problem 4.2
-
-We have
-$$
-\begin{align*}
-{\E^x \over x^\alpha} {\D \over \dx} \br[x^{\alpha+1} \E^{-x} {\D L_n^{(\alpha)} \over \dx}] &= -{\E^x \over x^\alpha} {\D \over \dx} \br[x^{\alpha+1} \E^{-x} { L_{n-1}^{(\alpha+1)} \over \dx}] \\
-&= -n L_{n}^{(\alpha)}(x) 
-\end{align*}
-$$
-Therefore $\lambda_n = -n$. This can be expanded in the form:
-$$
-x {\D^2 L_n^{(\alpha)} \over \dx^2} + (\alpha+1 - x) {\D L_n^{(\alpha)} \over \dx} = -n L_n^{(\alpha)}(x)
-$$
-
-## Problem 5.1
-
-Define $C_k^{(\alpha)}(z) = \CC[L_k^{(\alpha)} \diamond^\alpha \E^{-\diamond}](z)$ and recall that 
-$$
-\begin{align*}
-C_1(z)  &= {{1 \over 2 \pi \I} \int_0^\infty \E^{-x} \dx + (z-a_0) C_0(z) \over b_0} = -{1 \over 2 \pi \I}  - (z-1) C_0(z)    \\
-&= {(z-1) \E^{-z} \Ei z -1 \over 2 \pi \I} 
-\end{align*}
-$$
-
-Here we double check the formula, noting that
-$L_1(x) = \E^x {\D \over \dx} x \E^{-x} = 1 - x$:
-```julia
-const ei₋₁ = let ζ = Fun(-100 .. -1)
-    sum(exp(ζ)/ζ)
-end
-function ei(z) 
-    ζ = Fun(Segment(-1 , z))
-    ei₋₁ + sum(exp(ζ)/ζ)
-end
-
-x = Fun(0..10)
-w = exp(-x)
-z = 1+im
-cauchy((1-x)*w, z),((z-1)*exp(-z)*ei(z)-1)/(2π*im)
-```
-
-We now use these to determine the results with $\alpha = 1$. Note that:
-$$
-C_0^{(1)}(z) = \CC[\diamond \E^{-\diamond}](z) =C_0(z) - C_1(z) = { \E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1 \over 2 \pi \I} 
-$$
-```julia
-cauchy(x*w, z),(-exp(-z)*ei(z)-(z-1)*exp(-z)*ei(z)+1)/(2π*im)
-```
-
 Therefore, we have
 $$
-\begin{align*}
-C_1^{(1)}(z) &= {{1 \over 2 \pi \I} \int_0^\infty x \E^{-x} \dx + (z-a_0^{(1)}) C_0^{(1)}(z) \over b_0^{(1)}} \\
-&=  {{1 \over 2 \pi \I}  + (z-2) C_0^{(1)}(z) \over -1}\\
-&=  {1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi \I}
-\end{align*}
-$$
-
-Let's check the result using
-$$
-L_1^{(1)}(x) = x^{-1} \E^x {\D \over \dx} x^2 \E^{-x} = 2 - x
+\HH[\diamond](x) = -\I (\CC^+ + \CC^-) \diamond(x) = -x {\log(1-x) - \log(1+x) \over \pi} -{2 \over \pi}
 $$
 ```julia
-cauchy((2-x)*x*w, z),(1+(z-2)*(-exp(-z)*ei(z)-(z-1)*exp(-z)*ei(z)+1))/(-2π*im)
+x = 0.1
+H(t,x), -x*(log(1-x)-log(1+x))/(π) - 2/π
 ```
+Therefore, we get
+$$
+u(x) = - {x(\log(1-x) - \log(1+x))+2 \over  \pi\sqrt{1-x^2}} - {C \over \sqrt{1-x^2}}
+$$
+This can be verified in Mathematica via
+```mathematica
+NIntegrate[-((
+   x (Log[1 - x] - Log[1 + x]) +
+    2)/(Pi Sqrt[1 - x^2] (x - 0.1))), {x, -1, 0.1, 1},
+  PrincipalValue -> True]/Pi
+```
+
+2. Following the procedure of multiplying $\CC[\sqrt{1-\diamond^2}](z)$ by $1/(2+z)$ and subtracting off the pole at $z=-2$, we first find:
+$$
+\CC\left[{\sqrt{1-\diamond^2} \over 2+\diamond}\right](z) = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} -{\sqrt{-2-1}_+ \sqrt{-2+1}_+ +2 \over 2\I(2+z)} = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} +{ \sqrt{3} -2 \over 2\I(2+z)}
+$$
+```julia
+t = Fun()
+z = 2.0+2.0im
+cauchy(sqrt(1-t^2)/(2+t), z), (sqrt(z-1)sqrt(z+1)-z)/(2im*(2+z)) + (sqrt(3)-2)/(2im*(z+2))
+```
+Therefore, calculating $-\I(\CC^+ + \CC^-)$ we find that
+$$
+\HH\left[{\sqrt{1-\diamond^2} \over 2+\diamond}\right](z) = {x\over 2+x} -{ \sqrt{3} -2 \over 2+x}
+$$
+```julia
+x = 0.1
+H(sqrt(1-t^2)/(2+t), x), x/(2+x)-(sqrt(3)-2)/(2+x)
+```
+Thus the general solution is
+$$
+u(x) = -{1 \over \sqrt{1-x^2}} \left( {x\over 2+x} -{ \sqrt{3} -2 \over 2+x} + C \right)
+$$
+We need to choose $C$ so this is bounded at the right-endpoint: In other words,
+$$
+u(x) = -{1 \over \sqrt{1-x^2}} \left( {x\over 2+x} -{ \sqrt{3} -2 \over 2+x} +{ \sqrt{3} -3 \over 3}  \right)
+$$
+```julia
+u = -(t/(2+t)-(sqrt(3)-2)/(2+t)+(sqrt(3)-3)/3)/sqrt(1-t^2)
+plot(u; ylims=(-5,5))
+```
+```julia
+x = 0.1
+H(u,x) , 1/(2+x)
+```
+
+## Problem 2.1
+
+Doing the change of variables $\zeta = b s$ we have
+$$
+\log(ab) = \int_1^{ab} {\D \zeta \over \zeta} = \int_{1/b}^a {\D s \over s}
+$$
+if $\gamma$ does not surround the origin, we have
+$$
+0 = \oint_\gamma {\D s \over s} = \left[\int_1^{1/b} + \int_{1/b}^a + \int_a^1\right] {\D s \over s}
+$$
+which implies
+$$
+\log(ab) = \left[-\int_a^1 -\int_1^{1/b} \right] {\D s \over s} = \log a - \log {1 \over b} = \log a + \log b
+$$
+Here's a picture:
+```julia
+a = 1.0+2.0im
+b = -1.0-2.0im
+
+@show log(a*b)
+@show log(a) + log(b)
+
+scatter([real(1/b)], [imag(1/b)]; label="1/b")
+scatter!([real(a)], [imag(a)]; label="a")
+scatter!([0.0], [0.0]; label="0")
+plot!(Segment(1, 1/b) ∪ Segment(1/b, a) ∪ Segment(a, 1); label="contour")
+```
+If it surrounds the origin counbter-clockwise, that is, it has positive orientation, we have $2\pi \I = \oint_\gamma {\D s \over s}$, which shoes that
+$$
+\log(ab) = 2 \pi \I - \left[\int_a^1 +\int_1^{1/b} \right] {\D s \over s} = \log a + \log b + 2\pi \I
+$$
+and a similar result when counter clockwise.
+```julia
+a = 1.0+2.0im
+b = -2.0+2.0im
+
+@show log(a*b)
+@show log(a) + log(b) - 2π*im
+scatter([real(1/b)], [imag(1/b)]; label="1/b")
+scatter!([real(a)], [imag(a)]; label="a")
+scatter!([0.0], [0.0]; label="0")
+plot!(Segment(1, 1/b) ∪ Segment(1/b, a) ∪ Segment(a, 1); label="contour")
+```
+If the contour passes through the origin, there are three possibility:
+1.  $[a,1]$ contains zero, hence $a < 0$
+2. $[1,1/b]$ contains zero, hence $b < 0$
+3. $[1/b, a]$ contains zero, which can only be true if $a b < 0$ by considering the equation of the line segment.
+
+1\. In the case where $a < 0$ and $b < 0$ (and hence $a b > 0$), perturbing $a$ above  and $b$ below or vice versa avoids $\gamma$ winding around zero, so we have
+$$
+\log(a b) = \log_+ a + \log_- b = \log_- a + \log_+ b = \log_+ a + \log_+ b - 2 \pi \I = \log_- a + \log_- b + 2 \pi \I
+$$
+```julia
+a = -2.0
+b = -3.0
+
+@show log(a*b)
+@show log(a+0.0im) + log(b-0.0im)
+@show log(a-0.0im) + log(b+0.0im)
+@show log(a-0.0im) + log(b-0.0im) + 2π*im
+@show log(a+0.0im) + log(b+0.0im) - 2π*im;
+```
+In the case where $a < 0$ and $b > 0$, then $a b < 0$, but we can perturb $a$ above/below to get
+$$
+\log_\pm(a b) = \log_\pm a + \log b
+$$
+(and by symmetry, the equivalent holds for $b < 0$ and $a > 0$.)
+```julia
+a = -2.0
+b = 3.0
+
+@show log(a*b +0.0im)
+@show log(a+0.0im) + log(b);
+
+@show log(a*b -0.0im)
+@show log(a-0.0im) + log(b);
+```
+In the case where $a < 0$, if $\Im b > 0$ we can perturb $a$ below so that $\gamma$ does not contain zero, giving us
+$$
+\log(ab) = \log_- a + \log b
+$$
+similarly, if $\Im b < 0$ we can perturb $a$ above.
+```julia
+a = -2.0
+b = 3.0 + im
+
+@show log(a*b)
+@show log(a-0.0im) + log(b);
+
+b = 3.0 + im;
+@show log(a*b)
+@show log(a+0.0im) + log(b);
+```
+2\. In this case, swap the role of $a$ and $b$ and use the answers for $a < 0$.
+
+3\. Finally, we have the case $a b < 0$ and neither $a$ nor $b$ is real. Note that
+$$
+ab = (a_x + \I a_y) (b_x + \I b_y) = a_x b_x - a_y b_y +  \I(a_x b_y + a_yb_x)
+$$
+It follows if $b_x > 0$ we have
+$$
+(ab)_+ = a_+ b
+$$
+and if $b_x < 0$ we have
+$$
+(ab)_+ = a_- b
+$$
+```julia
+a = -1.0 + 1.0im
+b = 1.0 + 1.0im
+@show log(a*b +  eps()im)
+@show log((a+eps()im)*b)
+
+a = 1.0 + 1.0im
+b = -1.0 + 1.0im
+@show log(a*b +  eps()im)
+@show log((a-eps()im)*b)
+```
+We can use this perturbation to reduce to the previous cases. For example, if $a = 1 + \I$ and $b = -1 + \I$, pertubing $ab$ above causes $a$ to be perturbed  above, which causes the contour to surround the origin clockwise, hence we have
+$$
+\log_+(ab) = \log(a)_+b = \log a b - 2 \pi \I
+$$
+```julia
+a = 1.0 + 1.0im
+b = -1.0 + 1.0im
+@show log(a*b -  eps()im)
+@show log(a)+log(b)-2π*im;
+```
+## Problem 2.2
+
+Use the contour $\gamma(t) = 1 + t(z-1)$ to reduce it to a normal integral:
+$$\overline{\log z } = \overline{\int_1^z {1 \over \zeta} \D \zeta} = \overline{\int_0^1 {(z-1) \over 1+(z-1) t} \dt}  = \int_0^1 {(\bar z-1) \over 1+(\bar z-1) t} \dt = \int_1^{\bar z} {\D \zeta \over \zeta} = \log \bar z.$$
+We then have, since the contour from $1$ to $1/(\bar z)$ to $z$ never surrounds the origin since both $\Im z$ and $\Im 1/(\bar z)$ have the same sign, we have
+$$
+2 \Re \log z = \log z + \overline{\log z} = \log z + \log \bar z = \log z \bar z = \log |z|^2 = 2 \log |z|
+$$
+On the other hand, we have, where the contour of integration is chosen to be to the right of zero and then we do the change of variables $\zeta = |z| \E^{\I \theta}$
+$$
+2 \Im \log z = \log z - \log \bar z = \int_{\bar z}^z {\D \zeta \over \zeta} = \I \int_{-\arg z}^{\arg z} \D \theta = 2 \I \arg z
+$$
+
+
+## Problem 2.3
+
+We first show that it is analytic on $(-\infty,0)$. To do this, we need to show that the limit from above equals the limit from below: for $x < 0$ we have
+$$\log_1^+ x -\log_1^- x = \log_+x - \log_- x -2 \pi \I = 0$$
+Then for $x > 0$ and using $\log_1^\pm(x) = \lim_{\epsilon\rightarrow 0} \log(x\pm \I \epsilon)$ we find
+$$
+\log_1^+(x) - \log_1^-x = \log x- \log x- 2\pi \I = -2 \pi \I
+$$
+
+_Demonstration_ Here we see that the following is the analytic continuation:
+```julia
+log1 = z -> begin
+    if imag(z) > 0
+        log(z)
+    elseif imag(z) == 0 && real(z) < 0
+        log(z + 0.0im)
+    elseif imag(z) < 0
+        log(z) + 2π*im
+    else
+            error("log1 not defined on real axis")
+    end
+end
+
+phaseplot(-3..3, -3..3, log1)
+```
+
+## Problem 3.1
+
+1. Because it's absolutely integrable, we can exchange derivatives and integrals to determine
+$$
+{\D \CC f \over \D z} = {1 \over 2 \pi \I} \oint {f(\zeta)\over (\zeta-z)^2} \D \zeta
+$$
+2. There are two different possible approaches:
+   - the subtract and add back in technique: since $f$ is analytic for $z$ near $\zeta$, we can write
+$$
+\CC f(z) = {1 \over 2 \pi \I} \oint {f(\zeta)-f(z) \over \zeta-z} \D \zeta + f(z) \CC 1(z)
+$$
+Therefore
+$$
+\CC^+ f(\zeta) - \CC^- f(\zeta) = f(\zeta)( \CC^+ 1(\zeta) - \CC^- 1(\zeta))
+$$
+But we know (using Cauchy's integral formula / Residue calculus)
+$$
+\CC 1(z) = \begin{cases} 1 & |z| < 1 \\
+                            0 & |z| > 1
+                            \end{cases}
+$$
+hence $(\CC^+-\CC^-)1(\zeta) = 1$
+   - Since $f$ is analytic, we have for any radius $R > 1$ but inside the annulus
+$$
+\CC^+ f(\zeta) = {1 \over 2 \pi \I} \oint_{|\zeta| = R} {f(\zeta) \over \zeta -z} \D\zeta
+$$
+Similarly, for $\CC^-f(\zeta)$ with any radius $r < 1$ but inside the annulus. Therfore,
+$$
+\CC^+ f(\zeta) - \CC^- f(\zeta) = {1 \over 2 \pi \I} \left[\oint_{|\zeta| = R} - \oint_{|\zeta| = r} \right] {f(\zeta) \over \zeta -z} \D\zeta
+$$
+Deforming the contour and using Cauchy-integral formula gives the result.
+3. This follow since ${1 \over \zeta - z} \rightarrow 0$ uniformly.
+
+
+## Problem 3.2
+
+Suppose we have another solution $\phi$ and consider $\psi(z) = \phi(z) - \CC f(z)$. Then on the circle we have
+$$
+\psi_+(\zeta) - \psi_-(\zeta) = \phi_+(\zeta) - \CC_+f(\zeta) - \phi_-(\zeta) + \CC_+f(\zeta) = f(\zeta)-f(\zeta) = 0
+$$
+Thus $\psi$ is entire, and since it decays at infinity, it must be zero by Liouville's theorem.
+
+## Problem 3.3
+
+When $k \geq 0$, we have from 3.1 and 3.2
+$$
+\CC[\diamond^k](z) =\begin{cases}
+    z^k  & |z| < 1 \\
+    0 & |z| > 1
+    \end{cases}
+$$
+when $k < 0$ since
+$$\CC[\diamond^k]^+(\zeta) - \CC[\diamond^k]^-(\zeta) = \zeta^k - 0 = \zeta^k$$. we similarly have
+$$
+\CC[\diamond^k](z) =\begin{cases}
+0  & |z| < 1 \\
+    -z^k & |z| > 1
+        \end{cases}
+$$
+
+Therefore,
+$$
+\Im \CC^-[\diamond^k](\zeta) =\begin{cases}
+0  & k \geq 0 \\
+    -{\zeta^k - \zeta^{-k} \over 2 \I} & k < 0
+        \end{cases}
+$$
+and
+$$
+\Re \CC^-[\diamond^k](\zeta) =\begin{cases}
+0  & k \geq 0 \\
+    -{\zeta^k + \zeta^{-k} \over 2} & k < 0
+        \end{cases}
+$$
+
+
+
+## Problem 3.4
+
+Express the solution outside the circle as
+$$
+v(x,y) = \Im ( \E^{-\I \theta} z + \CC f(z))
+$$
+for a to-be-determined $f$. On the circle, this reduces to
+$$
+\Im \CC^- f(\zeta) = -\cos \theta {\zeta - \zeta^{-1} \over 2 \I}  + \sin \theta {\zeta + \zeta^{-1} \over 2}
+$$
+Unlike the real case, we can include imaginary coefficients, thus the solution is
+$$
+f(\zeta) = (\cos \theta + \I \sin \theta) \zeta^{-1}
+$$
+and thus the full solution is
+$$
+v(x,y) =  \Im ( \E^{-\I \theta} z - \E^{\I \theta}   z^{-1}))
+$$
+```julia
+θ = 0.1
+v = (x,y) -> x^2 + y^2 < 1 ? 0 : imag(exp(-im*θ) * (x+im*y) + exp(im*θ) * (x+im*y)^(-1))
+
+xx = -8:0.01:8; yy = -5:0.01:5
+
+contour(xx, yy, v.(xx', yy); nlevels=100, ratio=1.0)
+plot!(Circle(); color=:black, legend=false)
+```
+
+## Problem 4.1
+
+$z^\alpha$ has the limits $z_\pm^\alpha = \E^{\pm \I  \pi \alpha} |z|^\alpha$, thus choose $\alpha = -{\theta \over 2\pi}$ where if we take $0 < \theta < 2\pi$ we have $0 < \alpha < 1$ (the case $\theta = 0$ and $\theta = \pi$ are covered by the Cauchy transform, that is ). Then consider
+$$
+\kappa(z) = (z-1)^{-\alpha} (z+1)^{\alpha-1}
+$$
+which has weaker than pole singularities and satisfies $\kappa(z) \sim z^{-1}$.
+For $-1 < x < 1$ it has the right jump
+$$
+\begin{align*}
+\kappa_+(x) &= (x-1)_+^{-\alpha} (x+1)^{\alpha - 1}  = \E^{-\I \pi \alpha} (1-x)^{-\alpha} (x+1)^{\alpha-1} = \E^{-2\I \pi \alpha} (x-1)_-^{-\alpha} (x+1)^{\alpha-1} \\
+&= \E^{-2 \I \pi \alpha} \kappa_-(x)= \E^{\I \theta} \kappa_-(x)
+\end{align*}
+$$
+and  for $x < -1$ it has the jump
+$$
+\kappa_+(x) = (x-1)_+^{-\alpha} (x+1)_+^{\alpha-1}  = \E^{-\I \pi \alpha}\E^{\I \pi (\alpha-1)} (1-x)^{-\alpha} (-1-x)^{\alpha-1} =  \kappa_-(x)
+$$
+hence $\kappa$ is analytic.
+
+We need to show this times a constant spans the entire space. Suppose we have another solution $\tilde \kappa$ and consider $r(z) = {\tilde \kappa(z) \over \kappa(z)}$. Note by construction that $\kappa$ has no zeros. Then
+$$
+r_+(x) = {\tilde\kappa_+(x) \over \kappa_+(x)} = {\tilde\kappa_-(x) \over \kappa_-(x)} = r_-(x)
+$$
+hence $r$ is analytic on $(-1,1)$. It has weaker than pole singularities because $\kappa(z)^{-1}$ is actually bounded at $\pm 1$. Therefore $r$ is bounded and entire, and thus must be a constant $r(z) \equiv r$, and thence $\tilde \kappa(z) = r \kappa(z)$.
+```julia
+θ =2.3
+α = -θ/(2π)
+κ = z -> (z-1)^(-α)*(z+1)^(α-1)
+κ(0.1+0.0im) - exp(im*θ)*κ(0.1-0.0im),κ(100.0)
+```
+```julia
+phaseplot(-3..3, -3..3, κ)
+```
+## Problem 4.2
+
+We want to mimic the solution of $\phi_+(x) + \phi_-(x)$. So take
+$$
+\phi(z) = \kappa(z) \CC\br[{f \over \kappa_+}](z) =\E^{-\I \theta/2} (z-1)^{-\alpha}(z+1)^{\alpha-1} \CC[f (1-x)^{\alpha}(1+x)^{1-\alpha}](z)
+$$
+This has the jump
+$$
+\begin{align*}
+\phi_+(x) - \E^{\I \theta}\phi_-(x)  &= \kappa_+(z) \CC_+\br[{f \over \kappa_+}](x) -  \E^{\I \theta}\kappa_-(z)\CC_-\br[{f \over \kappa_+}](x)  \\
+&= \kappa_+(x)  \pr({\CC_+\br[{f \over \kappa_+}](x) - \CC_-\br[{f \over \kappa_+}](x)  }) = f(x)
+\end{align*}
+$$
+Thus the general solution is $\phi(z) + C \kappa(z)$.
+```julia
+θ =2.3
+α = -θ/(2π)
+κ = z -> (z-1)^(-α)*(z+1)^(α-1)
+
+x = Fun()
+κ₊ = exp(im*θ/2)*(1-x)^(-α)*(x+1)^(α-1)
+
+f = Fun(exp)
+
+z = 2+im
+φ = z -> κ(z)*cauchy(f/κ₊, z)
+
+φ(0.1+0.0im)-exp(im*θ)*φ(0.1-0.0im) - f(0.1)
+```
+
+## Problem 4.3
+
+Note for $x < 0$
+$$
+x_+^{\I \beta} = \E^{\I \beta \log_+ x} = \E^{\I \beta \log_- x - 2\pi \beta} = \E^{-2 \pi \beta} x_-^{\I \beta}
+$$
+```julia
+β =  2.3;
+x = -2.0
+(x+0.0im)^(im*β) - exp(-2π*β)*(x-0.0im)^(im*β)
+```
+We actually have bounded (oscillatory) growth near zero since
+$$
+|\E^{\I \beta \log z}| = |\E^{\I \beta \log |z|} \E^{-\beta \arg z}| = \E^{-\beta \arg z}
+$$
+Thus if we write $c = r \E^{\I \theta}$ for $0 < \theta < 2 \pi$ and define $\alpha = -{\theta \over 2 \pi} + \I{\log r \over 2 \pi}$ we can write the solution to 4.1 as
+$$
+\kappa(z) = (z-1)^{-\alpha} (z+1)^{\alpha-1}
+$$
+
+The same arguments as before then proceed. and the solution to 4.3 is
+$$
+\phi(z) = \kappa(z) \CC\br[{f \over \kappa_+}](z)+ C \kappa(z)
+$$
+```julia
+θ =2.3
+α = -θ/(2π)
+κ = z -> (z-1)^(-α)*(z+1)^(α-1)
+κ(0.1+0.0im) - exp(im*θ)*κ(0.1-0.0im)
+```
+```julia
+r = 2.4
+θ = 2.1
+c = r*exp(im*θ)
+
+α = -θ/(2π) + im*log(r)/(2π)
+
+κ = z -> (z-1)^(-α)*(z+1)^(α-1)
+
+κ(0.1+0.0im)-c*κ(0.1-0.0im)
+```
+## Problem 5.1
+
+1. It is a product of functions analytic off $(-\infty,1]$ hence is analytic off $(-\infty,1]$, and we just have to check that it has no jump on $(-\infty,-1)$ and $(-a,a)$. This follows via, for $x < -1$:
+$$
+\kappa_+(x) = {1 \over \I^4 \sqrt{1-x}\sqrt{-1-x}\sqrt{a-x}\sqrt{-a-x}} = {1 \over (-\I)^4 \sqrt{1-x}\sqrt{-1-x}\sqrt{a-x}\sqrt{-a-x}} = \kappa_-(x)
+$$
+and for $-a < x < a$ we have
+$$
+\kappa_+(x) = {1 \over \I^2 \sqrt{1-x}\sqrt{x+1}\sqrt{a-x}\sqrt{x+a}} = {1 \over (-\I)^2 \sqrt{1-x}\sqrt{1+x}\sqrt{a-x}\sqrt{-a-x}} = \kappa_-(x)
+$$
+2. This follows via the usual arguments: for $a < x < 1$ we have:
+$$
+\kappa_+(x) = {1 \over \I \sqrt{1-x}\sqrt{x+1}\sqrt{x-a}\sqrt{x+a}} =  -\kappa_-(x)
+$$
+and for $-1 < x < -a$ we have
+$$
+\kappa_+(x) = {1 \over \I^3 \sqrt{1-x}\sqrt{x+1}\sqrt{x-a}\sqrt{x+a}} =  -\kappa_-(x)
+$$
+3. This has at most square singularitie4s which are weaker than poles
+4. $\kappa(z) = {1 \over z^2 \sqrt{1-1/z}\sqrt{1-a/z} \sqrt{1+a/z} \sqrt{1+1/z}} \sim {1 \over z^2} \rightarrow 0$.
 
 ## Problem 5.2
 
-We have 
+Ah, this is a trick question! Note that $z \kappa(z) \sim z^{-1} = O(z)$ and satisfies all the other properties. Thus consider any other solution $\tilde \kappa(z)$ and write
 $$
-\int_x^\infty L_2(x) \E^{-x} \dx = {1 \over 2} x \E^{-x} L_1^{(1)}(x) \E^{-x}
+r(z) = {\tilde \kappa(z) \over \kappa(z) }
 $$
-Thus from lectures we have
+This has trivial jumps and hence is entire: for example, on $(a,1)$ we have
 $$
-{1 \over 2 \pi\I} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = {1 \over 2}\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
+r_+(x) = {\tilde \kappa_+(x) \over \kappa_+(x) }  = {-\tilde \kappa_-(x) \over -\kappa_-(x) }  = r_-(x)
 $$
-and therefore
-$$
-{1 \over \pi} \int_0^\infty L_2(x) \E^{-x} \log|z-x| \dx  = -\Im \CC[ \diamond \E^{-\diamond} L_1^{(1)}](z) = \Re{1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi }
-$$
-Let's check the result:
-```julia
-x = Fun(0 .. 100)
-w = exp(-x)
-z = 2+im
+But since $\kappa \sim O(z^{-2})$ we only know that $\kappa$ has at most $O(z)$ growth, hence it can be any first degree polynomial.  Therefore, the space of all solutions is in fact two-dimensional: $\psi(z) = (A + Bz) \kappa(z)$.
 
--sum(1/2*(2 - 4x + x^2)*w*log(abs(z-x)))/π,imag(sum(1/2*(2 - 4x + x^2)*w*log(z-x))/(π*im))
-```
-```julia
--imag(cauchy((2-x)*x*w,z)),real((1+(z-2)*(-exp(-z)*ei(z)-(z-1)*exp(-z)*ei(z)+1))/(-2π))
-```
+## Problem 5.3
 
-### Problem 6.1
-
-Consider integration contours $\gamma_{+x}$ and $\gamma_{-x}$ that avoid $0$ above and below:
-```julia
-x = -2.0
-r = 0.1
-γ₊ₓ = Segment(-2.0 , -r) ∪ Arc(0.,r, (π,0)) ∪ Segment(r , 100)
-γ₋ₓ = Segment(-2.0 , -r) ∪ Arc(0.,r, (-π,0)) ∪ Segment(r , 100)
-scatter([x],[0.0];label="x = $x")
-plot!(γ₊ₓ ; xlims=(-5,5), ylims=(-1,1), label="gamma_+")
-plot!(γ₋ₓ; xlims=(-5,5), ylims=(-1,1), label="gamma_-")
-```
-So that
+Here we mimick the usual solution techniques and propose:
 $$
-\Gamma_\pm(\alpha, x) = \int_{\gamma_{\pm x}} \zeta^{\alpha-1} \E^{-\zeta} \D \zeta
+\phi(z) = \kappa(z) \CC\br[{f \over \kappa_+}](z) + (A+Bz) \kappa(z)
 $$
-Note that
-$$
-\int_x^{-r} (\zeta_+^{\alpha - 1} - \zeta_-^{\alpha -1}) \E^{-\zeta} \D\zeta = 0
-$$
-since $\zeta_+^{\alpha-1} = \E^{\pi \I (\alpha-1)}|\zeta|^{\alpha-1} = \E^{2 \I \pi \alpha} \zeta_-^{\alpha-1}$.
-Furthermore, the integrals over the arcs tend to zero as $r \rightarrow 0$:
-$$
-|\I r^\alpha \int_0^\pi \E^{- r \E^{\I \theta}} \E^{\I \theta \alpha} \D \theta  | \leq r^\alpha \pi \E^r  \rightarrow 0
-$$
-and similarly on the lower arc. Thus we have
+A quick check confirms it has the right jumps:
 $$
 \begin{align*}
-\Gamma_+(\alpha, x)-\E^{2 \I \pi \alpha} \Gamma_-(\alpha, x) &= \lim_{r \rightarrow 0 } \left(\int_{\gamma_{+x}} - \E^{2 \I \pi \alpha} \int_{\gamma_{-x}}\right) \zeta^{\alpha-1} \E^{-\zeta} \D \zeta \ccr
- = (1 - \E^{2 \I \pi \alpha})\int_0^\infty x^{\alpha-1} \E^{-x} \dx = (1 - \E^{2 \I \pi \alpha})\Gamma(\alpha)
+\phi_+(x) &= \kappa_+(x) \CC_+\br[{f \over \kappa_+}](x) + (A+Bx) \kappa_+(x)\\
+& =\kappa_+(x) \left({f(x) \over \kappa_+(x)} + \CC_-\br[{f \over \kappa_+}](x)\right) - (A+Bx) \kappa_-(x)\\
+& = -\phi_-(x) + f(x)
 \end{align*}
 $$
 
-## Problem 6.2
+## Problem 6.1
 
-Note that, for $0 < \alpha < 1$,
+Let's first do a plot and histogram. Here we see the right scaling is $N^{1/4}$, using a simplified model without the second
+derivative (we expect this to go to the same distribution):
+```julia
+using DifferentialEquations
+
+V = x -> x^4
+Vp = x -> 4x^3
+
+N = 50
+λ_0 = randn(N)  # initial location
+
+prob = ODEProblem(function(λ,_,t)
+       [sum(1 ./ (λ[k] .- λ[[1:k-1;k+1:end]])) - Vp(λ[k]) for k=1:N]
+        end, λ_0, (0.0, 5.0))
+λ = solve(prob; reltol=1E-6);
+
+t = 5.0
+scatter(λ(t)/N^(1/4) ,zeros(N); label="charges", xlims=(-2,2), title="t = $t")
+```
+The limiting distribution has the following form:
+```julia
+histogram(λ(t)/N^(1/4); nbins=30, normalize=true, label="histogram of charges")
+```
+
+
+We want to solve
 $$
-    \psi(z) = z^{-\alpha} \E^z \Gamma(\alpha, z)
+{\D^2 \lambda_k \over \D t^2} + \gamma {\D \lambda_k \over \D t} = \sum_{j=1 \atop j \neq k}^N {1 \over \lambda_k -\lambda_j} - 4\lambda_k^3
 $$
-has the following properties:
-1. $\psi(z)$ decays as $z \rightarrow \infty$, via integration by parts:
+Rescale via $\mu_k = {\lambda_k \over N^{1/4}}$ gives
 $$
-    z^{-\alpha} \E^z \int_z^\infty \zeta^{\alpha-1} \E^{-\zeta} \D \zeta =
-    z^{-1} \E^z + z^{-\alpha} \int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta
+0 = N^{1/4} \br[{\D^2 \lambda_k \over \D t^2} + \gamma {\D \lambda_k \over \D t}] =
+N^{-1/4} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} - 4 N^{3/4} \mu_k^3
 $$
-and we have assuming $z$ is bounded away from the negative real axis:
+or in other words
 $$
-\int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta| \leq \int_z^\infty |\zeta|^{\alpha-2} \D \zeta = \int_0^\infty |x+z|^{\alpha-2} \D x  < \infty
+0 = N^{-1/2} \br[{\D^2 \lambda_k \over \D t^2} + \gamma {\D \lambda_k \over \D t}] =
+{1 \over N} \sum_{j=1 \atop j \neq k}^N {1 \over \mu_k -\mu_j} - 4 \mu_k^3
 $$
-(otherwise one would use a deformed contour). 
-2. We have the subtractive jump:
+We can now formally let $N\rightarrow \infty$ to get our equation
+$$
+\dashint_{-b}^b {w(t) \over x-t} \dt = 4 x^3
+$$
+where I've used symmetry to assume that the interval is symmetric.
+We want to find $w$ and $b$ so that this equations holds true and $w$ is a bounded probability density:
+1. $w(x) >0$ for $-b < x < b$
+2. $\int w(x) \dx = 1$
+3. $w$ is bounded
+
+
+Our equation is equivalent to
+$$
+\HH_{[-b,b]} w(x) = {4 x^3 \over \pi}
+$$
+recall the inversion formula
+$$
+    u(x) =  {-1 \over \sqrt{b^2 - x^2}}\HH \left[{ f(\diamond)  \sqrt{b^2-\diamond^2} }\right](x)  - {C \over \sqrt{b^2-x^2}}
+$$
+In our case $f(x) = {4 x^3 \over \pi}$ and we use
+$$
+\sqrt{z-b}\sqrt{z+b} = z\sqrt{1-b/z}\sqrt{1+b/z} = z - {b^2 \over 2 z} -{b^4 \over 8z^3} + O(z^{-4})
+$$
+to determine
+$$
+2 \I \CC \left[{ \diamond^3  \sqrt{b^2-\diamond^2} }\right](x) =
+z^3(\sqrt{z-b}\sqrt{z+b} -z +  {b^2 \over 2 z} + {b^4 \over 8z^3}) = z^3\sqrt{z-b}\sqrt{z+b} -z^4 +  {b^2z^2 \over 2} + {b^4 \over 8}
+$$
+```julia
+b = 5
+x = Fun(-b .. b)
+(2im)cauchy(x^3*sqrt(b^2-x^2),z)
+```
+Therefore,
 $$
 \begin{align*}
-\psi_+(x) - \psi_-(x) &= \E^x(x_+^{-\alpha} \Gamma_+(\alpha, x) -  \Gamma_-(\alpha, x)) \ccr
-= \E^x |x|^\alpha (\E^{-\I \pi \alpha} \Gamma_+(\alpha, z) - \E^{\I \pi \alpha} \Gamma_-(\alpha,x)) \ccr
- = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})
+u(x) = {4\I \over \pi \sqrt{b^2 - x^2}}(\CC^+ + \CC^-) \left[{ \diamond^3  \sqrt{b^2-\diamond^2} }\right](x)  - {C \over \sqrt{b^2-x^2}} \\
+{4 \over \pi \sqrt{b^2 - x^2}}(-x^4+{b^2 x^2 \over 2} + {b^4 \over 8})- {C \over \sqrt{b^2-x^2}}
 \end{align*}
 $$
-
-We use these properties to verify that
+We choose $C$ so this is bounded, in particular, we get get the solution
 $$
-\CC[\diamond^\alpha \E^{-\diamond}](z) = {1 \over \Gamma(-\alpha)} {(-z)^\alpha \E^{-z} \Gamma(-\alpha, - z) \over
-  \E^{-\I\pi\alpha} - \E^{\I\pi\alpha}}
+u(x) = {4 \over \pi \sqrt{b^2 - x^2}}(-x^4+{b^2 x^2 \over 2} + {b^4 \over 2})
 $$
-via Plemelj.
 ```julia
-x = Fun(0 .. 20.0)
-α = -0.1
-z = 2.0+im
-cauchy(x^α*exp(-x), z)
+u = 4/(π*sqrt(b^2-x^2))*(-x^4 + b^2*x^2/2 + b^4/2)
+H(u, 0.1),4*0.1^3/π
+```
 
-Γ = (α,z) -> let ζ = z + Fun(0 .. 500.0)
-    linesum(ζ^(α-1)*exp(-ζ))
-end
+At least it looks right, we just need to get the right b:
+```julia
+plot(u; label = "b = $b")
+```
+We want to choose $b$ now so that this integrates to $1$. For example, this choice of $b$ is horrible:
+```julia
+sum(u)
+```
+There's a nice trick: If $-2\pi \I \CC u(z) \sim {1 \over  z}$ then $\int_{-b}^b u(x) \dx  = 1$.  We know since
+$$
+{1 \over \sqrt{1+z}} = 1 - {z \over 2} + {3z^2 \over 8} - {5z^3 \over 16} + O(z^4)
+$$
+$$
+\begin{align*}
+ {-z^4 +  {b^2z^2 \over 2} + {b^4 \over 2} \over \sqrt{z-b}\sqrt{z+b}} &=  {-z^3 +  {b^2z \over 2} + {b^4 \over 2 z} \over \sqrt{1-b/z}\sqrt{1+b/z}} \\
+ &=  (-z^3 +  {b^2z \over 2} )(1 + {b \over 2 z} + {3 b^2 \over 8 z^2} + {5 b^3 \over 16z^3} )(1 - {b \over 2 z} + {3 b^2 \over 8 z^2}  - {5 b^3 \over 16z^3}) + O(z^{-1}) \\
+ &=-z^3  + \pr({b^2  \over 2} +{b^2 \over 4} + {b^2 \over 2} - {3 b^2 \over 8} -{3 b^2 \over 8} ) z +O(z^{-1})\\
+ &= -z^3 + O(z^{-1})
+ \end{align*}
+$$
+Thus we know
+$$
+\CC  u(z) = {2\I \over \pi} z^3 +{2 \I \over \pi} {-z^4 +  {b^2z^2 \over 2} + {b^4 \over 2} \over \sqrt{z-b}\sqrt{z+b}}
+$$
+```julia
+cauchy(u, z)
 
--(-z)^α*exp(-z)Γ(-α,-z)/(gamma(-α)*(exp(im*π*α)-exp(-im*π*α)))
+z =100.0im;
+2im/π*z^3 + 2im/π*(-z^4 + b^2*z^2/2 +b^4/2)/(sqrt(z-b)sqrt(z+b))
+```
+taking this one term further we find
+$$
+ {-z^4 +  {b^2z^2 \over 2} + {b^4 \over 2} \over \sqrt{z-b}\sqrt{z+b}} = -z^3 +{3 b^4 \over 8 z} + O(z^{-2})
+$$
+Hence we want to choose $b$ so that
+$$
+-2\I\pi \CC u(z) = {3 b^4 \over 2 z} \sim {1 \over z}
+$$
+in other words, $b = ({2 \over 3})^{1/4}$
+```julia
+b = (2/3)^(1/4)
+x = Fun(-b .. b)
+u = 4/(π*sqrt(b^2-x^2))*(-x^4 + b^2*x^2/2 + b^4/2)
+sum(u)
+```
+
+And it worked!
+```julia
+histogram(λ(5.0)/N^(1/4); nbins=25, normalize=true, label="histogram of charges")
+plot!(u; label="u",xlims=(-2,2))
 ```

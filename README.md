@@ -41,7 +41,7 @@ Examples of previous projects:
 
 1. [Problem Sheet 1](sheets/Sheet1.pdf) [(Solutions)](sheets/Solutions1.pdf)
 2. [Problem Sheet 2](sheets/Sheet2.pdf) [(Solutions)](sheets/Solutions2.pdf)
-3. [Problem Sheet 3](sheets/Sheet3.pdf)
+3. [Problem Sheet 3](sheets/Sheet3.pdf) [(Solutions)](sheets/Solutions3.pdf)
 
 ## Video lectures
 

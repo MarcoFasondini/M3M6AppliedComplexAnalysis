@@ -47,7 +47,7 @@ is analytic for $-1 < \Im z < 1$.
 ```julia
 phaseplot(-3..3, -3..3, z -> π*sech(π*z/2))
 ```
-This is because of the expontial decay.
+This is because of the exponential decay.
 
 **Theorem (Analyticity of Fourier transforms)** Suppose $|f(x) \E^{\gamma x}| < |M(x)|$
 where $M$ is absolutely integrable for all $a < \gamma < b$. Then
@@ -56,7 +56,7 @@ $$
 $$
 is analytic for $a < \Im z < b$.
 
-**Proof** Let $z = s + \I \gamma$ and note that $|f(t) \E^{\I z t}| = |f(t) \E^{\gamma t}|$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
+**Proof** Let $z = s + \I \gamma$ and note that $|f(t) \E^{-\I z t}| = |f(t) \E^{\gamma t}|$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
 $$
 {\D \widehat f \over \dz} = -\I z \hat f(z)
 $$
@@ -148,7 +148,7 @@ for any choice of $-\infty < M \leq \gamma$.
 **Example** Consider $f(x)  = x \E^{-x}$ for $0 \leq x < \infty$.  Note that $f(x) \E^{\gamma x}$
 is square integrable for any $\gamma < 1$, and we have
 $$
-\widehat\fR(z) = \int_0^\infty t \E^{-t -\I s t} \dt = {1 \over (1+\I s)^2}
+\widehat\fR(z) = \int_0^\infty t \E^{-t -\I z t} \dt = {1 \over (1+\I z)^2} = -{1 \over (z - \I)^2}
 $$
 is analytic for $\Im z < 1$. Thus for any $M < 1$ we have
 $$
@@ -159,7 +159,7 @@ f(x) &= {1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M}\widehat\fR(\zeta) \E^
 $$
 Since $x > 0$, we can use Residue calculus in the upper-half plane, which confirms the result:
 $$
-\Res_{z = -\I} {\E^{\I x z} \over  (1+\I z)^2}  = \Res_{z = -\I} {\E^{- x} + \I x \E^{-x} (z +\I) + O(z+\I)^2 \over  -(z-\I)^2}  = -\I x \E^{-x}.
+\Res_{z = \I} {\E^{\I x z} \over  (1+\I z)^2}  = \Res_{z = \I} {\E^{- x} + \I x \E^{-x} (z - \I) + O(z-\I)^2 \over  -(z-\I)^2}  = -\I x \E^{-x}.
 $$
 **Example** Consider $f(x) = x$.  This function is not square-integrable, but we have
 $f(x) \E^{\gamma x}$ is square integrable for any $\gamma < 0$, and we find for $\Im z < 0$
