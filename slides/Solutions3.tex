@@ -424,7 +424,7 @@ This implies that (note the sign)
 \begin{lstlisting}
 3.141592653589793
 \end{lstlisting}
-
+\newpage
 
 \subsection{Problem 1.2}
 \subsubsection{1.2.1}
@@ -449,7 +449,7 @@ All other solutions are then of the form:
 (1.0 + 0.0im, -1.782207108835652e-8)
 \end{lstlisting}
 
-
+\newpage
 \subsubsection{1.2.2}
 \[
 \psi(z) = -2\phi(z) + 1 = { z  \over  \sqrt{z -1} \sqrt{z+1}}
@@ -471,13 +471,14 @@ satisfies
 (0.0 + 0.0im, 0.9999999993222088)
 \end{lstlisting}
 
-
+\newpage
 \subsubsection{1.2.3}
 For $f(x) = \sqrt{1-x^2}$, we use the formula
 
-\[
-\phi(z) = {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[\sqrt{1-\diamond^2} f](z) + {C \over \sqrt{z-1}\sqrt{z+1}}  = {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[1-\diamond^2](z) + {C \over \sqrt{z-1}\sqrt{z+1}}
-\]
+\begin{align*}
+\phi(z) &= {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[\sqrt{1-\diamond^2} f](z) + {C \over \sqrt{z-1}\sqrt{z+1}}\\
+&  = {\I \over \sqrt{z - 1} \sqrt{z+1}} \CC[1-\diamond^2](z) + {C \over \sqrt{z-1}\sqrt{z+1}}
+\end{align*}
 We already know $\CC1(z)$, and we can deduce $\CC[\diamond^2]$ as follows: try
 
 \[
@@ -667,9 +668,10 @@ NIntegrate[-((
 \item[2. ] Following the procedure of multiplying $\CC[\sqrt{1-\diamond^2}](z)$ by $1/(2+z)$ and subtracting off the pole at $z=-2$, we first find:
 
 \end{itemize}
-\[
-\CC\left[{\sqrt{1-\diamond^2} \over 2+\diamond}\right](z) = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} -{\sqrt{-2-1}_+ \sqrt{-2+1}_+ +2 \over 2\I(2+z)} = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} +{ \sqrt{3} -2 \over 2\I(2+z)}
-\]
+\begin{align*}
+\CC\left[{\sqrt{1-\diamond^2} \over 2+\diamond}\right](z)& = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} -{\sqrt{-2-1}_+ \sqrt{-2+1}_+ +2 \over 2\I(2+z)}\\
+& = {\sqrt{z-1}\sqrt{z+1} - z \over 2\I(2+z)} +{ \sqrt{3} -2 \over 2\I(2+z)}
+\end{align*}
 
 \begin{lstlisting}
 (*@\HLJLn{t}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{()}@*)
@@ -697,7 +699,7 @@ Therefore, calculating $-\I(\CC^+ + \CC^-)$ we find that
 \begin{lstlisting}
 (0.17521390115767735, 0.17521390115767752)
 \end{lstlisting}
-
+\newpage
 
 Thus the general solution is
 
@@ -1046,7 +1048,7 @@ Suppose we have another solution $\phi$ and consider $\psi(z) = \phi(z) - \CC f(
 \psi_+(\zeta) - \psi_-(\zeta) = \phi_+(\zeta) - \CC_+f(\zeta) - \phi_-(\zeta) + \CC_+f(\zeta) = f(\zeta)-f(\zeta) = 0
 \]
 Thus $\psi$ is entire, and since it decays at infinity, it must be zero by Liouville's theorem.
-
+\newpage
 \subsection{Problem 3.3}
 When $k \geq 0$, we have from 3.1 and 3.2
 
@@ -1080,6 +1082,9 @@ and
     -{\zeta^k + \zeta^{-k} \over 2} & k < 0
         \end{cases}
 \]
+\newpage
+\hfill \\
+\newpage
 \subsection{Problem 3.4}
 Express the solution outside the circle as
 
@@ -1323,6 +1328,7 @@ A quick check confirms it has the right jumps:
 \phi_+(x) &= \kappa_+(x) \CC_+\br[{f \over \kappa_+}](x) + (A+Bx) \kappa_+(x)\\
 & =\kappa_+(x) \left({f(x) \over \kappa_+(x)} + \CC_-\br[{f \over \kappa_+}](x)\right) - (A+Bx) \kappa_-(x) = -\phi_-(x) + f(x)
 \end{align*}
+\newpage
 \subsection{Problem 6.1}
 Let's first do a plot and histogram. Here we see the right scaling is $N^{1/4}$, using a simplified model without the second derivative (we expect this to go to the same distribution):
 
@@ -1397,6 +1403,7 @@ w
 is bounded
 
 \end{itemize}
+\newpage
 Our equation is equivalent to
 
 \[
@@ -1442,7 +1449,7 @@ We choose $C$ so this is bounded, in particular, we get get the solution
 \[
 u(x) = {4 \over \pi \sqrt{b^2 - x^2}}(-x^4+{b^2 x^2 \over 2} + {b^4 \over 2})
 \]
-
+\newpage
 \begin{lstlisting}
 (*@\HLJLn{u}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{4}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{b}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{4}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{b}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{b}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{4}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)
 (*@\HLJLnf{H}@*)(*@\HLJLp{(}@*)(*@\HLJLn{u}@*)(*@\HLJLp{,}@*) (*@\HLJLnfB{0.1}@*)(*@\HLJLp{),}@*)(*@\HLJLni{4}@*)(*@\HLJLoB{*}@*)(*@\HLJLnfB{0.1}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{3}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{\ensuremath{\pi}}@*)

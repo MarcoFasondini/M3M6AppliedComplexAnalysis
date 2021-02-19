@@ -1,0 +1,375 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = { Marco Fasondini },
+           pdftitle={ foo },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+
+\def\qqand{\qquad\hbox{and}\qquad}
+\def\qqfor{\qquad\hbox{for}\qquad}
+\def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
+\def\D{ {\rm d} }
+\def\I{ {\rm i} }
+\def\E{ {\rm e} }
+\def\C{ {\mathbb C} }
+\def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
+\def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
+\def\HH{ {\cal H} }
+\def\LL{ {\cal L} }
+\def\vc#1{ {\mathbf #1} }
+\def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
+
+\def\qqqquad{\qquad\qquad}
+\def\qqwhere{\qquad\hbox{where}\qquad}
+\def\Res_#1{\underset{#1}{\rm Res}\,}
+\def\sech{ {\rm sech}\, }
+\def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
+\def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
+\def\upepsilon{\varepsilon}
+
+
+\def\Xint#1{ \mathchoice
+   {\XXint\displaystyle\textstyle{#1} }%
+   {\XXint\textstyle\scriptstyle{#1} }%
+   {\XXint\scriptstyle\scriptscriptstyle{#1} }%
+   {\XXint\scriptscriptstyle\scriptscriptstyle{#1} }%
+   \!\int}
+\def\XXint#1#2#3{ {\setbox0=\hbox{$#1{#2#3}{\int}$}
+     \vcenter{\hbox{$#2#3$}}\kern-.5\wd0} }
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+% \def\dashint
+\def\infdashint{\dashint_{-\infty}^\infty}
+
+
+
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+\def\ip<#1>{\left\langle{#1}\right\rangle}
+\def\dx{\D x}
+\def\dt{\D t}
+\def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
+
+\def\norm#1{\left\| #1 \right\|}
+
+\def\pr(#1){\left({#1}\right)}
+\def\br[#1]{\left[{#1}\right]}
+
+\def\abs#1{\left|{#1}\right|}
+\def\fpr(#1){\!\pr({#1})}
+
+\def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
+
+\def\endash{–}
+\def\emdash{—}
+\def\mdblksquare{\blacksquare}
+\def\lgblksquare{\blacksquare}
+\def\scre{\E}
+\def\mapengine#1,#2.{\mapfunction{#1}\ifx\void#2\else\mapengine #2.\fi }
+
+\def\map[#1]{\mapengine #1,\void.}
+
+\def\mapenginesep_#1#2,#3.{\mapfunction{#2}\ifx\void#3\else#1\mapengine #3.\fi }
+
+\def\mapsep_#1[#2]{\mapenginesep_{#1}#2,\void.}
+
+
+\def\vcbr[#1]{\pr(#1)}
+
+
+\def\bvect[#1,#2]{
+{
+\def\dots{\cdots}
+\def\mapfunction##1{\ | \  ##1}
+	\sopmatrix{
+		 \,#1\map[#2]\,
+	}
+}
+}
+
+
+
+\def\vect[#1]{
+{\def\dots{\ldots}
+	\vcbr[{#1}]
+} }
+
+\def\vectt[#1]{
+{\def\dots{\ldots}
+	\vect[{#1}]^{\top}
+} }
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr}
+\def\dots{\vdots}
+	\begin{pmatrix}
+		\map[#1]
+	\end{pmatrix}
+} }
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
+\begin{document}
+
+\textbf{Applied Complex Analysis (2021)}
+
+\section{Problem sheet 4: Lectures 16-20}
+\rule{\textwidth}{1pt}
+\subsection{Problem 1}
+\begin{itemize}
+\item[1. ] Calculate
+
+\end{itemize}
+\[
+\int_{-1}^1 \log|x - z| x \dx.
+\]
+\begin{itemize}
+\item[2. ] Calculate
+
+\end{itemize}
+\[
+\int_{-1}^1 \log|x - z| \sqrt{1-x^2} \dx.
+\]
+Hint: Use
+
+\[
+{\D \over \dx}\br[x \sqrt{1-x^2} + \asin x] = 2 \sqrt{1-x^2}
+\]
+and the fact that
+
+\[
+{\pi \over 2} - \asin x = \acos x.
+\]
+\begin{itemize}
+\item[3. ] Solve the logarithmic singular integral equation:
+
+\end{itemize}
+\[
+\int_{-1}^1 \log|x-t| u(t)  \dt = {1 \over x^2 + 1}.
+\]
+You may express your solution in terms of the constant
+
+\[
+C = \int_{-1}^1 \log | t| u(t) \dt.
+\]
+\rule{\textwidth}{1pt}
+\subsection{Problem 2}
+Consider the problem of the potential field generated by a metal sheet on $[-1,1]$ with a point source with positive unit charge located at $(x,y) = (0,1)$, or in complex coordinates $z = x + \I y$, at $z = \I$.
+
+\begin{itemize}
+\item[1. ] Express the problem as a solution $v(x,y)$ to Laplace's equation off $[-1,1]$. You can assume that the metal sheet has no net charge, so that the field at infinity is given by $v(x,y) = \log\abs{z - \I} + o(1)$ where $z = x + \I y$.
+
+
+\item[2. ] Reduce the Laplace's equation to a singular integral equation of the form:
+
+\end{itemize}
+\[
+\int_{-1}^1 u(t) \log |x-t| \dt = f(t)
+\]
+where $u$ is a new unknown. What is $f(t)$ and what is the relationship between $v$ and $\int_{-1}^1 u(x) \log|z -x| \dx$?
+
+\begin{itemize}
+\item[3. ] Solve the singular integral equation for $u$.
+
+
+\item[4. ] What is $v(x,y)$?
+
+\end{itemize}
+\rule{\textwidth}{1pt}
+\subsection{Problem 3}
+This problem set considers the Laguerre polynomials
+
+\[
+L_n^{(\alpha)}(x) = {(-1)^n \over n! } x^n + O(x^{n-1})
+\]
+where $\alpha > -1$, which are orthogonal with respect to
+
+\[
+\ip<f,g>_\alpha = \int_0^\infty f(x) g(x) x^\alpha \E^{-x}\dx
+\]
+We also use the notation $L_n(x) = L_n^{(0)}(x)$.
+
+\begin{itemize}
+\item[1. ] Show that the Rodrigues formula holds:
+
+\end{itemize}
+\[
+L_n^{(\alpha)}(x) = {x^{-\alpha} \E^x \over n!} {\D^n \over \dx^n}\br[x^{\alpha+n}\E^{-x}].
+\]
+\begin{itemize}
+\item[2. ] Show that the derivatives form a hierarchy: we have
+
+\end{itemize}
+
+\begin{align*}
+{\D L_n^{(\alpha)} \over \dx} & = -L_{n-1}^{(\alpha+1)}(x), \\
+{\D \over \dx}\br[x^{\alpha+1} \E^{-x} L_n^{(\alpha+1)}(x) ]  &= (n+1)x^{\alpha} \E^{-x}L_{n+1}^{(\alpha)}(x), \\
+x L_n^{(\alpha+1)}(x) &= -(n+1)L_{n+1}^{(\alpha)}(x) + (n+\alpha+1)L_n^{(\alpha)}(x), \\
+L_n^{(\alpha)}(x) &= L_n^{(\alpha+1)}(x) - L_{n-1}^{(\alpha +1)}(x).
+\end{align*}
+\begin{itemize}
+\item[3. ] Combine the results from Problem 1.2 to determine the three-term recurrence relationship and the  top $5 \times 5$ block of the Jacobi operator.
+
+\end{itemize}
+\rule{\textwidth}{1pt}
+\subsection{Problem 4}
+\begin{itemize}
+\item[1. ] Represent the ordinary differential operator
+
+\end{itemize}
+\[
+u'(x) - x u(x)  \qqfor x \geq 0
+\]
+as an operator on the coefficients of $u$ in a weighted Laguerre expansion:
+
+\[
+u(x) = \sum_{k=0}^\infty u_k \E^{-x/2} L_k(x) = \E^{-x/2} \bvect[L_0(x),L_1(x),\dots]\Vectt[u_0,u_1,\dots],
+\]
+where the range of the operator is specified in $\E^{-x/2} \bvect[L_0^{(1)}(x),L_1^{(1)}(x),\dots]$.
+
+\begin{itemize}
+\item[2. ] Show that the Laguerre polynomials are eigenfunctions of a Sturm\ensuremath{\endash}Liouville problem, that is, find  $\lambda_n^{(\alpha)}$ so that
+
+\end{itemize}
+\[
+{\E^x \over x^\alpha} {\D \over \dx} \br[x^{\alpha+1} \E^{-x} {\D L_n^{(\alpha)} \over \dx}] = \lambda_n^{(\alpha)} L_n^{(\alpha)}(x)
+\]
+Re-express this as an ODE with polynomial coefficients.
+
+\rule{\textwidth}{1pt}
+
+
+\end{document}
