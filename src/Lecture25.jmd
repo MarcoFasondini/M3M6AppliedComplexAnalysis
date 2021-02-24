@@ -65,7 +65,7 @@ $$
 **Remark** We don't need $f$ to be analytic at all!  Decay in $f$ gives analyticity.
 
 In the case of $\sech x$, we get exponential decay in both directions:
-that is $\sech x \E^{|\gamma| x}$ is absolutely integrable for $\gamma < 1$.
+that is $\sech x \E^{\gamma x}$ is absolutely integrable for $\vert \gamma \vert < 1$.
 
 Another example is $\E^{-x^2/2}$, which is absolutely integrable for any $\gamma$. Therefore, it's Fourier transform is in fact entire:
 $$
@@ -132,7 +132,7 @@ Because it is identically zero on the negative real axis, we immediately get the
 **Corollary (analyticity of Half-Fourier transform)**  Suppose $f(x)$ is bounded for $x \geq 0$.
 Then $\widehat{\fR}(z)$ is analytic in the lower half plane
 $$
-\H_+ = \{ z : \Im z < 0 \}.
+\H_- = \{ z : \Im z < 0 \}.
 $$
 
 More generally, $f$ can even have exponential decay: if $f(x) \E^{\gamma x}$ is bounded
@@ -194,9 +194,9 @@ Now consider the Laplace transform
 $$
 \check f(z) = \int_0^\infty f(t) \E^{-z t} \dt
 $$
-but this is just the half Fourier transform evaluated on the negative imaginary axis!
+but this is just the half Fourier transform rotated by $+\pi/2$:
 $$
-\check f(z) = \widehat\fR (-\I z)
+\check f(\I z) = \widehat\fR (z)
 $$
 Thus if $f(x) \E^{\gamma x}$ is square integrable, then $\check f(z)$ is well-defined for $\Re z \geq \gamma$.
 
@@ -282,9 +282,9 @@ $$
 $$
 Without loss of generality, the contour of integration is
 $$
-(\infty,-1) \cup [-1, z)
+(-\infty,-1) \cup [-1, z)
 $$
-that is, a straight line to $-1$ and a straightline from $-1$ to $z$.
+that is, a straight line to $-1$ and a straight line from $-1$ to $z$.
 Thus we have a branch cut on $[0,\infty)$ which has the jump
 $$
 {\rm Ei}^+(x) - {\rm Ei}^-(x) = -\oint {\E^\zeta \over \zeta} \D \zeta = -2 \pi \I
@@ -311,7 +311,7 @@ $$
 \CC[ \E^{-s \diamond}](z) = \phi(s z) = - {\E^{-s z} {\rm Ei}(s z)  \over 2 \pi \I}
 $$
 
-Let's make sure I didn't make a mistake. Here we first define Ei:
+Let's make sure we didn't make a mistake. Here we first define Ei:
 ```julia
 const ei₋₁ = let ζ = Fun(-50 .. -1)
     sum(exp(ζ)/ζ)

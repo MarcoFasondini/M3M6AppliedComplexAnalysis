@@ -24,10 +24,8 @@ Before discussing problems on the half line, we consider problems on the whole l
 $$
 \lambda u(x) + \int_{-\infty}^\infty K(x-t)u(t) \dt = f(x)\qqfor -\infty < x < \infty.
 $$
-Outline:
 
-
-Recall the Fourier transform of a function (using $s$ so I don't get confused with $K$):
+Recall the Fourier transform of a function:
 $$
     {\hat{K}}(s) = {\cal F} K (s) =  \int_{-\infty}^\infty K(t) \E^{-\I s t} \dt
 $$
@@ -60,7 +58,7 @@ $$
 
 ### Example:
 
-Consider the kernel $K(x) = \E^{-\gamma |x|}$. Then we have
+Consider the kernel $K(x) = \E^{-\gamma |x|}$, $\gamma > 0$. Then we have
 $$
 \begin{align*}
 \hat K(s) &= \int_{-\infty}^\infty K(t) \E^{-\I s t} \dt = \int_{-\infty}^0 \E^{( \gamma - \I s ) t} \dt  + \int_0^\infty \E^{(-\gamma - \I s ) t} = {1 \over  \gamma - \I s} - {1 \over -\gamma - \I s } \\
@@ -104,7 +102,8 @@ a = 2.0
 f = Fun(x -> 1/(x^2 + a^2), Γ)
 fh = s -> fourier(f, -s)
 fh(0) - π/a
-
+```
+```julia
 fh(2.0) - (π*exp(-2.0*a)/a), fh(-2.0) - (π*exp(-2.0*a)/a)
 ```
 
@@ -186,12 +185,12 @@ $$
                             \widehat{u_{\rm R}}(z) & \Im z < 0
                             \end{cases}
 $$
-Then our integral transformed integral equation becomes:
+Then our transformed integral equation becomes:
 $$
 \underbrace{\Phi_+(s)}_{\widehat{p_{\rm L}}(s)} - \underbrace{g(s)}_{\lambda + \widehat K(s)} \underbrace{\Phi_-(s)}_{\widehat{u_{\rm R}}(s)} = \underbrace{h(s)}_{-\widehat{f_{\rm R}}(s) } \qqand \Phi(\infty) = 0
 $$
 
-Here there is one unknown $\Phi(z)$, and we claim that in certain conditions this has one—and only—one solution. Thus we wish to:
+Here there is one unknown $\Phi(z)$, and we claim that under certain conditions this has one—and only—one solution. Thus we wish to:
 
 1. Find $\Phi(z)$
 2. Recover $u(x)$ via the inverse Fourier transform ${\cal F}^{-1} \Phi_-$
@@ -207,8 +206,8 @@ $$
 The Wiener–Hopf method consists of the following steps:
 
 1. Calculate Fourier transforms $\widehat K(s)$ and $\widehat{f_{\rm R}}(s)$ to reduce to RH problem
-$\Phi_+(s) -g(s) \Phi_-(s) = h(s)$ with $\lim \Phi(z) = 0$
-2. Find homogenous solution $\kappa_+(s) = g(s) \kappa_-(s)$ with $\lim \kappa(z) = 1$
+$\Phi_+(s) -g(s) \Phi_-(s) = h(s)$ with $\lim_{z \to \infty} \Phi(z) = 0$
+2. Find homogeneous solution $\kappa_+(s) = g(s) \kappa_-(s)$ with $\lim_{z \to \infty} \kappa(z) = 1$
 3. Solve Cauchy transform problem $Y_+(s) - Y_-(s) = {h(s) \over \kappa_+(s)}$
 4. Find $u(x)$ by inverting Fourier transform $\widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s)$
 
@@ -233,7 +232,7 @@ As predicted, $\widehat{\fR}(s)$ is analytic in the lower half-plane.
 We thus have the RH problem:
 $$
 \underbrace{\Phi_+(s)}_{\widehat{p_{\rm L}}(s)} - \underbrace{g(s)}_{1 + \widehat K(s)}
-\underbrace{\Phi_-(s)}_{\widehat{u_{\rm R}}(s)} = \underbrace{h(s)}_{-\widehat{\fR}(s)} \qqand \lim\Phi(z) = 0
+\underbrace{\Phi_-(s)}_{\widehat{u_{\rm R}}(s)} = \underbrace{h(s)}_{-\widehat{\fR}(s)} \qqand \lim_{z \to \infty}\Phi(z) = 0
 $$
 where
 $$
@@ -241,7 +240,7 @@ p(x) = \int_{-\infty}^\infty K(x-t)u_{\rm R}(t) \dt
 $$
 is unknown, or in our case
 $$
-\Phi_+(s) - {3 + s^2 \over 1 + s^2} \Phi_-(s) = {\I \over s - \I} \qqand \lim\Phi(z) = 0
+\Phi_+(s) - {3 + s^2 \over 1 + s^2} \Phi_-(s) = {\I \over s - \I} \qqand \lim_{z \to \infty}\Phi(z) = 0
 $$
 
 Here we confirm our calculations are correct for the Fourier transforms:
@@ -255,7 +254,7 @@ fourier(f, -2.0), im/(im-2.0)
 
 ## Step 2: Find homogeneous solution
 
-Last lecture we employed the "guess and check" kernel factorization method to find
+In a previous lecture we employed the "guess and check" kernel factorization method to find
 $$
 g(s) = {3 + s^2 \over 1 + s^2} = \underbrace{s + \I \sqrt{3} \over s + \I}_{\kappa_+(s)}
 \underbrace{s - \I \sqrt{3} \over s-\I }_{\kappa_-(s)^{-1}}
@@ -268,8 +267,8 @@ $$
 $$
 Always verify this solution satisfies the right conditions:
 
-1. The function $\kappa(z)$ is analytic off $\R$, since the pole of ${z + \I \sqrt{3} \over z + \I}$ is in the lower-half plane and the pole of ${z - \I  \over z - \I \sqrt{3}} $ is in the upper-half plane
-2. $\lim \kappa(z) = 1$ by L'Hopital's rule or similar.
+1. The function $\kappa(z)$ is analytic off $\R$, since the pole of ${z + \I \sqrt{3} \over z + \I}$ is in the lower-half plane and the pole of ${z - \I  \over z - \I \sqrt{3}}$ is in the upper-half plane
+2. $\lim_{z \to \infty} \kappa(z) = 1$ by L'Hospital's rule or similar.
 3. It has the right jump:
 $$
 \kappa_+(s) = {s + \I \sqrt{3} \over s + \I} = {3 + s^2 \over 1 + s^2}{s - \I  \over s - \I \sqrt{3}} = g(s)\kappa_-(s)
@@ -294,7 +293,7 @@ hence we need to solve
 $$
 Y_+(s) - Y_-(s) = {h(s) \over \kappa_+(s)} = {\I \over s- \I} {s + \I \over s+ \I \sqrt{3}}
 $$
-As in last lecture, we found:
+As in a previous lecture, we found:
 $$
 Y(z) = \begin{cases}
 {-\I \over 1+\sqrt 3} {1-\sqrt 3 \over z+ \I \sqrt{3}} & \Im z > 0 \\
@@ -337,13 +336,13 @@ In particular, we have
 $$
 \widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s) =  {-2 \I \over (1+\sqrt{3})(s-\I \sqrt 3)}
 $$
-This is analytic in the lower half plane, and for $x > 0$ we can use Jordan's lemma hence use
-Residue calculus in the upper-half plane:
+This is analytic in the lower half-plane, and for $x > 0$ we can use Jordan's lemma hence use
+Residue calculus in the upper half-plane:
 $$
 \begin{align*}
-u(x) = {1 \over 2 \pi} \int_{-\infty}^\infty \widehat{u_{\rm R}}(s) \E^{\I s x} \ds  \ccr
-= {-\I \over \pi(1+\sqrt{3})} \int_{-\infty}^\infty {1 \over s-\I \sqrt 3} \E^{\I s x} \ds  \ccr
-= {2   \over (1+\sqrt{3})} \Res_{z=\I \sqrt 3} {1 \over z-\I \sqrt 3} \E^{\I z x}  =
+u(x) &= {1 \over 2 \pi} \int_{-\infty}^\infty \widehat{u_{\rm R}}(s) \E^{\I s x} \ds  \\
+&= {-\I \over \pi(1+\sqrt{3})} \int_{-\infty}^\infty {1 \over s-\I \sqrt 3} \E^{\I s x} \ds  \\
+&= {2   \over (1+\sqrt{3})} \Res_{z=\I \sqrt 3} {1 \over z-\I \sqrt 3} \E^{\I z x}  =
 {2 \E^{-\sqrt{3}x}    \over 1+\sqrt{3}}
 \end{align*}
 $$

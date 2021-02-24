@@ -32,7 +32,7 @@ $$
 
 
 
-We tackle the solution an RH problem similar to a differential equation: first find the homogeneous solution
+We tackle the solution to an RH problem similar to a differential equation: first find the homogeneous solution
 then use that to reduce inhomogeneous problems to something similar:
 1. Homogeneous problems: $f = 0$
 2. Inhomogeneous problems: $f \neq 0$
@@ -145,7 +145,7 @@ This function is indeed analytic off the real line.
 
 
 
-*Method 2 (evaluate explicit form)* This is real valued and positive, hence the winding number of its image is zero.  We have
+*Method 2 (evaluate explicit formula)* This is real valued and positive, hence the winding number of its image is zero.  We have
 $$
 \log g(x) = \log({x+\sqrt 3\I \over x+\I}{x-\sqrt 3\I \over x-\I})
 $$
@@ -153,7 +153,7 @@ Because they are complex conjugates, we know $\log a \bar a = \log a + \log \bar
 $$
 \log g(x) = \log{x+\sqrt 3\I \over x+\I} + \log {x-\sqrt 3\I \over x-\I}
 $$
-Now we note that $\log{x+3\I \over x+\I}$ is analytic in the upper-half plane, therefore it's Cauchy transform, by Plemelj, is
+Now we note that $\log{x+\sqrt 3\I \over x+\I}$ is analytic in the upper-half plane, therefore its Cauchy transform, by Plemelj, is
 $$
 \CC\br[\log{x+\sqrt 3\I \over x+\I}](z) = \begin{cases}
         \log{z+\sqrt 3\I \over z+\I} & \Im z < 0 \\

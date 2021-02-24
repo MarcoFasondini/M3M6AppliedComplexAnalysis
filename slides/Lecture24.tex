@@ -314,17 +314,14 @@ L[a(z)]^{-1} = L[a(z)^{-1}]
 \]
 \subsubsection{Example: bi-infinite discrete Laplacian}
 The bi-infinite discrete Laplacian arises in simple models of crystal structure, though we can also think of it as a finite difference discretisation of the Laplacian on all of $\R$. That is, consider the bi-infinite continuous Helmholtz equation
-
 \[
 u''(x) - k^2 u(x) = f(x)
 \]
 for $x \in \R$. If we represent the second derivative by its finite-difference approximation at the grid $x_k = k h$,
-
 \[
 {u(x_{k-1}) -2 u(x_k) + u(x_{k+1}) \over h^2}
 \]
 That is, we have the discretisation
-
 \[
 \Delta_h := {1 \over h^2}L[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{\ddots & \ddots \\
                 \ddots & -2 & 1 \\
@@ -333,43 +330,37 @@ That is, we have the discretisation
                 &&&\ddots & \ddots}
 \]
 which gives us the system:
-
 \[
 (\Delta_h - k^2 I) \vc u = \vc f
 \]
+\newpage
 Noting that
-
 \[
 \Delta_h - k^2 I  = L[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
 \]
-we know that we can invert this exactly as $L[a(z)^{-1}]$. To determite its Laurent series we do partial fraction expansion
-
+we know that we can invert this exactly as $L[a(z)^{-1}]$. To determine its Laurent series we do partial fraction expansion
 \[
 a(z)^{-1} = \br[{(z-z_-) (z - z_+) \over  z h^2} ]^{-1} =
 {z_- h^2 \over (z-z_-) (z_--z_+)}  + {z_+ h^2 \over (z-z_+) (z_+-z_-)}
 \]
 where
-
 \[
 z_\pm = 1 + {h^2k^2 \over 2} \pm {h k \over 2} \sqrt{h^2 k^2+4}.
 \]
 To find the Laurent series we use $|z_-| < 1$ so that
-
 \[
 {1 \over z - z_-} = {1 \over z} + {z_- \over z^2} + {z_-^2 \over z^3} + \cdots
 \]
 and $|z_+| > 1$ so that
-
 \[
 {1 \over z - z_+} = -{1 \over z_+} - {z \over z_+^2} - {z^2 \over z_+^3} + \cdots,
 \]
 hence
-
 \[
 a(z)^{-1} = {h^2 \over z_- - z_+} \left(\sum_{k=-\infty}^{-1} z_-^{-k} z^k + \sum_{k=0}^\infty z_+^{-k} z^k\right)
 \]
 The entries of the Laurent series then give the entries of $L[a(z)^{-1}]$.
-
+\newpage
 \subsection{Toeplitz operators}
 A \emph{Toeplitz operator} is an infinite-dimensional matrix with constant diagonals. As in a Laurent operator, we associate it with a Laurent series on the unit circle called the \emph{symbol}:
 
@@ -416,7 +407,9 @@ L[a(z)] = \sopmatrix{
 \times & \times \\ \times & T[a(z)]
 }
 \]
-(Here $\times$ means we don't use those entries.) In the special case where
+(Here $\times$ means we don't use those entries.) 
+\newpage
+In the special case where
 
 \[
 a(z) = \sum_{k=0}^\infty a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
@@ -481,6 +474,7 @@ that is $a(z)$ is analytic outside and $b(z)$ is analytic inside the unit circle
 \times & \times  \\ \times & T[a(z)] T[b(z)]
 }
 \end{align*}
+\newpage
 \subsubsection{Wiener-Hopf factorisation}
 This presents a procedure for inverting Toeplitz operators: find $\phi_+(z)$ analytic inside the unit circle, and $\phi_-(z)$ is analytic outside with $\phi_-(\infty) = 1$ satisfying
 
@@ -506,19 +500,15 @@ though when $a(z)$ is rational it is more feasible to compute the roots and fact
 
 \subsubsection{Example: Finite difference on half-line}
 We consider a semi-infinite discrete Laplacian. This arises naturally from a finite-difference discretisation with zero Dirichlet conditions, e.g., for $x > 0$ we have
-
 \[
 u''(x)  - k^2 u(x) = f(x) \qqand u(0) = 0
 \]
 We discretise at $x_k = h k$ for $k = 0,1,\ldots$. The finite-difference gives us
-
-
 \begin{align*}
 u''(x_1) \approx {u(x_0) - 2 u(x_1) + u(x_2) \over h^2} &=  {-2 u(x_1) + u(x_2) \over h^2} \cr
 u''(x_k) \approx {u(x_{k-1}) - 2 u(x_k) + u(x_{k+1}) \over h^2}
 \end{align*}
 That is, we have the discretisation
-
 \[
 \Delta_h := {1 \over h^2}T[z-2+z^{-1}] = {1 \over h^2} \sopmatrix{
                  -2 & 1 \\
@@ -527,44 +517,36 @@ That is, we have the discretisation
                 &&\ddots & \ddots}
 \]
 which gives us the system:
-
 \[
 (\Delta_h - k^2 I) \vc u = \vc f
 \]
 where
-
 \[
 \vc u = \Vectt[u(x_1),u(x_2),\dots],\qquad \vc f = \Vectt[f(x_1),f(x_2),\dots].
 \]
 Noting that
-
 \[
 \Delta_h - k^2 I  = T[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
 \]
 we know that we can invert this exactly by finding the Wiener\ensuremath{\endash}Hopf factorisation of $a(z)$, namely,
-
 \[
 a(z) = \underbrace{(1-z_-/z)}_{\phi_-(z)} \underbrace{h^{-1} (z-z_+)}_{\phi_+(z)}
 \]
 where $z_\pm$ were defined above. Therefore
-
 \[
 T[a(z)] = T[\phi_-(z)] T[\phi_+(z)]
 \]
 This implies that
-
 \[
 T[a(z)]^{-1} = T[\phi_+(z)]^{-1} T[\phi_-(z)]^{-1} = T[\phi_+(z)^{-1}] T[\phi_-(z)^{-1}]
 \]
 We can use Geometric series to compute
-
-
 \begin{align*}
 \phi_+(z)^{-1} &= {h \over z - z_+} = -{h \over z_+} -{h z \over z_+^2} - {h z^2 \over z_+^3} - \cdots \ccr
 \phi_-(z)^{-1} = {1 \over 1-z_-/z} = 1 + {z_- \over z} + {z_-^2 \over z^2} + \cdots
 \end{align*}
 The Laurent coefficients tell us the entries of $T[\phi_\pm(z)^{-1}]$.
-
+\newpage
 \textbf{Demonstration} We want to factorise and invert $T[a(z)]$:
 
 
@@ -575,7 +557,7 @@ The Laurent coefficients tell us the entries of $T[\phi_\pm(z)^{-1}]$.
 (*@\HLJLn{\ensuremath{\Delta}}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{([}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{;}@*) (*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)],}@*) (*@\HLJLp{[}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{;}@*) (*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)])}@*)
 (*@\HLJLn{T}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{\ensuremath{\Delta}}@*) (*@\HLJLoB{-}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLn{I}@*)
 \end{lstlisting}
-
+{\Large
 \begin{lstlisting}
 10(*@\ensuremath{\times}@*(10 Array(*@{{\{}}@*)Float64,2(*@{{\}}}@*):
  -3.0   1.0   0.0   0.0   0.0   0.0   0.0   0.0   0.0   0.0
@@ -588,7 +570,7 @@ The Laurent coefficients tell us the entries of $T[\phi_\pm(z)^{-1}]$.
   0.0   0.0   0.0   0.0   0.0   0.0   1.0  -3.0   1.0   0.0
   0.0   0.0   0.0   0.0   0.0   0.0   0.0   1.0  -3.0   1.0
   0.0   0.0   0.0   0.0   0.0   0.0   0.0   0.0   1.0  -3.0
-\end{lstlisting}
+\end{lstlisting}}
 
 
 We can find the UL decomposition as follows
@@ -597,46 +579,45 @@ We can find the UL decomposition as follows
 \begin{lstlisting}
 (*@\HLJLn{z{\_}p}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*) (*@\HLJLoB{+}@*) (*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{+}@*) (*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{k}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{4}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{z{\_}m}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{1}@*) (*@\HLJLoB{+}@*) (*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{k}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{*}@*) (*@\HLJLnf{sqrt}@*)(*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{4}@*)(*@\HLJLp{)}@*)
-
 (*@\HLJLn{z}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.1}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)
 (*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z{\_}p}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{inv}@*)(*@\HLJLp{(}@*)(*@\HLJLn{h}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{*}@*) (*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z{\_}m}@*)(*@\HLJLp{))}@*)
 (*@\HLJLn{z}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{2}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{+}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{-}@*) (*@\HLJLn{k}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)
-
 (*@\HLJLn{U}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{([}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)],}@*) (*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{z{\_}m}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)])}@*)
 \end{lstlisting}
-
+{\Large
 \begin{lstlisting}
-10(*@\ensuremath{\times}@*(10 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
- 1.0  -0.381966   0.0        0.0       (*@\ensuremath{\ldots}@*(   0.0        0.0        0.0
- 0.0   1.0       -0.381966   0.0           0.0        0.0        0.0
- 0.0   0.0        1.0       -0.381966      0.0        0.0        0.0
- 0.0   0.0        0.0        1.0           0.0        0.0        0.0
- 0.0   0.0        0.0        0.0           0.0        0.0        0.0
- 0.0   0.0        0.0        0.0       (*@\ensuremath{\ldots}@*(   0.0        0.0        0.0
- 0.0   0.0        0.0        0.0          -0.381966   0.0        0.0
- 0.0   0.0        0.0        0.0           1.0       -0.381966   0.0
+10(*@\ensuremath{\times}@*)10 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+ 1.0  -0.381966   0.0        0.0       (*@\ensuremath{\dots}@*)   0.0        0.0        0.0     
+ 0.0   1.0       -0.381966   0.0           0.0        0.0        0.0     
+ 0.0   0.0        1.0       -0.381966      0.0        0.0        0.0     
+ 0.0   0.0        0.0        1.0           0.0        0.0        0.0     
+ 0.0   0.0        0.0        0.0           0.0        0.0        0.0     
+ 0.0   0.0        0.0        0.0       (*@\ensuremath{\dots}@*)   0.0        0.0        0.0     
+ 0.0   0.0        0.0        0.0          -0.381966   0.0        0.0     
+ 0.0   0.0        0.0        0.0           1.0       -0.381966   0.0     
  0.0   0.0        0.0        0.0           0.0        1.0       -0.381966
  0.0   0.0        0.0        0.0           0.0        0.0        1.0
-\end{lstlisting}
+\end{lstlisting}}
 
 
 \begin{lstlisting}
 (*@\HLJLn{L}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{([}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z{\_}p}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLp{;}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)],}@*) (*@\HLJLp{[}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z{\_}p}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{h}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)])}@*)
 \end{lstlisting}
 
+{\Large
 \begin{lstlisting}
-10(*@\ensuremath{\times}@*(10 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
- -2.61803   0.0       0.0       0.0      (*@\ensuremath{\ldots}@*(   0.0       0.0       0.0
-  1.0      -2.61803   0.0       0.0          0.0       0.0       0.0
-  0.0       1.0      -2.61803   0.0          0.0       0.0       0.0
-  0.0       0.0       1.0      -2.61803      0.0       0.0       0.0
-  0.0       0.0       0.0       1.0          0.0       0.0       0.0
-  0.0       0.0       0.0       0.0      (*@\ensuremath{\ldots}@*(   0.0       0.0       0.0
-  0.0       0.0       0.0       0.0          0.0       0.0       0.0
-  0.0       0.0       0.0       0.0         -2.61803   0.0       0.0
-  0.0       0.0       0.0       0.0          1.0      -2.61803   0.0
+10(*@\ensuremath{\times}@*)10 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+ -2.61803   0.0       0.0       0.0      (*@\ensuremath{\dots}@*)   0.0       0.0       0.0    
+  1.0      -2.61803   0.0       0.0          0.0       0.0       0.0    
+  0.0       1.0      -2.61803   0.0          0.0       0.0       0.0    
+  0.0       0.0       1.0      -2.61803      0.0       0.0       0.0    
+  0.0       0.0       0.0       1.0          0.0       0.0       0.0    
+  0.0       0.0       0.0       0.0      (*@\ensuremath{\dots}@*)   0.0       0.0       0.0    
+  0.0       0.0       0.0       0.0          0.0       0.0       0.0    
+  0.0       0.0       0.0       0.0         -2.61803   0.0       0.0    
+  0.0       0.0       0.0       0.0          1.0      -2.61803   0.0    
   0.0       0.0       0.0       0.0          0.0       1.0      -2.61803
-\end{lstlisting}
+\end{lstlisting}}
 
 
 \begin{lstlisting}
@@ -659,29 +640,28 @@ We can find the UL decomposition as follows
 
 
 This equals \texttt{T}, apart from the bottom right entry, which is off as these are finite-dimensional matrices.
-
+\newpage
 We can then invert \texttt{U} and \texttt{L}, to construct the inverse of \texttt{T}:
-
 
 \begin{lstlisting}
 (*@\HLJLn{Ui}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{([}@*)(*@\HLJLni{1}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)],}@*) (*@\HLJLn{z{\_}m}@*)(*@\HLJLoB{.{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{))}@*)
 (*@\HLJLn{Li}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{h}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z{\_}p}@*)(*@\HLJLoB{.{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLn{n}@*)(*@\HLJLp{)),}@*) (*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{z{\_}p}@*)(*@\HLJLp{;}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)])}@*)
 (*@\HLJLn{Ti}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{Li}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{Ui}@*)
 \end{lstlisting}
-
+{\Large
 \begin{lstlisting}
-10(*@\ensuremath{\times}@*(10 Array(*@{{\{}}@*)Float64,2(*@{{\}}}@*):
- -0.381966     -0.145898     -0.0557281    (*@\ensuremath{\ldots}@*(  -0.00017307   -6.6107e-5
+10(*@\ensuremath{\times}@*)10 Array(*@{{\{}}@*)Float64,2(*@{{\}}}@*):
+ -0.381966     -0.145898     -0.0557281    (*@\ensuremath{\dots}@*)  -0.00017307   -6.6107e-5  
  -0.145898     -0.437694     -0.167184        -0.000519211  -0.000198321
  -0.0557281    -0.167184     -0.445825        -0.00138456   -0.000528856
- -0.0212862    -0.0638587    -0.17029         -0.00363448   -0.00138825
- -0.00813062   -0.0243919    -0.065045        -0.00951886   -0.00363588
- -0.00310562   -0.00931686   -0.024845     (*@\ensuremath{\ldots}@*(  -0.0249221    -0.0095194
- -0.00118624   -0.00355872   -0.00948993      -0.0652475    -0.0249223
- -0.000453104  -0.00135931   -0.00362483      -0.17082      -0.0652476
- -0.00017307   -0.000519211  -0.00138456      -0.447214     -0.17082
+ -0.0212862    -0.0638587    -0.17029         -0.00363448   -0.00138825 
+ -0.00813062   -0.0243919    -0.065045        -0.00951886   -0.00363588 
+ -0.00310562   -0.00931686   -0.024845     (*@\ensuremath{\dots}@*)  -0.0249221    -0.0095194  
+ -0.00118624   -0.00355872   -0.00948993      -0.0652475    -0.0249223  
+ -0.000453104  -0.00135931   -0.00362483      -0.17082      -0.0652476  
+ -0.00017307   -0.000519211  -0.00138456      -0.447214     -0.17082    
  -6.6107e-5    -0.000198321  -0.000528856     -0.17082      -0.447214
-\end{lstlisting}
+\end{lstlisting}}
 
 
 This is an inverse (apart from truncation error)

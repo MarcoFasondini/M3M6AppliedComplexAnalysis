@@ -73,3 +73,4 @@ Examples of previous projects:
 20. [Orthogonal polynomials and differential equations](notes/Lecture20.pdf)
 21. [Orthogonal polynomials and singular integrals](notes/Lecture21.pdf)
 22. [Hermite polynomials](notes/Lecture22.pdf)
+23. [Riemann–Hilbert problems](notes/Lecture23.pdf)

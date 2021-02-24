@@ -78,7 +78,7 @@ Noting that
 $$
 \Delta_h - k^2 I  = L[\underbrace{z/h^2  - k^2 - 2/h^2 + z^{-1}/h^2}_{a(z)}]
 $$
-we know that we can invert this exactly as $L[a(z)^{-1}]$. To determite its Laurent series
+we know that we can invert this exactly as $L[a(z)^{-1}]$. To determine its Laurent series
 we do partial fraction expansion
 $$
 a(z)^{-1} = \br[{(z-z_-) (z - z_+) \over  z h^2} ]^{-1} =
