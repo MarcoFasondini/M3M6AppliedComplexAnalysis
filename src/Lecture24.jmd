@@ -86,7 +86,7 @@ a(z)^{-1} = \br[{(z-z_-) (z - z_+) \over  z h^2} ]^{-1} =
 $$
 where
 $$
-z_\pm = 1 + {h^2k^2 \over 2} \pm {h k \over 2} \sqrt{h^2 k^2+4}.
+z_\pm = 1 + {h^2k^2 \over 2} \pm {h \vert k \vert \over 2} \sqrt{h^2 k^2+4}.
 $$
 To find the Laurent series we use $|z_-| < 1$ so that
 $$
@@ -155,7 +155,7 @@ $$
 $$
 a(z) = \sum_{k=0}^\infty a_k z^k \qqand b(z) = \sum_{k=0}^\infty b_k z^k
 $$
-are analytic, $L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are lower-triangular, hence
+are analytic inside the unit circle, $L[a(z)]$, $L[b(z)]$, and $L[a(z) b(z)]$ are lower-triangular, hence
 $$
 \begin{align*}
 \sopmatrix{
@@ -279,7 +279,7 @@ $$
 $$
 we know that we can invert this exactly by finding the Wiener–Hopf factorisation of $a(z)$, namely,
 $$
-a(z) = \underbrace{(1-z_-/z)}_{\phi_-(z)} \underbrace{h^{-1} (z-z_+)}_{\phi_+(z)}
+a(z) = \underbrace{(1-z_-/z)}_{\phi_-(z)} \underbrace{h^{-2} (z-z_+)}_{\phi_+(z)}
 $$
 where $z_\pm$ were defined above. Therefore
 $$
@@ -292,7 +292,7 @@ $$
 We can use Geometric series to compute
 $$
 \begin{align*}
-\phi_+(z)^{-1} &= {h \over z - z_+} = -{h \over z_+} -{h z \over z_+^2} - {h z^2 \over z_+^3} - \cdots \ccr
+\phi_+(z)^{-1} &= {h^2 \over z - z_+} = -{h^2 \over z_+} -{h^2 z \over z_+^2} - {h^2 z^2 \over z_+^3} - \cdots \ccr
 \phi_-(z)^{-1} = {1 \over 1-z_-/z} = 1 + {z_- \over z} + {z_-^2 \over z^2} + \cdots
 \end{align*}
 $$
@@ -312,15 +312,14 @@ We can find the UL decomposition as follows
 ```julia
 z_p = 1 + (h^2 * k^2)/2 + (h*k)/2 * sqrt(h^2*k^2+4)
 z_m = 1 + (h^2 * k^2)/2 - (h*k)/2 * sqrt(h^2*k^2+4)
-
 z = exp(0.1im)
-(1-z_p/z)*(inv(h) * (z-z_m))
-z/h^2 - 2/h^2 + 1/(z*h^2) - k^2
-
+(1-z_m/z)*(inv(h^2) * (z-z_p)), z/h^2 - 2/h^2 + 1/(z*h^2) - k^2
+```
+```julia
 U = Toeplitz([1; zeros(n-1)], [1; -z_m; zeros(n-2)])
 ```
 ```julia
-L = Toeplitz([-z_p/h; 1/h; zeros(n-2)], [-z_p/h; zeros(n-1)])
+L = Toeplitz([-z_p/h^2; 1/h^2; zeros(n-2)], [-z_p/h^2; zeros(n-1)])
 ```
 ```julia
 U*L
@@ -331,7 +330,7 @@ as these are finite-dimensional matrices.
 We can then invert `U` and `L`, to construct the inverse of `T`:
 ```julia
 Ui = Toeplitz([1; zeros(n-1)], z_m.^(0:n-1))
-Li = -h*Toeplitz(z_p.^(-(1:n)), [1/z_p; zeros(n-1)])
+Li = -h^2*Toeplitz(z_p.^(-(1:n)), [1/z_p; zeros(n-1)])
 Ti = Li*Ui
 ```
 This is an inverse (apart from truncation error)
