@@ -209,7 +209,7 @@ The Wiener–Hopf method consists of the following steps:
 $\Phi_+(s) -g(s) \Phi_-(s) = h(s)$ with $\lim_{z \to \infty} \Phi(z) = 0$
 2. Find homogeneous solution $\kappa_+(s) = g(s) \kappa_-(s)$ with $\lim_{z \to \infty} \kappa(z) = 1$
 3. Solve Cauchy transform problem $Y_+(s) - Y_-(s) = {h(s) \over \kappa_+(s)}$
-4. Find $u(x)$ by inverting Fourier transform $\widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s)$
+4. Find $u(x)$ by inverting the Fourier transform $\widehat{u_{\rm R}}(s) = \Phi_-(s) = \kappa_-(s) Y_-(s)$
 
 
 We will demonstrate these four steps using the example $K(x) = \E^{-|x|}$ and $f(x) = \E^{-x}$,

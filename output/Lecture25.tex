@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,15 +242,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Lecture 25: Laplace transforms and half-Fourier transforms}
@@ -318,12 +297,12 @@ This function has exponential decay in both directions:
 (*@\HLJLnf{plot}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{,}@*)(*@\HLJLn{sech}@*)(*@\HLJLoB{.}@*)(*@\HLJLp{(}@*)(*@\HLJLn{xx}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.6\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture25_1_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture25_1_1.pdf}
 
 Now the Fourier transform of $\sech x$ is
 
 \[
-\FF\sech(s) = \int_{-\infty}^\infty \sech t \, \E^{-\I s t} \dt = \pi \sech{\pi s \over 2}
+\FF\sech(z) = \int_{-\infty}^\infty \sech t \, \E^{-\I z t} \dt = \pi \sech{\pi z \over 2}
 \]
 This is calculated via Residue theorem with a bit of work. Note that
 
@@ -337,7 +316,7 @@ is analytic for $-1 < \Im z < 1$.
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{sech}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
-\cent{\includegraphics[width=0.625\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture25_2_1.pdf}}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Lecture25_2_1.pdf}
 
 This is because of the exponential decay.
 
@@ -348,13 +327,12 @@ This is because of the exponential decay.
 \]
 is analytic for $a < \Im z < b$.
 
-\textbf{Proof} Let $z = s + \I \gamma$ and note that $|f(t) \E^{-\I z t}| = |f(t) \E^{\gamma t}|$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
+\textbf{Proof} Let $z = s + \I \gamma$ and note that $|f(t) \E^{-\I z t}| = |f(t)| \E^{\gamma t}$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
 
 \[
 {\D \widehat f \over \dz} = -\I z \hat f(z)
 \]
 \ensuremath{\blacksquare}
-\newpage
 
 \textbf{Remark} We don't need $f$ to be analytic at all!  Decay in $f$ gives analyticity.
 
@@ -365,7 +343,6 @@ Another example is $\E^{-x^2/2}$, which is absolutely integrable for any $\gamma
 \[
 \FF[\E^{-\diamond^2/2}](z) = \sqrt{2\pi} \E^{-{z^2 \over 2}}
 \]
-\newpage
 \subsubsection{Inverse Fourier transform on shifted contours}
 A neglected fact of the Fourier transform is that we can think of $\hat f(z)$ living on any line $(-\infty + \I \gamma, \infty+\I \gamma)$, and in fact we can recover $f$ from the Fourier transform only on this line. This works even if $\hat f(s)$ is not defined on the real-axis, the real-axis is NOT special!
 
@@ -392,53 +369,63 @@ Which shows the result by cancelling out $\E^{\gamma x}$.
 
 \subsection{Half-Fourier transforms}
 Consider now
+
 \[
 \int_0^\infty f(t) \E^{-\I s t} \dt
 \]
 This is in fact the Fourier transform of $f$ extended to the negative real axis by zero:
+
 \[
 \int_{-\infty}^\infty \begin{cases}f(t) & t \geq 0 \\ 0 & \hbox{otherwise} \end{cases} \E^{-\I s t} \dt
 \]
 To make sure we remember the domain of definition, we introduce the notation:
+
 \[
 f_{\rm R}(x) = \begin{cases}f(t) & t \geq 0 \\ 0 & \hbox{otherwise} \end{cases}
 \]
 and
+
 \[
 f_{\rm L}(x) = \begin{cases}f(t) & t < 0 \\ 0 & \hbox{otherwise} \end{cases}
 \]
 Therefore
+
 \[
 \widehat\fR(s) = \int_0^\infty f(t) \E^{-\I s t} \dt \qqand \widehat\fL(s) = \int_{-\infty}^0 f(t) \E^{-\I s t} \dt
 \]
 Because it is identically zero on the negative real axis, we immediately get the following:
-\newpage
-\textbf{Corollary (analyticity of Half-Fourier transform)}  Suppose $f(x)$ is bounded for $x \geq 0$. Then $\widehat{\fR}(z)$ is analytic in the lower half-plane
+
+\textbf{Corollary (analyticity of Half-Fourier transform)}  Suppose $f(x)$ is bounded for $x \geq 0$. Then $\widehat{\fR}(z)$ is analytic in the lower half plane
+
 \[
 \H_- = \{ z : \Im z < 0 \}.
 \]
 More generally, $f$ can even have exponential decay: if $f(x) \E^{\gamma x}$ is bounded then $\widehat\fR(z)$ is analytic in $\{z : \Im z < \gamma \}$.  As before, the same inversion formula follows:
 
 \textbf{Corollary  (inverting Half-Fourier transform)}  Suppose  $f(x) \E^{\gamma x}$ is square integrable for $x \geq 0$. Then
+
 \[
 f(x) = {1 \over 2 \pi} \int_{-\infty + \I M}^{\infty + \I M} \widehat{\fR}(\zeta) \E^{\I x \zeta} \D \zeta
 \]
 for any choice of $-\infty < M \leq \gamma$.
-\newpage
+
 \textbf{Example} Consider $f(x)  = x \E^{-x}$ for $0 \leq x < \infty$.  Note that $f(x) \E^{\gamma x}$ is square integrable for any $\gamma < 1$, and we have
+
 \[
-\widehat\fR(z) = \int_0^\infty t \E^{-t -\I z t} \dt = {1 \over (1+\I z)^2} = -{1 \over (z - \I)^2} 
+\widehat\fR(z) = \int_0^\infty t \E^{-t -\I z t} \dt = {1 \over (1+\I z)^2} = -{1 \over (z - \I)^2}
 \]
 is analytic for $\Im z < 1$. Thus for any $M < 1$ we have
+
+
 \begin{align*}
 f(x) &= {1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M}\widehat\fR(\zeta) \E^{\I x \zeta}\D \zeta \\
      &={1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M}{1 \over (1+\I \zeta)^2} \E^{\I x \zeta}\D \zeta
 \end{align*}
 Since $x > 0$, we can use Residue calculus in the upper-half plane, which confirms the result:
+
 \[
 \Res_{z = \I} {\E^{\I x z} \over  (1+\I z)^2}  = \Res_{z = \I} {\E^{- x} + \I x \E^{-x} (z - \I) + O(z-\I)^2 \over  -(z-\I)^2}  = -\I x \E^{-x}.
 \]
-\newpage
 \textbf{Example} Consider $f(x) = x$.  This function is not square-integrable, but we have $f(x) \E^{\gamma x}$ is square integrable for any $\gamma < 0$, and we find for $\Im z < 0$
 
 \[
@@ -449,7 +436,6 @@ Thus we can still use the result to say, for any $M < 0$,
 \[
 f(x) =-{1 \over 2 \pi} \int_{-\infty+\I M}^{\infty +\I M} {1 \over \zeta^2} \E^{\I x \zeta}\D \zeta
 \]
-\newpage
 Note that the results have corresponding analogues for $\fL$:
 
 \textbf{Corollary (analyticity of left Half-Fourier transform)} Suppose $f(x) \E^{\gamma x}$  is bounded for $x \leq 0$. Then $\widehat{\fL}(z)$ is analytic for $\{z : \Im z > \gamma \}$.
@@ -460,7 +446,7 @@ Note that the results have corresponding analogues for $\fL$:
 f(x) = {1 \over 2 \pi} \int_{-\infty + \I M}^{\infty + \I M} \widehat{\fL}(\zeta) \E^{\I x \zeta} \D \zeta
 \]
 for any choice of $\gamma \leq M < \infty$.
-\newpage
+
 \subsubsection{Laplace transforms}
 Now consider the Laplace transform
 
@@ -480,7 +466,7 @@ Thus if $f(x) \E^{\gamma x}$ is square integrable, then $\check f(z)$ is well-de
 f(x) = {1 \over 2 \pi \I} \int_{-\I \infty - M}^{\I \infty - M}  \check f(\zeta) \E^{\zeta x} \D \zeta
 \]
 which is of course just the inverse Fourier transform in disguise.
-\newpage
+
 \subsection{Application: solving differential equations on the half-line}
 Consider the following ODE for $x \geq 0$:
 
@@ -493,7 +479,7 @@ with initial conditions $u(0) = u'(0) = 0$. Note that we have by integration-by-
 
 \begin{align*}
 \check{u'}(z) = \int_0^\infty u'(t) \E^{-z t} \dt = u(0) + z \int_0^\infty u(t) \E^{-z t} \dt = u(0) + z \check u(z) \\
-\check{u''}(z) = u'(0) + z \check{u'}(z) = u'(0) + z u(0) + z^2 \check u(0)
+\check{u''}(z) = u'(0) + z \check{u'}(z) = u'(0) + z u(0) + z^2 \check u(z)
 \end{align*}
 Thus taking into account the initial conditions, are equation in Laplace space becomes
 
@@ -503,7 +489,7 @@ Thus taking into account the initial conditions, are equation in Laplace space b
 Hence we have
 
 \[
-\check u(z) = {1 \over 2 \pi \I}\int_{-\I\infty-M}^{\I \infty-M} {\check f(\zeta) \over \zeta^2 + 2\zeta+1} \E^{x \zeta} \D \zeta
+u(x) = {1 \over 2 \pi \I}\int_{-\I\infty-M}^{\I \infty-M} {\check f(\zeta) \over \zeta^2 + 2\zeta+1} \E^{x \zeta} \D \zeta
 \]
 Consider the case $f(x) = x$, so that
 
@@ -518,65 +504,83 @@ u(x) &= \left(\Res_{z = -1} + \Res_{z=0}\right) {\E^{z x} \over z^2 (z +1)^2} \\
 &= \Res_{z = -1}  {\E^{-x} +\E^{-x}(x+2) (z+1) +O(z+1)^2 \over  (z +1)^2} + \Res_{z=0} {1 + (x-2) z +O(z)^2 \over  z^2}  \\
  &= (x+2)\E^{-x} + x-2
  \end{align*}
- \newpage
 \subsection{Laplace transform of rational functions}
 We now consider the question of calculating Laplace transforms (or equivalently, half-Fourier transforms)
+
 \[
 \check f(s) = \int_0^\infty f(t) \E^{-s t} \D t
 \]
 where $f$ is rational. We're going to do something seemingly crazy: we'll first calculate the Cauchy transform
+
 \[
 \CC[f \E^{-s \diamond}](z) = {1 \over 2 \pi \I} \int_0^\infty {f(t) \E^{-s t} \over t- z} \D t
 \]
 so that
+
 \[
 \check f(s) = -2 \pi \I\lim_{z \rightarrow \infty}  z \CC[f \E^{-s \diamond}](z)
 \]
 Note that the exponential decay in the integrand allows us to use Plemelj's lemma: if we find a function $\phi(z)$ such that
+
 \begin{itemize}
 \item[1. ] \[
 \phi(z)
 \]
 is analytic off $[0,\infty)$
+
+
 \item[2. ] \[
 \lim_{z \rightarrow \infty} \phi(z) = 0
 \]
 for any angle of approach
+
+
 \item[3. ] \[
 \phi
 \]
 has weaker than pole singularities at 0
+
+
 \item[4. ] \[
 \phi_+(x) - \phi_-(x) = f(x) \E^{-s x}
 \]
 \end{itemize}
 Then we have calculated the Cauchy transform:
+
 \[
 \phi(z) = \CC[f \E^{-s \diamond}](z).
 \]
 Let's start with $f(x) = 1$ and $s = 1$, that is, what is the Cauchy transform of $\E^{-x}$? Consider the exponential integral:
+
 \[
 {\rm Ei}(z) = \int_{-\infty}^z {\E^\zeta \over \zeta} \D \zeta
 \]
 Without loss of generality, the contour of integration is
+
 \[
 (-\infty,-1) \cup [-1, z)
 \]
-that is, a straight line to $-1$ and a straightline from $-1$ to $z$. Thus we have a branch cut on $[0,\infty)$ which has the jump
+that is, a straight line to $-1$ and a straight line from $-1$ to $z$. Thus we have a branch cut on $[0,\infty)$ which has the jump
+
 \[
 {\rm Ei}^+(x) - {\rm Ei}^-(x) = -\oint {\E^\zeta \over \zeta} \D \zeta = -2 \pi \I
 \]
 where
+
 \[
 {\rm Ei}^\pm(x) = \lim_{\epsilon \rightarrow 0} {\rm Ei}(x\pm\I \epsilon)
 \]
 Consider
+
 \[
 \phi(z) = -{\E^{-z} {\rm Ei}(z) \over 2 \pi \I }
 \]
 \begin{itemize}
 \item[1. ] This is analytic off $[0,\infty)$
+
+
 \item[2. ] Integrating by parts we have decay at $\infty$ in all directions:
+
 \end{itemize}
 \[
 \E^{-z} {\rm Ei}(z) = {1  \over z}  - \int_{-\infty}^z {\E^{\zeta-z} \over \zeta^2} \D \zeta = O(z^{-1})
@@ -586,15 +590,17 @@ Consider
 \phi
 \]
 has a logarithmic singularity at 0
+
+
 \item[4. ] \end{itemize}
 \[
 \phi_+(x) - \phi_-(x) = \E^{-x}.
 \]
 Thus
+
 \[
 \CC[ \E^{-s \diamond}](z) = \phi(s z) = - {\E^{-s z} {\rm Ei}(s z)  \over 2 \pi \I}
 \]
-\newpage
 Let's make sure we didn't make a mistake. Here we first define Ei:
 
 
@@ -630,17 +636,21 @@ The expression matches the Cauchy transform:
 28329563677806im)
 \end{lstlisting}
 
-\newpage
+
 We then recover the Laplace transform by taking the limit:
+
 \[
 \check 1(s) = -2 \pi \I  \lim_{z\rightarrow \infty} z \phi(s z) =
 \lim_{z\rightarrow \infty} {z \over s z} = {1 \over s}
 \]
 What about rational $f$? Do the same trick of subtracting off the singularities. For example, consider $f(z) = 1/(z+1)$. Then
+
 \[
 {\phi(s z) - \phi(-s) \over z+1}
 \]
 satisfies all the necessary properties.
+
+
 \begin{lstlisting}
 (*@\HLJLn{t}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*) (*@\HLJLoB{..}@*) (*@\HLJLni{50}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{s}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{2.0}@*)
@@ -656,10 +666,12 @@ satisfies all the necessary properties.
 
 
 Therefore,
+
 \[
 \check f(s) = -2 \pi \I  \lim_{z\rightarrow \infty} z {\phi(s z) - \phi(-s) \over z+1}  =
 2 \pi \I \phi(-s) = -\E^{s} {\rm Ei}(-s)
 \]
+
 \begin{lstlisting}
 (*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{s}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{t}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{f}@*)(*@\HLJLp{),}@*) (*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{\ensuremath{\varphi}}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{s}@*)(*@\HLJLp{),}@*) (*@\HLJLoB{-}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{s}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{ei}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{s}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
@@ -669,5 +681,5 @@ Therefore,
 \end{lstlisting}
 
 
-}
+
 \end{document}

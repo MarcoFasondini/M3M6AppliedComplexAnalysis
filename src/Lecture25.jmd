@@ -36,7 +36,7 @@ plot(xx,sech.(xx))
 ```
 Now the Fourier transform of $\sech x$ is
 $$
-\FF\sech(s) = \int_{-\infty}^\infty \sech t \, \E^{-\I s t} \dt = \pi \sech{\pi s \over 2}
+\FF\sech(z) = \int_{-\infty}^\infty \sech t \, \E^{-\I z t} \dt = \pi \sech{\pi z \over 2}
 $$
 This is calculated via Residue theorem with a bit of work.
 Note that
@@ -56,7 +56,7 @@ $$
 $$
 is analytic for $a < \Im z < b$.
 
-**Proof** Let $z = s + \I \gamma$ and note that $|f(t) \E^{-\I z t}| = |f(t) \E^{\gamma t}|$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
+**Proof** Let $z = s + \I \gamma$ and note that $|f(t) \E^{-\I z t}| = |f(t)| \E^{\gamma t}$. Thus for $a < \gamma < b$, we can exchange differentiation and integration to get
 $$
 {\D \widehat f \over \dz} = -\I z \hat f(z)
 $$
@@ -220,7 +220,7 @@ with initial conditions $u(0) = u'(0) = 0$. Note that we have by integration-by-
 $$
 \begin{align*}
 \check{u'}(z) = \int_0^\infty u'(t) \E^{-z t} \dt = u(0) + z \int_0^\infty u(t) \E^{-z t} \dt = u(0) + z \check u(z) \\
-\check{u''}(z) = u'(0) + z \check{u'}(z) = u'(0) + z u(0) + z^2 \check u(0)
+\check{u''}(z) = u'(0) + z \check{u'}(z) = u'(0) + z u(0) + z^2 \check u(z)
 \end{align*}
 $$
 Thus taking into account the initial conditions, are equation in Laplace space becomes
@@ -229,7 +229,7 @@ $$
 $$
 Hence we have
 $$
-\check u(z) = {1 \over 2 \pi \I}\int_{-\I\infty-M}^{\I \infty-M} {\check f(\zeta) \over \zeta^2 + 2\zeta+1} \E^{x \zeta} \D \zeta
+u(x) = {1 \over 2 \pi \I}\int_{-\I\infty-M}^{\I \infty-M} {\check f(\zeta) \over \zeta^2 + 2\zeta+1} \E^{x \zeta} \D \zeta
 $$
 Consider the case $f(x) = x$, so that
 $$
