@@ -114,7 +114,7 @@ $$
 by
 converting to Fourier space
 $$
-(\lambda + \hat K(s)) \hat u(s)  = \hat f(s)\qqfor -\infty < x < \infty.
+(\lambda + \hat K(s)) \hat u(s)  = \hat f(s)\qqfor -\infty < s < \infty.
 $$
 to get
 $$
@@ -248,7 +248,8 @@ Here we confirm our calculations are correct for the Fourier transforms:
 t = Fun(0.0 .. 40)
 f = exp(-t)
 fourier(f, -2.0), im/(im-2.0)
-
+```
+```julia
 1-(fourier(-exp(-t), -2.0) + fourier(-exp(Fun(-40 .. 0)), -2.0)), (2.0^2 + 3)/(2.0^2+1)
 ```
 
