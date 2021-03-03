@@ -174,6 +174,8 @@
 
 \def\cent#1{\begin{center}#1\end{center} }
 
+\def\Ei{\rm Ei\,}
+
 \lstset{
     basicstyle=\ttfamily,
 	}

@@ -158,6 +158,8 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
+\def\Ei{\rm Ei\,}
+
 \begin{document}
 
 {{{ :body }}}

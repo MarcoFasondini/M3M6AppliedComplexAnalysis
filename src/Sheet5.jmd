@@ -1,0 +1,245 @@
+__Applied Complex Analysis (2021)__
+
+# Problem sheet 5: Lectures 21-26
+
+----------
+
+## Problem 1
+
+This problem considers Cauchy and Logarithmic transforms of Laguerre polynomials. Recall from lectures that
+$$
+\CC_{[0,\infty)}[\E^{-\diamond}](z) = -{\E^{-z} \Ei z \over 2 \pi \I}
+$$
+for the exponential integral
+$$
+\Ei z = \int_{-\infty}^z {\E^\zeta \over \zeta} \D \zeta.
+$$
+
+1.  What is
+$$
+	\CC_{[0,\infty)}[\diamond \E^{-\diamond} L_1^{(1)}(\diamond)](z) := {1 \over 2 \pi \I} \int_0^\infty {x \E^{-x} L_1^{(1)}(x) \over x-z} \dx
+$$
+in terms of $\Ei z$?
+
+2.  What is
+$$
+	 {1 \over \pi} \int_0^\infty { \E^{-x} L_2(x) \log|z-x|} \dx
+$$
+in terms of the real and imaginary parts of $\Ei z$?
+
+----------
+
+## Problem 2
+
+Consider the incomplete Gamma function:
+$$
+\Gamma(\alpha, z) = \int_z^\infty \zeta^{\alpha-1} \E^{-\zeta} \D\zeta,
+$$
+where the contour of integration is two straight line segments from $z$ to $1$ to $\infty$, hence this has a branch cut on $(-\infty,0]$.
+
+1. For $x < 0$ and $\alpha > 0$, show that
+$$
+\Gamma_+(\alpha,x) -  \E^{2\I \pi \alpha} \Gamma_-(\alpha,x) = (1-\E^{2 \I \pi \alpha}) \Gamma(\alpha)
+$$
+where $\Gamma(\alpha) = \Gamma(\alpha,0) = \int_0^\infty x^{\alpha-1} \E^{-x} \dx$ is the Gamma function and
+$$
+\Gamma_\pm(\alpha,x)= \lim_{\epsilon \rightarrow0} \Gamma(\alpha, x\pm \I \epsilon).
+$$
+
+2. For $-1 < \alpha < 0$, express
+$$
+	\CC_{[0,\infty)}[\diamond^\alpha \E^{-\diamond}](z) = {1 \over 2 \pi \I} \int_0^\infty {x^\alpha \E^{-x} \over x-z} \dx
+$$
+in terms of	  $\Gamma(-\alpha,-z)$ and $(-z)^{\alpha} \E^z$ using Plemelj's lemma.
+
+----------
+## Problem 3
+
+Define
+$$
+a(z) = z^2 - 4 + z^{-2}.
+$$
+
+1. What are the entries of $L[a(z)]^{-1}$?
+
+2. Find the Wiener--Hopf factorisation
+$$
+a(z) = \phi_+(z) \phi_-(z)
+$$
+where $\phi_+(z)$ is analytic inside the unit circle and and $\phi_-(z)$ is analytic outside, with $\phi_-(\infty) = 1$.
+
+3. Find the UL decomposition
+$$
+T[a(z)] = U L
+$$
+where $U$ is upper-triangular with $1$ on the diagonal and $L$ is lower triangular.
+
+
+4. What is $T[a(z)]^{-1}$?
+
+5. What is $T[(z^2+3)/(z^2+2)]^{-1}$?
+
+----------
+
+## Problem 4
+
+When the winding number is non-trivial, a Toeplitz operator can either be non-invertible or have multiple solutions. This problem sheet explores this.
+
+1. What is the winding number of $a(z) = z$? Show that
+$$
+T[z] \vc u = \vc f
+$$
+only has a solution if $f_0$ (the first entry of $\vc f$) is zero.
+
+2. What is the winding number of $a(z) = z^{-1}$? What are _all_ solutions to
+$$
+T[z^{-1}] \vc u = \vc f?
+$$
+
+3. Show that if $a(z)$ has winding number $\kappa$ it can be written as
+$$
+a(z) = \phi_+(z) z^{\kappa} \phi_-(z)
+$$
+What are $\phi_+(z)$ and $\phi_-(z)$ in terms of $\log(a(z) z^{-\kappa})$?
+
+4. Show that if the winding number is $\kappa$ there exists a
+$$
+T[a(z)] = UPL
+$$
+decomposition, where
+$$
+P = T[z^\kappa]
+$$
+is a permutation operator.
+
+5. Find all solutions to
+$$
+T[1/(2z^2+1)] \vc u = \vc e_0
+$$
+
+----------
+
+## Problem 5
+
+This set of problems investigates the analyticity properties of the half-Fourier transform.  Recall the definitions
+$$
+\begin{align*}
+	u_{\rm R}(x) & = \begin{cases} u(x) & x \geq 0 \\
+	                             0 & \text{ otherwise}
+															 \end{cases}, \\
+	u_{\rm L}(x) & = \begin{cases} u(x) & x < 0 \\
+	                         0 &\text{ otherwise}
+													 \end{cases},
+\end{align*}
+$$
+The Fourier transform
+$$
+\hat u(s) = \int_{-\infty}^\infty u(x) \E^{-\I x s} \dx,
+$$
+and the inverse Fourier transform
+$$
+u(x) = {1 \over 2\pi} \int_{-\infty + \I \gamma}^{\infty + \I \gamma} \hat u(s) \E^{\I s x} \D s
+$$
+where the choice of $\gamma$ is dictated by the analyticity of $\hat u(z)$.
+
+1. Consider $f(x) = x$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+
+2. Consider $f(x) = {1 \over 1+ \E^x}$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+
+3. Consider $f(x) = \E^{2 x}$.Without computing it, in what strip, if any, is $\widehat{f_{\rm R}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+
+4. Consider $f(x) = x$. Without computing it, in what strip, if any, is $\widehat{f_{\rm L}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+
+5. Calculate the Fourier transforms in the above problems and confirm your statements.
+
+6. What is the Fourier transform of $\delta(x)$, i.e., the Dirac delta function satisfying
+$$
+\int_{-\infty}^\infty \delta(x) g(x) \dx = g(0)
+$$
+for smooth test functions $g$.
+Where is it analytic?
+
+----------
+
+## Problem 6
+
+This set of problems considers extensions of the Wiener--Hopf method to functions that do not decay, degenerate integral equations,  and to integro-differential equations. Please be precise on which contour the Riemann--Hilbert problem is solved on and the  inverse Fourier transforms  taken.
+
+1. The function $u(x)$ is bounded by a polynomial for all $x \geq 0$, including as $x \rightarrow \infty$, and satisfies the integral equation
+for $x \geq 0$,
+$$
+      u(x) + {3 \over 2} \int_0^\infty \E^{-|x-t|} u(t)\dt = 1 + \alpha x
+$$
+where $\alpha$ is a positive constant. Find $u(x)$ for $x \geq 0$. Hint: set up  a Riemann--Hilbert problem on the contour $\R + \I \gamma$ where $-1 < \gamma < 0$ is arbitrary.
+
+2. The function $u(x)$ is bounded by a polynomial for all $x \geq 0$, including as $x \rightarrow \infty$, and satisfies the integral equation
+for $x \geq 0$,
+$$
+       \int_0^\infty \E^{-\alpha |x-t|} u(t)\dt = 1 + \alpha x
+$$
+where $\alpha$ is a positive constant. Find $u(x)$ for $x \geq 0$.  Hint: If you proceed na\"\i vely, we arrive at a Riemann--Hilbert problem of the form
+$$
+\Phi_+(s) -g(s) \Phi_-(s)  = f(s)     \qqand \lim_{z \rightarrow \infty} (\infty) = 0
+$$
+but where $g(\infty) = 0$ instead of $g(\infty) = 1$.  This is not in canonical form, but maybe this example is special. Try writing $\Phi(z) = \kappa(z) Y(z)$ as before but allowing different asymptotic behaviour in $\kappa$ and $Y$ in the different half planes in a way that they cancel out so that $\lim_{z \rightarrow \infty} \Phi(z) = 0$:
+$$
+\begin{align*}
+ \kappa(z) &=  \begin{cases} O(z^{-1}) & \Im z > 0 \\
+                             O(z) &  \Im z < 0 \end{cases}  \\
+Y(z) &=  \begin{cases}    O(1) & \Im z > 0 \\
+                          O(z^{-2}) &  \Im z < 0 \end{cases}.
+\end{align*}
+$$
+
+3. Consider the integral equation
+$$
+       u(t) - \lambda \int_0^\infty \E^{-|x-t|} u(t)\dt =  x
+$$
+where $0 < \lambda < {1 \over 2}$. Show that, for $x \geq 0$,
+$$
+	u(x) = A(\sinh \gamma x + \gamma \cosh \gamma x) + {1 \over \gamma^2}\br[x + \pr(\gamma - {1 \over \gamma}) \sinh \gamma x]
+$$
+where $\gamma^2 = 1 - 2\lambda$ and $A$ is an arbitrary constant.
+
+4. A bounded, smooth,  function $u(x)$ satisfies the integro-differential equation
+$$
+u''(x) - {72 \over 5} \int_0^\infty \E^{-5 |x-t|} u(t) \dt = 1 \qqfor x \geq 0
+$$
+with $u(0) = 0$.
+
+----------
+
+## Problem 7
+
+1. Rewrite the integral equation on the half line in the form:
+$$
+u_\rR''(x) - {72 \over 5} \int_{-\infty}^\infty \E^{-5 |x-t|} u(t) \dt = 1_\rR(x) + \alpha \delta(x) + p_\rL(x)
+$$
+for $\alpha = u'(0)$ and a to-be-specified  $p(x)$. Here $\delta$ is  the Dirac delta function, that is,
+$$\int_{-\infty}^\infty f(x) \delta(x) \dx = f(0).$$
+
+2. Use integration by parts to determine that
+$$
+\widehat{u_{\rm R}''}(s) = -u'(0) -s^2 \hat u_{\rm R}(s).
+$$
+What is $\hat{\delta}(s)$? Use these to translate the equation to Fourier space on a contour $s \in \R + \I \gamma$. What choices of $\gamma$ are suitable?
+3. Define $\Phi(z)$ in  terms of $\widehat{p_\rL}(z)$ and $\widehat{u_\rR}(z)$ so that it satisfies the following (non-standard) RH problem
+$$
+\begin{align*}
+\Phi_+(s) - {(s^2 + 9) (s^2+16) \over s^2+25} \Phi_-(s) &= \alpha + {1 \over \I s}\\
+ \lim_{z \rightarrow \infty\atop \Im z > \gamma}  \Phi(z) &= \alpha \\
+  \lim_{z \rightarrow \infty\atop \Im z < \gamma}  \Phi(z) &= 0.
+\end{align*}
+$$
+4. Solve the Riemann--Hilbert problem for $\Phi$. Hint: write $\Phi(z) = \kappa(z) Y(z)$ where
+$$
+\begin{align*}
+ \kappa(z) & =  \begin{cases}  O(z) & \Im z > \gamma \\
+                          O(z^{-1}) &  \Im z < \gamma \end{cases},\\
+Y(z) & =  O(z^{-1}).
+\end{align*}
+$$
+ Hint: $Y(z)$ does not depend on $\alpha$ in the lower-half plane.
+5. Recover $u(x)$ by taking the inverse Fourier transform of $\Phi_-(s)$.
+
+----------
