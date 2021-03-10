@@ -1,0 +1,415 @@
+ __Applied Complex Analysis (2021)__
+
+# Mastery material: Logarithmic potentials and polynomial approximation
+
+**Note:** These notes are self-study for Year 4 and MSc students
+
+Here we relate the accuracy of polynomial interpolation in the complex plane to the (electrostatic) logarithmic potentials associated with the interpolation nodes.
+
+## Interpolants
+
+In ApproxFun.jl, functions are approximated by interpolants (interpolating polynomials) that interpolate functions at the roots of the Chebyshev $T_n(x)$ polynomials, which are at
+$$
+x_k = \cos\left( {2k-1 \over 2n} \pi  \right), \qquad k = 1, \ldots, n,
+$$
+since
+$$
+T_n(x_k) = \cos \left( (2k-1){\pi \over 2}  \right) = 0, \qquad k = 1, \ldots, n.
+$$
+
+_Example_ Here we construct the interpolant of $f(x) = 1/(25x^2 +1)$ at the roots of $T_{10}(x)$:
+
+```julia
+using ApproxFun, LinearAlgebra, Plots, SingularIntegralEquations, ComplexPhasePortrait
+n = 10
+S = Chebyshev()
+f = x -> 1/(25x^2 +1)
+pₙ = Fun(f,S,n) # interpolate f at the roots of Tₙ
+xn = points(S,n) # the roots of Tₙ
+xx = -1:0.01:1
+plot(xx,f.(xx);label="f")
+plot!(pₙ;label="interpolant")
+scatter!(xn,pₙ.(xn);label=false)
+```
+
+The number of interpolation nodes required to represent $f$ to machine precision accuracy is determined automatically:
+
+```julia
+ncoefficients(Fun(f,S))
+```
+
+Interpolation at equally spaced points is less accurate:
+```julia
+function equi_interp(f,n)
+# Construct an interpolant of f at n equispaced points on [-1, 1]
+S = Chebyshev()
+xk = range(-1,stop=1,length=n); # n equally spaced points
+v = f.(xk);
+V = Array{Float64}(undef,n,n); # Create a Vandermonde matrix by evaluating the basis at the grid
+for k = 1:n
+    V[:,k] = Fun(S,[zeros(k-1);1]).(xk)
+end
+pₙ = Fun(S,V\v)
+pₙ
+end;
+```
+```julia
+xe = range(-1,stop=1,length=n);
+pequi = equi_interp(f,n)
+plot(xx,f.(xx);label="f")
+plot!(xx,pequi.(xx);label="interpolant")
+scatter!(xe,pequi.(xe);label=false)
+```
+Unlike Chebyshev interpolants (interpolants whose interpolation nodes are at the zeros of $T_n$), equally spaced interpolants diverge for this function! The errors become worse for large $n$: on the central part of $[-1,1]$, the interpolant converges but at the ends it diverges as $n\to \infty$. This is known as the Runge phenomenon.
+```julia
+n = 50
+xe = range(-1,stop=1,length=n);
+pequi = equi_interp(f,n)
+plot(xx,f.(xx);label="f",ylims=(-2,2))
+plot!(xx,pequi.(xx);label="interpolant")
+scatter!(xe,pequi.(xe);label=false)
+```
+
+To analyse the accuracy of interpolants, we use their Lagrange representation:
+
+**Theorem (Lagrange form of interpolants)**
+Suppose $p_n(x)$ interpolates a function $f$ at the distinct interpolation nodes $x_1, \ldots, x_n$. Then
+$$
+p_n(x) = \sum_{k = 1}^{n} \ell_k(x)f(x_k),
+$$
+where
+$$
+\ell_k(x) = {\ell(x)\over \ell'(x_k) (x - x_k)},
+$$
+and the node polynomial $\ell(x)$ is
+$$
+\ell(x) = \prod_{k = 1}^{n}(x - x_k).
+$$
+
+**Proof** Since
+$$
+\ell_k(x_j) = \begin{cases}
+1 & \text{if } j = k \\
+0 & \text{if } j \neq k
+\end{cases},
+$$
+it follows that
+$$
+p_n(x_k) = f(x_k), \qquad k = 1, \ldots, n.
+$$
+■
+
+## Hermite integral formula for interpolants
+
+In Lecture 19 we showed via contour integral formulas for Laurent coefficients that truncated Chebyshev expansions converge exponentially fast to functions that are analytic in a Bernstein ellipse. In the Mastery Sheet we will investigate the relationship between truncated Chebyshev expansions and Chebyshev interpolants. To analyse the convergence of interpolants, we likewise use a contour integral representation known as Hermite's formula.
+
+**Theorem (Hermite interpolation formula)**
+Let $f$ be analytic in a region $\Omega$ containing the distinct interpolation nodes $x_1, \ldots, x_n$ and let $\Gamma$ be a positively orientated contour in $\Omega$ that encloses $x_1, \ldots, x_n$. Then the interpolant has the representation
+$$
+p_n(z) = {1 \over 2\pi\I} \oint_{\Gamma} {f(t)(\ell(t) - \ell(z))\over \ell(t)(t - z)}\dt,
+$$
+and if $z$ is enclosed by $\Gamma$, then the interpolation error is
+$$
+f(z) - p_n(z) = {1 \over 2\pi\I}\oint_{\Gamma} {\ell(z) \over \ell(t)}{f(t) \over t - z}\dt.
+$$
+**Proof** We start by proving the second formula: since $\Gamma$ encloses $z$,
+$$
+\begin{align*}
+{1 \over 2\pi\I}\oint_{\Gamma} {\ell(z) \over \ell(t)}{f(t) \over t - z}\dt &= \left(\Res_{t = z} + \sum_{k = 1}^{n} \Res_{t = x_k}  \right) {\ell(z) \over \ell(t)}{f(t) \over t - z} \\
+& = f(z) - \sum_{k=1}^{n}  {\ell(z) \over \ell'(x_k)}{f(x_k) \over z - x_k} \\
+& = f(z) - \sum_{k=1}^{n}   \ell_k(z)f(x_k) \\
+& = f(z) - p_n(z).
+\end{align*}
+$$
+If $\Gamma$ encloses $z$, the first formula follows immediately. If $\Gamma$ does not enclose $z$, then the first formula still holds because the integrand does not have a pole at $t = z$.
+■
+
+_Demonstration:_ For $f(z) = 1/(25z^2 + 1)$, we found in Lecture 19 that the largest Bernstein ellipse $E_{\rho}$ within which $f$ is analytic is $E_{\rho}$ with $\rho = {1 + \sqrt{26}\over 5}$, where $E_{\rho}$ is defined by
+$$
+E_{\rho} = \left\lbrace z : {(\Re z)^2 \over \alpha^2} + {(\Im z)^2 \over \beta^2} = 1, \alpha = {1 \over 2}\left( \rho + \rho^{-1} \right),   \beta = {1 \over 2}\left( \rho - \rho^{-1} \right) \right\rbrace.
+$$
+We choose $\Gamma$ to be a Bernstein ellipse that intersects the imaginary axis at $z = \pm 0.1\I$, then we use the trapezium rule to compute the contour integral representation of $p_n(z)$.
+```julia
+θ = range(0; stop=2π, length=2000)
+β = 0.1
+ρ = β + sqrt(β^2 + 1)
+α = (ρ + 1/ρ)/2
+phaseplot(-2..2,-1..1, z -> f(z))
+plot!(α * cos.(θ) + im*β * sin.(θ);color="black", label="Γ", ratio = 1.0)
+```
+```julia
+periodic_rule(N) = 2π/N*(0:(N-1)), 2π/N*ones(N)
+function ellipse_rule(n, a, b) # See Lecture 6
+    θ = periodic_rule(n)[1]
+    a*cos.(θ) + b*im*sin.(θ), 2π/n*(-a*sin.(θ) + im*b*cos.(θ))
+end
+function ℓ(z,xn) # A function to compute the node polynomial at z for the interpolation nodes xn
+    out = z .- xn[1]
+    for k = 2:length(xn)
+        out .*= z .- xn[k]
+    end
+    out
+end;
+```
+First let $z$ be inside $\Gamma$ and test the first formula for the interpolant $p_{n}(z)$ with $n = 10$ that we constructed above:
+```julia
+z = 0.1
+(t, w) = ellipse_rule(500, α, β);
+pₙ(z), sum(f.(t).*(ℓ(t,xn) .- ℓ([z],xn))./((t.-z).*ℓ(t,xn)).*w)/(2π*im)
+```
+Test the second formula for the interpolation error:
+```julia
+f(z) - pₙ(z), ℓ([z],xn)*sum(f.(t)./((t.-z).*ℓ(t,xn)).*w)/(2π*im)
+```
+Now let $z$ be outside $\Gamma$ and test the first formula:
+```julia
+z = 0.1 + 0.15im
+extrapolate(pₙ,z), sum(f.(t).*(ℓ(t,xn) .- ℓ([z],xn))./((t.-z).*ℓ(t,xn)).*w)/(2π*im)
+```
+The second contour integral formula now equals $-p_n(z)$:
+```julia
+-extrapolate(pₙ,z), ℓ([z],xn)*sum(f.(t)./((t.-z).*ℓ(t,xn)).*w)/(2π*im)
+```
+
+Now suppose that for the function $f(z) = 1/(25z^2 + 1)$, the contour $\Gamma$ encloses $z$ as well as the singularities of $f$ at $\pm\I/5$, then apart from the residues that are picked up at $\pm \I/5$, the same contour integral still gives the interpolation error:
+$$
+\begin{align*}
+{1 \over 2\pi\I}\oint_{\Gamma} {\ell(z) \over \ell(t)}{f(t) \over t - z}\dt &= \left(\Res_{t = \pm\I/5} +\Res_{t = z} + \sum_{k = 1}^{n} \Res_{t = x_k}  \right) {\ell(z) \over \ell(t)}{f(t) \over t - z} \\
+ &= \left(\Res_{t = \I/5} +\Res_{t = -\I/5}  \right) {\ell(z) \over \ell(t)}{f(t) \over t - z} + f(z) - p_n(z) \\
+& =  -\frac{\I\ell(z)}{10(\I/5 - z)\ell(\I/5)} +  \frac{\I\ell(z)}{10(-\I/5 - z)\ell(-\I/5)} + f(z) - p_n(z)
+\end{align*}
+$$
+```julia
+β = 0.5
+ρ = β + sqrt(β^2 + 1)
+α = (ρ + 1/ρ)/2
+z = 0.4im
+phaseplot(-2..2,-1..1, z -> f(z))
+plot!(α * cos.(θ) + im*β * sin.(θ);color="black", label="Γ", ratio = 1.0)
+scatter!([real(z)],[imag(z)];label="z")
+```
+```julia
+(t, w) = ellipse_rule(500, α, β)
+residue1 = -im/10*ℓ([z],xn)/((im/5-z)*ℓ([im/5],xn))
+residue2 = im/10*ℓ([z],xn)/((-im/5-z)*ℓ([-im/5],xn))
+f(z) - extrapolate(pₙ,z), ℓ([z],xn)*sum(f.(t)./((t.-z).*ℓ(t,xn)).*w)/(2π*im)-residue1-residue2
+```
+
+## Logarithmic potentials and convergence/divergence of interpolants
+
+Notice that the only part of the formula for the interpolation error that depends on the interpolation nodes is
+$$
+\frac{\ell(z)}{\ell(t)}.
+$$
+This gives the ratio of the node polynomial at a point $z$ inside $\Gamma$ to a point $t \in \Gamma$. The rate of convergence depends critically on the magnitude of this ratio since
+$$
+\vert f(z) - p_n(z) \vert \leq  \left\lbrace\sup_{t \in \Gamma} \left\vert {\ell(z)\over\ell(t)} \right\vert\right\rbrace {1 \over 2\pi}  \oint_{\Gamma} \left\vert{f(t)\over t-z} \right\vert \dt.
+$$
+We will be primarily interested in the case where $z \in [-1, 1]$.
+
+The magnitude of $\ell(z)$ can be expressed in terms of a sum of logarithmic potentials:
+$$
+\vert \ell(z) \vert = \prod_{k = 1}^{n} \vert z - x_k \vert = \exp\left({\sum_{k = 1}^n \log \vert z - x_k \vert} \right) = \exp\left( n \phi_n(z) \right),
+$$
+where
+$$
+\phi_n(z) := {1\over n}{\sum_{k = 1}^n \log \vert z - x_k \vert}
+$$
+The function $\phi_n(z)$ can be thought of as the electrostatic potential associated with $n$ point charges, each of strength $1/n$, placed at the interpolation nodes. Hence the ratio of node polynomials in the interpolation error bound can be expressed as
+$$
+\left\vert {\ell(z)\over\ell(t)} \right\vert =  \exp\left[- n\left(\phi_n(t) - \phi_n(z) \right) \right].
+$$
+
+We can write the discrete potential function $\phi_n$ as a logarithmic singular integral:
+$$
+\phi_n(z) = \int_{-1}^{1} \mu_n(x) \log \vert z - x \vert \dx,
+$$
+where
+$$
+\mu_n(x) = {1 \over n}\sum_{k =  1}^n \delta(x - x_k), \qquad  \int_{-1}^{1} \mu_n(x) \dx = 1.
+$$
+Similar to what we found in Lecture 15, in the limit $n \to \infty$, the discrete measure (or density) $\mu_n$ converges (in a weak\* sense) to a continuous measure $\mu(x)$. For equally spaced points, the continuous measure is the uniform measure
+$$
+\mu(x) = {1\over 2},
+$$
+while for the Chebyshev grid (the roots of $T_n$)
+$$
+\mu(x) = {1 \over {\pi \sqrt{1 - x^2}}}.
+$$
+In fact, if the roots of any Jacobi polynomial are used as interpolation nodes, the discrete measure converges to this same continuous measure.
+
+Here we compare the density of the Chebyshev grid for large $n$ to the continuous measure:
+```julia
+n = 1000
+xns = points(S,n)
+histogram(xns;nbins=50,normalized=true)
+mu = x -> 1/(π*sqrt(1-x^2))
+plot!(xx,mu.(xx);ylims=(0,2),label="continuous density")
+```
+
+In the limit $n \to \infty$, the discrete potential function $\phi_n$ for equally spaced interpolation nodes converges to the continuous potential $\phi$ defined by
+$$
+\begin{align*}
+\phi(z) &=  \int_{-1}^{1} \mu(x) \log \vert z - x \vert \dx \\
+        &=   {1 \over 2}\int_{-1}^{1}  \log \vert z - x \vert \dx \\
+        &=   \Re \left\lbrace {1\over 2}(1-z) \log(z-1) + {1\over 2}(1+z) \log(z+1) \right\rbrace  -1.
+\end{align*}
+$$
+In Lecture 16 we not only derived the latter logarithmic singular integral but also the one associated with the Chebyshev grid:
+$$
+\begin{align*}
+\phi(z) &=  \int_{-1}^{1} \mu(x) \log \vert z - x \vert \dx \\
+        &=   {1 \over \pi}\int_{-1}^{1}  {\log \vert z - x \vert\over \sqrt{1-x^2}} \dx \\
+        &=   \Re \left\lbrace 2\log(\sqrt{z-1} + \sqrt{z+1})  \right\rbrace  -2 \log 2.
+\end{align*}
+$$
+
+Here are equipotential curves of the discrete and continuous potential functions for equally spaced and Chebyshev interpolation nodes:
+```julia
+ϕ = z -> real((1-z)*log(z-1)/2 + (1+z)*log(z+1)/2) - 1
+n = 10
+xe = range(-1,stop=1,length=n);
+x = -2:0.01:2
+y = -1:0.01:1
+z = x' .+ im*y
+p1 =  contour(x,y,log.(abs.(ℓ(z,xe)))/n;ratio = 1.0,title="Equispaced discrete potential", levels= -1:0.2:0.6)
+plot!(-1..1; color=:black,label=false)
+p2 = contour(x,y,ϕ.(z);ratio=1.0, levels = -1:0.2:0.6, title="Equispaced continuous potential")
+plot!(-1..1; color=:black,label=false)
+plot(p1,p2,layout=(2,1))
+```
+
+```julia
+ϕ = z -> real(2log(sqrt(z-1) + sqrt(z+1)) - 2log(2))
+p1 = contour(x,y,log.(abs.(ℓ(z,xn)))/n;ratio = 1.0,title="Chebyshev discrete potential", levels= -1:0.2:0.6)
+plot!(-1..1; color=:black,label=false)
+p2 = contour(x,y,ϕ.(z);ratio=1.0, levels = -1:0.2:0.6, title="Chebyshev continuous potential")
+plot!(-1..1; color=:black,label=false)
+plot(p1,p2,layout=(2,1))
+```
+
+**Theorem (convergence/divergence on equipotential curves)** The interpolant $p_n(z)$ converges to $f(z)$ inside the largest equipotential curve of $\phi(z)$ that does not enclose any singularity of $f(z)$ and it diverges outside that curve. The asymptotic rate of converge or divergence is
+$$
+\left\vert f(z) - p_n(z)  \right\vert^{1/n} = \mathcal{O}\left( \exp\left(\phi(z) - \phi(z_0) \right)\right), \qquad n \to \infty,
+$$
+where $z_0$ is the location of the singularity of $f(z)$ that is closest to the interpolation interval $[-1, 1]$.
+
+**Sketch of Proof** Recall the error bound
+$$
+\vert f(z) - p_n(z) \vert \leq  \left\lbrace\sup_{t \in \Gamma} \left\vert {\ell(z)\over\ell(t)} \right\vert\right\rbrace {1 \over 2\pi}  \oint_{\Gamma} \left\vert{f(t)\over t-z} \right\vert \dt,
+$$
+and the expression
+$$
+\left\vert {\ell(z)\over\ell(t)} \right\vert =  \exp\left[ n\left(\phi_n(z) - \phi_n(t) \right) \right].
+$$
+If we choose $\Gamma$ to be an equipotential curve that does not enclose the singularity at $z_0$ and $z$ lies inside $\Gamma$, then
+$$
+\left\vert {\ell(z)\over\ell(t)} \right\vert^{1/n} =  \exp\left[ \left(\phi_n(z) - \phi_n(t) \right) \right] \to \exp\left[ \left(\phi(z) - \phi(t) \right) \right], \qquad n\to \infty.
+$$
+Since $z$ is inside $\Gamma$, $t\in \Gamma$ and $\Gamma$ does not enclose $z_0$, $\phi(z) < \phi(t) < \phi(z_0)$ and thus the interpolant converges to $f$ at the stated rate.
+
+Recall that the contour integral representation of $p_n(z)$ is still valid even if $z$ is outside $\Gamma$
+$$
+p_n(z) = {1 \over 2\pi\I} \oint_{\Gamma} {f(t)(\ell(t) - \ell(z))\over \ell(t)(t - z)}\dt.
+$$
+For the case where $z$ is outside $\Gamma$ but $\Gamma$ still does not enclose the singularity at $z_0$, the above formula simplifies to
+$$
+p_n(z) = {1 \over 2\pi\I} \oint_{\Gamma} {\ell(z)\over\ell(t)}   {f(t)\over(z - t)}\dt.
+$$
+Hence for large $n$ the magnitude of $p_n(z)$ behaves as
+$$
+\left\vert {\ell(z)\over\ell(t)} \right\vert \approx \exp\left[ n\left(\phi(z) - \phi(t) \right) \right]
+$$
+This is exponential growth since $z$ is outside $\Gamma$, which implies that $\phi(z) > \phi(t)$. If $f$ is bounded at $z$, the geometric growth of $p_n(z)$ with $n$ will dominate and $\vert f(z) - p_n(z) \vert$ will grow exponentially at a rate that is bounded by a constant times $\exp\left(n(\phi(z) - \phi(z_0)) \right)$.
+■
+
+We first examine the equipotential curves of the Chebyshev logarithmic potential function
+$$
+\phi(z) =  \Re \left\lbrace 2\log(\sqrt{z-1} + \sqrt{z+1})  \right\rbrace  -2 \log 2.
+$$
+If we set
+$$
+w = {1 \over 2}\left( \sqrt{z-1} + \sqrt{z+1} \right)^2,
+$$
+then we find that a circle in the $w$-plane of radius $\rho \geq 1$ is mapped to a Bernstein ellipse $E_{\rho}$ in the $z$-plane and $w$ is related to $\phi$ as follows
+$$
+\log\vert w \vert = \phi(z) + \log 2.
+$$
+This implies that the equipotential curves of $\phi$ are all Bernstein ellipses and if $\vert w \vert = \rho$, then
+$$
+\phi(z) = \log \rho - \log 2, \qquad z \in E_{\rho}.
+$$
+The interval $[-1, 1]$ is itself a degenerate Bernstein ellipse with $\rho = 1$ (and hence an equipotential curve) on which $\phi$ takes the value
+$$
+\phi(x) = -\log 2, \qquad x \in [-1, 1],
+$$
+as we showed in Lecture 16. Thus for $x$ on the unit interval and $z$ on a Bernstein ellipse,
+$$
+\phi(x) - \phi(z) = -\log 2 - (\log \rho - \log 2) = - \log \rho, \qquad x \in [-1, 1], z \in E_{\rho}.
+$$
+Combining this with the theorem we just proved, we conclude that if a function is analytic on and inside a Bernstein ellipse $E_{\rho}$, then Chebyshev interpolants converge at the rate
+$$
+\mathcal{O}\left( \rho^{-n} \right).
+$$
+In Lecture 19 we proved the same result for truncated Chebyshev expansions.
+
+The Chebyshev measure $\mu(x) = 1/(\pi\sqrt{1-x^2})$ is special in the sense that it  is the unique measure that renders the logarithmic potential  $\phi$ constant on $[-1,1]$ and is therefore called the equilibrium measure. The electrostatic interpretation is that $\mu(x)$ is the unit charge distribution on $[-1, 1]$ that results in a constant electrostatic potential on $[-1, 1]$. This implies that the electric field vanishes on $[-1, 1]$, so there is no net force acting on the charges on $[-1, 1]$, hence the charges are in equilibrium. The configuration of charges according to the density $\mu(x)$ minimizes the energy of the system.
+
+For Chebyshev interpolants to converge on $[-1, 1]$, a function just needs to be analytic on $[-1, 1]$ (i.e., a neighbourhood of $[-1, 1]$). For equally spaced interpolants to converge on $[-1, 1]$, the function has to be analytic on and inside the following much larger, eye-shaped region:
+
+```julia
+ϕ = z -> real((1-z)*log(z-1)/2 + (1+z)*log(z+1)/2) - 1
+contour(x,y,ϕ.(z);ratio=1.0, levels =[log(2)-1], legend = false)
+plot!(-1..1; color=:black)
+```
+
+This region is the equipotential curve of the potential function for equally spaced points
+$$
+\Re \left\lbrace {1\over 2}(1-z) \log(z-1) + {1\over 2}(1+z) \log(z+1) \right\rbrace  -1
+$$
+that intersects the real axis at $x = \pm 1$.
+
+## Example
+
+We take again the function $f = 1/(25z^2 + 1)$ and consider the rate of convergence or divergence on $[-1, 1]$ for equally spaced and Chebyshev interpolation.
+
+Since $f$ is analytic within a Bernstein ellipse $E_{\rho}$ with $\rho = (1 + \sqrt{26})/5$, we expect Chebyshev interpolants to converge to $f$ on $[-1, 1]$ at the rate $\mathcal{O}(p^{-n})$.
+
+```julia
+xf = -1:0.001:1
+nv = 1:200
+errors = [maximum(abs.(f.(xf) - Fun(f,S,k).(xf))) for k = nv]
+scatter(nv,errors;yscale=:log10,ylabel="Error",label="Chebyshev interpolation")
+ρ = (1+sqrt(26))/5
+plot!(nv,ρ.^(-nv);label="convergence estimate")
+```
+
+We know that equispaced interpolants won't converge to $f$ on $[-1, 1]$ since $f$ is not analytic in the eye-shaped region plotted above. According to the theorem above, the rate of convergence or divergence on $[-1, 1]$ hinges on the value of
+$$
+\phi(x) - \phi(\I/5) = {1\over 2}(1-x) \log(1-x) +  {1\over 2}(1+x) \log(1+x) - {1\over 2}\log\left({26\over25}\right)+{1\over5}\arctan(1/5)-{\pi\over10}.
+$$
+Here we check the formula is correct:
+```julia
+δϕ = x -> (1-x)/2*log(1-x)+(1+x)/2*log(1+x) - log(26/25)/2+atan(1/5)/5-π/10
+x = 0.2
+ϕ(x+0.0im) - ϕ(im/5), δϕ(x)
+```
+Here is a plot of $\phi(x) - \phi(\I/5)$:
+```julia
+δϕ = Fun(δϕ,Chebyshev())
+plot(δϕ;legend=false)
+```
+We expect equispaced interpolants to converge where $\phi(x) - \phi(\I/5) < 0$ and diverge where $\phi(x) - \phi(\I/5) > 0$. Moreover, the interpolant converges fastest at $x=0$ (as $\exp\left[n(\phi(0) - \phi(\I/5)) \right]$) and diverges fastest at $x = \pm 1$ (as $\exp\left[n(\phi(\pm 1) - \phi(\I/5)) \right]$).
+```julia
+roots(δϕ)
+```
+```julia
+nv = 2:200
+errors = [maximum(abs.(f.(xf) - equi_interp(f,k).(xf))) for k = nv]
+scatter(nv,errors;yscale=:log10,label="Equispaced interpolation error on [-1, 1]")
+plot!(1:50,exp.((1:50)*δϕ(1));label="divergence estimate")
+err0 = [abs(f(0) - equi_interp(f,k)(0)) for k = nv] #error at 0
+scatter!(nv,err0.+eps();yscale=:log10,label="equispaced interpolation error at 0")
+plot!(1:100,exp.((1:100)*δϕ(0));label="convergence estimate")
+```
+The interpolant converges and diverges at the predicted rates but at $n \approx 60$ the rates slow down because interpolation at equally spaced points is numerically unstable.

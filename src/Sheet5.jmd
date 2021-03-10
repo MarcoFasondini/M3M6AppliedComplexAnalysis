@@ -142,13 +142,13 @@ u(x) = {1 \over 2\pi} \int_{-\infty + \I \gamma}^{\infty + \I \gamma} \hat u(s) 
 $$
 where the choice of $\gamma$ is dictated by the analyticity of $\hat u(z)$.
 
-1. Consider $f(x) = x$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+1. Consider $f(x) = x$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $f$?
 
-2. Consider $f(x) = {1 \over 1+ \E^x}$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+2. Consider $f(x) = {1 \over 1+ \E^x}$. Without computing it, in what strip, if any,  is $\hat f(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $f$?
 
-3. Consider $f(x) = \E^{2 x}$.Without computing it, in what strip, if any, is $\widehat{f_{\rm R}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+3. Consider $f(x) = \E^{2 x}$.Without computing it, in what strip, if any, is $\widehat{f_{\rm R}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $f$?
 
-4. Consider $f(x) = x$. Without computing it, in what strip, if any, is $\widehat{f_{\rm L}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $x$?
+4. Consider $f(x) = x$. Without computing it, in what strip, if any, is $\widehat{f_{\rm L}}(z)$ analytic? For what choice of $\gamma$, if any, does the inverse Fourier transform recover $f$?
 
 5. Calculate the Fourier transforms in the above problems and confirm your statements.
 
@@ -179,7 +179,7 @@ $$
 $$
 where $\alpha$ is a positive constant. Find $u(x)$ for $x \geq 0$.  Hint: If you proceed na\"\i vely, we arrive at a Riemann--Hilbert problem of the form
 $$
-\Phi_+(s) -g(s) \Phi_-(s)  = f(s)     \qqand \lim_{z \rightarrow \infty} (\infty) = 0
+\Phi_+(s) -g(s) \Phi_-(s)  = f(s)     \qqand \lim_{z \rightarrow \infty}\Phi(\infty) = 0
 $$
 but where $g(\infty) = 0$ instead of $g(\infty) = 1$.  This is not in canonical form, but maybe this example is special. Try writing $\Phi(z) = \kappa(z) Y(z)$ as before but allowing different asymptotic behaviour in $\kappa$ and $Y$ in the different half planes in a way that they cancel out so that $\lim_{z \rightarrow \infty} \Phi(z) = 0$:
 $$
@@ -201,15 +201,18 @@ $$
 $$
 where $\gamma^2 = 1 - 2\lambda$ and $A$ is an arbitrary constant.
 
-4. A bounded, smooth,  function $u(x)$ satisfies the integro-differential equation
+
+
+----------
+
+## Problem 7
+
+A bounded, smooth,  function $u(x)$ satisfies the integro-differential equation
 $$
 u''(x) - {72 \over 5} \int_0^\infty \E^{-5 |x-t|} u(t) \dt = 1 \qqfor x \geq 0
 $$
 with $u(0) = 0$.
 
-----------
-
-## Problem 7
 
 1. Rewrite the integral equation on the half line in the form:
 $$

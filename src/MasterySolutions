@@ -1,0 +1,38 @@
+__Applied Complex Analysis (2021)__
+
+# Mastery solutions
+
+$$
+f(x) = \sum_{k = 0}c_k T_k(x)
+$$
+
+$$
+c_k = {\langle f, T_k \rangle\over \langle T_k, T_k \rangle}
+$$
+
+$$
+\langle f, g \rangle = \int_{-1}^{1} {f(x)g(x)\over \sqrt{1 - x^2}} \dx
+$$
+
+$$
+f_n(x) = \sum_{k = 0}^{n-1}c_k T_k(x)
+$$
+
+$$
+p_n(x) = \sum_{k = 0}^{n-1}a_k T_k(x)
+$$
+
+$$
+x_k = \cos\left( {2k-1\over 2n} \pi  \right)
+$$
+
+$$
+T_{(2j + 1)n}(x_k) = \cos\left( (2j + 1)n   {2k-1\over 2n} \pi   \right) = 0, \qquad j \geq 0.
+$$
+
+$$
+\begin{align*}
+T_{2nj \pm m}(x_k)& = \cos\left( (2nj \pm m)   {2k-1\over 2n} \pi   \right) \\
+                  & = (-1)^{j} T_{m}(x_k)
+\end{align*}
+$$

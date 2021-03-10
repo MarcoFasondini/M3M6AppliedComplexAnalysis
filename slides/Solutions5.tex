@@ -270,14 +270,18 @@
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Solution Sheet 5}
-\subsection{Problem 5.1}
-Define $C_k^{(\alpha)}(z) = \CC[L_k^{(\alpha)} \diamond^\alpha \E^{-\diamond}](z)$ and recall that
+\subsection{Problem 1}
+\begin{itemize}
+\item[1. ] Define $C_k^{(\alpha)}(z) = \CC[L_k^{(\alpha)} \diamond^\alpha \E^{-\diamond}](z)$ and recall that
 
+\end{itemize}
 
 \begin{align*}
 C_1(z)  &= {{1 \over 2 \pi \I} \int_0^\infty \E^{-x} \dx + (z-a_0) C_0(z) \over b_0} = -{1 \over 2 \pi \I}  - (z-1) C_0(z)    \\
 &= {(z-1) \E^{-z} \Ei z -1 \over 2 \pi \I}
 \end{align*}
+We abbreviate $C_k^{(0)}(z)$ as $C_k(z)$ and we will also abbreviate $L_k^{(0)}$ as $L_k$.
+
 Here we double check the formula, noting that $L_1(x) = \E^x {\D \over \dx} x \E^{-x} = 1 - x$:
 
 
@@ -307,7 +311,7 @@ Here we double check the formula, noting that $L_1(x) = \E^x {\D \over \dx} x \E
 We now use these to determine the results with $\alpha = 1$. Note that:
 
 \[
-C_0^{(1)}(z) = \CC[\diamond \E^{-\diamond}](z) =C_0(z) - C_1(z) = { \E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1 \over 2 \pi \I}
+C_0^{(1)}(z) = \CC[\diamond \E^{-\diamond}](z) =C_0(z) - C_1(z) = { -\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1 \over 2 \pi \I}
 \]
 
 \begin{lstlisting}
@@ -326,7 +330,7 @@ Therefore, we have
 \begin{align*}
 C_1^{(1)}(z) &= {{1 \over 2 \pi \I} \int_0^\infty x \E^{-x} \dx + (z-a_0^{(1)}) C_0^{(1)}(z) \over b_0^{(1)}} \\
 &=  {{1 \over 2 \pi \I}  + (z-2) C_0^{(1)}(z) \over -1}\\
-&=  {1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi \I}
+&=  {1  + (z-2) (-\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi \I}
 \end{align*}
 Let's check the result using
 
@@ -344,16 +348,17 @@ L_1^{(1)}(x) = x^{-1} \E^x {\D \over \dx} x^2 \E^{-x} = 2 - x
 \end{lstlisting}
 
 
-\subsection{Problem 5.2}
+\begin{itemize}
+\item[2. ] \end{itemize}
 We have
 
 \[
-\int_x^\infty L_2(x) \E^{-x} \dx = {1 \over 2} x \E^{-x} L_1^{(1)}(x) \E^{-x}
+\int_x^\infty L_2(x) \E^{-x} \dx = {1 \over 2} x \E^{-x} L_1^{(1)}(x)
 \]
 Thus from lectures we have
 
 \[
-{1 \over 2 \pi\I} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = {1 \over 2}\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
+{1 \over 2 \pi\I} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = \I\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
 \]
 and therefore
 
@@ -385,7 +390,7 @@ Let's check the result:
 \end{lstlisting}
 
 
-\subsubsection{Problem 6.1}
+\subsubsection{Problem 2}
 Consider integration contours $\gamma_{+x}$ and $\gamma_{-x}$ that avoid $0$ above and below:
 
 
@@ -394,7 +399,7 @@ Consider integration contours $\gamma_{+x}$ and $\gamma_{-x}$ that avoid $0$ abo
 (*@\HLJLn{r}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*)
 (*@\HLJLn{\ensuremath{\gamma}\ensuremath{\_+}\ensuremath{\_x}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{2.0}@*) (*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{r}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Arc}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.}@*)(*@\HLJLp{,}@*)(*@\HLJLn{r}@*)(*@\HLJLp{,}@*) (*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{,}@*)(*@\HLJLni{0}@*)(*@\HLJLp{))}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLn{r}@*) (*@\HLJLp{,}@*) (*@\HLJLni{100}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{\ensuremath{\gamma}\ensuremath{\_-}\ensuremath{\_x}}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{2.0}@*) (*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLn{r}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Arc}@*)(*@\HLJLp{(}@*)(*@\HLJLnfB{0.}@*)(*@\HLJLp{,}@*)(*@\HLJLn{r}@*)(*@\HLJLp{,}@*) (*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{,}@*)(*@\HLJLni{0}@*)(*@\HLJLp{))}@*) (*@\HLJLoB{\ensuremath{\cup}}@*) (*@\HLJLnf{Segment}@*)(*@\HLJLp{(}@*)(*@\HLJLn{r}@*) (*@\HLJLp{,}@*) (*@\HLJLni{100}@*)(*@\HLJLp{)}@*)
-(*@\HLJLnf{scatter}@*)(*@\HLJLp{([}@*)(*@\HLJLn{x}@*)(*@\HLJLp{],[}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{];}@*)(*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}x}@*) (*@\HLJLs{=}@*) (*@\HLJLsi{{\$}x}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{)}@*)
+(*@\HLJLnf{scatter}@*)(*@\HLJLp{([}@*)(*@\HLJLn{x}@*)(*@\HLJLp{],[}@*)(*@\HLJLnfB{0.0}@*)(*@\HLJLp{];}@*)(*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}x}@*) (*@\HLJLs{=}@*) (*@\HLJLsi{{\$}x}@*)(*@\HLJLs{"{}}@*)(*@\HLJLp{,}@*)(*@\HLJLn{ratio}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{1.0}@*)(*@\HLJLp{)}@*)
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\gamma}\ensuremath{\_+}\ensuremath{\_x}}@*) (*@\HLJLp{;}@*) (*@\HLJLn{xlims}@*)(*@\HLJLoB{=}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{5}@*)(*@\HLJLp{,}@*)(*@\HLJLni{5}@*)(*@\HLJLp{),}@*) (*@\HLJLn{ylims}@*)(*@\HLJLoB{=}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{,}@*)(*@\HLJLni{1}@*)(*@\HLJLp{),}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}gamma{\_}+"{}}@*)(*@\HLJLp{)}@*)
 (*@\HLJLnf{plot!}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\gamma}\ensuremath{\_-}\ensuremath{\_x}}@*)(*@\HLJLp{;}@*) (*@\HLJLn{xlims}@*)(*@\HLJLoB{=}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{5}@*)(*@\HLJLp{,}@*)(*@\HLJLni{5}@*)(*@\HLJLp{),}@*) (*@\HLJLn{ylims}@*)(*@\HLJLoB{=}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{,}@*)(*@\HLJLni{1}@*)(*@\HLJLp{),}@*) (*@\HLJLn{label}@*)(*@\HLJLoB{=}@*)(*@\HLJLs{"{}gamma{\_}-"{}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
@@ -409,7 +414,7 @@ So that
 Note that
 
 \[
-\int_x^{-r} (\zeta_+^{\alpha - 1} - \zeta_-^{\alpha -1}) \E^{-\zeta} \D\zeta = 0
+\int_x^{-r} (\zeta_+^{\alpha - 1} - \E^{2 \I \pi \alpha} \zeta_-^{\alpha -1}) \E^{-\zeta} \D\zeta = 0
 \]
 since $\zeta_+^{\alpha-1} = \E^{\pi \I (\alpha-1)}|\zeta|^{\alpha-1} = \E^{2 \I \pi \alpha} \zeta_-^{\alpha-1}$. Furthermore, the integrals over the arcs tend to zero as $r \rightarrow 0$:
 
@@ -423,7 +428,6 @@ and similarly on the lower arc. Thus we have
 \Gamma_+(\alpha, x)-\E^{2 \I \pi \alpha} \Gamma_-(\alpha, x) &= \lim_{r \rightarrow 0 } \left(\int_{\gamma_{+x}} - \E^{2 \I \pi \alpha} \int_{\gamma_{-x}}\right) \zeta^{\alpha-1} \E^{-\zeta} \D \zeta \ccr
  = (1 - \E^{2 \I \pi \alpha})\int_0^\infty x^{\alpha-1} \E^{-x} \dx = (1 - \E^{2 \I \pi \alpha})\Gamma(\alpha)
 \end{align*}
-\subsection{Problem 6.2}
 Note that, for $0 < \alpha < 1$,
 
 \[
@@ -440,12 +444,12 @@ decays as $z \rightarrow \infty$, via integration by parts:
 \end{itemize}
 \[
     z^{-\alpha} \E^z \int_z^\infty \zeta^{\alpha-1} \E^{-\zeta} \D \zeta =
-    z^{-1} \E^z + z^{-\alpha} \int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta
+    z^{-1}  + z^{-\alpha} \int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta
 \]
 and we have assuming $z$ is bounded away from the negative real axis:
 
 \[
-\int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta| \leq \int_z^\infty |\zeta|^{\alpha-2} \D \zeta = \int_0^\infty |x+z|^{\alpha-2} \D x  < \infty
+\left\vert\int_z^\infty \zeta^{\alpha-2} \E^{z-\zeta} \D \zeta\right\vert \leq \int_z^\infty |\zeta|^{\alpha-2} \D \zeta = \int_0^\infty |x+z|^{\alpha-2} \D x  < \infty
 \]
 (otherwise one would use a deformed contour).
 
@@ -455,7 +459,7 @@ and we have assuming $z$ is bounded away from the negative real axis:
 \end{itemize}
 
 \begin{align*}
-\psi_+(x) - \psi_-(x) &= \E^x(x_+^{-\alpha} \Gamma_+(\alpha, x) -  \Gamma_-(\alpha, x)) \ccr
+\psi_+(x) - \psi_-(x) &= \E^x(x_+^{-\alpha} \Gamma_+(\alpha, x) -  x_-^{-\alpha}\Gamma_-(\alpha, x)) \ccr
 = \E^x |x|^\alpha (\E^{-\I \pi \alpha} \Gamma_+(\alpha, z) - \E^{\I \pi \alpha} \Gamma_-(\alpha,x)) \ccr
  = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})
 \end{align*}
@@ -463,7 +467,7 @@ We use these properties to verify that
 
 \[
 \CC[\diamond^\alpha \E^{-\diamond}](z) = {1 \over \Gamma(-\alpha)} {(-z)^\alpha \E^{-z} \Gamma(-\alpha, - z) \over
-  \E^{-\I\pi\alpha} - \E^{\I\pi\alpha}}
+  \E^{-\I\pi\alpha} - \E^{\I\pi\alpha}}
 \]
 via Plemelj.
 
@@ -486,8 +490,8 @@ via Plemelj.
 \end{lstlisting}
 
 
-\subsection{Problem 1}
-\subsubsection{Problem 1.1}
+\subsection{Problem 3}
+\subsubsection{Problem 3.1}
 We know that $L[a(z)]^{-1} = L[a(z)^{-1}]$ hence it's really about the Laurent series of $a(z)^{-1}$. We see that the roots of $a(z)$ satisfy
 
 \[
@@ -498,12 +502,12 @@ Using the quadratic formula with $w = z^2$ we have
 \[
 w = 2 \pm \sqrt 3 \Rightarrow z = \pm \sqrt{2 \pm \sqrt 3}.
 \]
-Thus we have Since $2 - \sqrt 3 < 1$ and $2 + \sqrt 3 > 1$ we have the factorisation
+Since $2 - \sqrt 3 < 1$ and $2 + \sqrt 3 > 1$ we have the factorisation
 
 \[
 a(z) = \underbrace{z^2 - z_+}_{\phi_+(z)} \underbrace{1 - z_-/z^2}_{\phi_-(z)}
 \]
-for $z_{\pm} = 2 \pm \sqrt3$. We can invert $\phi_\pm$ using Geometric series, that is
+for $z_{\pm} = 2 \pm \sqrt3$. We can take the reciprocal of $\phi_{\pm}$ using Geometric series, that is
 
 
 \begin{align*}
@@ -541,7 +545,7 @@ A \emph{circulant matrix} is an effective approximation to a Laurent matrix (for
 \end{lstlisting}
 
 \begin{lstlisting}
-6(*@\ensuremath{\times}@*(6 Circulant(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+6(*@\ensuremath{\times}@*(6 ToeplitzMatrices.Circulant(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
  -4.0   1.0   0.0   0.0   0.0   1.0
   1.0  -4.0   1.0   0.0   0.0   0.0
   0.0   1.0  -4.0   1.0   0.0   0.0
@@ -561,7 +565,7 @@ Taking \texttt{n} large, the entries inverse of \texttt{L} approximates the true
 \end{lstlisting}
 
 \begin{lstlisting}
-1000(*@\ensuremath{\times}@*(1000 Circulant(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+1000(*@\ensuremath{\times}@*(1000 ToeplitzMatrices.Circulant(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
  -0.288675     -0.0773503    -0.0207259    (*@\ensuremath{\ldots}@*(  -0.0207259    -0.0773503
  -0.0773503    -0.288675     -0.0773503       -0.0055535    -0.0207259
  -0.0207259    -0.0773503    -0.288675        -0.00148806   -0.0055535
@@ -602,10 +606,10 @@ We verify this approximates the true inverse we deduced above by comparing the f
 \end{lstlisting}
 
 
-\subsection{Problem 1.2}
-This part was solved as part of Problem 1.1.
+\subsection{Problem 3.2}
+This part was solved as part of Problem 3.1.
 
-\subsection{Problem 1.3}
+\subsection{Problem 3.3}
 Note that
 
 \[
@@ -657,8 +661,8 @@ The UL decomposition is $T[\phi_-] T[\phi_+]$, i.e., for $z_{\pm} = 2 \pm \sqrt3
 \end{lstlisting}
 
 
-\subsection{Problem 1.4}
-We have (see Problem 1.1)
+\subsection{Problem 3.4}
+We have (see Problem 3.1)
 
 \[
 T[a(z)]^{-1} = L^{-1} U^{-1} =
@@ -725,7 +729,7 @@ This matches our construction:
 \end{lstlisting}
 
 \begin{lstlisting}
-1000(*@\ensuremath{\times}@*(1000 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+1000(*@\ensuremath{\times}@*(1000 ToeplitzMatrices.Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
  -0.267949       0.0           (*@\ensuremath{\ldots}@*(   0.0         0.0        0.0
   0.0           -0.267949          0.0         0.0        0.0
  -0.0717968      0.0               0.0         0.0        0.0
@@ -751,32 +755,32 @@ This matches our construction:
 
 \begin{lstlisting}
 (*@\HLJLn{ui}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLp{)}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{inv(U)}@*) (*@\HLJLcs{coefficients}@*)
-(*@\HLJLn{ui}@*)(*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{zm}@*)(*@\HLJLoB{.{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*) (*@\HLJLoB{\ensuremath{\div}}@*) (*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{))}@*)
+(*@\HLJLn{ui}@*)(*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{:}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{:}@*)(*@\HLJLk{end}@*)(*@\HLJLp{]}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{zm}@*)(*@\HLJLoB{.{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*)(*@\HLJLoB{:}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*) (*@\HLJLoB{\ensuremath{\div}}@*) (*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{Ui}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{Toeplitz}@*)(*@\HLJLp{([}@*)(*@\HLJLn{ui}@*)(*@\HLJLp{[}@*)(*@\HLJLni{1}@*)(*@\HLJLp{];}@*) (*@\HLJLnf{zeros}@*)(*@\HLJLp{(}@*)(*@\HLJLn{n}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)],}@*) (*@\HLJLn{ui}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
-1000(*@\ensuremath{\times}@*(1000 Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
- 1.0  0.0  3.73205  0.0      13.9282   (*@\ensuremath{\ldots}@*(   2.52247e285    0.0
- 0.0  1.0  0.0      3.73205   0.0          0.0            2.52247e285
- 0.0  0.0  1.0      0.0       3.73205      6.75894e284    0.0
- 0.0  0.0  0.0      1.0       0.0          0.0            6.75894e284
- 0.0  0.0  0.0      0.0       1.0          1.81105e284    0.0
- 0.0  0.0  0.0      0.0       0.0      (*@\ensuremath{\ldots}@*(   0.0            1.81105e284
- 0.0  0.0  0.0      0.0       0.0          4.8527e283     0.0
- 0.0  0.0  0.0      0.0       0.0          0.0            4.8527e283
- 0.0  0.0  0.0      0.0       0.0          1.30028e283    0.0
- 0.0  0.0  0.0      0.0       0.0          0.0            1.30028e283
- (*@\ensuremath{\vdots}@*(                                     (*@\ensuremath{\ddots}@*(                
- 0.0  0.0  0.0      0.0       0.0          0.0          193.995
- 0.0  0.0  0.0      0.0       0.0         51.9808         0.0
- 0.0  0.0  0.0      0.0       0.0          0.0           51.9808
- 0.0  0.0  0.0      0.0       0.0         13.9282         0.0
- 0.0  0.0  0.0      0.0       0.0      (*@\ensuremath{\ldots}@*(   0.0           13.9282
- 0.0  0.0  0.0      0.0       0.0          3.73205        0.0
- 0.0  0.0  0.0      0.0       0.0          0.0            3.73205
- 0.0  0.0  0.0      0.0       0.0          1.0            0.0
- 0.0  0.0  0.0      0.0       0.0          0.0            1.0
+1000(*@\ensuremath{\times}@*(1000 ToeplitzMatrices.Toeplitz(*@{{\{}}@*)Float64,Complex(*@{{\{}}@*)Float64(*@{{\}}}@*)(*@{{\}}}@*):
+ 1.0  0.0  0.267949  0.0       0.0717968  (*@\ensuremath{\ldots}@*(  3.96437e-286  0.0
+ 0.0  1.0  0.0       0.267949  0.0           0.0           3.96437e-286
+ 0.0  0.0  1.0       0.0       0.267949      1.47952e-285  0.0
+ 0.0  0.0  0.0       1.0       0.0           0.0           1.47952e-285
+ 0.0  0.0  0.0       0.0       1.0           5.52165e-285  0.0
+ 0.0  0.0  0.0       0.0       0.0        (*@\ensuremath{\ldots}@*(  0.0           5.52165e-285
+ 0.0  0.0  0.0       0.0       0.0           2.06071e-284  0.0
+ 0.0  0.0  0.0       0.0       0.0           0.0           2.06071e-284
+ 0.0  0.0  0.0       0.0       0.0           7.69067e-284  0.0
+ 0.0  0.0  0.0       0.0       0.0           0.0           7.69067e-284
+ (*@\ensuremath{\vdots}@*(                                        (*@\ensuremath{\ddots}@*(                
+ 0.0  0.0  0.0       0.0       0.0           0.0           0.00515478
+ 0.0  0.0  0.0       0.0       0.0           0.0192379     0.0
+ 0.0  0.0  0.0       0.0       0.0           0.0           0.0192379
+ 0.0  0.0  0.0       0.0       0.0           0.0717968     0.0
+ 0.0  0.0  0.0       0.0       0.0        (*@\ensuremath{\ldots}@*(  0.0           0.0717968
+ 0.0  0.0  0.0       0.0       0.0           0.267949      0.0
+ 0.0  0.0  0.0       0.0       0.0           0.0           0.267949
+ 0.0  0.0  0.0       0.0       0.0           1.0           0.0
+ 0.0  0.0  0.0       0.0       0.0           0.0           1.0
 \end{lstlisting}
 
 
@@ -786,39 +790,43 @@ This matches our construction:
 
 \begin{lstlisting}
 1000(*@\ensuremath{\times}@*(1000 Array(*@{{\{}}@*)Float64,2(*@{{\}}}@*):
- -0.267949       0.0           (*@\ensuremath{\ldots}@*(     -6.75894e284       0.0
-  0.0           -0.267949             0.0              -6.75894e284
- -0.0717968      0.0                 -3.62211e284       0.0
-  0.0           -0.0717968            0.0              -3.62211e284
- -0.0192379      0.0                 -1.45581e284       0.0
-  0.0           -0.0192379     (*@\ensuremath{\ldots}@*(      0.0              -1.45581e284
- -0.00515478     0.0                 -5.20111e283       0.0
-  0.0           -0.00515478           0.0              -5.20111e283
- -0.00138122     0.0                 -1.74204e283       0.0
-  0.0           -0.00138122           0.0              -1.74204e283
-  (*@\ensuremath{\vdots}@*(                            (*@\ensuremath{\ddots}@*(                   
-  0.0           -2.06071e-284         0.0          -25782.5
- -5.52165e-285   0.0              -6922.32              0.0
-  0.0           -5.52165e-285         0.0           -6922.32
- -1.47952e-285   0.0              -1858.56              0.0
-  0.0           -1.47952e-285  (*@\ensuremath{\ldots}@*(      0.0           -1858.56
- -3.96437e-286   0.0               -499.0               0.0
-  0.0           -3.96437e-286         0.0            -499.0
- -1.06225e-286   0.0               -133.975             0.0
-  0.0           -1.06225e-286         0.0            -133.975
+ -0.267949       0.0           -0.0717968     (*@\ensuremath{\ldots}@*(  -1.06225e-286   0.0
+  0.0           -0.267949       0.0               0.0           -1.06225e-2
+86
+ -0.0717968      0.0           -0.287187         -4.249e-286     0.0
+  0.0           -0.0717968      0.0               0.0           -4.249e-286
+ -0.0192379      0.0           -0.0769515        -1.59337e-285   0.0
+  0.0           -0.0192379      0.0           (*@\ensuremath{\ldots}@*(   0.0           -1.59337e-2
+85
+ -0.00515478     0.0           -0.0206191        -5.94859e-285   0.0
+  0.0           -0.00515478     0.0               0.0           -5.94859e-2
+85
+ -0.00138122     0.0           -0.00552487       -2.2201e-284    0.0
+  0.0           -0.00138122     0.0               0.0           -2.2201e-28
+4
+  (*@\ensuremath{\vdots}@*(                                           (*@\ensuremath{\ddots}@*(                 
+  0.0           -2.06071e-284   0.0               0.0           -0.00148806
+ -5.52165e-285   0.0           -2.20866e-284     -0.0055535      0.0
+  0.0           -5.52165e-285   0.0               0.0           -0.0055535
+ -1.47952e-285   0.0           -5.91809e-285     -0.0207259      0.0
+  0.0           -1.47952e-285   0.0           (*@\ensuremath{\ldots}@*(   0.0           -0.0207259
+ -3.96437e-286   0.0           -1.58575e-285     -0.0773503      0.0
+  0.0           -3.96437e-286   0.0               0.0           -0.0773503
+ -1.06225e-286   0.0           -4.249e-286       -0.288675       0.0
+  0.0           -1.06225e-286   0.0               0.0           -0.288675
 \end{lstlisting}
 
 
 Note the inverse of a Toeplitz operator/matrix is not Toeplitz, unlike the case of a Laurent operator / Circulant matrix.
 
-\subsubsection{Problem 1.5}
+\subsubsection{Problem 3.5}
 This is somewhat a trick question as $a(z) = (z^2 + 3)/ (z^2 + 2)$ is analytic inside the unit circle, so $T[a(z)]$ is lower triangular and  therefore
 
 \[
 T[a(z)]^{-1} = T[a(z)^{-1}] = T[(z^2 + 2)/(z^2+3)]
 \]
-\subsection{Problem 2}
-\subsubsection{Problem 2.1}
+\subsection{Problem 4}
+\subsubsection{Problem 4.1}
 It is 1 since we go around the origin once. The easiest way to see this is by direct inspection, we want to solve:
 
 \[
@@ -826,7 +834,7 @@ It is 1 since we go around the origin once. The easiest way to see this is by di
 \]
 But the first row is always zero. If $f_0= 0 $ we therefore have the solution $u_n = f_{n+1}$.
 
-\subsubsection{Problem 2.2}
+\subsubsection{Problem 4.2}
 The winding number is $-1$.  We want to solve:
 
 \[
@@ -834,7 +842,7 @@ The winding number is $-1$.  We want to solve:
 \]
 Now we have the solution for any constant $c$ $u_0 = c, u_n = f_{n-1}$. In other words, $\vc e_0$ is in the kernel.
 
-\subsection{Problem 2.3}
+\subsection{Problem 4.3}
 If $a(z)$ has winding number $\kappa$ then $z^{-k} a(z)$ has trivial winding number. Therefore we have
 
 \[
@@ -849,10 +857,10 @@ which by Plemelj implies
 
 
 \begin{align*}
-\phi_+(z) &= \E^{\CC_+[\diamond^{-k} \log a](z)} \ccr
-\phi_+(z) = \E^{-\CC_-[\diamond^{-k} \log a](z)}
+\phi_+(z) &= \E^{\CC_+[ \log ( \diamond^{-k} a)](z)} \ccr
+\phi_+(z) = \E^{-\CC_-[ \log ( \diamond^{-k} a)](z)}
 \end{align*}
-\subsection{Problem 2.4}
+\subsection{Problem 4.4}
 Note that for $\kappa \geq 0$ that $P$ is lower triangular Toeplitz, therefore we have using the algebraic properties of triangular Toeplitz
 
 \[
@@ -863,7 +871,7 @@ When $\kappa \leq 0$ then $P$ is upper triangular Toeplitz and so
 \[
 T[\phi_-] T[z^\kappa] T[\phi_+] = T[\phi_- z^\kappa] T[\phi_+] = T[\phi_- z^\kappa \phi_+] = T[a(z)].
 \]
-\subsection{Problem 2.5}
+\subsection{Problem 4.5}
 The first question is: what is the winding number? The straightforward way to compute is via residue calculus. That is, if we calculate
 
 
@@ -893,20 +901,20 @@ From the Laurent expansion
 We can compute
 
 \[
-U^{-1} \vc e_0 = T[\phi_-^{-1}] \vc e_0 =  {1 \over 2} \vc e_0
+U^{-1} \vc e_0 = T[\phi_-^{-1}] \vc e_0 =  2\vc e_0
 \]
 The kernel of $P$ is $\vc e_0$ and $\vc e_1$. Thus putting everything together we get the rather boring answer
 
 \[
-\Vectt[c,d, 1/2, 0,0,0,\dots]
+\Vectt[c,d, 2, 0,0,0,\dots]
 \]
 where $c$ and $d$ are arbitrary constants.
 
-\subsection{Problem 3}
-\subsubsection{Problem 3.1}
+\subsection{Problem 5}
+\subsubsection{Problem 5.1}
 To be analytic at all we need decay at either $\pm \infty$, this has neither so is not defined.
 
-\subsubsection{Problem 3.2}
+\subsubsection{Problem 5.2}
 It has exponential decay in the right-half plane, therefore
 
 \[
@@ -963,7 +971,7 @@ which has poles at $0$ and $\I$:
 
 \includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_17_1.pdf}
 
-\subsubsection{Problem 3.3}
+\subsubsection{Problem 5.3}
 Here $\E^{\gamma x } f(x) = \E^{(\gamma+2) x}$ has decay at $+\infty$ proved $\gamma < -2$, hence we have the strip $\Im s < -2$.
 
 Indeed, its Fourier transform is
@@ -973,7 +981,7 @@ Indeed, its Fourier transform is
 \]
 by integration by parts.
 
-\subsubsection{Problem 3.4}
+\subsubsection{Problem 5.4}
 Here it's $\Im s > 0$: unlike 1.1, we now have decay at $x \rightarrow \infty$ since $f_{\rm L}(x)$ is identically zero.
 
 It's Fourier transform is determinable by integration-by-parts:
@@ -981,17 +989,17 @@ It's Fourier transform is determinable by integration-by-parts:
 \[
 \hat f(s) = \int_{-\infty}^0 x \E^{-\I s x} \dx = {1 \over \I s} \int_{-\infty}^0\E^{-\I s x} \dx = {1 \over s^2}
 \]
-\subsubsection{Problem 3.5}
+\subsubsection{Problem 5.5}
 The Fourier transforms are given above.
 
-\subsubsection{Problem 3.6}
+\subsubsection{Problem 5.6}
 \[
 \int_{-\infty}^\infty \delta(x) \E^{\I s x} \dx = 1
 \]
-It's actually an entire function, but non-decaying. This is hinting at the relationship between smoothness of a function and decay of its Fourier transform, and vice-versa: since $\delta(x)$ "decays" to all orders, we expect its Fourier transform to be entire, but since its n ot smooth at all, we expect no decay, so on a formal level we can predict the analyticity properties.
+It's actually an entire function, but non-decaying. This is hinting at the relationship between smoothness of a function and decay of its Fourier transform, and vice-versa: since $\delta(x)$ "decays" to all orders, we expect its Fourier transform to be entire, but since its not smooth at all, we expect no decay, so on a formal level we can predict the analyticity properties.
 
-\subsection{Problem 4}
-\subsubsection{Problem 4.1}
+\subsection{Problem 6}
+\subsubsection{Problem 6.1}
 Note that
 
 \[
@@ -1035,14 +1043,14 @@ where
 \[
 1 + \hat K(s) = {4 + s^2 \over 1 + s^2} = {(s-2 \I) (s+2 \I) \over (s+\I)(s-\I)}
 \]
-This is very close to the the example we did in lectures, so we already know the homogenous solution:
+This is very close to the example we did in lectures, so we already know the homogenous solution:
 
 \[
 \kappa(z) =  \begin{cases} {z + 2\I  \over z + \I}  & \Im z > \gamma \\
                             {z - \I  \over z - 2\I} & \Im z < \gamma
                             \end{cases}
 \]
-which is valid for $-1 < \Im s < 0$.
+which is valid for $-1 < \gamma < 0$.
 
 
 \begin{lstlisting}
@@ -1053,7 +1061,11 @@ which is valid for $-1 < \Im s < 0$.
 
 
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\kappa}}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
 
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_19_1.pdf}
+
+\begin{lstlisting}
 (*@\HLJLn{s}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)
 (*@\HLJLn{\ensuremath{\kappa}p}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{\ensuremath{\kappa}}@*)(*@\HLJLp{(}@*)(*@\HLJLn{s}@*) (*@\HLJLoB{+}@*) (*@\HLJLnf{eps}@*)(*@\HLJLp{()}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{\ensuremath{\kappa}m}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{\ensuremath{\kappa}}@*)(*@\HLJLp{(}@*)(*@\HLJLn{s}@*) (*@\HLJLoB{-}@*) (*@\HLJLnf{eps}@*)(*@\HLJLp{()}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{)}@*)
@@ -1150,7 +1162,7 @@ Did it work? yes:
 \end{lstlisting}
 
 
-\subsubsection{Problem 4.2}
+\subsubsection{Problem 6.2}
 Setting up the problem as above, we arrive at a degenerate RH problem:
 
 \[
@@ -1191,7 +1203,7 @@ so that
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\kappa}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_23_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_24_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLn{s}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)
@@ -1283,7 +1295,7 @@ u(x) = {1 \over 2 \pi} \int_{-\infty + \I \gamma}^{\infty + \I \gamma} \Phi_-(s)
 \end{lstlisting}
 
 
-\subsection{4.3}
+\subsection{Problem 6.3}
 \begin{itemize}
 \item[1. ] From the same logic as 2.2, we know we need to solve
 
@@ -1402,7 +1414,7 @@ What's the moral of the story?
 \item[2. ] When the winding number is non-trivial, the solution may not be unique
 
 \end{itemize}
-\subsubsection{4.4}
+\subsubsection{Problem 6.4}
 \begin{itemize}
 \item[1. ] Integrating by parts we have
 
