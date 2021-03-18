@@ -1,28 +1,14 @@
-\documentclass[12pt,landscape]{article}
+\documentclass[12pt,a4paper]{article}
 
-%\usepackage{lmodern}
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
-\pagestyle{empty}
-\usepackage{titlesec}
-\titleformat*{\section}{\LARGE\bfseries}
-\titleformat*{\subsection}{\LARGE\bfseries}
-\titleformat*{\subsubsection}{\LARGE\bfseries}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.2ex}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.2ex}
-
-\setlength{\oddsidemargin}{-16mm}
-\setlength{\textwidth}{260mm}
-\setlength{\columnsep}{0.5in}
-\setlength{\columnseprule}{1pt}
-\setlength{\textheight}{202mm}
-\setlength{\topmargin}{-32mm}
-\setlength{\headsep}{0.25in}
 
 \hypersetup
        {   pdfauthor = { Marco Fasondini },
@@ -256,17 +242,10 @@
 
 \def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
 
-\def\cent#1{\begin{center}#1\end{center} }
-
 \def\Ei{\rm Ei\,}
 
-\lstset{
-    basicstyle=\ttfamily,
-	}
-
 \begin{document}
-{\LARGE
-\sf
+
 \textbf{Applied Complex Analysis (2021)}
 
 \section{Solution Sheet 5}
@@ -358,12 +337,12 @@ We have
 Thus from lectures we have
 
 \[
-{1 \over 2 \pi\I} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = \I\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
+{1 \over  \pi} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = \I\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
 \]
 and therefore
 
 \[
-{1 \over \pi} \int_0^\infty L_2(x) \E^{-x} \log|z-x| \dx  = -\Im \CC[ \diamond \E^{-\diamond} L_1^{(1)}](z) = \Re{1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi }
+{1 \over \pi} \int_0^\infty L_2(x) \E^{-x} \log|z-x| \dx  = \Im \CC[ \diamond \E^{-\diamond} L_1^{(1)}](z) = -\Re{1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi }
 \]
 Let's check the result:
 
@@ -373,20 +352,20 @@ Let's check the result:
 (*@\HLJLn{w}@*) (*@\HLJLoB{=}@*) (*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)
 (*@\HLJLn{z}@*) (*@\HLJLoB{=}@*) (*@\HLJLni{2}@*)(*@\HLJLoB{+}@*)(*@\HLJLn{im}@*)
 
-(*@\HLJLoB{-}@*)(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{4}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{abs}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)))}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{,}@*)(*@\HLJLnf{imag}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{4}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)(*@\HLJLp{))}@*)
+(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{4}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{abs}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)))}@*)(*@\HLJLoB{/}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{,}@*)(*@\HLJLnf{real}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{sum}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLni{2}@*) (*@\HLJLoB{-}@*) (*@\HLJLni{4}@*)(*@\HLJLn{x}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{log}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
-(-0.0697232345397132, -0.0697232345397136)
+(0.0697232345397132, 0.06972323453971359)
 \end{lstlisting}
 
 
 \begin{lstlisting}
-(*@\HLJLoB{-}@*)(*@\HLJLnf{imag}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{cauchy}@*)(*@\HLJLp{((}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLp{,}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)),}@*)(*@\HLJLnf{real}@*)(*@\HLJLp{((}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{+}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{ei}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{ei}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{))}@*)
+(*@\HLJLnf{imag}@*)(*@\HLJLp{(}@*)(*@\HLJLnf{cauchy}@*)(*@\HLJLp{((}@*)(*@\HLJLni{2}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{w}@*)(*@\HLJLp{,}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)),}@*)(*@\HLJLoB{-}@*)(*@\HLJLnf{real}@*)(*@\HLJLp{((}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{+}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{ei}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{-}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{ei}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{+}@*)(*@\HLJLni{1}@*)(*@\HLJLp{))}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{2}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLp{))}@*)
 \end{lstlisting}
 
 \begin{lstlisting}
-(-0.06972323454064205, -0.06972323454061675)
+(0.06972323454064205, 0.06972323454061675)
 \end{lstlisting}
 
 
@@ -461,7 +440,7 @@ and we have assuming $z$ is bounded away from the negative real axis:
 \begin{align*}
 \psi_+(x) - \psi_-(x) &= \E^x(x_+^{-\alpha} \Gamma_+(\alpha, x) -  x_-^{-\alpha}\Gamma_-(\alpha, x)) \ccr
 = \E^x |x|^\alpha (\E^{-\I \pi \alpha} \Gamma_+(\alpha, z) - \E^{\I \pi \alpha} \Gamma_-(\alpha,x)) \ccr
- = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})
+ = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})\Gamma(\alpha)
 \end{align*}
 We use these properties to verify that
 
@@ -477,7 +456,14 @@ via Plemelj.
 (*@\HLJLn{\ensuremath{\alpha}}@*) (*@\HLJLoB{=}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{0.1}@*)
 (*@\HLJLn{z}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{2.0}@*)(*@\HLJLoB{+}@*)(*@\HLJLn{im}@*)
 (*@\HLJLnf{cauchy}@*)(*@\HLJLp{(}@*)(*@\HLJLn{x}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLn{\ensuremath{\alpha}}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{x}@*)(*@\HLJLp{),}@*) (*@\HLJLn{z}@*)(*@\HLJLp{)}@*)
+\end{lstlisting}
 
+\begin{lstlisting}
+0.07199876331437781 + 0.05850612397322304im
+\end{lstlisting}
+
+
+\begin{lstlisting}
 (*@\HLJLn{\ensuremath{\Gamma}}@*) (*@\HLJLoB{=}@*) (*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\alpha}}@*)(*@\HLJLp{,}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)}@*) (*@\HLJLoB{->}@*) (*@\HLJLk{let}@*) (*@\HLJLn{\ensuremath{\zeta}}@*) (*@\HLJLoB{=}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{+}@*) (*@\HLJLnf{Fun}@*)(*@\HLJLp{(}@*)(*@\HLJLni{0}@*) (*@\HLJLoB{..}@*) (*@\HLJLnfB{500.0}@*)(*@\HLJLp{)}@*)
     (*@\HLJLnf{linesum}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\zeta}}@*)(*@\HLJLoB{{\textasciicircum}}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\alpha}}@*)(*@\HLJLoB{-}@*)(*@\HLJLni{1}@*)(*@\HLJLp{)}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLn{\ensuremath{\zeta}}@*)(*@\HLJLp{))}@*)
 (*@\HLJLk{end}@*)
@@ -825,6 +811,8 @@ This is somewhat a trick question as $a(z) = (z^2 + 3)/ (z^2 + 2)$ is analytic i
 \[
 T[a(z)]^{-1} = T[a(z)^{-1}] = T[(z^2 + 2)/(z^2+3)]
 \]
+]
+
 \subsection{Problem 4}
 \subsubsection{Problem 4.1}
 It is 1 since we go around the origin once. The easiest way to see this is by direct inspection, we want to solve:
@@ -857,8 +845,8 @@ which by Plemelj implies
 
 
 \begin{align*}
-\phi_+(z) &= \E^{\CC_+[ \log ( \diamond^{-k} a)](z)} \ccr
-\phi_+(z) = \E^{-\CC_-[ \log ( \diamond^{-k} a)](z)}
+\phi_+(z) &= \E^{\CC[ \log ( \diamond^{-k} a)](z)} \ccr
+\phi_+(z) = \E^{-\CC[ \log ( \diamond^{-k} a)](z)}
 \end{align*}
 \subsection{Problem 4.4}
 Note that for $\kappa \geq 0$ that $P$ is lower triangular Toeplitz, therefore we have using the algebraic properties of triangular Toeplitz
@@ -963,13 +951,13 @@ which has poles at $0$ and $\I$:
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{10..10}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLni{1}@*)(*@\HLJLoB{/}@*)(*@\HLJLp{(}@*)(*@\HLJLni{1}@*)(*@\HLJLoB{+}@*)(*@\HLJLnf{exp}@*)(*@\HLJLp{(}@*)(*@\HLJLn{z}@*)(*@\HLJLp{)))}@*) (*@\HLJLcs{{\#}integrand}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_16_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_17_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{z}@*) (*@\HLJLoB{->}@*) (*@\HLJLn{im}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLnf{csch}@*)(*@\HLJLp{(}@*)(*@\HLJLn{\ensuremath{\pi}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{z}@*)(*@\HLJLp{))}@*) (*@\HLJLcs{{\#}}@*) (*@\HLJLcs{transform}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_17_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_18_1.pdf}
 
 \subsubsection{Problem 5.3}
 Here $\E^{\gamma x } f(x) = \E^{(\gamma+2) x}$ has decay at $+\infty$ proved $\gamma < -2$, hence we have the strip $\Im s < -2$.
@@ -1063,7 +1051,7 @@ which is valid for $-1 < \gamma < 0$.
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\kappa}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_19_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_20_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLn{s}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)
@@ -1178,6 +1166,8 @@ and
 \[
 h(s) = {\I \over s} + {\alpha \over s^2} = \I {s -\I \alpha \over s^2}
 \]
+Given $\alpha$, we need to solve the Riemann-Hilbert problem on a contour $\mathbb{R} + \I\gamma$ with $-\alpha < \gamma < 0$.
+
 Suppose we allow $\kappa_-(s) \sim s$ to have growth, then we can write
 
 \[
@@ -1203,7 +1193,7 @@ so that
 (*@\HLJLnf{phaseplot}@*)(*@\HLJLp{(}@*)(*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLoB{-}@*)(*@\HLJLnfB{3..3}@*)(*@\HLJLp{,}@*) (*@\HLJLn{\ensuremath{\kappa}}@*)(*@\HLJLp{)}@*)
 \end{lstlisting}
 
-\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_24_1.pdf}
+\includegraphics[width=\linewidth]{C:/Users/mfaso/OneDrive/Documents/GitHub/M3M6AppliedComplexAnalysis/output/figures/Solutions5_25_1.pdf}
 
 \begin{lstlisting}
 (*@\HLJLn{s}@*) (*@\HLJLoB{=}@*) (*@\HLJLnfB{0.1}@*) (*@\HLJLoB{+}@*) (*@\HLJLn{\ensuremath{\gamma}}@*)(*@\HLJLoB{*}@*)(*@\HLJLn{im}@*)
@@ -1572,5 +1562,5 @@ Here we check the jump of $\Phi$:
 \end{lstlisting}
 
 
-}
+
 \end{document}

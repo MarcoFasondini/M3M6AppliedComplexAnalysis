@@ -43,7 +43,7 @@ Examples of previous projects:
 2. [Problem Sheet 2](sheets/Sheet2.pdf) [(Solutions)](sheets/Solutions2.pdf)
 3. [Problem Sheet 3](sheets/Sheet3.pdf) [(Solutions)](sheets/Solutions3.pdf)
 4. [Problem Sheet 4](sheets/Sheet4.pdf) [(Solutions)](sheets/Solutions4.pdf)
-5. [Problem Sheet 5](sheets/Sheet5.pdf)
+5. [Problem Sheet 5](sheets/Sheet5.pdf) [(Solutions)](sheets/Solutions5.pdf)
 6. [Mastery material](notes/MasteryMaterial.pdf)
 
 ## Video lectures

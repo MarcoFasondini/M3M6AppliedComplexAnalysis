@@ -65,11 +65,11 @@ $$
 $$
 Thus from lectures we have
 $$
-{1 \over 2 \pi\I} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = \I\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
+{1 \over  \pi} \int_0^\infty L_2(x) \E^{-x} \log(z-x) \dx = \I\CC[ \diamond \E^{-\diamond} L_1^{(1)}](z)
 $$
 and therefore
 $$
-{1 \over \pi} \int_0^\infty L_2(x) \E^{-x} \log|z-x| \dx  = -\Im \CC[ \diamond \E^{-\diamond} L_1^{(1)}](z) = \Re{1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi }
+{1 \over \pi} \int_0^\infty L_2(x) \E^{-x} \log|z-x| \dx  = \Im \CC[ \diamond \E^{-\diamond} L_1^{(1)}](z) = -\Re{1  + (z-2) (\E^{-z} \Ei z - (z-1) \E^{-z} \Ei z +1) \over -2 \pi }
 $$
 Let's check the result:
 ```julia
@@ -77,14 +77,13 @@ x = Fun(0 .. 100)
 w = exp(-x)
 z = 2+im
 
--sum(1/2*(2 - 4x + x^2)*w*log(abs(z-x)))/π,imag(sum(1/2*(2 - 4x + x^2)*w*log(z-x))/(π*im))
+sum(1/2*(2 - 4x + x^2)*w*log(abs(z-x)))/π,real(sum(1/2*(2 - 4x + x^2)*w*log(z-x))/(π))
 ```
 ```julia
--imag(cauchy((2-x)*x*w,z)),real((1+(z-2)*(-exp(-z)*ei(z)-(z-1)*exp(-z)*ei(z)+1))/(-2π))
+imag(cauchy((2-x)*x*w,z)),-real((1+(z-2)*(-exp(-z)*ei(z)-(z-1)*exp(-z)*ei(z)+1))/(-2π))
 ```
 
 ### Problem 2
-
 
 Consider integration contours $\gamma_{+x}$ and $\gamma_{-x}$ that avoid $0$ above and below:
 ```julia
@@ -137,7 +136,7 @@ $$
 \begin{align*}
 \psi_+(x) - \psi_-(x) &= \E^x(x_+^{-\alpha} \Gamma_+(\alpha, x) -  x_-^{-\alpha}\Gamma_-(\alpha, x)) \ccr
 = \E^x |x|^\alpha (\E^{-\I \pi \alpha} \Gamma_+(\alpha, z) - \E^{\I \pi \alpha} \Gamma_-(\alpha,x)) \ccr
- = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})
+ = \E^x |x|^\alpha \E^{-\I \pi \alpha} (1-\E^{2 \I \pi \alpha})\Gamma(\alpha)
 \end{align*}
 $$
 
@@ -152,7 +151,8 @@ x = Fun(0 .. 20.0)
 α = -0.1
 z = 2.0+im
 cauchy(x^α*exp(-x), z)
-
+```
+```julia
 Γ = (α,z) -> let ζ = z + Fun(0 .. 500.0)
     linesum(ζ^(α-1)*exp(-ζ))
 end
@@ -322,7 +322,7 @@ inside the unit circle, so $T[a(z)]$ is lower triangular and  therefore
 $$
 T[a(z)]^{-1} = T[a(z)^{-1}] = T[(z^2 + 2)/(z^2+3)]
 $$
-
+]
 
 ## Problem 4
 
@@ -356,8 +356,8 @@ $$
 which by Plemelj implies
 $$
 \begin{align*}
-\phi_+(z) &= \E^{\CC_+[ \log ( \diamond^{-k} a)](z)} \ccr
-\phi_+(z) = \E^{-\CC_-[ \log ( \diamond^{-k} a)](z)}
+\phi_+(z) &= \E^{\CC[ \log ( \diamond^{-k} a)](z)} \ccr
+\phi_+(z) = \E^{-\CC[ \log ( \diamond^{-k} a)](z)}
 \end{align*}
 $$
 
