@@ -629,6 +629,7 @@ and
 $$
 h(s) = {\I \over s} + {\alpha \over s^2} = \I {s -\I \alpha \over s^2}
 $$
+Given $\alpha$, we need to solve the Riemann-Hilbert problem on a contour $\mathbb{R} + \I\gamma$ with $-\alpha < \gamma < 0$.
 
 Suppose we allow $\kappa_-(s) \sim s$ to have growth, then we can write
 $$
@@ -642,7 +643,7 @@ $$
 $$
 
 ```julia
-α = 0.3
+α = 0.8
 
 g = s -> (2α)/(α^2+s^2)
 h = s -> (im/s + α/s^2)
