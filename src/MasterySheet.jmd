@@ -1,0 +1,55 @@
+__Applied Complex Analysis (2021)__
+
+# Mastery Sheet
+
+----------
+
+This problem sheet is about the relationship between truncated Chebyshev expansions and Chebyshev interpolants. If a function $f$ is analytic on $[-1, 1]$, it can be expanded as a Chebyshev series:
+$$
+f = \sum_{k = 0}^{\infty}c_kT_k(x).
+$$
+A truncated Chebyshev expansion $f_n(x)$ is an approximation to $f$ obtained by truncating the Chebyshev series after $n$ terms
+$$
+\sum_{k = 0}^{n-1}c_k T_k(x)=:f_n(x),
+$$
+see Lecture 19. A Chebyshev interpolant $p_n(x)$ interpolates $f$ at the roots of $T_n(x)$,
+$$
+x_k = \cos\left( {2k-1\over 2n} \pi  \right), \qquad k = 1, \ldots, n,
+$$
+i.e.,
+$$
+p_n(x_k) = f(x_k), \qquad k = 1, \ldots, n.
+$$
+Since $p_n$ is a polynomial of degree $n-1$,
+$$
+p_n(x) = \sum_{k = 0}^{n-1}a_kT_k(x)
+$$
+
+1. Give a formula for the coefficients $c_k$.
+
+2. Show that for $k = 1, \ldots, n$,
+$$
+T_m(x_k) = -T_{2n \pm m}(x_k) = T_{4n \pm m}(x_k) = -T_{6n \pm m}(x_k)= T_{8n \pm m}(x_k) = -T_{10n \pm m}(x_k) = \cdots,
+$$
+for $0 \leq m \leq n$.
+
+3. Show that
+$$
+a_0 = \sum_{j = 0}^{\infty}c_{2jn}(-1)^j
+$$
+and for $1 \leq m \leq n-1$
+$$
+a_m = c_m + \sum_{j = 1}^{\infty}(-1)^{j}\left[ c_{2jn + m}  +  c_{2jn - m}\right].
+$$
+
+4. Show that
+$$
+p_n(x) - f(x)  = \sum_{k = 0}^{n-1}\left(a_k - c_k\right)T_k(x) - (f(x) - f_n(x)).
+$$
+
+5. Obtain an upper bound on $\vert p_n(x) - f(x) \vert$ for $x \in [-1, 1]$.
+
+
+
+
+----------

@@ -2,68 +2,69 @@ __Applied Complex Analysis (2021)__
 
 # Mastery solutions
 
-$$
-f(x) = \sum_{k = 0}^{\infty}c_k T_k(x)
-$$
-
+1. It follows from the orthogonality of the Chebyshev polynomials that
 $$
 c_k = {\langle f, T_k \rangle\over \langle T_k, T_k \rangle}
+= \begin{cases}
+{1 \over \pi}  \langle f, T_0 \rangle & \text{if } k = 0, \\
+{2 \over \pi} \langle f, T_k \rangle & \text{if } k >0,
+\end{cases}
+$$
+where $\langle \cdot, \cdot \rangle$ denotes the inner product with respect to the Chebyshev weight:
+$$
+\langle f, g \rangle = \int_{-1}^{1} {f(x)g(x)\over \sqrt{1 - x^2}} \dx.
 $$
 
+2. For $k = 1, \ldots, n$ and $j \geq 0$,
 $$
-\langle f, g \rangle = \int_{-1}^{1} {f(x)g(x)\over \sqrt{1 - x^2}} \dx
+T_{(2j + 1)n}(x_k) = \cos\left( (2j + 1)n   {2k-1\over 2n} \pi   \right) = 0,
 $$
-
+and for $0 \leq m \leq n - 1$,
 $$
-f_n(x) = \sum_{k = 0}^{n-1}c_k T_k(x)
-$$
-
-$$
-p_n(x) = \sum_{k = 0}^{n-1}a_k T_k(x)
-$$
-
-$$
-x_k = \cos\left( {2k-1\over 2n} \pi  \right)
+T_{2jn \pm m}(x_k) = \cos\left( (2jn \pm m)   {2k-1\over 2n} \pi   \right)
+                   = (-1)^{j} \cos\left(  m   {2k-1\over 2n} \pi   \right)
+                   = (-1)^{j} T_{m}(x_k).
 $$
 
-$$
-T_{(2j + 1)n}(x_k) = \cos\left( (2j + 1)n   {2k-1\over 2n} \pi   \right) = 0, \qquad j \geq 0.
-$$
-
-$$
-\begin{align*}
-T_{2jn \pm m}(x_k)& = \cos\left( (2jn \pm m)   {2k-1\over 2n} \pi   \right) \\
-                  & = (-1)^{j} T_{m}(x_k)
-\end{align*}
-$$
-
+3. We can write
 $$
 \begin{align*}
 f(x) &= \sum_{m = 0}^{n-1}c_mT_m(x) + \sum_{j = 0}^{\infty}c_{(2j+1)n}T_{(2j+1)n}(x) +  \sum_{j = 1}^{\infty}c_{2jn}T_{2jn}(x)\\
      & +  \sum_{m = 1}^{n-1}\sum_{j = 1}^{\infty}\left[ c_{2jn + m}T_{2jn + m}(x) +  c_{2jn - m}T_{2jn - m}(x) \right]
 \end{align*}
 $$
-
+then
 $$
 \begin{align*}
 f(x_k) &= \sum_{m = 0}^{n-1}c_mT_m(x_k) +  \sum_{j = 1}^{\infty}c_{2jn}(-1)^jT_{0}(x)  +  \sum_{m = 1}^{n-1}T_{m}(x_k)\sum_{j = 1}^{\infty}(-1)^{j}\left[ c_{2jn + m}  +  c_{2jn - m}\right] \\
 & = p_n(x_k)  \\
-& = \sum_{m=0}^{n-1} a_m T_m(x_k)
+& = \sum_{m=0}^{n-1} a_m T_m(x_k),
 \end{align*}
 $$
+and the results follow by comparing coefficients.
 
-$$
-a_0 = \sum_{j = 0}^{\infty}c_{2jn}(-1)^j
-$$
-for $1 \leq m \leq n-1$
-$$
-a_m = c_m + \sum_{j = 1}^{\infty}(-1)^{j}\left[ c_{2jn + m}  +  c_{2jn - m}\right]
-$$
-
+4.
 $$
 \begin{align*}
 p_n(x) - f(x) &= \sum_{k = 0}^{n-1}a_kT_k(x)-\sum_{k = 0}^{\infty}c_kT_k(x)  \\
              & = \sum_{k = 0}^{n-1}\left(a_k - c_k\right)T_k(x) -  \sum_{k = n}^{\infty} c_kT_k(x) \\
              & = \sum_{k = 0}^{n-1}\left(a_k - c_k\right)T_k(x) - (f(x) - f_n(x))
 \end{align*}
+$$
+
+5. Recall from Lecture 19 that
+$$
+\vert f(x) - f_n(x) \vert \leq {2M \rho^{-n} \over 1 - \rho^{-1}}.
+$$
+From the formulae for the $a_k$, it follows that
+$$
+\left\vert\sum_{k = 0}^{n-1}\left(a_k - c_k\right)T_k(x)\right\vert  \leq \sum_{k = 0}^{n-1}\left\vert a_k - c_k\right\vert \leq \sum_{k = n}^{\infty}\vert c_k \vert \leq  {2M \rho^{-n} \over 1 - \rho^{-1}}.
+$$
+The latter inequality follows from the bound
+$$
+\vert c_k \vert \leq 2M\rho^{-k}
+$$
+see Lecture 19. We conclude that
+$$
+\vert f(x) - p_n(x) \vert \leq {4M \rho^{-n} \over 1 - \rho^{-1}}.
 $$
