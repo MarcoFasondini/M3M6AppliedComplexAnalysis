@@ -1,0 +1,145 @@
+__Applied Complex Analysis (2021)__
+
+# Revision questions
+
+----------
+## Question 1
+
+Consider the solution of the following Laplace's equation, using $z = x + \I y$:
+1. $v_{xx} + v_{yy} = 0$ for $z \notin [-1,1] \cup \{\pm2\}$,
+2. $v(x,y) = \pm \log |z \mp 2| + O(1)$ as $z \rightarrow \pm 2$,
+3. $v(x,y) = o(1)$ as  $z \rightarrow \infty$, and
+4. $v(x,0) = \kappa$ for $-1 < x < 1$ where $\kappa$ is an unknown constant.
+This equation models the potential field of two unit charges of opposite sign at $\pm 2$ with a metal sheet that has no net charge placed on $[-1,1]$.
+
+
+(a) By writing
+$$
+v(x,y) = \int_{-1}^1 u(t) \log | t - z| \dt + \log|z-2| - \log | z+2|,
+$$
+show that  the problem of finding $v(x,y)$ can be reformulated as finding $u(x)$ such that
+$$
+\int_{-1}^1 u(t) \log|t - x| \dt = f(x),
+$$
+where
+$$
+ \int_{-1}^1 u(x) \dx = 0.
+$$
+What is $f(x)$ in this equation? Explain why $v(x,y)$ will thereby satisfy the required four conditions.
+
+(b) Find $u(x)$. Hint: reduce the problem to one of inverting the Hilbert transform.
+
+(c) What is the value of $\kappa$?
+
+----------
+## Question 2
+
+The Laguerre polynomials
+$$
+L_n^{(\alpha)}(x) = {(-1)^n \over n! } x^n + O(x^{n-1}),
+$$
+where $\alpha > -1$, are orthogonal with respect to
+$$
+\langle f,g\rangle_{\alpha} = \int_0^{\infty} f(x) g(x) x^{\alpha} \E^{-x}\D x,
+$$
+and they satisfy
+$$
+x L_n^{(\alpha)}(x) = - (n+\alpha)L_{n-1}^{(\alpha)}(x) + (2n+\alpha+1) L_n^{(\alpha)}(x) -(n+1)L_{n+1}^{(\alpha)}(x)
+$$
+and
+$$
+L_n^{(\alpha)}(x) = L_n^{(\alpha+1)}(x) - L_{n-1}^{(\alpha +1)}(x).
+$$
+
+(a) Show that
+$$
+{\D L_n^{(\alpha)} \over \dx}  = -L_{n-1}^{(\alpha+1)}(x).
+$$
+
+(b) Let
+$$
+\mathbf{L}^{(\alpha)} = \left(
+\begin{array}{c}
+L_0^{(\alpha)}(x) \\
+L_1^{(\alpha)}(x) \\
+\vdots
+\end{array}
+\right).
+$$
+Give operators $J$, $D$ and $S$ such that
+$$
+x\mathbf{L}^{(\alpha)} = J\mathbf{L}^{(\alpha)}, \quad
+{\D\over \D x}\mathbf{L}^{(\alpha)} = D\mathbf{L}^{(\alpha)}, \quad
+\mathbf{L}^{(\alpha)} = S \mathbf{L}^{(\alpha+1)}.
+$$
+
+(c) Suppose $u(x)$ has a weighted Laguerre expansion for $x \in [0, \infty)$,
+$$
+u(x) = \sum_{k = 0}^{\infty}\E^{-x/2}L_k(x)u_k = \E^{-x/2}\mathbf{L}^{\intercal}\mathbf{u}, \qquad
+\mathbf{u} = \left(
+\begin{array}{c}
+u_0 \\
+u_1 \\
+\vdots
+\end{array}
+\right),
+$$
+where we abbreviate $L_k^{(0)}(x)$ as $L_k(x)$ and $\mathbf{L}^{(0)}$ as $\mathbf{L}$.
+Use the operators $J, D$ and $S$ to represent the ordinary differential operator
+$$
+u'(x) - x u(x)  \qqfor x \geq 0
+$$
+as an operator on the coefficients of $u$,
+where the range of the operator is specified in $\E^{-x/2} \left(\mathbf{L}^{(1)}\right)^{\intercal}$.
+
+----------
+## Question 3
+
+Let $u(x)$ solve the integral equation
+$$
+\int_0^\infty K(t-x) u(t) \dt = f(x) \qquad \hbox{for} \qquad x \geq 0,
+$$
+where
+$$
+K(x) = \E^{-|x|}	\qquad \hbox{and}\qquad f(x) = 2 - \E^{-x}.
+$$
+We will use the notations
+$$
+g_{\rm L}(x) :=  \begin{cases} g(x) & x< 0 \\ 0 & x \geq 0  \end{cases}, \qquad
+g_{\rm R}(x) := \begin{cases}  0 & x < 0 \\ g(x) &x \geq 0 \end{cases},
+$$
+and the Fourier transform
+$$
+\hat f(s) := \int_{-\infty}^\infty f(t) \E^{- \I s t} \dt.
+$$
+
+(a) What are the regions of analyticity of $\hat K(s)$,  and $\widehat{f_{\rm R}}(s)$? Assuming that  $|u(x)|$ is bounded, what is the region of analyticity of $\widehat{u_{\rm R}}(s)$?  Justify your answers without explicit calculation.
+
+(b) Show that the Fourier transforms satisfy
+$$
+\hat K(s) = {2 \over 1 + s^2}
+\qqand
+\widehat{f_{\rm R}}(s)= {2 + \I s \over \I s - s^2}.
+$$
+
+(c) For the integral equation above, set up a Riemann--Hilbert problem of the form
+$$
+\Phi_+(s) - g(s) \Phi_-(s) = h(s) \qqfor s \in (-\infty, \infty ) + \I \delta,
+$$
+where $\Phi_+(s)$ is analytic above $(-\infty, \infty ) + \I \delta$, $\Phi_-(s)$ is analytic below $(-\infty, \infty ) + \I \delta$, $\Phi_{\pm}(s)$ decay at infinity, and
+$$
+g(s) = {2 \over 1 + s^2}.
+$$
+Explain  the choice of $\delta$ and the definition of $\Phi_\pm(s)$, $g(s)$ and $h(s)$ in terms of the Fourier transforms of $u$, $f$, and $K$.
+
+(d) Is $g(s)$  degenerate? Explain why or why not.
+
+(e) Find a  solution to the homogeneous Riemann--Hilbert problem
+$$
+\kappa_+(s) = g(s) \kappa_-(s) \qqfor s \in (-\infty,\infty) + \I \delta
+$$
+such that $\kappa_+(s)= o(1)$ and $\kappa_-(s) = s + O(1)$ as $s \rightarrow \infty$, where $\delta$ is the same constant as in (c).
+
+(f) Determine $u(x)$.
+
+----------

@@ -793,15 +793,15 @@ x \begin{pmatrix} L_0^{(\alpha)}(x) \\
 \]
 \subsection{Problem 4}
 \subsubsection{Problem 4.1}
-Note that
+Let $w(x) = \sum_{k = 0}^{\infty}L_k(x)u_k$, then we can write the solution as $u(x) = \E^{-x/2}w(x)$. Note that
 
 \[
-{\D \over \dx} \E^{-x/2} u(x) =  \E^{-x/2} (-{u(x) \over 2} +u'(x))
+{\D \over \dx} \E^{-x/2} w(x) =  \E^{-x/2} (-{w(x) \over 2} +w'(x))
 \]
 Thus
 
 \[
-{\D \over \dx} \E^{-x/2} u(x)  = \E^{-x/2} (u'(x) -{u(x) \over 2} - x u(x))
+u'(x) - xu(x)  = \E^{-x/2} (w'(x) -{w(x) \over 2} - x w(x))
 \]
 We have the derivative operator from $L_k(x)$ to $L_k^{(1)}(x)$ as:
 
@@ -827,7 +827,7 @@ S = \begin{pmatrix}
         1 & -1 \\ & 1 & -1 \\&&\ddots & \ddots
 \end{pmatrix}
 \]
-We thus have multiplication by $x$ from basis to the other as
+We thus have multiplication by $x$ from the $\alpha = 0$ basis to the $\alpha = 1$ basis as
 
 \[
 S J^\top = \begin{pmatrix}
@@ -873,6 +873,7 @@ im
       (*@\ensuremath{\cdot}@*)           (*@\ensuremath{\cdot}@*)           (*@\ensuremath{\cdot}@*)            (*@\ensuremath{\cdot}@*)           9.0+0.0im  -29.5+0.0
 im
 \end{lstlisting}
+
 
 \subsubsection{Problem 4.2}
 We have

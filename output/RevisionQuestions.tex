@@ -1,0 +1,426 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[a4paper,text={16.5cm,25.2cm},centering]{geometry}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.2ex}
+
+\hypersetup
+       {   pdfauthor = { Marco Fasondini },
+           pdftitle={ foo },
+           colorlinks=TRUE,
+           linkcolor=black,
+           citecolor=blue,
+           urlcolor=blue
+       }
+
+
+
+
+\usepackage{upquote}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    upquote=true,
+    breaklines=true,
+    breakindent=0pt,
+    keepspaces=true,
+    showspaces=false,
+    columns=fullflexible,
+    showtabs=false,
+    showstringspaces=false,
+    escapeinside={(*@}{@*)},
+    extendedchars=true,
+}
+\newcommand{\HLJLt}[1]{#1}
+\newcommand{\HLJLw}[1]{#1}
+\newcommand{\HLJLe}[1]{#1}
+\newcommand{\HLJLeB}[1]{#1}
+\newcommand{\HLJLo}[1]{#1}
+\newcommand{\HLJLk}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkc}[1]{\textcolor[RGB]{59,151,46}{\textit{#1}}}
+\newcommand{\HLJLkd}[1]{\textcolor[RGB]{214,102,97}{\textit{#1}}}
+\newcommand{\HLJLkn}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkp}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkr}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLkt}[1]{\textcolor[RGB]{148,91,176}{\textbf{#1}}}
+\newcommand{\HLJLn}[1]{#1}
+\newcommand{\HLJLna}[1]{#1}
+\newcommand{\HLJLnb}[1]{#1}
+\newcommand{\HLJLnbp}[1]{#1}
+\newcommand{\HLJLnc}[1]{#1}
+\newcommand{\HLJLncB}[1]{#1}
+\newcommand{\HLJLnd}[1]{\textcolor[RGB]{214,102,97}{#1}}
+\newcommand{\HLJLne}[1]{#1}
+\newcommand{\HLJLneB}[1]{#1}
+\newcommand{\HLJLnf}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnfm}[1]{\textcolor[RGB]{66,102,213}{#1}}
+\newcommand{\HLJLnp}[1]{#1}
+\newcommand{\HLJLnl}[1]{#1}
+\newcommand{\HLJLnn}[1]{#1}
+\newcommand{\HLJLno}[1]{#1}
+\newcommand{\HLJLnt}[1]{#1}
+\newcommand{\HLJLnv}[1]{#1}
+\newcommand{\HLJLnvc}[1]{#1}
+\newcommand{\HLJLnvg}[1]{#1}
+\newcommand{\HLJLnvi}[1]{#1}
+\newcommand{\HLJLnvm}[1]{#1}
+\newcommand{\HLJLl}[1]{#1}
+\newcommand{\HLJLld}[1]{\textcolor[RGB]{148,91,176}{\textit{#1}}}
+\newcommand{\HLJLs}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsa}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsb}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsc}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsd}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsdC}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLse}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLsh}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsi}[1]{#1}
+\newcommand{\HLJLso}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLsr}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLss}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLssB}[1]{\textcolor[RGB]{201,61,57}{#1}}
+\newcommand{\HLJLnB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnbB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnfB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnh}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLni}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnil}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLnoB}[1]{\textcolor[RGB]{59,151,46}{#1}}
+\newcommand{\HLJLoB}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLow}[1]{\textcolor[RGB]{102,102,102}{\textbf{#1}}}
+\newcommand{\HLJLp}[1]{#1}
+\newcommand{\HLJLc}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLch}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcm}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcp}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcpB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcs}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLcsB}[1]{\textcolor[RGB]{153,153,119}{\textit{#1}}}
+\newcommand{\HLJLg}[1]{#1}
+\newcommand{\HLJLgd}[1]{#1}
+\newcommand{\HLJLge}[1]{#1}
+\newcommand{\HLJLgeB}[1]{#1}
+\newcommand{\HLJLgh}[1]{#1}
+\newcommand{\HLJLgi}[1]{#1}
+\newcommand{\HLJLgo}[1]{#1}
+\newcommand{\HLJLgp}[1]{#1}
+\newcommand{\HLJLgs}[1]{#1}
+\newcommand{\HLJLgsB}[1]{#1}
+\newcommand{\HLJLgt}[1]{#1}
+
+
+
+\def\qqand{\qquad\hbox{and}\qquad}
+\def\qqfor{\qquad\hbox{for}\qquad}
+\def\qqas{\qquad\hbox{as}\qquad}
+\def\half{ {1 \over 2} }
+\def\D{ {\rm d} }
+\def\I{ {\rm i} }
+\def\E{ {\rm e} }
+\def\C{ {\mathbb C} }
+\def\R{ {\mathbb R} }
+\def\H{ {\mathbb H} }
+\def\Z{ {\mathbb Z} }
+\def\CC{ {\cal C} }
+\def\FF{ {\cal F} }
+\def\HH{ {\cal H} }
+\def\LL{ {\cal L} }
+\def\vc#1{ {\mathbf #1} }
+\def\bbC{ {\mathbb C} }
+
+
+
+\def\fR{ f_{\rm R} }
+\def\fL{ f_{\rm L} }
+
+\def\qqqquad{\qquad\qquad}
+\def\qqwhere{\qquad\hbox{where}\qquad}
+\def\Res_#1{\underset{#1}{\rm Res}\,}
+\def\sech{ {\rm sech}\, }
+\def\acos{ {\rm acos}\, }
+\def\asin{ {\rm asin}\, }
+\def\atan{ {\rm atan}\, }
+\def\Ei{ {\rm Ei}\, }
+\def\upepsilon{\varepsilon}
+
+
+\def\Xint#1{ \mathchoice
+   {\XXint\displaystyle\textstyle{#1} }%
+   {\XXint\textstyle\scriptstyle{#1} }%
+   {\XXint\scriptstyle\scriptscriptstyle{#1} }%
+   {\XXint\scriptscriptstyle\scriptscriptstyle{#1} }%
+   \!\int}
+\def\XXint#1#2#3{ {\setbox0=\hbox{$#1{#2#3}{\int}$}
+     \vcenter{\hbox{$#2#3$}}\kern-.5\wd0} }
+\def\ddashint{\Xint=}
+\def\dashint{\Xint-}
+% \def\dashint
+\def\infdashint{\dashint_{-\infty}^\infty}
+
+
+
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+\def\ip<#1>{\left\langle{#1}\right\rangle}
+\def\dx{\D x}
+\def\dt{\D t}
+\def\dz{\D z}
+\def\ds{\D s}
+
+\def\rR{ {\rm R} }
+\def\rL{ {\rm L} }
+
+\def\norm#1{\left\| #1 \right\|}
+
+\def\pr(#1){\left({#1}\right)}
+\def\br[#1]{\left[{#1}\right]}
+
+\def\abs#1{\left|{#1}\right|}
+\def\fpr(#1){\!\pr({#1})}
+
+\def\sopmatrix#1{ \begin{pmatrix}#1\end{pmatrix} }
+
+\def\endash{–}
+\def\emdash{—}
+\def\mdblksquare{\blacksquare}
+\def\lgblksquare{\blacksquare}
+\def\scre{\E}
+\def\mapengine#1,#2.{\mapfunction{#1}\ifx\void#2\else\mapengine #2.\fi }
+
+\def\map[#1]{\mapengine #1,\void.}
+
+\def\mapenginesep_#1#2,#3.{\mapfunction{#2}\ifx\void#3\else#1\mapengine #3.\fi }
+
+\def\mapsep_#1[#2]{\mapenginesep_{#1}#2,\void.}
+
+
+\def\vcbr[#1]{\pr(#1)}
+
+
+\def\bvect[#1,#2]{
+{
+\def\dots{\cdots}
+\def\mapfunction##1{\ | \  ##1}
+	\sopmatrix{
+		 \,#1\map[#2]\,
+	}
+}
+}
+
+
+
+\def\vect[#1]{
+{\def\dots{\ldots}
+	\vcbr[{#1}]
+} }
+
+\def\vectt[#1]{
+{\def\dots{\ldots}
+	\vect[{#1}]^{\top}
+} }
+
+\def\Vectt[#1]{
+{
+\def\mapfunction##1{##1 \cr}
+\def\dots{\vdots}
+	\begin{pmatrix}
+		\map[#1]
+	\end{pmatrix}
+} }
+
+\def\addtab#1={#1\;&=}
+\def\ccr{\\\addtab}
+
+\def\questionequals{= \!\!\!\!\!\!{\scriptstyle ? \atop }\,\,\,}
+
+\def\Ei{\rm Ei\,}
+
+\begin{document}
+
+\textbf{Applied Complex Analysis (2021)}
+
+\section{Revision questions}
+\rule{\textwidth}{1pt}
+\subsection{Question 1}
+Consider the solution of the following Laplace's equation, using $z = x + \I y$:
+
+\begin{itemize}
+\item[1. ] \[
+v_{xx} + v_{yy} = 0
+\]
+for $z \notin [-1,1] \cup \{\pm2\}$,
+
+
+\item[2. ] \[
+v(x,y) = \pm \log |z \mp 2| + O(1)
+\]
+as $z \rightarrow \pm 2$,
+
+
+\item[3. ] \[
+v(x,y) = o(1)
+\]
+as  $z \rightarrow \infty$, and
+
+
+\item[4. ] \[
+v(x,0) = \kappa
+\]
+for $-1 < x < 1$ where $\kappa$ is an unknown constant.
+
+\end{itemize}
+This equation models the potential field of two unit charges of opposite sign at $\pm 2$ with a metal sheet that has no net charge placed on $[-1,1]$.
+
+(a) By writing
+
+\[
+v(x,y) = \int_{-1}^1 u(t) \log | t - z| \dt + \log|z-2| - \log | z+2|,
+\]
+show that  the problem of finding $v(x,y)$ can be reformulated as finding $u(x)$ such that
+
+\[
+\int_{-1}^1 u(t) \log|t - x| \dt = f(x),
+\]
+where
+
+\[
+ \int_{-1}^1 u(x) \dx = 0.
+\]
+What is $f(x)$ in this equation? Explain why $v(x,y)$ will thereby satisfy the required four conditions.
+
+(b) Find $u(x)$. Hint: reduce the problem to one of inverting the Hilbert transform.
+
+(c) What is the value of $\kappa$?
+
+\rule{\textwidth}{1pt}
+\subsection{Question 2}
+The Laguerre polynomials
+
+\[
+L_n^{(\alpha)}(x) = {(-1)^n \over n! } x^n + O(x^{n-1}),
+\]
+where $\alpha > -1$, are orthogonal with respect to
+
+\[
+\langle f,g\rangle_{\alpha} = \int_0^{\infty} f(x) g(x) x^{\alpha} \E^{-x}\D x,
+\]
+and they satisfy
+
+\[
+x L_n^{(\alpha)}(x) = - (n+\alpha)L_{n-1}^{(\alpha)}(x) + (2n+\alpha+1) L_n^{(\alpha)}(x) -(n+1)L_{n+1}^{(\alpha)}(x)
+\]
+and
+
+\[
+L_n^{(\alpha)}(x) = L_n^{(\alpha+1)}(x) - L_{n-1}^{(\alpha +1)}(x).
+\]
+(a) Show that
+
+\[
+{\D L_n^{(\alpha)} \over \dx}  = -L_{n-1}^{(\alpha+1)}(x).
+\]
+(b) Let
+
+\[
+\mathbf{L}^{(\alpha)} = \left(
+\begin{array}{c}
+L_0^{(\alpha)}(x) \\
+L_1^{(\alpha)}(x) \\
+\vdots
+\end{array}
+\right).
+\]
+Give operators $J$, $D$ and $S$ such that
+
+\[
+x\mathbf{L}^{(\alpha)} = J\mathbf{L}^{(\alpha)}, \quad
+{\D\over \D x}\mathbf{L}^{(\alpha)} = D\mathbf{L}^{(\alpha)}, \quad
+\mathbf{L}^{(\alpha)} = S \mathbf{L}^{(\alpha+1)}.
+\]
+(c) Suppose $u(x)$ has a weighted Laguerre expansion for $x \in [0, \infty)$,
+
+\[
+u(x) = \sum_{k = 0}^{\infty}\E^{-x/2}L_k(x)u_k = \E^{-x/2}\mathbf{L}^{\intercal}\mathbf{u}, \qquad
+\mathbf{u} = \left(
+\begin{array}{c}
+u_0 \\
+u_1 \\
+\vdots
+\end{array}
+\right),
+\]
+where we abbreviate $L_k^{(0)}(x)$ as $L_k(x)$ and $\mathbf{L}^{(0)}$ as $\mathbf{L}$. Use the operators $J, D$ and $S$ to represent the ordinary differential operator
+
+\[
+u'(x) - x u(x)  \qqfor x \geq 0
+\]
+as an operator on the coefficients of $u$, where the range of the operator is specified in $\E^{-x/2} \left(\mathbf{L}^{(1)}\right)^{\intercal}$.
+
+\rule{\textwidth}{1pt}
+\subsection{Question 3}
+Let $u(x)$ solve the integral equation
+
+\[
+\int_0^\infty K(t-x) u(t) \dt = f(x) \qquad \hbox{for} \qquad x \geq 0,
+\]
+where
+
+\[
+K(x) = \E^{-|x|}	\qquad \hbox{and}\qquad f(x) = 2 - \E^{-x}.
+\]
+We will use the notations
+
+\[
+g_{\rm L}(x) :=  \begin{cases} g(x) & x< 0 \\ 0 & x \geq 0  \end{cases}, \qquad
+g_{\rm R}(x) := \begin{cases}  0 & x < 0 \\ g(x) &x \geq 0 \end{cases},
+\]
+and the Fourier transform
+
+\[
+\hat f(s) := \int_{-\infty}^\infty f(t) \E^{- \I s t} \dt.
+\]
+(a) What are the regions of analyticity of $\hat K(s)$,  and $\widehat{f_{\rm R}}(s)$? Assuming that  $|u(x)|$ is bounded, what is the region of analyticity of $\widehat{u_{\rm R}}(s)$?  Justify your answers without explicit calculation.
+
+(b) Show that the Fourier transforms satisfy
+
+\[
+\hat K(s) = {2 \over 1 + s^2}
+\qqand
+\widehat{f_{\rm R}}(s)= {2 + \I s \over \I s - s^2}.
+\]
+(c) For the integral equation above, set up a Riemann\ensuremath{\endash}Hilbert problem of the form
+
+\[
+\Phi_+(s) - g(s) \Phi_-(s) = h(s) \qqfor s \in (-\infty, \infty ) + \I \delta,
+\]
+where $\Phi_+(s)$ is analytic above $(-\infty, \infty ) + \I \delta$, $\Phi_-(s)$ is analytic below $(-\infty, \infty ) + \I \delta$, $\Phi_{\pm}(s)$ decay at infinity, and
+
+\[
+g(s) = {2 \over 1 + s^2}.
+\]
+Explain  the choice of $\delta$ and the definition of $\Phi_\pm(s)$, $g(s)$ and $h(s)$ in terms of the Fourier transforms of $u$, $f$, and $K$.
+
+(d) Is $g(s)$  degenerate? Explain why or why not.
+
+(e) Find a  solution to the homogeneous Riemann\ensuremath{\endash}Hilbert problem
+
+\[
+\kappa_+(s) = g(s) \kappa_-(s) \qqfor s \in (-\infty,\infty) + \I \delta
+\]
+such that $\kappa_+(s)= o(1)$ and $\kappa_-(s) = s + O(1)$ as $s \rightarrow \infty$, where $\delta$ is the same constant as in (c).
+
+(f) Determine $u(x)$.
+
+\rule{\textwidth}{1pt}
+
+
+\end{document}

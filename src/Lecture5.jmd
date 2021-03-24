@@ -123,8 +123,8 @@ The real line doesn't have an _inside_ and _outside_, rather an _above_ and _bel
 **Definition (Upper/lower half plane)** Denote the upper/lower half plane by
 $$
 \begin{align*}
-{\mathbb H}^+ = \{z : \Re z > 0 \}  \\
-{\mathbb H}^- = \{z : \Re z < 0 \}
+{\mathbb H}^+ = \{z : \Im z > 0 \}  \\
+{\mathbb H}^- = \{z : \Im z < 0 \}
 \end{align*}
 $$
 The closure is denoted
